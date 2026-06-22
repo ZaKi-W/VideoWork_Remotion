@@ -1,6 +1,7 @@
 import {Composition} from 'remotion';
 import {EpisodeComposition} from './compositions/EpisodeComposition';
 import {componentGallery} from './editorial/fixtures/component-gallery';
+import {demoHeadlineTakeover} from './editorial/fixtures/demo-headline-takeover';
 import {demoPaperLab} from './editorial/fixtures/demo-paper-lab';
 import {demoSectionStamp} from './editorial/fixtures/demo-section-stamp';
 import type {EpisodeInputProps} from './editorial/schema/episode.types';
@@ -25,6 +26,12 @@ export const RemotionRoot = () => {
         id="DemoSectionStamp"
         component={EpisodeComposition}
         defaultProps={demoSectionStamp}
+        calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
+      />
+      <Composition
+        id="DemoHeadlineTakeover"
+        component={EpisodeComposition}
+        defaultProps={demoHeadlineTakeover}
         calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
       />
       <Composition

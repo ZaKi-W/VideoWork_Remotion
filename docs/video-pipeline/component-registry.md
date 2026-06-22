@@ -13,6 +13,14 @@
 - Props schema。
 - renderer。
 
+每个进入 `ready` 的新组件必须在工程中有独立展示：
+
+- 新建独立 episode：`episodes/demo-<component-name-kebab>/`。
+- 新建对应素材目录：`public/episodes/demo-<component-name-kebab>/assets/`。
+- demo 只展示这个组件的代表性 mode / stage / slot，不混入其他新组件。
+- 必须能通过 preview 校验并导出关键帧。
+- 如果 demo 使用 placeholder presenter，strict render 必须被正确阻止。
+
 第一批组件：
 
 - `SectionStamp`
@@ -24,7 +32,7 @@
 - `DemoFocusFrame`
 - `AssetStack`
 
-当前 `EditorialStage`、`StageDebugOverlay` 与 `SectionStamp` 是 ready。其他高级组件仍只允许 prototype 或 planned。
+当前 `EditorialStage`、`StageDebugOverlay`、`SectionStamp` 与 `HeadlineTakeover` 是 ready。其他高级组件仍只允许 prototype 或 planned。
 
 `SectionStamp`：
 
@@ -37,6 +45,20 @@
 - requiresAsset：否。
 - implementationStatus：`ready`。
 - variants：`impact`、`edge-impact`。旧 `index-strip`、`edge-note` 保持兼容映射。
+
+`HeadlineTakeover`：
+
+- 用途：核心观点 / 强势结论 / 转折句。
+- 标题定位：一句必须被记住的话，不是章节入口。
+- 默认策略：1 到 3 行超粗黑字、一个强调词、一个高对比色块、极少量辅助形状。
+- modes：`punch`、`wrap`、`takeover`。
+- stageMode：`presenter-center`、`presenter-small`、`screen-primary`、`no-presenter`，但不同 mode 有额外限制。
+- punch slot：`top-left`、`top-right`、`edge-left`、`edge-right`。
+- wrap：仅 `presenter-center` / `presenter-small`，slot 同 punch。
+- takeover：仅 `no-presenter` / `screen-primary`，slot 为 `full-bleed`、`center-overlay`、`screen-primary`。
+- requiresSource：否。
+- requiresAsset：否。
+- implementationStatus：`ready`。
 
 Strict render 规则：
 

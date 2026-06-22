@@ -74,9 +74,15 @@ export const demoPaperLab: EpisodeInputProps = {
           kind: 'HeadlineTakeover',
           props: {
             lines: ['每段口播', '只承担一个视觉任务'],
-            emphasis: '一个主组件',
-            mode: 'statement',
-            placement: 'top-right',
+            emphasis: {
+              text: '视觉任务',
+              color: 'orange',
+              mode: 'highlight-block',
+            },
+            mode: 'punch',
+            placement: 'right-dominant',
+            alignment: 'right',
+            allowSubjectOverlay: false,
           },
         },
         assetIds: [],

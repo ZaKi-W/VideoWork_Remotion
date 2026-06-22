@@ -102,9 +102,15 @@ export const componentGallery: EpisodeInputProps = {
           kind: 'HeadlineTakeover',
           props: {
             lines: ['核心观点', '大字接管'],
-            emphasis: 'prototype',
-            mode: 'statement',
-            placement: 'top-right',
+            emphasis: {
+              text: '大字接管',
+              color: 'orange',
+              mode: 'reverse',
+            },
+            mode: 'punch',
+            placement: 'right-dominant',
+            alignment: 'right',
+            allowSubjectOverlay: false,
           },
         },
         assetIds: [],

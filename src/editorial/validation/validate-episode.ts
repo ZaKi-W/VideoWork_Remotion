@@ -28,6 +28,19 @@ const push = (
   sceneId?: string,
 ) => issues.push({level, code, message, sceneId});
 
+const headlinePunchSlots: StageSlot[] = ['top-left', 'top-right', 'edge-left', 'edge-right'];
+const headlineWrapStageModes: StageMode[] = ['presenter-center', 'presenter-small'];
+const headlineTakeoverStageModes: StageMode[] = ['no-presenter', 'screen-primary'];
+const headlineTakeoverSlots: StageSlot[] = ['full-bleed', 'center-overlay', 'screen-primary'];
+
+const headlineContext = (episode: EpisodeConfig, scene: EpisodeScene): string => {
+  const mode = scene.content.kind === 'HeadlineTakeover' ? scene.content.props.mode ?? 'punch' : 'unknown';
+  return `episode=${episode.episode.id}; scene=${scene.id}; mode=${mode}; stageMode=${scene.stageMode}; slot=${scene.slot}`;
+};
+
+const isHeadlineTakeoverFullCanvas = (scene: EpisodeScene): boolean =>
+  scene.content.kind === 'HeadlineTakeover' && (scene.content.props.mode ?? 'punch') === 'takeover';
+
 export const validateEpisodeData = (
   episode: EpisodeConfig,
   assets: AssetManifest,
@@ -114,7 +127,10 @@ const validateScene = (
     push(issues, 'blocking', 'timeline.out-of-range', 'scene end exceeds episode duration', scene.id);
   }
 
-  if (!allowedSlotsByStageMode[scene.stageMode].includes(scene.slot)) {
+  if (
+    !allowedSlotsByStageMode[scene.stageMode].includes(scene.slot) &&
+    !isHeadlineTakeoverFullCanvas(scene)
+  ) {
     push(
       issues,
       strict ? 'blocking' : 'error',
@@ -148,7 +164,7 @@ const validateScene = (
   if (scene.stageMode === 'presenter-center' && rectsIntersect(slotRect, layout.presenterSafeZone)) {
     push(issues, 'blocking', 'safe-zone.presenter', `${scene.slot} enters presenter safe zone`, scene.id);
   }
-  if (rectsIntersect(slotRect, layout.subtitleSafeZone)) {
+  if (rectsIntersect(slotRect, layout.subtitleSafeZone) && !isHeadlineTakeoverFullCanvas(scene)) {
     push(issues, 'blocking', 'safe-zone.subtitle', `${scene.slot} enters subtitle safe zone`, scene.id);
   }
 
@@ -220,6 +236,78 @@ const validateScene = (
         'warning',
         'section-stamp.edge-subline-long',
         'edge-note subline is long for a narrow edge slot; verify keyframes',
+        scene.id,
+      );
+    }
+  }
+
+  if (scene.content.kind === 'HeadlineTakeover') {
+    const headline = scene.content.props;
+    const mode = headline.mode ?? 'punch';
+    const context = headlineContext(episode, scene);
+    const issueLevel = strict ? 'blocking' : 'error';
+
+    if ((mode === 'punch' || mode === 'wrap') && !headlinePunchSlots.includes(scene.slot)) {
+      push(
+        issues,
+        issueLevel,
+        'headline-takeover.slot-mode',
+        `HeadlineTakeover ${mode} requires top-left, top-right, edge-left, or edge-right (${context})`,
+        scene.id,
+      );
+    }
+    if (mode === 'wrap' && !headlineWrapStageModes.includes(scene.stageMode)) {
+      push(
+        issues,
+        issueLevel,
+        'headline-takeover.stage-mode',
+        `HeadlineTakeover wrap requires presenter-center or presenter-small (${context})`,
+        scene.id,
+      );
+    }
+    if (mode === 'takeover' && !headlineTakeoverStageModes.includes(scene.stageMode)) {
+      push(
+        issues,
+        issueLevel,
+        'headline-takeover.stage-mode',
+        `HeadlineTakeover takeover requires no-presenter or screen-primary (${context})`,
+        scene.id,
+      );
+    }
+    if (mode === 'takeover' && !headlineTakeoverSlots.includes(scene.slot)) {
+      push(
+        issues,
+        issueLevel,
+        'headline-takeover.slot-mode',
+        `HeadlineTakeover takeover requires full-bleed, center-overlay, or screen-primary (${context})`,
+        scene.id,
+      );
+    }
+    if (scene.stageMode === 'presenter-center' && (scene.slot === 'center-overlay' || scene.slot === 'full-bleed')) {
+      push(
+        issues,
+        issueLevel,
+        'headline-takeover.presenter-overlay',
+        `HeadlineTakeover cannot use presenter-center with center-overlay or full-bleed (${context})`,
+        scene.id,
+      );
+    }
+    if (headline.allowSubjectOverlay && (mode !== 'takeover' || scene.stageMode === 'presenter-center')) {
+      push(
+        issues,
+        issueLevel,
+        'headline-takeover.subject-overlay',
+        `HeadlineTakeover allowSubjectOverlay cannot bypass presenter safe zones (${context})`,
+        scene.id,
+      );
+    }
+    const compactLength = headline.lines.join('').replace(/\s+/g, '').length;
+    if (compactLength > 24 || headline.lines.some((line) => line.replace(/\s+/g, '').length > 12)) {
+      push(
+        issues,
+        'warning',
+        'headline-takeover.title-long',
+        `HeadlineTakeover title may be too long for poster typography; do not shrink to body size (${context})`,
         scene.id,
       );
     }

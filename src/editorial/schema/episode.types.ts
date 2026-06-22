@@ -2,6 +2,7 @@ import type {z} from 'zod';
 import type {
   assetManifestSchema,
   episodeSchema,
+  headlineTakeoverPropsSchema,
   sectionStampPropsSchema,
   sourceManifestSchema,
 } from './episode.schema';
@@ -9,6 +10,7 @@ import type {
 export type EpisodeConfig = z.infer<typeof episodeSchema>;
 export type EpisodeScene = EpisodeConfig['scenes'][number];
 export type SectionStampProps = z.infer<typeof sectionStampPropsSchema>;
+export type HeadlineTakeoverProps = z.infer<typeof headlineTakeoverPropsSchema>;
 export type AssetManifest = z.infer<typeof assetManifestSchema>;
 export type SourceManifest = z.infer<typeof sourceManifestSchema>;
 export type EpisodeInputProps = {

@@ -66,10 +66,31 @@ export const sectionStampPropsSchema = z.object({
 });
 
 export const headlineTakeoverPropsSchema = z.object({
-  lines: z.array(z.string()).min(1),
-  emphasis: z.string().optional(),
-  mode: z.enum(['statement', 'turning-point', 'summary']),
-  placement: slotSchema,
+  lines: z
+    .array(z.string().trim().min(1, 'HeadlineTakeover lines cannot be empty'))
+    .min(1, 'HeadlineTakeover requires at least one line')
+    .max(3, 'HeadlineTakeover supports at most three lines'),
+  emphasis: z
+    .object({
+      text: z.string().trim().min(1).max(16),
+      color: z.enum(['orange', 'blue']).default('orange'),
+      mode: z.enum(['highlight-block', 'reverse', 'underline']).default('highlight-block'),
+    })
+    .strict()
+    .optional(),
+  mode: z.enum(['punch', 'wrap', 'takeover']).default('punch'),
+  placement: z.enum(['left-dominant', 'right-dominant', 'wraparound']).default('left-dominant'),
+  alignment: z.enum(['left', 'right', 'center']).optional(),
+  allowSubjectOverlay: z.boolean().default(false),
+}).strict().superRefine((props, ctx) => {
+  const fullTitle = props.lines.join('');
+  if (props.emphasis && !fullTitle.includes(props.emphasis.text)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'HeadlineTakeover emphasis.text must exist continuously in lines',
+      path: ['emphasis', 'text'],
+    });
+  }
 });
 
 export const conceptSplitPropsSchema = z.object({

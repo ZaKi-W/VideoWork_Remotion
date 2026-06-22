@@ -8,6 +8,7 @@ import {
   sectionStampPropsSchema,
   workflowPathPropsSchema,
 } from '../schema/episode.schema';
+import {HeadlineTakeover} from '../components/HeadlineTakeover';
 import {PrototypeScene} from '../components/prototype/PrototypeScene';
 import {SectionStamp} from '../components/SectionStamp';
 import type {ComponentRegistryItem} from './component.types';
@@ -38,13 +39,13 @@ export const componentRegistry = {
   },
   HeadlineTakeover: {
     name: 'HeadlineTakeover',
-    purpose: '核心观点、转折或总结的大字接管',
-    allowedStageModes: ['no-presenter', 'presenter-center'],
-    allowedSlots: ['full-bleed', 'center-overlay', 'top-left', 'top-right'],
+    purpose: '核心观点 / 强势结论 / 转折句',
+    allowedStageModes: ['presenter-center', 'presenter-small', 'screen-primary', 'no-presenter'],
+    allowedSlots: ['top-left', 'top-right', 'edge-left', 'edge-right', 'full-bleed', 'center-overlay', 'screen-primary'],
     requiresSource: false,
-    implementationStatus: 'prototype',
+    implementationStatus: 'ready',
     schema: headlineTakeoverPropsSchema,
-    render: PrototypeScene,
+    render: HeadlineTakeover,
   },
   ConceptSplit: {
     name: 'ConceptSplit',
