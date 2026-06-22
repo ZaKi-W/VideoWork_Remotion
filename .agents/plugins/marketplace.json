@@ -1,0 +1,9 @@
+{
+  "plugins": [
+    {
+      "name": "zaki-video-pipeline",
+      "path": "plugins/zaki-video-pipeline",
+      "description": "Local Remotion video pipeline workflows for director, producer, and QC tasks."
+    }
+  ]
+}

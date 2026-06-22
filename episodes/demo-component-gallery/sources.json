@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "id": "source-gallery-001",
+      "title": "Component gallery source placeholder",
+      "publisher": "Zaki Video Pipeline",
+      "url": "",
+      "publishedAt": "",
+      "capturedAssetId": "asset-gallery-screenshot",
+      "notes": "Local gallery-only source placeholder. Replace with verified sources in real episodes.",
+      "status": "provided"
+    }
+  ]
+}

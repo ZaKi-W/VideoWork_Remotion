@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "episode": {
+    "id": "example",
+    "title": "Example",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "durationInSeconds": 30,
+    "status": "DRAFT"
+  },
+  "presenter": {
+    "mode": "placeholder",
+    "videoAssetId": null,
+    "subtitleAssetId": null,
+    "defaultStageMode": "presenter-center"
+  },
+  "scenes": []
+}

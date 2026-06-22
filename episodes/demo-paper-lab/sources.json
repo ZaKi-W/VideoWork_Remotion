@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "id": "source-demo-001",
+      "title": "Demo workflow source placeholder",
+      "publisher": "Zaki Video Pipeline",
+      "url": "",
+      "publishedAt": "",
+      "capturedAssetId": "",
+      "notes": "Demo only. Replace with real sources in production.",
+      "status": "provided"
+    }
+  ]
+}

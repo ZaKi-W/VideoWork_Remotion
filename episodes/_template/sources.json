@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "id": "source-example-001",
+      "title": "示例来源",
+      "publisher": "示例发布方",
+      "url": "",
+      "publishedAt": "",
+      "capturedAssetId": "",
+      "notes": "",
+      "status": "pending"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "assets": [
+    {
+      "id": "asset-example-001",
+      "type": "recording",
+      "path": "episodes/example/assets/recordings/example.mp4",
+      "purpose": "说明素材用途",
+      "sourceRefId": "",
+      "sceneHints": ["scene-01"],
+      "status": "needed",
+      "priority": "medium"
+    }
+  ]
+}

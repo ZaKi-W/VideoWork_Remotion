@@ -1,0 +1,209 @@
+{
+  "version": 1,
+  "episode": {
+    "id": "demo-component-gallery",
+    "title": "Component Gallery",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "durationInSeconds": 64,
+    "status": "DRAFT"
+  },
+  "presenter": {
+    "mode": "placeholder",
+    "videoAssetId": null,
+    "subtitleAssetId": null,
+    "defaultStageMode": "presenter-center"
+  },
+  "scenes": [
+    {
+      "id": "scene-01-section-stamp",
+      "start": 0,
+      "end": 8,
+      "track": "primary",
+      "kind": "SectionStamp",
+      "stageMode": "presenter-center",
+      "slot": "top-left",
+      "content": {
+        "kind": "SectionStamp",
+        "props": {
+          "sectionNo": "01",
+          "brandLabel": "READY",
+          "kicker": "SECTION STAMP",
+          "title": "章节索引与话题切换",
+          "subline": "正式 ready 组件",
+          "placement": "top-left",
+          "variant": "impact",
+          "accent": "orange",
+          "emphasis": {
+            "text": "章节索引",
+            "color": "orange",
+            "mode": "highlight-block"
+          }
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "Ready component."
+    },
+    {
+      "id": "scene-02-headline-takeover",
+      "start": 8,
+      "end": 16,
+      "track": "primary",
+      "kind": "HeadlineTakeover",
+      "stageMode": "presenter-center",
+      "slot": "top-right",
+      "content": {
+        "kind": "HeadlineTakeover",
+        "props": {
+          "lines": ["核心观点", "大字接管"],
+          "emphasis": "prototype",
+          "mode": "statement",
+          "placement": "top-right"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "Prototype placeholder."
+    },
+    {
+      "id": "scene-03-concept-split",
+      "start": 16,
+      "end": 24,
+      "track": "primary",
+      "kind": "ConceptSplit",
+      "stageMode": "no-presenter",
+      "slot": "screen-primary",
+      "content": {
+        "kind": "ConceptSplit",
+        "props": {
+          "left": "旧方式",
+          "right": "新方式",
+          "dividerLabel": "vs",
+          "comparisonMode": "old-new"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "Planned placeholder."
+    },
+    {
+      "id": "scene-04-evidence-clip",
+      "start": 24,
+      "end": 32,
+      "track": "primary",
+      "kind": "EvidenceClip",
+      "stageMode": "screen-primary",
+      "slot": "screen-primary",
+      "content": {
+        "kind": "EvidenceClip",
+        "props": {
+          "assetId": "asset-gallery-screenshot",
+          "sourceRefId": "source-gallery-001",
+          "sourceLabel": "Gallery placeholder",
+          "highlights": ["source binding", "asset binding"],
+          "annotations": ["planned visual component"],
+          "placement": "screen-primary"
+        }
+      },
+      "assetIds": ["asset-gallery-screenshot"],
+      "sourceRefIds": ["source-gallery-001"],
+      "status": "needs-assets",
+      "notes": "Planned placeholder with traceable source reference."
+    },
+    {
+      "id": "scene-05-metric-spread",
+      "start": 32,
+      "end": 40,
+      "track": "primary",
+      "kind": "MetricSpread",
+      "stageMode": "no-presenter",
+      "slot": "top-left",
+      "content": {
+        "kind": "MetricSpread",
+        "props": {
+          "primaryMetric": "3-7",
+          "unit": "次",
+          "label": "章节标记建议频率",
+          "comparison": "5 到 10 分钟视频",
+          "sourceRefId": "source-gallery-001"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": ["source-gallery-001"],
+      "status": "ready",
+      "notes": "Planned placeholder."
+    },
+    {
+      "id": "scene-06-workflow-path",
+      "start": 40,
+      "end": 48,
+      "track": "primary",
+      "kind": "WorkflowPath",
+      "stageMode": "presenter-small",
+      "slot": "screen-primary",
+      "content": {
+        "kind": "WorkflowPath",
+        "props": {
+          "nodes": ["Script", "Storyboard", "Assets", "Render"],
+          "activeNodeIndexes": [0, 1],
+          "direction": "horizontal",
+          "placement": "screen-primary"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "Prototype placeholder."
+    },
+    {
+      "id": "scene-07-demo-focus-frame",
+      "start": 48,
+      "end": 56,
+      "track": "primary",
+      "kind": "DemoFocusFrame",
+      "stageMode": "screen-primary",
+      "slot": "screen-primary",
+      "content": {
+        "kind": "DemoFocusFrame",
+        "props": {
+          "screenAssetId": "asset-gallery-screenshot",
+          "steps": ["打开项目", "检查镜头", "导出预览"],
+          "callouts": ["planned visual component"],
+          "presenterMode": "small",
+          "placement": "screen-primary"
+        }
+      },
+      "assetIds": ["asset-gallery-screenshot"],
+      "sourceRefIds": [],
+      "status": "needs-assets",
+      "notes": "Planned placeholder."
+    },
+    {
+      "id": "scene-08-asset-stack",
+      "start": 56,
+      "end": 64,
+      "track": "primary",
+      "kind": "AssetStack",
+      "stageMode": "no-presenter",
+      "slot": "screen-primary",
+      "content": {
+        "kind": "AssetStack",
+        "props": {
+          "items": [{"assetId": "asset-gallery-image", "label": "placeholder"}],
+          "mode": "stack",
+          "captions": ["案例素材堆叠"],
+          "placement": "screen-primary"
+        }
+      },
+      "assetIds": ["asset-gallery-image"],
+      "sourceRefIds": [],
+      "status": "needs-assets",
+      "notes": "Planned placeholder."
+    }
+  ]
+}

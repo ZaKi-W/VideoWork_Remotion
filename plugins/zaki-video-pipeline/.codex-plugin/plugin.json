@@ -1,0 +1,10 @@
+{
+  "name": "zaki-video-pipeline",
+  "version": "0.1.0",
+  "description": "Codex workflows for the Remotion editorial video pipeline.",
+  "skills": [
+    "skills/video-director",
+    "skills/video-producer",
+    "skills/video-qc"
+  ]
+}

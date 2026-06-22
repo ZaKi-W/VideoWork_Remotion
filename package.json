@@ -1,0 +1,37 @@
+{
+  "name": "zaki-video-pipeline",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "remotion studio src/index.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "episode:new": "tsx scripts/episode-new.ts",
+    "episode:status": "tsx scripts/episode-status.ts",
+    "episode:validate": "tsx scripts/episode-validate.ts",
+    "episode:frames": "tsx scripts/episode-frames.ts",
+    "episode:preview": "tsx scripts/episode-preview.ts",
+    "episode:render": "tsx scripts/episode-render.ts",
+    "episode:smoke": "tsx scripts/episode-smoke.ts"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.481",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "remotion": "^4.0.481",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "@types/node": "^22.15.32",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "eslint": "^9.29.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.1",
+    "vitest": "^3.2.4"
+  }
+}
