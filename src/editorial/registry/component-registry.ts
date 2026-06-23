@@ -8,7 +8,10 @@ import {
   sectionStampPropsSchema,
   workflowPathPropsSchema,
 } from '../schema/episode.schema';
+import {ConceptSplit} from '../components/ConceptSplit';
+import {EvidenceClip} from '../components/EvidenceClip';
 import {HeadlineTakeover} from '../components/HeadlineTakeover';
+import {MetricSpread} from '../components/MetricSpread';
 import {PrototypeScene} from '../components/prototype/PrototypeScene';
 import {SectionStamp} from '../components/SectionStamp';
 import type {ComponentRegistryItem} from './component.types';
@@ -49,33 +52,37 @@ export const componentRegistry = {
   },
   ConceptSplit: {
     name: 'ConceptSplit',
-    purpose: '概念、新旧方式或前后状态对比',
+    purpose: '概念对比、新旧方式切换、认知转折',
     allowedStageModes: [...commonStageModes],
-    allowedSlots: ['screen-primary', 'full-bleed', 'top-left', 'top-right'],
+    allowedSlots: ['top-left', 'top-right', 'edge-left', 'edge-right', 'screen-primary', 'full-bleed'],
     requiresSource: false,
-    implementationStatus: 'planned',
+    requiresAsset: false,
+    implementationStatus: 'ready',
     schema: conceptSplitPropsSchema,
-    render: PrototypeScene,
+    render: ConceptSplit,
   },
   EvidenceClip: {
     name: 'EvidenceClip',
-    purpose: '新闻、官网、推文、公告和价格页等证据画面',
-    allowedStageModes: ['presenter-small', 'screen-primary', 'no-presenter'],
-    allowedSlots: ['screen-primary', 'full-bleed'],
+    purpose: '官方来源、新闻、公告、网页、数据截图等证据展示',
+    allowedStageModes: ['presenter-center', 'presenter-small', 'screen-primary', 'no-presenter'],
+    allowedSlots: ['top-left', 'top-right', 'edge-left', 'edge-right', 'screen-primary', 'full-bleed'],
+    allowedAssetTypes: ['screenshot', 'image', 'chart'],
     requiresSource: true,
-    implementationStatus: 'planned',
+    requiresAsset: true,
+    implementationStatus: 'ready',
     schema: evidenceClipPropsSchema,
-    render: PrototypeScene,
+    render: EvidenceClip,
   },
   MetricSpread: {
     name: 'MetricSpread',
-    purpose: '价格、性能、效率、成本或比例数据展开',
+    purpose: '价格、成本、性能、速度、比例、时间等关键指标表达',
     allowedStageModes: [...commonStageModes],
-    allowedSlots: ['top-left', 'top-right', 'screen-primary', 'full-bleed'],
+    allowedSlots: ['top-left', 'top-right', 'edge-left', 'edge-right', 'screen-primary'],
     requiresSource: true,
-    implementationStatus: 'planned',
+    requiresAsset: false,
+    implementationStatus: 'ready',
     schema: metricSpreadPropsSchema,
-    render: PrototypeScene,
+    render: MetricSpread,
   },
   WorkflowPath: {
     name: 'WorkflowPath',

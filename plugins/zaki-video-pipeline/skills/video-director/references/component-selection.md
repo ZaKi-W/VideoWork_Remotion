@@ -71,3 +71,77 @@ Do not use `HeadlineTakeover`:
 - Immediately next to `SectionStamp` in the same segment.
 
 Recommended frequency: 2 to 5 times in a 5 to 10 minute video, with about 20 to 40 seconds of meaningful content between uses.
+
+## ConceptSplit
+
+Use `ConceptSplit` when:
+
+- Explaining the difference between two concepts.
+- Explaining an old way versus a new way of working.
+- Explaining a cognitive upgrade such as chat to execution, tools to workflow, or prompts to delivery.
+- A single contrast can help the audience understand an abstract idea quickly.
+
+`ConceptSplit` is an Editorial Contrast Cut. It should contain one old concept, one new concept, a restrained cut/divider/bridge, and one accent moment.
+
+Modes:
+
+- `cross-cut`: presenter remains visible; concept words wrap around the presenter safe zone asymmetrically.
+- `editorial-fold`: no-presenter or screen-primary concept takeover with a paper fold/cut.
+- `handoff`: edge or screen-primary transition from one work mode to another.
+
+Do not use `ConceptSplit`:
+
+- For pure numbers; use `MetricSpread`.
+- For news, webpages, reports, or screenshots; use `EvidenceClip`.
+- For detailed steps; use `WorkflowPath` later.
+- For real software interfaces; use `DemoFocusFrame` later.
+- For more than two concepts.
+- Without a clear contrast relationship.
+- In the same spoken segment as `HeadlineTakeover`.
+
+Recommended frequency: 2 to 5 times in a 5 to 10 minute video. Insert narration, data, evidence, screen recording, or examples between uses. Two consecutive `ConceptSplit` scenes must change `mode` or `anchor`.
+
+## EvidenceClip
+
+Use `EvidenceClip` when:
+
+- A feature launch, policy, pricing change, product page, official note, news item, report, tweet, or chart needs visible evidence.
+- The audience should see the original basis behind the narration.
+- A single sentence or figure from a source materially supports the claim.
+
+Use `clipping` when the presenter remains the main human anchor and the evidence should appear as a cropped side document.
+
+Use `spotlight` when the source itself is the current visual subject and should briefly take over the frame.
+
+Do not use `EvidenceClip`:
+
+- To explain an abstract concept without a reliable source.
+- When the asset is too small, blurred, or unreadable.
+- For every spoken sentence.
+- Just to fill empty space around the presenter.
+- With AI-generated images disguised as real evidence.
+
+Recommended frequency: 3 to 8 times in a 5 to 10 minute video. Keep each clip on screen for at least about 2.5 seconds and avoid three web screenshots in a row.
+
+## MetricSpread
+
+Use `MetricSpread` when:
+
+- One key number should become the audience memory point.
+- There is a clear before/after change.
+- There is a price, cost, time, efficiency, ratio, or performance comparison.
+- The numbers have a traceable source.
+
+`MetricSpread` is a Data Ledger, not a chart dashboard. It should contain one dominant number, 1 to 4 ledger rows, and a quiet source index.
+
+Placement: use only `top-left`, `edge-left`, or `screen-primary`. Do not select right-side slots for `MetricSpread`.
+
+Do not use `MetricSpread`:
+
+- For opinions without data.
+- When data exceeds four rows.
+- Without a reliable source.
+- When the viewer needs to inspect the original webpage or report; use `EvidenceClip`.
+- Just to fill empty space.
+
+Recommended frequency: 2 to 6 times in a 5 to 10 minute video. Do not use `HeadlineTakeover` and `MetricSpread` in the same spoken segment.

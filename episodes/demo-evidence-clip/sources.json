@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "id": "demo-source-policy",
+      "title": "Demo Capability Boundary Note",
+      "publisher": "Demo Evidence Lab",
+      "url": "",
+      "publishedAt": "2026-06-22",
+      "capturedAssetId": "demo-policy-screenshot",
+      "notes": "Local preview-only demo reference; not a real source.",
+      "status": "provided"
+    },
+    {
+      "id": "demo-source-price",
+      "title": "Demo Pricing Change Sheet",
+      "publisher": "Demo Evidence Lab",
+      "url": "",
+      "publishedAt": "2026-06-22",
+      "capturedAssetId": "demo-price-screenshot",
+      "notes": "Local preview-only demo reference; not a real source.",
+      "status": "provided"
+    },
+    {
+      "id": "demo-source-report",
+      "title": "Demo Research Excerpt",
+      "publisher": "Demo Evidence Lab",
+      "url": "",
+      "publishedAt": "2026-06-22",
+      "capturedAssetId": "demo-report-screenshot",
+      "notes": "Local preview-only demo reference; not a real source.",
+      "status": "provided"
+    }
+  ]
+}

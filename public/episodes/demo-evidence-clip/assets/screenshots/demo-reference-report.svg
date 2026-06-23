@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="920" viewBox="0 0 1440 920">
+  <rect width="1440" height="920" fill="#FAFAF7"/>
+  <rect x="92" y="70" width="1256" height="760" fill="#FFFFFF" stroke="#151515" stroke-width="4"/>
+  <text x="128" y="126" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#151515">DEMO REFERENCE — NOT A REAL SOURCE</text>
+  <text x="128" y="206" font-family="Arial, sans-serif" font-size="52" font-weight="900" fill="#151515">Demo Research Excerpt</text>
+  <text x="128" y="268" font-family="Arial, sans-serif" font-size="30" fill="#3C3C3C">A local mock asset for validating EvidenceClip spotlight layout.</text>
+  <rect x="128" y="348" width="320" height="300" fill="#F1F2F4" stroke="#3C3C3C" stroke-width="2"/>
+  <rect x="518" y="348" width="320" height="300" fill="#F1F2F4" stroke="#3C3C3C" stroke-width="2"/>
+  <rect x="908" y="348" width="320" height="300" fill="#F1F2F4" stroke="#3C3C3C" stroke-width="2"/>
+  <rect x="170" y="540" width="70" height="76" fill="#2563EB"/>
+  <rect x="260" y="472" width="70" height="144" fill="#2563EB"/>
+  <rect x="350" y="408" width="70" height="208" fill="#2563EB"/>
+  <text x="560" y="424" font-family="Arial, sans-serif" font-size="32" font-weight="800" fill="#151515">The cited material is the point.</text>
+  <rect x="560" y="476" width="228" height="18" fill="#E8E5DF"/>
+  <rect x="560" y="526" width="210" height="18" fill="#E8E5DF"/>
+  <rect x="560" y="576" width="244" height="18" fill="#E8E5DF"/>
+  <text x="950" y="452" font-family="Arial, sans-serif" font-size="28" fill="#3C3C3C">Publisher</text>
+  <text x="950" y="508" font-family="Arial, sans-serif" font-size="34" font-weight="800" fill="#151515">Demo Evidence Lab</text>
+  <text x="128" y="742" font-family="Arial, sans-serif" font-size="28" fill="#3C3C3C">Local verification note: preview-only demo file, not external evidence.</text>
+</svg>

@@ -85,10 +85,24 @@
       "content": {
         "kind": "ConceptSplit",
         "props": {
-          "left": "旧方式",
-          "right": "新方式",
-          "dividerLabel": "vs",
-          "comparisonMode": "old-new"
+          "mode": "editorial-fold",
+          "relationship": "from-to",
+          "anchor": "right-heavy",
+          "accent": "orange",
+          "emphasize": "right",
+          "showDivider": true,
+          "left": {
+            "title": "旧方式",
+            "description": "手动拼接"
+          },
+          "right": {
+            "title": "新方式",
+            "description": "组件编排"
+          },
+          "bridge": {
+            "label": "从手工到系统",
+            "style": "arrow"
+          }
         }
       },
       "assetIds": [],

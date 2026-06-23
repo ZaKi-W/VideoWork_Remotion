@@ -13,6 +13,7 @@ export const demoPaperLab: EpisodeInputProps = {
         publishedAt: '',
         capturedAssetId: '',
         notes: 'Demo only. Replace with real sources in production.',
+        kind: 'demo',
         status: 'provided',
       },
     ],

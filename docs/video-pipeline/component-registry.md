@@ -32,7 +32,7 @@
 - `DemoFocusFrame`
 - `AssetStack`
 
-当前 `EditorialStage`、`StageDebugOverlay`、`SectionStamp` 与 `HeadlineTakeover` 是 ready。其他高级组件仍只允许 prototype 或 planned。
+当前 `EditorialStage`、`StageDebugOverlay`、`SectionStamp`、`HeadlineTakeover`、`ConceptSplit`、`EvidenceClip` 与 `MetricSpread` 是 ready。其他高级组件仍只允许 prototype 或 planned。
 
 `SectionStamp`：
 
@@ -60,6 +60,50 @@
 - requiresAsset：否。
 - implementationStatus：`ready`。
 
+`ConceptSplit`：
+
+- 用途：概念对比、新旧方式切换、认知转折。
+- 定位：Editorial Contrast Cut / 编辑对照切片，不是数据表、证据截图、普通标题或章节入口。
+- modes：`cross-cut`、`editorial-fold`、`handoff`。
+- relationship：`versus`、`from-to`、`not-but`。
+- cross-cut stageMode：`presenter-center`、`presenter-small`、`screen-primary`、`no-presenter`。
+- cross-cut slot：`top-left`、`top-right`、`edge-left`、`edge-right`。
+- editorial-fold stageMode：`no-presenter`、`screen-primary`。
+- editorial-fold slot：`full-bleed`、`screen-primary`。
+- handoff stageMode：`presenter-small`、`screen-primary`、`no-presenter`。
+- handoff slot：`edge-left`、`edge-right`、`screen-primary`。
+- requiresSource：否。
+- requiresAsset：否。
+- implementationStatus：`ready`。
+- demo：`episodes/demo-concept-split/`。
+
+`EvidenceClip`：
+
+- 用途：官方来源、新闻、公告、网页、数据截图等证据展示。
+- 定位：证据剪报 / 来源素材展示，不是装饰卡片。
+- variants：`clipping`、`spotlight`。
+- clipping stageMode：`presenter-center`、`presenter-small`、`screen-primary`、`no-presenter`。
+- clipping slot：`top-left`、`top-right`、`edge-left`、`edge-right`。
+- spotlight stageMode：`presenter-small`、`screen-primary`、`no-presenter`。
+- spotlight slot：`screen-primary`、`full-bleed`。
+- requiresSource：是。
+- requiresAsset：是。
+- allowedAssetTypes：`screenshot`、`image`、`chart`。
+- implementationStatus：`ready`。
+- demo：`episodes/demo-evidence-clip/`。
+
+`MetricSpread`：
+
+- 用途：价格、成本、性能、速度、比例、时间等关键指标表达。
+- 定位：Data Ledger / 数据账页，不是表格或仪表盘。
+- variant：`delta-ledger`。
+- presenter-center slot：`top-left`、`edge-left`。
+- presenter-small / screen-primary / no-presenter slot：`top-left`、`edge-left`、`screen-primary`。
+- requiresSource：是。
+- requiresAsset：否。
+- implementationStatus：`ready`。
+- demo：`episodes/demo-metric-spread/`。
+
 Strict render 规则：
 
 - planned 组件阻止高清渲染。
@@ -68,3 +112,10 @@ Strict render 规则：
 - `EvidenceClip` 必须有有效 `sourceRefId`。
 - `assetId` 必须存在于 `asset-manifest.json`。
 - `sourceRefId` 必须存在于 `sources.json`。
+- strict render 中 `EvidenceClip` source status 必须是 `captured` 或 `verified`。
+- strict render 中 `EvidenceClip` 不允许使用 `generated` 证据素材。
+- preview 中 demo `generated` 素材和 `provided` 来源只允许 warning 通过。
+- `MetricSpread` 必须有有效 `sourceRefId`。
+- strict render 中 `MetricSpread` source status 必须是 `captured` 或 `verified`。
+- strict render 中 `MetricSpread` 不允许 `kind: "demo"` source。
+- preview 中 `provided` 或 demo source 只允许 warning 通过。

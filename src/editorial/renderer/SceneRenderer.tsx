@@ -5,10 +5,13 @@ import {sceneDurationInFrames} from '../shared/timing';
 type Props = {
   scene: EpisodeScene;
   assets: EpisodeInputProps['assets'];
+  sources: EpisodeInputProps['sources'];
   fps: number;
+  width: number;
+  height: number;
 };
 
-export const SceneRenderer = ({scene, assets, fps}: Props) => {
+export const SceneRenderer = ({scene, assets, sources, fps, width, height}: Props) => {
   const item = componentRegistry[scene.kind];
   const assetStatus =
     scene.assetIds.length === 0
@@ -17,5 +20,17 @@ export const SceneRenderer = ({scene, assets, fps}: Props) => {
           .map((assetId) => assets.assets.find((asset) => asset.id === assetId)?.status ?? 'missing')
           .join(', ');
 
-  return <>{item.render({scene, assetStatus, durationInFrames: sceneDurationInFrames(scene.start, scene.end, fps)})}</>;
+  return (
+    <>
+      {item.render({
+        scene,
+        assets,
+        sources,
+        assetStatus,
+        durationInFrames: sceneDurationInFrames(scene.start, scene.end, fps),
+        width,
+        height,
+      })}
+    </>
+  );
 };

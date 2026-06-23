@@ -1,7 +1,10 @@
 import {Composition} from 'remotion';
 import {EpisodeComposition} from './compositions/EpisodeComposition';
 import {componentGallery} from './editorial/fixtures/component-gallery';
+import {demoConceptSplit} from './editorial/fixtures/demo-concept-split';
+import {demoEvidenceClip} from './editorial/fixtures/demo-evidence-clip';
 import {demoHeadlineTakeover} from './editorial/fixtures/demo-headline-takeover';
+import {demoMetricSpread} from './editorial/fixtures/demo-metric-spread';
 import {demoPaperLab} from './editorial/fixtures/demo-paper-lab';
 import {demoSectionStamp} from './editorial/fixtures/demo-section-stamp';
 import type {EpisodeInputProps} from './editorial/schema/episode.types';
@@ -32,6 +35,24 @@ export const RemotionRoot = () => {
         id="DemoHeadlineTakeover"
         component={EpisodeComposition}
         defaultProps={demoHeadlineTakeover}
+        calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
+      />
+      <Composition
+        id="DemoEvidenceClip"
+        component={EpisodeComposition}
+        defaultProps={demoEvidenceClip}
+        calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
+      />
+      <Composition
+        id="DemoMetricSpread"
+        component={EpisodeComposition}
+        defaultProps={demoMetricSpread}
+        calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
+      />
+      <Composition
+        id="DemoConceptSplit"
+        component={EpisodeComposition}
+        defaultProps={demoConceptSplit}
         calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
       />
       <Composition

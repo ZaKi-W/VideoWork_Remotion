@@ -4,7 +4,7 @@ import type {EpisodeInputProps} from '../schema/episode.types';
 import {sceneDurationInFrames, secondsToFrames} from '../shared/timing';
 import {SceneRenderer} from './SceneRenderer';
 
-export const EpisodeRenderer = ({episode, assets, debug = false}: EpisodeInputProps) => {
+export const EpisodeRenderer = ({episode, assets, sources, debug = false}: EpisodeInputProps) => {
   return (
     <>
       {episode.scenes.map((scene) => (
@@ -21,7 +21,14 @@ export const EpisodeRenderer = ({episode, assets, debug = false}: EpisodeInputPr
             presenterMode={episode.presenter.mode}
             debug={debug}
           >
-            <SceneRenderer scene={scene} assets={assets} fps={episode.episode.fps} />
+            <SceneRenderer
+              scene={scene}
+              assets={assets}
+              sources={sources}
+              fps={episode.episode.fps}
+              width={episode.episode.width}
+              height={episode.episode.height}
+            />
           </EditorialStage>
         </Sequence>
       ))}

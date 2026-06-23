@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "episode": {
+    "id": "demo-metric-spread",
+    "title": "Demo MetricSpread",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "durationInSeconds": 24,
+    "status": "DRAFT"
+  },
+  "presenter": {
+    "mode": "placeholder",
+    "videoAssetId": null,
+    "subtitleAssetId": null,
+    "defaultStageMode": "presenter-center"
+  },
+  "scenes": [
+    {
+      "id": "scene-01-cost-delta",
+      "start": 0,
+      "end": 8,
+      "track": "primary",
+      "kind": "MetricSpread",
+      "stageMode": "presenter-center",
+      "slot": "top-left",
+      "content": {
+        "kind": "MetricSpread",
+        "props": {
+          "variant": "delta-ledger",
+          "placement": "top-left",
+          "accent": "orange",
+          "primary": {
+            "value": "75%",
+            "label": "成本下降",
+            "direction": "down"
+          },
+          "rows": [
+            {
+              "label": "缓存命中",
+              "before": "¥0.103",
+              "after": "¥0.026",
+              "delta": "-75%",
+              "emphasis": "after"
+            },
+            {
+              "label": "输出价格",
+              "before": "¥24.71",
+              "after": "¥6.18",
+              "delta": "-75%",
+              "emphasis": "delta"
+            }
+          ],
+          "sourceRefId": "demo-source-pricing",
+          "sourceLabel": "DEMO PRICING",
+          "note": "DEMO DATA",
+          "showRatioBar": true
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": ["demo-source-pricing"],
+      "status": "ready",
+      "notes": "Cost delta demo. Local fictional data only."
+    },
+    {
+      "id": "scene-02-speed-delta",
+      "start": 8,
+      "end": 16,
+      "track": "primary",
+      "kind": "MetricSpread",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "MetricSpread",
+        "props": {
+          "variant": "delta-ledger",
+          "placement": "edge-left",
+          "accent": "blue",
+          "primary": {
+            "value": "3×",
+            "label": "执行速度",
+            "direction": "up"
+          },
+          "rows": [
+            {
+              "label": "旧流程",
+              "before": "10 分钟",
+              "after": "—",
+              "emphasis": "before"
+            },
+            {
+              "label": "自动流程",
+              "before": "—",
+              "after": "3 分钟",
+              "delta": "节省7分钟",
+              "emphasis": "after"
+            }
+          ],
+          "sourceRefId": "demo-source-workflow",
+          "sourceLabel": "DEMO WORKFLOW",
+          "note": "DEMO DATA",
+          "showRatioBar": true
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": ["demo-source-workflow"],
+      "status": "ready",
+      "notes": "Workflow speed demo. Blue accent for technical efficiency."
+    },
+    {
+      "id": "scene-03-gap-delta",
+      "start": 16,
+      "end": 24,
+      "track": "primary",
+      "kind": "MetricSpread",
+      "stageMode": "no-presenter",
+      "slot": "screen-primary",
+      "content": {
+        "kind": "MetricSpread",
+        "props": {
+          "variant": "delta-ledger",
+          "placement": "screen-primary",
+          "accent": "orange",
+          "primary": {
+            "value": "6个月",
+            "label": "能力差距缩小",
+            "direction": "down"
+          },
+          "rows": [
+            {
+              "label": "过去",
+              "before": "18个月",
+              "after": "—",
+              "emphasis": "before"
+            },
+            {
+              "label": "现在",
+              "before": "—",
+              "after": "6个月",
+              "delta": "缩小12个月",
+              "emphasis": "delta"
+            }
+          ],
+          "sourceRefId": "demo-source-trend",
+          "sourceLabel": "DEMO TREND",
+          "note": "DEMO DATA",
+          "showRatioBar": true
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": ["demo-source-trend"],
+      "status": "ready",
+      "notes": "Screen-primary data ledger demo."
+    }
+  ]
+}

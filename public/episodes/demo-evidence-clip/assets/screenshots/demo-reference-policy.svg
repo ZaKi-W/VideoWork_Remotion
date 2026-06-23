@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="860" viewBox="0 0 1280 860">
+  <rect width="1280" height="860" fill="#FAFAF7"/>
+  <rect x="72" y="64" width="1136" height="732" fill="#FFFFFF" stroke="#151515" stroke-width="4"/>
+  <rect x="72" y="64" width="1136" height="74" fill="#E8E5DF"/>
+  <text x="104" y="112" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#151515">DEMO REFERENCE — NOT A REAL SOURCE</text>
+  <text x="104" y="190" font-family="Arial, sans-serif" font-size="44" font-weight="800" fill="#151515">Capability Boundary Note</text>
+  <text x="104" y="250" font-family="Arial, sans-serif" font-size="30" fill="#3C3C3C">This mock document exists only for EvidenceClip preview.</text>
+  <rect x="104" y="308" width="780" height="22" fill="#E8E5DF"/>
+  <rect x="104" y="354" width="970" height="22" fill="#E8E5DF"/>
+  <rect x="104" y="400" width="920" height="22" fill="#E8E5DF"/>
+  <text x="104" y="492" font-family="Arial, sans-serif" font-size="38" font-weight="800" fill="#151515">Key sentence for demo highlight</text>
+  <text x="104" y="548" font-family="Arial, sans-serif" font-size="32" fill="#151515">The visible evidence should be cropped, marked, and traceable.</text>
+  <rect x="104" y="604" width="1020" height="2" fill="#151515"/>
+  <text x="104" y="670" font-family="Arial, sans-serif" font-size="26" fill="#3C3C3C">Publisher: Demo Evidence Lab</text>
+  <text x="104" y="718" font-family="Arial, sans-serif" font-size="26" fill="#3C3C3C">Status: provided for preview only</text>
+</svg>

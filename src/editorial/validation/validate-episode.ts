@@ -13,8 +13,11 @@ import {
 } from '../schema/episode.schema';
 import type {
   AssetManifest,
+  ConceptSplitProps,
+  EvidenceClipProps,
   EpisodeConfig,
   EpisodeScene,
+  MetricSpreadProps,
   SourceManifest,
 } from '../schema/episode.types';
 import type {StageMode, StageSlot} from '../stage/stage.types';
@@ -32,6 +35,20 @@ const headlinePunchSlots: StageSlot[] = ['top-left', 'top-right', 'edge-left', '
 const headlineWrapStageModes: StageMode[] = ['presenter-center', 'presenter-small'];
 const headlineTakeoverStageModes: StageMode[] = ['no-presenter', 'screen-primary'];
 const headlineTakeoverSlots: StageSlot[] = ['full-bleed', 'center-overlay', 'screen-primary'];
+const evidenceClippingStageModes: StageMode[] = ['presenter-center', 'presenter-small', 'screen-primary', 'no-presenter'];
+const evidenceClippingSlots: StageSlot[] = ['top-left', 'top-right', 'edge-left', 'edge-right'];
+const evidenceSpotlightStageModes: StageMode[] = ['presenter-small', 'screen-primary', 'no-presenter'];
+const evidenceSpotlightSlots: StageSlot[] = ['screen-primary', 'full-bleed'];
+const evidenceAssetTypes: AssetManifest['assets'][number]['type'][] = ['screenshot', 'image', 'chart'];
+const metricPresenterCenterSlots: StageSlot[] = ['top-left', 'edge-left'];
+const metricNonCenterStageModes: StageMode[] = ['presenter-small', 'screen-primary', 'no-presenter'];
+const metricNonCenterSlots: StageSlot[] = ['top-left', 'edge-left', 'screen-primary'];
+const conceptCrossCutStageModes: StageMode[] = ['presenter-center', 'presenter-small', 'screen-primary', 'no-presenter'];
+const conceptCrossCutSlots: StageSlot[] = ['top-left', 'top-right', 'edge-left', 'edge-right'];
+const conceptFoldStageModes: StageMode[] = ['no-presenter', 'screen-primary'];
+const conceptFoldSlots: StageSlot[] = ['full-bleed', 'screen-primary'];
+const conceptHandoffStageModes: StageMode[] = ['presenter-small', 'screen-primary', 'no-presenter'];
+const conceptHandoffSlots: StageSlot[] = ['edge-left', 'edge-right', 'screen-primary'];
 
 const headlineContext = (episode: EpisodeConfig, scene: EpisodeScene): string => {
   const mode = scene.content.kind === 'HeadlineTakeover' ? scene.content.props.mode ?? 'punch' : 'unknown';
@@ -40,6 +57,31 @@ const headlineContext = (episode: EpisodeConfig, scene: EpisodeScene): string =>
 
 const isHeadlineTakeoverFullCanvas = (scene: EpisodeScene): boolean =>
   scene.content.kind === 'HeadlineTakeover' && (scene.content.props.mode ?? 'punch') === 'takeover';
+
+const isEvidenceClipSpotlightCanvas = (scene: EpisodeScene): boolean =>
+  scene.content.kind === 'EvidenceClip' &&
+  (scene.content.props.variant ?? 'clipping') === 'spotlight' &&
+  scene.slot === 'full-bleed';
+
+const isConceptSplitFoldCanvas = (scene: EpisodeScene): boolean =>
+  scene.content.kind === 'ConceptSplit' &&
+  (scene.content.props.mode ?? 'cross-cut') === 'editorial-fold' &&
+  scene.slot === 'full-bleed';
+
+const evidenceContext = (episode: EpisodeConfig, scene: EpisodeScene, props: EvidenceClipProps): string =>
+  `episode=${episode.episode.id}; scene=${scene.id}; variant=${props.variant ?? 'clipping'}; stageMode=${
+    scene.stageMode
+  }; slot=${scene.slot}`;
+
+const metricContext = (episode: EpisodeConfig, scene: EpisodeScene): string =>
+  `episode=${episode.episode.id}; scene=${scene.id}; stageMode=${scene.stageMode}; slot=${scene.slot}`;
+
+const conceptContext = (episode: EpisodeConfig, scene: EpisodeScene, props: ConceptSplitProps): string =>
+  `episode=${episode.episode.id}; scene=${scene.id}; mode=${props.mode ?? 'cross-cut'}; relationship=${
+    props.relationship ?? 'from-to'
+  }; stageMode=${scene.stageMode}; slot=${scene.slot}`;
+
+const hasLocalVerificationNote = (notes: string): boolean => /local|本地|可验证|demo/i.test(notes);
 
 export const validateEpisodeData = (
   episode: EpisodeConfig,
@@ -93,7 +135,7 @@ export const validateEpisodeData = (
   }
 
   for (const scene of episode.scenes) {
-    validateScene(scene, episode, assets, assetIds, sourceIds, issues, strict, options.publicDir, layout);
+    validateScene(scene, episode, assets, sources, assetIds, sourceIds, issues, strict, options.publicDir, layout);
   }
 
   for (let index = 2; index < primaryScenes.length; index += 1) {
@@ -113,6 +155,7 @@ const validateScene = (
   scene: EpisodeScene,
   episode: EpisodeConfig,
   assets: AssetManifest,
+  sources: SourceManifest,
   assetIds: Set<string>,
   sourceIds: Set<string>,
   issues: ValidationIssue[],
@@ -164,7 +207,12 @@ const validateScene = (
   if (scene.stageMode === 'presenter-center' && rectsIntersect(slotRect, layout.presenterSafeZone)) {
     push(issues, 'blocking', 'safe-zone.presenter', `${scene.slot} enters presenter safe zone`, scene.id);
   }
-  if (rectsIntersect(slotRect, layout.subtitleSafeZone) && !isHeadlineTakeoverFullCanvas(scene)) {
+  if (
+    rectsIntersect(slotRect, layout.subtitleSafeZone) &&
+    !isHeadlineTakeoverFullCanvas(scene) &&
+    !isEvidenceClipSpotlightCanvas(scene) &&
+    !isConceptSplitFoldCanvas(scene)
+  ) {
     push(issues, 'blocking', 'safe-zone.subtitle', `${scene.slot} enters subtitle safe zone`, scene.id);
   }
 
@@ -313,6 +361,18 @@ const validateScene = (
     }
   }
 
+  if (scene.content.kind === 'EvidenceClip') {
+    validateEvidenceClip(scene, episode, assets, sources, issues, strict, publicDir, layout);
+  }
+
+  if (scene.content.kind === 'MetricSpread') {
+    validateMetricSpread(scene, episode, sources, issues, strict);
+  }
+
+  if (scene.content.kind === 'ConceptSplit') {
+    validateConceptSplit(scene, episode, issues, strict);
+  }
+
   if (publicDir) {
     for (const assetId of scene.assetIds) {
       const asset = assets.assets.find((candidate) => candidate.id === assetId);
@@ -324,5 +384,481 @@ const validateScene = (
         push(issues, strict ? 'blocking' : 'warning', 'asset.file-missing', `asset file missing: ${asset.path}`, scene.id);
       }
     }
+  }
+};
+
+const validateMetricSpread = (
+  scene: EpisodeScene,
+  episode: EpisodeConfig,
+  sources: SourceManifest,
+  issues: ValidationIssue[],
+  strict: boolean,
+) => {
+  const props: MetricSpreadProps | undefined = scene.content.kind === 'MetricSpread' ? scene.content.props : undefined;
+  if (!props) {
+    return;
+  }
+
+  const context = metricContext(episode, scene);
+  const issueLevel = strict ? 'blocking' : 'error';
+  const source = sources.sources.find((candidate) => candidate.id === props.sourceRefId);
+
+  if (props.placement !== scene.slot) {
+    push(
+      issues,
+      issueLevel,
+      'metric-spread.placement-mismatch',
+      `MetricSpread props placement ${props.placement} must match scene slot ${scene.slot} (${context})`,
+      scene.id,
+    );
+  }
+
+  if (scene.stageMode === 'presenter-center') {
+    if (!metricPresenterCenterSlots.includes(scene.slot)) {
+      push(
+        issues,
+        issueLevel,
+        'metric-spread.slot-mode',
+        `MetricSpread presenter-center requires top-left or edge-left (${context})`,
+        scene.id,
+      );
+    }
+  } else if (metricNonCenterStageModes.includes(scene.stageMode)) {
+    if (!metricNonCenterSlots.includes(scene.slot)) {
+      push(
+        issues,
+        issueLevel,
+        'metric-spread.slot-mode',
+        `MetricSpread ${scene.stageMode} requires top-left, edge-left, or screen-primary (${context})`,
+        scene.id,
+      );
+    }
+  }
+
+  if (scene.slot === 'screen-primary' && scene.stageMode === 'presenter-center') {
+    push(
+      issues,
+      issueLevel,
+      'metric-spread.presenter-primary',
+      `MetricSpread screen-primary is not allowed with presenter-center (${context})`,
+      scene.id,
+    );
+  }
+
+  if (!scene.sourceRefIds.includes(props.sourceRefId)) {
+    push(
+      issues,
+      strict ? 'blocking' : 'warning',
+      'metric-spread.source-list-missing',
+      `MetricSpread sourceRefId should also be listed in scene.sourceRefIds (${context})`,
+      scene.id,
+    );
+  }
+
+  if (!source) {
+    push(
+      issues,
+      'blocking',
+      'metric-spread.source-missing',
+      `MetricSpread sourceRefId not found: ${props.sourceRefId} (${context})`,
+      scene.id,
+    );
+    return;
+  }
+
+  if (!source.title.trim()) {
+    push(issues, 'blocking', 'metric-spread.source-title', `MetricSpread source requires title (${context})`, scene.id);
+  }
+  if (!source.publisher.trim()) {
+    push(
+      issues,
+      'blocking',
+      'metric-spread.source-publisher',
+      `MetricSpread source requires publisher (${context})`,
+      scene.id,
+    );
+  }
+  if (!source.url.trim() && !hasLocalVerificationNote(source.notes)) {
+    push(
+      issues,
+      strict ? 'blocking' : 'warning',
+      'metric-spread.source-url',
+      `MetricSpread source requires url or explicit local verification note (${context})`,
+      scene.id,
+    );
+  }
+  if (!strict && source.status === 'provided') {
+    push(
+      issues,
+      'warning',
+      'metric-spread.source-provided-preview',
+      `provided MetricSpread source is allowed in preview only (${context})`,
+      scene.id,
+    );
+  }
+  if (!strict && source.kind === 'demo') {
+    push(issues, 'warning', 'metric-spread.demo-source', `demo MetricSpread source is preview-only (${context})`, scene.id);
+  }
+  if (strict && (source.status !== 'captured' && source.status !== 'verified')) {
+    push(
+      issues,
+      'blocking',
+      'metric-spread.source-status',
+      `strict MetricSpread requires captured or verified source; got ${source.status} (${context})`,
+      scene.id,
+    );
+  }
+  if (strict && source.kind === 'demo') {
+    push(issues, 'blocking', 'metric-spread.demo-strict', `demo MetricSpread source is not allowed in strict render (${context})`, scene.id);
+  }
+  if (source.status === 'rejected') {
+    push(
+      issues,
+      strict ? 'blocking' : 'error',
+      'metric-spread.source-rejected',
+      `rejected source cannot be used by MetricSpread (${context})`,
+      scene.id,
+    );
+  }
+  if (props.sourceLabel) {
+    const label = props.sourceLabel.toLowerCase();
+    const publisher = source.publisher.toLowerCase();
+    if (!label.includes(publisher) && !publisher.includes(label.replace(/^ref\.\s*\/\s*/i, ''))) {
+      push(
+        issues,
+        strict ? 'blocking' : 'warning',
+        'metric-spread.source-label',
+        `sourceLabel must derive from sources.json publisher (${context})`,
+        scene.id,
+      );
+    }
+  }
+};
+
+const validateConceptSplit = (
+  scene: EpisodeScene,
+  episode: EpisodeConfig,
+  issues: ValidationIssue[],
+  strict: boolean,
+) => {
+  const props: ConceptSplitProps | undefined = scene.content.kind === 'ConceptSplit' ? scene.content.props : undefined;
+  if (!props) {
+    return;
+  }
+
+  const mode = props.mode ?? 'cross-cut';
+  const context = conceptContext(episode, scene, props);
+  const issueLevel = strict ? 'blocking' : 'error';
+
+  if (mode === 'cross-cut') {
+    if (!conceptCrossCutStageModes.includes(scene.stageMode)) {
+      push(issues, issueLevel, 'concept-split.stage-mode', `ConceptSplit cross-cut stageMode is illegal (${context})`, scene.id);
+    }
+    if (!conceptCrossCutSlots.includes(scene.slot)) {
+      push(
+        issues,
+        issueLevel,
+        'concept-split.slot-mode',
+        `ConceptSplit cross-cut requires top-left, top-right, edge-left, or edge-right (${context})`,
+        scene.id,
+      );
+    }
+  }
+
+  if (mode === 'editorial-fold') {
+    if (!conceptFoldStageModes.includes(scene.stageMode)) {
+      push(
+        issues,
+        issueLevel,
+        'concept-split.stage-mode',
+        `ConceptSplit editorial-fold requires no-presenter or screen-primary (${context})`,
+        scene.id,
+      );
+    }
+    if (!conceptFoldSlots.includes(scene.slot)) {
+      push(
+        issues,
+        issueLevel,
+        'concept-split.slot-mode',
+        `ConceptSplit editorial-fold requires full-bleed or screen-primary (${context})`,
+        scene.id,
+      );
+    }
+  }
+
+  if (mode === 'handoff') {
+    if (!conceptHandoffStageModes.includes(scene.stageMode)) {
+      push(
+        issues,
+        issueLevel,
+        'concept-split.stage-mode',
+        `ConceptSplit handoff requires presenter-small, screen-primary, or no-presenter (${context})`,
+        scene.id,
+      );
+    }
+    if (!conceptHandoffSlots.includes(scene.slot)) {
+      push(
+        issues,
+        issueLevel,
+        'concept-split.slot-mode',
+        `ConceptSplit handoff requires edge-left, edge-right, or screen-primary (${context})`,
+        scene.id,
+      );
+    }
+  }
+
+  const titleLines = [props.left.title, props.right.title].flatMap((title) =>
+    title.split(/\r?\n/).filter((line) => line.trim().length > 0),
+  );
+  if (titleLines.length > 4 || titleLines.some((line) => line.replace(/\s+/g, '').length > 12)) {
+    push(
+      issues,
+      'warning',
+      'concept-split.title-long',
+      `ConceptSplit title may exceed two-line display weight; verify keyframes (${context})`,
+      scene.id,
+    );
+  }
+
+  const longDescription = [props.left.description, props.right.description].some(
+    (description) => description && description.length > 28,
+  );
+  if (longDescription) {
+    push(
+      issues,
+      'warning',
+      'concept-split.description-long',
+      `ConceptSplit description is close to the maximum; verify it does not become body copy (${context})`,
+      scene.id,
+    );
+  }
+};
+
+const validateEvidenceClip = (
+  scene: EpisodeScene,
+  episode: EpisodeConfig,
+  assets: AssetManifest,
+  sources: SourceManifest,
+  issues: ValidationIssue[],
+  strict: boolean,
+  publicDir: string | undefined,
+  layout: ReturnType<typeof getStageLayout>,
+) => {
+  const props = scene.content.kind === 'EvidenceClip' ? scene.content.props : undefined;
+  if (!props) {
+    return;
+  }
+  const variant = props.variant ?? 'clipping';
+  const context = evidenceContext(episode, scene, props);
+  const issueLevel = strict ? 'blocking' : 'error';
+  const asset = assets.assets.find((candidate) => candidate.id === props.assetId);
+  const source = sources.sources.find((candidate) => candidate.id === props.sourceRefId);
+
+  if (props.placement !== scene.slot) {
+    push(
+      issues,
+      issueLevel,
+      'evidence.placement-mismatch',
+      `EvidenceClip props placement ${props.placement} must match scene slot ${scene.slot} (${context})`,
+      scene.id,
+    );
+  }
+
+  if (variant === 'clipping') {
+    if (!evidenceClippingStageModes.includes(scene.stageMode)) {
+      push(issues, issueLevel, 'evidence.stage-mode', `clipping stageMode is illegal (${context})`, scene.id);
+    }
+    if (!evidenceClippingSlots.includes(scene.slot)) {
+      push(
+        issues,
+        issueLevel,
+        'evidence.slot-mode',
+        `EvidenceClip clipping requires top-left, top-right, edge-left, or edge-right (${context})`,
+        scene.id,
+      );
+    }
+  }
+
+  if (variant === 'spotlight') {
+    if (!evidenceSpotlightStageModes.includes(scene.stageMode)) {
+      push(
+        issues,
+        issueLevel,
+        'evidence.stage-mode',
+        `EvidenceClip spotlight requires presenter-small, screen-primary, or no-presenter (${context})`,
+        scene.id,
+      );
+    }
+    if (!evidenceSpotlightSlots.includes(scene.slot)) {
+      push(
+        issues,
+        issueLevel,
+        'evidence.slot-mode',
+        `EvidenceClip spotlight requires screen-primary or full-bleed (${context})`,
+        scene.id,
+      );
+    }
+    if (scene.stageMode === 'presenter-center') {
+      push(issues, issueLevel, 'evidence.presenter-center', `spotlight cannot use presenter-center (${context})`, scene.id);
+    }
+    if (scene.slot === 'full-bleed' && scene.stageMode !== 'no-presenter') {
+      push(issues, issueLevel, 'evidence.full-bleed', `full-bleed EvidenceClip requires no-presenter (${context})`, scene.id);
+    }
+  }
+
+  if (!scene.assetIds.includes(props.assetId)) {
+    push(
+      issues,
+      strict ? 'blocking' : 'warning',
+      'evidence.asset-list-missing',
+      `EvidenceClip assetId should also be listed in scene.assetIds (${context})`,
+      scene.id,
+    );
+  }
+  if (!scene.sourceRefIds.includes(props.sourceRefId)) {
+    push(
+      issues,
+      strict ? 'blocking' : 'warning',
+      'evidence.source-list-missing',
+      `EvidenceClip sourceRefId should also be listed in scene.sourceRefIds (${context})`,
+      scene.id,
+    );
+  }
+
+  if (!asset) {
+    push(issues, 'blocking', 'evidence.asset-missing', `EvidenceClip assetId not found: ${props.assetId} (${context})`, scene.id);
+  }
+  if (!source) {
+    push(
+      issues,
+      'blocking',
+      'evidence.source-missing',
+      `EvidenceClip sourceRefId not found: ${props.sourceRefId} (${context})`,
+      scene.id,
+    );
+  }
+
+  if (asset) {
+    const isGeneratedDemoPreview = !strict && asset.type === 'generated' && episode.episode.id.startsWith('demo-');
+    if (!evidenceAssetTypes.includes(asset.type) && !isGeneratedDemoPreview) {
+      push(
+        issues,
+        strict ? 'blocking' : 'error',
+        'evidence.asset-type',
+        `EvidenceClip only allows screenshot, image, or chart assets (${context}); got ${asset.type}`,
+        scene.id,
+      );
+    }
+    if (isGeneratedDemoPreview) {
+      push(
+        issues,
+        'warning',
+        'evidence.demo-generated',
+        `demo generated evidence asset is preview-only (${context})`,
+        scene.id,
+      );
+    }
+    if (strict && asset.type === 'generated') {
+      push(issues, 'blocking', 'evidence.generated-strict', `generated evidence asset is not allowed in strict render (${context})`, scene.id);
+    }
+    if (asset.sourceRefId && asset.sourceRefId !== props.sourceRefId) {
+      push(
+        issues,
+        'blocking',
+        'evidence.asset-source-mismatch',
+        `asset.sourceRefId ${asset.sourceRefId} does not match scene sourceRefId ${props.sourceRefId} (${context})`,
+        scene.id,
+      );
+    }
+    if (publicDir) {
+      const filePath = path.join(publicDir, asset.path);
+      if (!fs.existsSync(filePath)) {
+        push(
+          issues,
+          strict ? 'blocking' : 'warning',
+          'evidence.asset-file-missing',
+          `EvidenceClip asset file missing: ${asset.path} (${context})`,
+          scene.id,
+        );
+      }
+    }
+  }
+
+  if (source) {
+    if (!source.title.trim()) {
+      push(issues, 'blocking', 'evidence.source-title', `EvidenceClip source requires title (${context})`, scene.id);
+    }
+    if (!source.publisher.trim()) {
+      push(issues, 'blocking', 'evidence.source-publisher', `EvidenceClip source requires publisher (${context})`, scene.id);
+    }
+    if (!source.url.trim() && !hasLocalVerificationNote(source.notes)) {
+      push(
+        issues,
+        strict ? 'blocking' : 'warning',
+        'evidence.source-url',
+        `EvidenceClip source requires url or explicit local verification note (${context})`,
+        scene.id,
+      );
+    }
+    if (strict && source.status !== 'captured' && source.status !== 'verified') {
+      push(
+        issues,
+        'blocking',
+        'evidence.source-status',
+        `strict EvidenceClip requires captured or verified source; got ${source.status} (${context})`,
+        scene.id,
+      );
+    }
+    if (!strict && source.status === 'provided') {
+      push(
+        issues,
+        'warning',
+        'evidence.source-provided-preview',
+        `provided source is allowed in preview only (${context})`,
+        scene.id,
+      );
+    }
+    if (source.status === 'rejected') {
+      push(
+        issues,
+        strict ? 'blocking' : 'error',
+        'evidence.source-rejected',
+        `rejected source cannot be used by EvidenceClip (${context})`,
+        scene.id,
+      );
+    }
+    if (props.sourceLabel) {
+      const label = props.sourceLabel.toLowerCase();
+      const publisher = source.publisher.toLowerCase();
+      if (!label.includes(publisher) && !publisher.includes(label.replace(/^ref\.\s*\/\s*/i, ''))) {
+        push(
+          issues,
+          strict ? 'blocking' : 'warning',
+          'evidence.source-label',
+          `sourceLabel must derive from sources.json publisher (${context})`,
+          scene.id,
+        );
+      }
+    }
+  }
+
+  const slotRect = layout.slots[scene.slot];
+  if (variant === 'clipping' && slotRect.width < episode.episode.width * 0.2) {
+    push(
+      issues,
+      'warning',
+      'evidence.readability-width',
+      `EvidenceClip clipping slot may make screenshot text too small; verify keyframes (${context})`,
+      scene.id,
+    );
+  }
+  if (variant === 'spotlight' && scene.slot === 'full-bleed' && rectsIntersect(slotRect, layout.subtitleSafeZone)) {
+    push(
+      issues,
+      'warning',
+      'evidence.subtitle-safe-zone',
+      `EvidenceClip full-bleed spotlight must keep all readable content above subtitle safe zone; verify keyframes (${context})`,
+      scene.id,
+    );
   }
 };

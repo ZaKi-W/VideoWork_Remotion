@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="900" viewBox="0 0 1180 900">
+  <rect width="1180" height="900" fill="#FAFAF7"/>
+  <rect x="76" y="52" width="1028" height="790" fill="#FFFFFF" stroke="#151515" stroke-width="4"/>
+  <text x="108" y="104" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#151515">DEMO REFERENCE — NOT A REAL SOURCE</text>
+  <text x="108" y="180" font-family="Arial, sans-serif" font-size="42" font-weight="800" fill="#151515">Demo Pricing Change Sheet</text>
+  <rect x="108" y="246" width="400" height="164" fill="#F1F2F4" stroke="#3C3C3C" stroke-width="2"/>
+  <text x="138" y="300" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#3C3C3C">Previous</text>
+  <text x="138" y="366" font-family="Arial, sans-serif" font-size="56" font-weight="800" fill="#151515">$12</text>
+  <rect x="560" y="246" width="400" height="164" fill="#F1F2F4" stroke="#3C3C3C" stroke-width="2"/>
+  <text x="590" y="300" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#3C3C3C">Current</text>
+  <text x="590" y="366" font-family="Arial, sans-serif" font-size="56" font-weight="800" fill="#151515">$29</text>
+  <rect x="108" y="488" width="780" height="24" fill="#E8E5DF"/>
+  <rect x="108" y="542" width="900" height="24" fill="#E8E5DF"/>
+  <rect x="108" y="596" width="640" height="24" fill="#E8E5DF"/>
+  <text x="108" y="708" font-family="Arial, sans-serif" font-size="28" fill="#3C3C3C">Publisher: Demo Evidence Lab</text>
+</svg>
