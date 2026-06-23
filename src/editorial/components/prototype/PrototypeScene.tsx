@@ -22,11 +22,11 @@ export const PrototypeScene = ({scene, assetStatus}: ComponentRendererProps) => 
       </div>
       <div>
         <div style={{fontSize: 52, fontWeight: 800, lineHeight: 1.05}}>{scene.kind}</div>
-        <div style={{marginTop: 12, fontSize: 24, color: visualTokens.color.graphite}}>
+        <div style={{marginTop: 12, fontSize: 24, color: visualTokens.color.inkBlack}}>
           {scene.id} / {scene.slot}
         </div>
       </div>
-      <div style={{fontSize: 20, color: visualTokens.color.mutedBlue}}>素材状态：{assetStatus}</div>
+      <div style={{fontSize: 20, color: visualTokens.color.inkBlack}}>素材状态：{assetStatus}</div>
     </div>
   );
 };

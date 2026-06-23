@@ -1,35 +1,14 @@
 import {
   acidComponentPropsSchema,
-  assetStackPropsSchema,
-  demoFocusFramePropsSchema,
-  evidenceClipPropsSchema,
-  metricSpreadPropsSchema,
   narrationEchoLayerPropsSchema,
   remotionTalkEffectPropsSchema,
   talkVideoBasePropsSchema,
-  workflowPathPropsSchema,
 } from '../schema/episode.schema';
 import {AcidComponent} from '../components/AcidComponent';
-import {EvidenceClip} from '../components/EvidenceClip';
-import {MetricSpread} from '../components/MetricSpread';
 import {NarrationEchoLayer} from '../components/NarrationEchoLayer';
-import {PrototypeScene} from '../components/prototype/PrototypeScene';
 import {RemotionTalkEffect} from '../components/RemotionTalkEffect';
 import {TalkVideoBase} from '../components/TalkVideoBase';
 import type {ComponentRegistryItem} from './component.types';
-
-const commonStageModes = ['presenter-center', 'presenter-small', 'screen-primary', 'no-presenter'] as const;
-const commonSlots = [
-  'top-left',
-  'top-right',
-  'bottom-left',
-  'bottom-right',
-  'edge-left',
-  'edge-right',
-  'full-bleed',
-  'screen-primary',
-  'center-overlay',
-] as const;
 
 export const componentRegistry = {
   MediaWall: {
@@ -175,29 +154,6 @@ export const componentRegistry = {
     schema: acidComponentPropsSchema,
     render: AcidComponent,
   },
-  EvidenceClip: {
-    name: 'EvidenceClip',
-    purpose: '官方来源、新闻、公告、网页、数据截图等证据展示',
-    allowedStageModes: ['presenter-center', 'presenter-small', 'screen-primary', 'no-presenter'],
-    allowedSlots: ['top-left', 'top-right', 'edge-left', 'edge-right', 'screen-primary', 'full-bleed'],
-    allowedAssetTypes: ['screenshot', 'image', 'chart'],
-    requiresSource: true,
-    requiresAsset: true,
-    implementationStatus: 'ready',
-    schema: evidenceClipPropsSchema,
-    render: EvidenceClip,
-  },
-  MetricSpread: {
-    name: 'MetricSpread',
-    purpose: '价格、成本、性能、速度、比例、时间等关键指标表达',
-    allowedStageModes: [...commonStageModes],
-    allowedSlots: ['top-left', 'top-right', 'edge-left', 'edge-right', 'screen-primary'],
-    requiresSource: true,
-    requiresAsset: false,
-    implementationStatus: 'ready',
-    schema: metricSpreadPropsSchema,
-    render: MetricSpread,
-  },
   NarrationEchoLayer: {
     name: 'NarrationEchoLayer',
     purpose: '普通口播填缝层 / 左侧提要式短句与淡关键词',
@@ -208,36 +164,6 @@ export const componentRegistry = {
     implementationStatus: 'ready',
     schema: narrationEchoLayerPropsSchema,
     render: NarrationEchoLayer,
-  },
-  WorkflowPath: {
-    name: 'WorkflowPath',
-    purpose: '步骤、Agent 流程或自动化路径',
-    allowedStageModes: [...commonStageModes],
-    allowedSlots: [...commonSlots],
-    requiresSource: false,
-    implementationStatus: 'prototype',
-    schema: workflowPathPropsSchema,
-    render: PrototypeScene,
-  },
-  DemoFocusFrame: {
-    name: 'DemoFocusFrame',
-    purpose: '软件操作、网页演示或项目演示聚焦',
-    allowedStageModes: ['presenter-small', 'screen-primary'],
-    allowedSlots: ['screen-primary'],
-    requiresSource: false,
-    implementationStatus: 'planned',
-    schema: demoFocusFramePropsSchema,
-    render: PrototypeScene,
-  },
-  AssetStack: {
-    name: 'AssetStack',
-    purpose: '案例、图片、成果或多素材展示',
-    allowedStageModes: ['presenter-small', 'screen-primary', 'no-presenter'],
-    allowedSlots: ['screen-primary', 'full-bleed', 'top-left', 'top-right'],
-    requiresSource: false,
-    implementationStatus: 'planned',
-    schema: assetStackPropsSchema,
-    render: PrototypeScene,
   },
   TalkVideoBase: {
     name: 'TalkVideoBase',

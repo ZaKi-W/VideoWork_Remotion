@@ -84,7 +84,7 @@ const PreviewPanel = ({intensity, note}: {intensity: ScrimIntensity; note: strin
       }}
     >
       <strong style={{fontSize: 26, lineHeight: 1, fontWeight: 900}}>{intensity}</strong>
-      <span style={{color: 'rgba(17,21,15,0.52)', fontSize: 14, fontWeight: 800}}>{note}</span>
+      <span style={{color: '#11150F', fontSize: 14, fontWeight: 900}}>{note}</span>
     </div>
     <div
       style={{
@@ -151,7 +151,7 @@ export const AcidScrimContactSheet = () => (
           Left support layer comparison
         </h1>
       </div>
-      <div style={{maxWidth: 520, color: 'rgba(17,21,15,0.58)', fontSize: 18, lineHeight: 1.35, fontWeight: 700}}>
+      <div style={{maxWidth: 520, color: '#11150F', fontSize: 18, lineHeight: 1.35, fontWeight: 800}}>
         Soft keeps the white wall visible; medium stays below rgba(7,9,6,0.42); none relies on text shadow only.
       </div>
     </div>

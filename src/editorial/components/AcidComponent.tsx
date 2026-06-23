@@ -409,7 +409,7 @@ const AgentExecution = ({props, frame, durationInFrames}: {props: AcidComponentP
       </div>
       <article style={{position: 'absolute', zIndex: 20, top: '18%', right: '3.8%', width: '31%', padding: 10, background: acidTokens.color.black, border: `2px solid ${acidTokens.color.acid}`, boxShadow: '10px 12px 0 rgba(0,0,0,0.18)', opacity: cardIntro * (1 - exit * 0.78), transform: `translateX(${(1 - cardIntro) * 78 + exit * 96}px) rotate(${(1 - cardIntro) * 1.2 - exit * 1.1}deg)`}}>
       <div style={{padding: 15, background: '#F4F6EB', color: '#11150F'}}>
-        <div style={{paddingBottom: 11, borderBottom: '1px solid rgba(17,21,15,0.14)', color: 'rgba(17,21,15,0.55)', fontSize: 15, lineHeight: 1, fontWeight: 900, letterSpacing: '0.06em', textTransform: 'uppercase'}}>
+        <div style={{paddingBottom: 11, borderBottom: '1px solid rgba(17,21,15,0.14)', color: '#11150F', fontSize: 15, lineHeight: 1, fontWeight: 900, letterSpacing: '0.06em', textTransform: 'uppercase'}}>
           Task conversation · execution trace
         </div>
         {props.messages.map((message, index) => {
@@ -572,7 +572,7 @@ const yearMarkStyle: CSSProperties = {
   zIndex: 14,
   top: '8%',
   right: '5.5%',
-  color: 'rgba(11,13,10,0.14)',
+  color: '#11150F',
   fontFamily: acidTokens.font.display,
   fontSize: 260,
   lineHeight: 0.72,

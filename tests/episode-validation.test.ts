@@ -1,6 +1,6 @@
 import {describe, expect, it} from 'vitest';
 import {episodeSchema} from '../src/editorial/schema/episode.schema';
-import type {AssetManifest, EpisodeConfig, EpisodeScene, SourceManifest} from '../src/editorial/schema/episode.types';
+import type {AssetManifest, EpisodeConfig, SourceManifest} from '../src/editorial/schema/episode.types';
 import {validateEpisodeData} from '../src/editorial/validation/validate-episode';
 
 const sampleAssets: AssetManifest = {assets: []};
@@ -74,53 +74,6 @@ describe('episode schema and validation', () => {
     expect(episodeSchema.safeParse(episode).success).toBe(false);
   });
 
-  it('fails strict validation when EvidenceClip lacks sourceRefId', () => {
-    const episode = cloneSample();
-    episode.presenter.mode = 'video';
-    episode.scenes = [
-      {
-        id: 'scene-evidence',
-        start: 0,
-        end: 5,
-        track: 'primary',
-        kind: 'EvidenceClip',
-        stageMode: 'screen-primary',
-        slot: 'screen-primary',
-        content: {
-          kind: 'EvidenceClip',
-          props: {
-            assetId: 'asset-screen',
-            sourceRefId: 'source-demo-001',
-            variant: 'spotlight',
-            placement: 'screen-primary',
-            sourceLabel: 'Demo',
-            highlights: [
-              {
-                kind: 'box',
-                x: 0.1,
-                y: 0.1,
-                width: 0.3,
-                height: 0.2,
-                color: 'orange',
-              },
-            ],
-            annotations: [],
-            showReferenceStrip: true,
-          },
-        },
-        assetIds: [],
-        sourceRefIds: [],
-        status: 'ready',
-        notes: '',
-      },
-    ];
-
-    const result = validateEpisodeData(episode, sampleAssets, sampleSources, {mode: 'strict'});
-
-    expect(result.ok).toBe(false);
-    expect(result.issues.some((issue) => issue.code === 'evidence.source-required')).toBe(true);
-  });
-
   it('fails when center-overlay enters presenter-center safe zone', () => {
     const episode = cloneSample();
     episode.scenes[0] = {
@@ -133,39 +86,6 @@ describe('episode schema and validation', () => {
 
     expect(result.ok).toBe(false);
     expect(result.issues.some((issue) => issue.code === 'safe-zone.presenter')).toBe(true);
-  });
-
-  it('fails strict validation when a planned component is present', () => {
-    const episode = cloneSample();
-    episode.presenter.mode = 'video';
-    const plannedScene: EpisodeScene = {
-      id: 'scene-planned',
-      start: 0,
-      end: 5,
-      track: 'primary',
-      kind: 'AssetStack',
-      stageMode: 'screen-primary',
-      slot: 'screen-primary',
-      content: {
-        kind: 'AssetStack',
-        props: {
-          items: [{assetId: 'asset-missing'}],
-          mode: 'stack',
-          captions: [],
-          placement: 'screen-primary',
-        },
-      },
-      assetIds: [],
-      sourceRefIds: [],
-      status: 'ready',
-      notes: '',
-    };
-    episode.scenes = [plannedScene];
-
-    const result = validateEpisodeData(episode, sampleAssets, sampleSources, {mode: 'strict'});
-
-    expect(result.ok).toBe(false);
-    expect(result.issues.some((issue) => issue.code === 'component.planned')).toBe(true);
   });
 
   it('allows the validation sample to pass preview validation', () => {

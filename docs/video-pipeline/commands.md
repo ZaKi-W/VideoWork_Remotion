@@ -27,22 +27,6 @@ npm run episode:frames -- --episode demo-component-gallery
 npm run episode:preview -- --episode demo-component-gallery
 ```
 
-EvidenceClip demo：
-
-```bash
-npm run episode:validate -- --episode demo-evidence-clip
-npm run episode:frames -- --episode demo-evidence-clip
-npm run episode:preview -- --episode demo-evidence-clip
-```
-
-MetricSpread demo：
-
-```bash
-npm run episode:validate -- --episode demo-metric-spread
-npm run episode:frames -- --episode demo-metric-spread
-npm run episode:preview -- --episode demo-metric-spread
-```
-
 说明：
 
 - `episode:validate` 默认是 preview 校验。

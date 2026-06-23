@@ -10,8 +10,8 @@ type EchoItem = NarrationEchoLayerProps['items'][number];
 type EchoSegment = EchoItem['segments'][number];
 
 const echoText = acidTokens.color.text;
-const echoMuted = acidTokens.color.muted;
-const echoWeak = acidTokens.color.weak;
+const echoMuted = 'rgba(255,255,255,0.92)';
+const echoWeak = 'rgba(255,255,255,0.94)';
 
 const clamp01 = (value: number): number => Math.max(0, Math.min(1, value));
 
@@ -112,7 +112,7 @@ const TypedLine = ({
         marginTop: 13,
         color: echoText,
         fontFamily: visualTokens.fontFamily.display,
-        fontSize: 61,
+        fontSize: 80,
         lineHeight: 1.13,
         fontWeight: 900,
         letterSpacing: 0,
@@ -176,7 +176,7 @@ const BeatBlock = ({
           gap: 7,
           color: echoMuted,
           fontFamily: visualTokens.fontFamily.body,
-          fontSize: 10,
+          fontSize: 13,
           lineHeight: 1,
           fontWeight: 900,
           letterSpacing: '0.08em',
@@ -209,12 +209,12 @@ const BeatBlock = ({
         <div
           style={{
             maxWidth: '96%',
-            marginTop: 18,
+            marginTop: 22,
             color: echoMuted,
             fontFamily: visualTokens.fontFamily.body,
-            fontSize: 17,
-            lineHeight: 1.55,
-            fontWeight: 800,
+            fontSize: 24,
+            lineHeight: 1.38,
+            fontWeight: 900,
             letterSpacing: 0,
             opacity: copyIn,
             transform: `translateY(${(1 - copyIn) * 9}px)`,
@@ -231,7 +231,7 @@ const BeatBlock = ({
             flexWrap: 'wrap',
             gap: '8px 10px',
             maxWidth: '98%',
-            marginTop: 22,
+            marginTop: 26,
             opacity: trackIn,
             transform: `translateY(${(1 - trackIn) * 9}px)`,
           }}
@@ -248,7 +248,7 @@ const BeatBlock = ({
                   gap: 7,
                   color: isActive ? echoText : echoWeak,
                   fontFamily: visualTokens.fontFamily.body,
-                  fontSize: 13,
+                  fontSize: 19,
                   lineHeight: 1.1,
                   fontWeight: 900,
                   letterSpacing: '0.02em',
@@ -257,9 +257,9 @@ const BeatBlock = ({
               >
                 <b
                   style={{
-                    color: isActive ? acidTokens.color.acid : 'rgba(255,255,255,0.34)',
+                    color: isActive ? acidTokens.color.acid : '#fff',
                     fontFamily: visualTokens.fontFamily.display,
-                    fontSize: 11,
+                    fontSize: 15,
                     lineHeight: 1,
                     fontWeight: 900,
                     letterSpacing: 0,
@@ -268,7 +268,7 @@ const BeatBlock = ({
                   {String(index + 1).padStart(2, '0')}
                 </b>
                 <span>{text}</span>
-                {index < track.length - 1 ? <i style={{color: 'rgba(255,255,255,0.25)', fontStyle: 'normal'}}>→</i> : null}
+                {index < track.length - 1 ? <i style={{color: '#fff', fontStyle: 'normal'}}>→</i> : null}
               </span>
             );
           })}
@@ -285,7 +285,7 @@ const BeatBlock = ({
             gap: 8,
             color: echoWeak,
             fontFamily: visualTokens.fontFamily.body,
-            fontSize: 11,
+            fontSize: 15,
             lineHeight: 1,
             fontWeight: 800,
             letterSpacing: '0.08em',
@@ -305,15 +305,15 @@ const BeatBlock = ({
 const containerStyle = (exit: number, placement: NarrationEchoLayerProps['placement'], fullCanvas = false): CSSProperties => ({
   position: 'relative',
   left: fullCanvas ? '4.6%' : placement === 'top-left' ? 0 : -18,
-  top: fullCanvas ? '23%' : placement === 'top-left' ? 8 : 2,
-  width: 590,
-  height: 500,
+  top: fullCanvas ? '21%' : placement === 'top-left' ? 8 : 2,
+  width: 690,
+  height: 560,
   pointerEvents: 'none',
   fontFamily: visualTokens.fontFamily.body,
   color: echoText,
   opacity: 1 - exit,
   transform: `translateX(${-28 * exit}px)`,
-  textShadow: leftInfoTextShadow,
+  textShadow: `${leftInfoTextShadow}, 0 0 18px rgba(255,255,255,0.16)`,
 });
 
 const canvasScrimStyle = (frame: number, exit: number): CSSProperties => {
@@ -430,10 +430,10 @@ const SubtitleBackplate = () => (
       style={{
         display: 'block',
         marginTop: 6,
-        color: 'rgba(255,255,255,0.62)',
+        color: '#fff',
         fontSize: 15,
         lineHeight: 1.32,
-        fontWeight: 600,
+        fontWeight: 800,
         visibility: 'hidden',
       }}
     >

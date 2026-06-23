@@ -22,8 +22,6 @@ const slotSchema = z.enum([
 const statusSchema = z.enum(['DRAFT', 'APPROVED', 'IN_PRODUCTION', 'QC', 'FINAL']);
 
 export const componentKindSchema = z.enum([
-  'EvidenceClip',
-  'MetricSpread',
   'NarrationEchoLayer',
   'MediaWall',
   'Countdown',
@@ -38,138 +36,9 @@ export const componentKindSchema = z.enum([
   'PricePage',
   'TokenBoard',
   'AgentExecution',
-  'WorkflowPath',
-  'DemoFocusFrame',
-  'AssetStack',
   'TalkVideoBase',
   'RemotionTalkEffect',
 ]);
-
-const normalizedCoordinateSchema = z.number().min(0).max(1);
-
-export const evidenceClipPlacementSchema = z.enum([
-  'top-left',
-  'top-right',
-  'edge-left',
-  'edge-right',
-  'screen-primary',
-  'full-bleed',
-]);
-
-export const evidenceClipPropsSchema = z
-  .object({
-    assetId: z.string().trim().min(1, 'EvidenceClip assetId is required'),
-    sourceRefId: z.string().trim().min(1, 'EvidenceClip sourceRefId is required'),
-    variant: z.enum(['clipping', 'spotlight']).default('clipping'),
-    placement: evidenceClipPlacementSchema,
-    crop: z
-      .object({
-        fit: z.enum(['cover', 'contain']).default('cover'),
-        focalPoint: z
-          .object({
-            x: normalizedCoordinateSchema,
-            y: normalizedCoordinateSchema,
-          })
-          .strict()
-          .optional(),
-        aspectRatio: z.enum(['auto', '4:3', '3:4', '16:9']).default('auto'),
-      })
-      .strict()
-      .optional(),
-    sourceLabel: z.string().trim().min(1).max(32).optional(),
-    headline: z.string().trim().min(1).max(64).optional(),
-    highlights: z
-      .array(
-        z
-          .object({
-            kind: z.enum(['marker', 'box', 'underline']),
-            x: normalizedCoordinateSchema,
-            y: normalizedCoordinateSchema,
-            width: normalizedCoordinateSchema,
-            height: normalizedCoordinateSchema,
-            color: z.enum(['orange', 'blue']).default('orange'),
-          })
-          .strict()
-          .superRefine((highlight, ctx) => {
-            if (highlight.width <= 0 || highlight.height <= 0) {
-              ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: 'EvidenceClip highlight width and height must be greater than 0',
-              });
-            }
-            if (highlight.x + highlight.width > 1 || highlight.y + highlight.height > 1) {
-              ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: 'EvidenceClip highlight bounds must stay within 0..1',
-              });
-            }
-          }),
-      )
-      .max(3, 'EvidenceClip supports at most 3 highlights')
-      .default([]),
-    annotations: z
-      .array(
-        z
-          .object({
-            text: z.string().trim().min(1).max(20),
-            x: normalizedCoordinateSchema,
-            y: normalizedCoordinateSchema,
-            side: z.enum(['left', 'right', 'top', 'bottom']).default('right'),
-          })
-          .strict(),
-      )
-      .max(2, 'EvidenceClip supports at most 2 annotations')
-      .default([]),
-    showReferenceStrip: z.boolean().default(true),
-  })
-  .strict();
-
-export const metricSpreadPlacementSchema = z.enum([
-  'top-left',
-  'edge-left',
-  'screen-primary',
-]);
-
-export const metricSpreadRowSchema = z
-  .object({
-    label: z.string().trim().min(1).max(16),
-    before: z.string().trim().max(16).optional(),
-    after: z.string().trim().max(16).optional(),
-    delta: z.string().trim().max(16).optional(),
-    emphasis: z.enum(['before', 'after', 'delta', 'none']).default('none'),
-  })
-  .strict()
-  .superRefine((row, ctx) => {
-    if (!row.before && !row.after && !row.delta) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'MetricSpread row requires before, after, or delta',
-        path: ['before'],
-      });
-    }
-  });
-
-export const metricSpreadPropsSchema = z
-  .object({
-    variant: z.enum(['delta-ledger']).default('delta-ledger'),
-    placement: metricSpreadPlacementSchema,
-    accent: z.enum(['orange', 'blue']).default('orange'),
-    kicker: z.string().trim().min(1).max(28).optional(),
-    primary: z
-      .object({
-        value: z.string().trim().min(1).max(16),
-        unit: z.string().trim().min(1).max(12).optional(),
-        label: z.string().trim().min(1).max(18),
-        direction: z.enum(['up', 'down', 'neutral']).default('neutral'),
-      })
-      .strict(),
-    rows: z.array(metricSpreadRowSchema).min(1).max(4),
-    sourceRefId: z.string().trim().min(1, 'MetricSpread sourceRefId is required'),
-    sourceLabel: z.string().trim().min(1).max(28).optional(),
-    note: z.string().trim().min(1).max(28).optional(),
-    showRatioBar: z.boolean().default(true),
-  })
-  .strict();
 
 const narrationEchoSegmentSchema = z
   .object({
@@ -310,28 +179,6 @@ export const acidComponentPropsSchema = z
   })
   .strict();
 
-export const workflowPathPropsSchema = z.object({
-  nodes: z.array(z.string()).min(1),
-  activeNodeIndexes: z.array(z.number().int().nonnegative()).default([]),
-  direction: z.enum(['horizontal', 'vertical']),
-  placement: slotSchema,
-});
-
-export const demoFocusFramePropsSchema = z.object({
-  screenAssetId: z.string(),
-  steps: z.array(z.string()).default([]),
-  callouts: z.array(z.string()).default([]),
-  presenterMode: z.enum(['hidden', 'small', 'center']),
-  placement: slotSchema,
-});
-
-export const assetStackPropsSchema = z.object({
-  items: z.array(z.object({assetId: z.string(), label: z.string().optional()})).min(1),
-  mode: z.enum(['stack', 'grid', 'sequence']),
-  captions: z.array(z.string()).default([]),
-  placement: slotSchema,
-});
-
 export const talkVideoBasePropsSchema = z
   .object({
     videoPath: z.string().trim().min(1).max(160),
@@ -358,8 +205,6 @@ export const remotionTalkEffectPropsSchema = z
   .strict();
 
 export const sceneContentSchema = z.discriminatedUnion('kind', [
-  z.object({kind: z.literal('EvidenceClip'), props: evidenceClipPropsSchema}),
-  z.object({kind: z.literal('MetricSpread'), props: metricSpreadPropsSchema}),
   z.object({kind: z.literal('NarrationEchoLayer'), props: narrationEchoLayerPropsSchema}),
   z.object({kind: z.literal('MediaWall'), props: acidComponentPropsSchema}),
   z.object({kind: z.literal('Countdown'), props: acidComponentPropsSchema}),
@@ -374,9 +219,6 @@ export const sceneContentSchema = z.discriminatedUnion('kind', [
   z.object({kind: z.literal('PricePage'), props: acidComponentPropsSchema}),
   z.object({kind: z.literal('TokenBoard'), props: acidComponentPropsSchema}),
   z.object({kind: z.literal('AgentExecution'), props: acidComponentPropsSchema}),
-  z.object({kind: z.literal('WorkflowPath'), props: workflowPathPropsSchema}),
-  z.object({kind: z.literal('DemoFocusFrame'), props: demoFocusFramePropsSchema}),
-  z.object({kind: z.literal('AssetStack'), props: assetStackPropsSchema}),
   z.object({kind: z.literal('TalkVideoBase'), props: talkVideoBasePropsSchema}),
   z.object({kind: z.literal('RemotionTalkEffect'), props: remotionTalkEffectPropsSchema}),
 ]);

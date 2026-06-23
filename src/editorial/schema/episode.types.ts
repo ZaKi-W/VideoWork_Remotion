@@ -2,9 +2,7 @@ import type {z} from 'zod';
 import type {
   assetManifestSchema,
   acidComponentPropsSchema,
-  evidenceClipPropsSchema,
   episodeSchema,
-  metricSpreadPropsSchema,
   narrationEchoLayerPropsSchema,
   sourceManifestSchema,
   remotionTalkEffectPropsSchema,
@@ -13,8 +11,6 @@ import type {
 
 export type EpisodeConfig = z.infer<typeof episodeSchema>;
 export type EpisodeScene = EpisodeConfig['scenes'][number];
-export type EvidenceClipProps = z.infer<typeof evidenceClipPropsSchema>;
-export type MetricSpreadProps = z.infer<typeof metricSpreadPropsSchema>;
 export type NarrationEchoLayerProps = z.infer<typeof narrationEchoLayerPropsSchema>;
 export type AcidComponentProps = z.infer<typeof acidComponentPropsSchema>;
 export type TalkVideoBaseProps = z.infer<typeof talkVideoBasePropsSchema>;

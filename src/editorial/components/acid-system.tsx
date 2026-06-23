@@ -18,8 +18,8 @@ export const acidTokens = {
     paper: '#F7F7EE',
     paper2: '#E7EAD8',
     text: '#F9FAEF',
-    muted: 'rgba(249,250,239,0.68)',
-    weak: 'rgba(249,250,239,0.42)',
+    muted: 'rgba(255,255,255,0.94)',
+    weak: 'rgba(255,255,255,0.86)',
     line: 'rgba(255,255,255,0.15)',
     wall: '#F2F0EA',
     wall2: '#DEDCD5',
@@ -226,7 +226,7 @@ export const TopicLine = ({topic, detail}: {topic?: string; detail?: string}) =>
     }}
   >
     {topic}
-    {detail ? <span style={{marginLeft: 11, color: acidTokens.color.weak, fontSize: 9, letterSpacing: '0.025em'}}>{detail}</span> : null}
+    {detail ? <span style={{marginLeft: 11, color: acidTokens.color.text, fontSize: 9, letterSpacing: '0.025em'}}>{detail}</span> : null}
   </div>
 );
 
@@ -390,7 +390,7 @@ export const SourceCard = ({source, assets, sources, frame, durationInFrames}: {
             style={{
               paddingBottom: 11,
               borderBottom: '1px solid rgba(21,24,30,0.14)',
-              color: 'rgba(21,24,30,0.53)',
+              color: '#101317',
               fontSize: 15,
               lineHeight: 1,
               fontWeight: 900,
@@ -441,7 +441,7 @@ const SourceBar = ({left, right}: {left: string; right: string}) => (
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      color: 'rgba(249,250,239,0.60)',
+      color: acidTokens.color.text,
       fontSize: 15,
       lineHeight: 1,
       fontWeight: 900,
@@ -500,7 +500,7 @@ const Subtitle = ({text, en, progress, exit}: {text: string; en?: string; progre
     }}
   >
     {text}
-    {en ? <small style={{display: 'block', marginTop: 6, color: 'rgba(255,255,255,0.62)', fontSize: 15, lineHeight: 1.32, fontWeight: 600}}>{en}</small> : null}
+    {en ? <small style={{display: 'block', marginTop: 6, color: '#fff', fontSize: 15, lineHeight: 1.32, fontWeight: 800}}>{en}</small> : null}
   </div>
 );
 

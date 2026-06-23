@@ -18,7 +18,7 @@ const acidKinds = [
 
 type AcidKind = (typeof acidKinds)[number];
 
-const talkVideoPath = 'RemotionTalk/RemotionTalkVideo无字幕版.mp4';
+const talkVideoPath = 'episodes/RemotionTalk/talk.mp4';
 
 const demoSource = {
   id: 'source-acid-demo',
@@ -57,7 +57,7 @@ const acidPropsByKind = {
     eyebrow: 'COUNTDOWN',
     title: ['三个月'],
     primaryValue: '90',
-    primaryUnit: 'DAYS / AI 全面加速',
+    primaryUnit: 'DAYS',
     copy: '从模型、价格到 Agent，变化密度已经远超前一个周期。',
     subtitle: '可能过两周再看，很多结论又得重新写一遍。',
     subtitleEn: 'In two weeks, many conclusions may already need an update.',

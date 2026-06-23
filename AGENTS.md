@@ -12,6 +12,7 @@
 - 无法确认来源时，只能使用抽象解释型视觉。
 - 预计未来不能复用至少两次的效果，不得进入公共组件库。
 - 一次性效果应留在具体 episode 内。
-- 每个正式 ready 组件必须注册到 Remotion Studio 左侧 Composition 菜单，确保可以单独打开查看。
+- 所有新增组件都必须分配稳定编号，写入 `src/editorial/registry/component-catalog.ts`，并注册到 Remotion Studio 左侧 Composition 菜单，确保可以像现有组件一样单独打开查看。
+- 每次针对组件表现、样式、动效、布局或行为的修改，都必须优先改组件本体，确保所有使用该组件的 episode / demo 同步生效；不得只在某一个 episode 配置里做局部覆盖，除非用户明确要求只改该期。
 - 每次任务执行都不要进行深度测试，除非用户明确要求深度测试。
 - 每次改动后必须执行相关 lint、typecheck、test 或 smoke test。
