@@ -3,8 +3,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {
   assetManifestPath,
+  episodeAssetsDir,
   episodeDir,
   episodeJsonPath,
+  publicEpisodeAssetsDir,
   repoRoot,
   sourcesPath,
 } from '../src/editorial/shared/paths';
@@ -43,6 +45,18 @@ export const loadEpisodeBundle = (slug: string): EpisodeInputProps => {
 
 export const ensureDir = (dir: string): void => {
   fs.mkdirSync(dir, {recursive: true});
+};
+
+export const syncEpisodeAssetsToPublic = (slug: string): void => {
+  const source = episodeAssetsDir(slug);
+  if (!fs.existsSync(source)) {
+    return;
+  }
+
+  const destination = publicEpisodeAssetsDir(slug);
+  fs.rmSync(destination, {recursive: true, force: true});
+  ensureDir(path.dirname(destination));
+  fs.cpSync(source, destination, {recursive: true});
 };
 
 export const writePropsFile = (slug: string, props: EpisodeInputProps, strict: boolean): string => {

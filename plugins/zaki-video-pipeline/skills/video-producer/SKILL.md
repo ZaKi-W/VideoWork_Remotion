@@ -8,10 +8,12 @@ description: storyboard 已批准后检查素材、整理 manifest、生成 epis
 ## 前置条件
 
 - `episodes/<slug>/storyboard.md` 状态必须为 `APPROVED`。
+- 用户输入素材位于 `episodes/<slug>/assets/`。
 
 ## 职责
 
 - 检查素材。
+- 按 `script.md` 中的 Obsidian `![[...]]` 引用核对 `episodes/<slug>/assets/` 中的文件。
 - 整理 `asset-manifest.json`。
 - 生成或更新 `episode.json`。
 - 运行 `npm run episode:validate -- --episode <slug>`。

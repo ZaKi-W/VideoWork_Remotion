@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import {episodeDir, publicEpisodeAssetsDir, repoRoot} from '../src/editorial/shared/paths';
+import {episodeAssetsDir, episodeDir, repoRoot} from '../src/editorial/shared/paths';
 import {ensureDir, getArg} from './episode-utils';
 
 const slug = getArg('slug');
@@ -10,8 +10,6 @@ if (fs.existsSync(destination)) {
 }
 
 fs.cpSync(path.join(repoRoot, 'episodes', '_template'), destination, {recursive: true});
-for (const dir of ['screenshots', 'recordings', 'images', 'generated', 'logos']) {
-  ensureDir(path.join(publicEpisodeAssetsDir(slug), dir));
-  fs.writeFileSync(path.join(publicEpisodeAssetsDir(slug), dir, '.gitkeep'), '');
-}
+ensureDir(episodeAssetsDir(slug));
+fs.writeFileSync(path.join(episodeAssetsDir(slug), '.gitkeep'), '');
 console.log(`Created episode ${slug}`);

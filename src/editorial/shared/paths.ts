@@ -2,6 +2,7 @@ import path from 'node:path';
 
 export const repoRoot = process.cwd();
 export const episodeDir = (slug: string): string => path.join(repoRoot, 'episodes', slug);
+export const episodeAssetsDir = (slug: string): string => path.join(episodeDir(slug), 'assets');
 export const publicEpisodeAssetsDir = (slug: string): string =>
   path.join(repoRoot, 'public', 'episodes', slug, 'assets');
 export const episodeJsonPath = (slug: string): string => path.join(episodeDir(slug), 'episode.json');

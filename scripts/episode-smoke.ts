@@ -1,9 +1,18 @@
 import path from 'node:path';
 import {episodeDir} from '../src/editorial/shared/paths';
 import {validateEpisodeData} from '../src/editorial/validation/validate-episode';
-import {ensureDir, loadEpisodeBundle, printIssues, publicDir, runRemotion, writePropsFile} from './episode-utils';
+import {
+  ensureDir,
+  loadEpisodeBundle,
+  printIssues,
+  publicDir,
+  runRemotion,
+  syncEpisodeAssetsToPublic,
+  writePropsFile,
+} from './episode-utils';
 
 const slug = 'demo-paper-lab';
+syncEpisodeAssetsToPublic(slug);
 const bundle = loadEpisodeBundle(slug);
 const result = validateEpisodeData(bundle.episode, bundle.assets, bundle.sources, {mode: 'preview', publicDir});
 printIssues(result.issues);

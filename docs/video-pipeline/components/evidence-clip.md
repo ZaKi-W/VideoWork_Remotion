@@ -88,10 +88,16 @@ type EvidenceClipProps = {
 1. 截图放到：
 
 ```text
-public/episodes/<slug>/assets/screenshots/
+episodes/<slug>/assets/
 ```
 
-2. 在 `asset-manifest.json` 中登记：
+2. 在 `script.md` 中用 Obsidian 写法引用素材，例如：
+
+```md
+![[official-pricing.png|574]]
+```
+
+3. 在 `asset-manifest.json` 中登记：
 
 - `assetId`
 - `type`
@@ -100,7 +106,7 @@ public/episodes/<slug>/assets/screenshots/
 - `purpose`
 - `sceneHints`
 
-3. 在 `sources.json` 中登记：
+4. 在 `sources.json` 中登记：
 
 - `sourceRefId`
 - `title`
@@ -109,7 +115,7 @@ public/episodes/<slug>/assets/screenshots/
 - `publishedAt`
 - `status`
 
-4. 在 `episode.json` 中通过：
+5. 在 `episode.json` 中通过：
 
 ```text
 assetId + sourceRefId

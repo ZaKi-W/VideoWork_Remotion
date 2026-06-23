@@ -23,6 +23,6 @@ plugins/zaki-video-pipeline/
 
 后续调用：
 
-- 需要从 `script.md + talk.srt` 生成分镜和素材清单时，调用 `video-director`。
+- 需要从 `episodes/<slug>/script.md + talk.srt` 生成分镜和素材清单时，调用 `video-director`。`script.md` 中的 Obsidian `![[...]]` 素材引用默认对应 `episodes/<slug>/assets/`。
 - storyboard 已 `APPROVED` 后，调用 `video-producer`。
 - 查看关键帧和低清预览后，调用 `video-qc`。

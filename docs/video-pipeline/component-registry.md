@@ -16,7 +16,7 @@
 每个进入 `ready` 的新组件必须在工程中有独立展示：
 
 - 新建独立 episode：`episodes/demo-<component-name-kebab>/`。
-- 新建对应素材目录：`public/episodes/demo-<component-name-kebab>/assets/`。
+- 新建对应素材目录：`episodes/demo-<component-name-kebab>/assets/`。
 - demo 只展示这个组件的代表性 mode / stage / slot，不混入其他新组件。
 - 必须能通过 preview 校验并导出关键帧。
 - 如果 demo 使用 placeholder presenter，strict render 必须被正确阻止。

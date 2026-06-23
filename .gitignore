@@ -5,4 +5,5 @@ build/
 .remotion/
 episodes/*/output/
 episodes/*/.cache/
+episodes/*/talk.mp4
 *.log

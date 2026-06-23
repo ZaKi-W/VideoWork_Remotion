@@ -7,7 +7,8 @@ Whenever a component becomes `ready`, create a standalone demo episode for it in
 Requirements:
 
 - Use `episodes/demo-<component-name-kebab>/`.
-- Use `public/episodes/demo-<component-name-kebab>/assets/`.
+- Put user-provided demo assets in `episodes/demo-<component-name-kebab>/assets/`.
+- In `asset-manifest.json`, use paths relative to `public/`, such as `episodes/demo-<component-name-kebab>/assets/example.png`; render scripts mirror the episode assets directory into `public/episodes/...`.
 - Demonstrate only that component, without introducing future components early.
 - Cover the component's representative modes, stage modes, and slots.
 - Run preview validation, keyframe export, and low-res preview render.
