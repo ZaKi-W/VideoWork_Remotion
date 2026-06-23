@@ -1,105 +1,22 @@
 # Component Selection
 
-## SectionStamp
+## NarrationEchoLayer
 
-Use `SectionStamp` when:
+Use `NarrationEchoLayer` when:
 
-- A new chapter starts.
-- The video moves from topic A to topic B.
-- A tool demo, case study, data section, workflow section, or pitfalls section begins.
+- A talking-head segment needs one quiet idea marker.
+- A key phrase from the narration should echo on the left side.
+- The presenter remains the primary visual subject.
+- There is no reliable source asset for evidence or data.
 
-`SectionStamp` is an Impact Chapter: a strong title moment, not a small index strip or TV-style corner label. Its title is the main visual.
+Do not use it:
 
-Default strategy:
-
-- Short title.
-- Two lines.
-- Extra-bold black Chinese typography.
-- One emphasis word.
-- One orange or blue emphasis block.
-- Very little supporting metadata.
-
-Use `impact` for normal top-left / top-right chapter turns.
-
-Use `edge-impact` for a side-pushed chapter moment such as case study, workflow, data, or pitfalls.
-
-Use `emphasis` when one phrase in the title should carry the turn:
-
-- `highlight-block` for a strong colored keyword.
-- `underline` for a quieter but still bold mark.
-- `reverse` for a black block / reversed word.
-
-Do not use `SectionStamp`:
-
-- Between every sentence.
-- For a small aside inside the same topic.
-- When a full-screen core claim is needed; use `HeadlineTakeover` later.
-- When showing news, webpages, recordings, or data charts.
-- Just to fill empty space.
-
-Recommended frequency: 3 to 7 times in a 5 to 10 minute video, with at least about 20 seconds of meaningful content between uses.
-
-## HeadlineTakeover
-
-Use `HeadlineTakeover` when:
-
-- One sentence is the strongest point in a segment.
-- A conclusion needs to land hard.
-- A turn or reversal changes the audience's interpretation.
-- A key judgment should become the memory point of a chapter.
-
-`HeadlineTakeover` is not a chapter marker. It should not show section numbers, kicker text, brand labels, English index labels, side tabs, or layered metadata. Its title is bigger, simpler, and more direct than `SectionStamp`.
-
-Modes:
-
-- `punch`: a side-dominant claim that presses in from the edge.
-- `wrap`: an asymmetrical claim around the presenter safe zone.
-- `takeover`: a no-presenter or screen-primary claim that briefly takes over the frame.
-
-Use `emphasis` once per component:
-
-- `highlight-block` for the strongest keyword.
-- `reverse` for a reversed block word.
-- `underline` for a thick, quieter mark.
-
-Do not use `HeadlineTakeover`:
-
-- For ordinary transitions.
+- As a chapter title system.
 - For every sentence.
-- For ordinary titles.
-- For news, websites, screen recordings, or data explanations.
-- Immediately next to `SectionStamp` in the same segment.
+- When a real source screenshot, demo, workflow, or data ledger is needed.
+- In the subtitle safe zone or presenter safe zone.
 
-Recommended frequency: 2 to 5 times in a 5 to 10 minute video, with about 20 to 40 seconds of meaningful content between uses.
-
-## ConceptSplit
-
-Use `ConceptSplit` when:
-
-- Explaining the difference between two concepts.
-- Explaining an old way versus a new way of working.
-- Explaining a cognitive upgrade such as chat to execution, tools to workflow, or prompts to delivery.
-- A single contrast can help the audience understand an abstract idea quickly.
-
-`ConceptSplit` is an Editorial Contrast Cut. It should contain one old concept, one new concept, a restrained cut/divider/bridge, and one accent moment.
-
-Modes:
-
-- `cross-cut`: presenter remains visible; concept words wrap around the presenter safe zone asymmetrically.
-- `editorial-fold`: no-presenter or screen-primary concept takeover with a paper fold/cut.
-- `handoff`: edge or screen-primary transition from one work mode to another.
-
-Do not use `ConceptSplit`:
-
-- For pure numbers; use `MetricSpread`.
-- For news, webpages, reports, or screenshots; use `EvidenceClip`.
-- For detailed steps; use `WorkflowPath` later.
-- For real software interfaces; use `DemoFocusFrame` later.
-- For more than two concepts.
-- Without a clear contrast relationship.
-- In the same spoken segment as `HeadlineTakeover`.
-
-Recommended frequency: 2 to 5 times in a 5 to 10 minute video. Insert narration, data, evidence, screen recording, or examples between uses. Two consecutive `ConceptSplit` scenes must change `mode` or `anchor`.
+Recommended frequency: only when the segment needs a light visual anchor.
 
 ## EvidenceClip
 
@@ -109,19 +26,12 @@ Use `EvidenceClip` when:
 - The audience should see the original basis behind the narration.
 - A single sentence or figure from a source materially supports the claim.
 
-Use `clipping` when the presenter remains the main human anchor and the evidence should appear as a cropped side document.
-
-Use `spotlight` when the source itself is the current visual subject and should briefly take over the frame.
-
-Do not use `EvidenceClip`:
+Do not use it:
 
 - To explain an abstract concept without a reliable source.
 - When the asset is too small, blurred, or unreadable.
 - For every spoken sentence.
-- Just to fill empty space around the presenter.
 - With AI-generated images disguised as real evidence.
-
-Recommended frequency: 3 to 8 times in a 5 to 10 minute video. Keep each clip on screen for at least about 2.5 seconds and avoid three web screenshots in a row.
 
 ## MetricSpread
 
@@ -132,48 +42,36 @@ Use `MetricSpread` when:
 - There is a price, cost, time, efficiency, ratio, or performance comparison.
 - The numbers have a traceable source.
 
-`MetricSpread` is a Data Ledger, not a chart dashboard. It should contain one dominant number, 1 to 4 ledger rows, and a quiet source index.
-
-Placement: use only `top-left`, `edge-left`, or `screen-primary`. Do not select right-side slots for `MetricSpread`.
-
-Do not use `MetricSpread`:
+Do not use it:
 
 - For opinions without data.
 - When data exceeds four rows.
 - Without a reliable source.
-- When the viewer needs to inspect the original webpage or report; use `EvidenceClip`.
-- Just to fill empty space.
+- When the viewer needs to inspect the original webpage or report.
 
-Recommended frequency: 2 to 6 times in a 5 to 10 minute video. Do not use `HeadlineTakeover` and `MetricSpread` in the same spoken segment.
+## WorkflowPath
 
-## EditorialOverlay
+Use `WorkflowPath` when:
 
-Use `EditorialOverlay` when:
+- The narration explains a process, agent workflow, automation chain, or handoff.
+- The viewer needs to understand sequence and dependencies.
 
-- A normal talking-head segment feels visually empty.
-- One short keyword needs quiet support.
-- Two to four short facts, labels, or reminders help maintain information density.
-- A small metric tag or short editorial annotation is enough.
+Do not use it for single claims, evidence screenshots, or dense data.
 
-`EditorialOverlay` is information air, not a main visual. It should sit on the `overlay` track and stay lighter than the presenter and any main component.
+## DemoFocusFrame
 
-Use atoms:
+Use `DemoFocusFrame` when:
 
-- `ghost-number` for weak chapter, phase, or index atmosphere.
-- `keyword` for one short word or phrase.
-- `mini-list` for 2 to 4 short rows.
-- `stat-tag` for one tiny data marker.
-- `annotation` for one short note and a short guide line.
+- A software operation, webpage interaction, project walkthrough, or UI demo is the main visual.
+- The frame needs to direct attention to one region of the demo.
 
-Do not use `EditorialOverlay`:
+Do not use it without actual demo footage or a concrete interface asset.
 
-- For chapter starts; use `SectionStamp`.
-- For core claims; use `HeadlineTakeover`.
-- For evidence screenshots or source material; use `EvidenceClip`.
-- For important numbers or before/after data; use `MetricSpread`.
-- For two-concept explanation; use `ConceptSplit`.
-- For screen demos or complex workflows.
-- During `SectionStamp` or `HeadlineTakeover`.
-- Just because every sentence seems to need motion.
+## AssetStack
 
-Recommended frequency: 6 to 15 times in a 5 to 10 minute video, usually 3 to 8 seconds each. Do not repeat the same layout in adjacent uses, and do not use the same item combination three times in a row.
+Use `AssetStack` when:
+
+- Several images, screenshots, or results need to be compared or browsed as examples.
+- The segment is about examples or outcomes rather than a single evidence source.
+
+Do not use it for unsourced factual claims.

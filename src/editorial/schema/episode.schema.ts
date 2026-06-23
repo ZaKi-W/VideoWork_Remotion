@@ -22,12 +22,8 @@ const slotSchema = z.enum([
 const statusSchema = z.enum(['DRAFT', 'APPROVED', 'IN_PRODUCTION', 'QC', 'FINAL']);
 
 export const componentKindSchema = z.enum([
-  'SectionStamp',
-  'HeadlineTakeover',
-  'ConceptSplit',
   'EvidenceClip',
   'MetricSpread',
-  'EditorialOverlay',
   'NarrationEchoLayer',
   'MediaWall',
   'Countdown',
@@ -45,97 +41,9 @@ export const componentKindSchema = z.enum([
   'WorkflowPath',
   'DemoFocusFrame',
   'AssetStack',
+  'TalkVideoBase',
+  'RemotionTalkEffect',
 ]);
-
-export const sectionStampPlacementSchema = z.enum([
-  'top-left',
-  'top-right',
-  'edge-left',
-  'edge-right',
-]);
-
-export const sectionStampPropsSchema = z.object({
-  sectionNo: z.string().min(1).max(12),
-  kicker: z.string().min(1).max(48),
-  title: z.string().min(1).max(36),
-  subline: z.string().max(60).optional(),
-  placement: sectionStampPlacementSchema,
-  variant: z.enum(['impact', 'edge-impact', 'index-strip', 'edge-note']).default('impact'),
-  accent: z.enum(['orange', 'blue']).default('orange'),
-  brandLabel: z.string().max(48).optional(),
-  emphasis: z
-    .object({
-      text: z.string().min(1).max(16),
-      color: z.enum(['orange', 'blue']).optional(),
-      mode: z.enum(['highlight-block', 'underline', 'reverse']).optional(),
-    })
-    .optional(),
-}).superRefine((props, ctx) => {
-  if (props.emphasis && !props.title.includes(props.emphasis.text)) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'SectionStamp emphasis.text must exist in title',
-      path: ['emphasis', 'text'],
-    });
-  }
-});
-
-export const headlineTakeoverPropsSchema = z.object({
-  lines: z
-    .array(z.string().trim().min(1, 'HeadlineTakeover lines cannot be empty'))
-    .min(1, 'HeadlineTakeover requires at least one line')
-    .max(3, 'HeadlineTakeover supports at most three lines'),
-  emphasis: z
-    .object({
-      text: z.string().trim().min(1).max(16),
-      color: z.enum(['orange', 'blue']).default('orange'),
-      mode: z.enum(['highlight-block', 'reverse', 'underline']).default('highlight-block'),
-    })
-    .strict()
-    .optional(),
-  mode: z.enum(['punch', 'wrap', 'takeover']).default('punch'),
-  placement: z.enum(['left-dominant', 'right-dominant', 'wraparound']).default('left-dominant'),
-  alignment: z.enum(['left', 'right', 'center']).optional(),
-  allowSubjectOverlay: z.boolean().default(false),
-}).strict().superRefine((props, ctx) => {
-  const fullTitle = props.lines.join('');
-  if (props.emphasis && !fullTitle.includes(props.emphasis.text)) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'HeadlineTakeover emphasis.text must exist continuously in lines',
-      path: ['emphasis', 'text'],
-    });
-  }
-});
-
-const conceptSplitSideSchema = z
-  .object({
-    title: z.string().trim().min(1, 'ConceptSplit title is required').max(18),
-    eyebrow: z.string().trim().min(1).max(12).optional(),
-    description: z.string().trim().min(1).max(34).optional(),
-    points: z.array(z.string().trim().min(1).max(18)).max(2).optional(),
-  })
-  .strict();
-
-export const conceptSplitPropsSchema = z
-  .object({
-    mode: z.enum(['cross-cut', 'editorial-fold', 'handoff']).default('cross-cut'),
-    relationship: z.enum(['versus', 'from-to', 'not-but']).default('from-to'),
-    anchor: z.enum(['left-heavy', 'right-heavy']).default('right-heavy'),
-    left: conceptSplitSideSchema,
-    right: conceptSplitSideSchema,
-    bridge: z
-      .object({
-        label: z.string().trim().min(1).max(12).optional(),
-        style: z.enum(['arrow', 'vs', 'not-but', 'cut']).optional(),
-      })
-      .strict()
-      .optional(),
-    accent: z.enum(['orange', 'blue']).default('orange'),
-    emphasize: z.enum(['left', 'right']).default('right'),
-    showDivider: z.boolean().default(true),
-  })
-  .strict();
 
 const normalizedCoordinateSchema = z.number().min(0).max(1);
 
@@ -262,124 +170,6 @@ export const metricSpreadPropsSchema = z
     showRatioBar: z.boolean().default(true),
   })
   .strict();
-
-export const editorialOverlayPlacementSchema = z.enum([
-  'top-left',
-  'top-right',
-  'edge-left',
-  'edge-right',
-]);
-
-const editorialOverlayMiniListRowSchema = z
-  .object({
-    label: z.string().trim().min(1).max(14),
-    value: z.string().trim().min(1).max(12).optional(),
-    emphasis: z.enum(['label', 'value', 'none']).default('none'),
-  })
-  .strict();
-
-const editorialOverlayItemSchema = z.discriminatedUnion('type', [
-  z
-    .object({
-      type: z.literal('ghost-number'),
-      value: z.string().trim().min(1).max(6),
-    })
-    .strict(),
-  z
-    .object({
-      type: z.literal('keyword'),
-      text: z.string().trim().min(1).max(12),
-      emphasis: z.enum(['none', 'block', 'reverse', 'underline']).default('none'),
-    })
-    .strict(),
-  z
-    .object({
-      type: z.literal('mini-list'),
-      title: z.string().trim().min(1).max(12).optional(),
-      rows: z.array(editorialOverlayMiniListRowSchema).min(2).max(4),
-    })
-    .strict()
-    .superRefine((item, ctx) => {
-      const emphasizedRows = item.rows.filter((row) => row.emphasis !== 'none').length;
-      if (emphasizedRows > 1) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'EditorialOverlay mini-list can emphasize at most one row',
-          path: ['rows'],
-        });
-      }
-    }),
-  z
-    .object({
-      type: z.literal('stat-tag'),
-      value: z.string().trim().min(1).max(12),
-      label: z.string().trim().min(1).max(10).optional(),
-      tone: z.enum(['accent', 'neutral']).default('neutral'),
-    })
-    .strict(),
-  z
-    .object({
-      type: z.literal('annotation'),
-      text: z.string().trim().min(1).max(18),
-      direction: z.enum(['left', 'right', 'up', 'down']).default('left'),
-    })
-    .strict(),
-]);
-
-export const editorialOverlayPropsSchema = z
-  .object({
-    placement: editorialOverlayPlacementSchema,
-    layout: z.enum(['corner-stack', 'edge-rail', 'counterweight', 'scatter']).default('corner-stack'),
-    density: z.enum(['light', 'medium']).default('light'),
-    accent: z.enum(['orange', 'blue']).default('orange'),
-    items: z.array(editorialOverlayItemSchema).min(1).max(4),
-  })
-  .strict()
-  .superRefine((props, ctx) => {
-    const counts = props.items.reduce<Record<string, number>>((memo, item) => {
-      memo[item.type] = (memo[item.type] ?? 0) + 1;
-      return memo;
-    }, {});
-    const limits: Record<string, number> = {
-      'ghost-number': 1,
-      keyword: 1,
-      'mini-list': 1,
-      'stat-tag': 2,
-      annotation: 1,
-    };
-
-    for (const [type, count] of Object.entries(counts)) {
-      if (count > 2 || count > limits[type]) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: `EditorialOverlay allows at most ${limits[type]} ${type} item(s)`,
-          path: ['items'],
-        });
-      }
-    }
-
-    if (props.density === 'light' && props.items.length > 2) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'EditorialOverlay light density allows 1 to 2 items',
-        path: ['items'],
-      });
-    }
-    if (props.density === 'medium' && props.items.length < 2) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'EditorialOverlay medium density requires 2 to 4 items',
-        path: ['items'],
-      });
-    }
-    if (props.layout === 'scatter' && props.items.length > 2) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'EditorialOverlay scatter layout allows at most 2 items',
-        path: ['items'],
-      });
-    }
-  });
 
 const narrationEchoSegmentSchema = z
   .object({
@@ -542,13 +332,34 @@ export const assetStackPropsSchema = z.object({
   placement: slotSchema,
 });
 
+export const talkVideoBasePropsSchema = z
+  .object({
+    videoPath: z.string().trim().min(1).max(160),
+    subtitlePath: z.string().trim().min(1).max(160).optional(),
+    audio: z.boolean().default(true),
+    fit: z.enum(['cover', 'contain']).default('cover'),
+    subtitleMaxWidth: z.number().int().min(420).max(1400).default(980),
+  })
+  .strict();
+
+export const remotionTalkEffectPropsSchema = z
+  .object({
+    variant: z.enum(['title', 'steps', 'statement', 'compare', 'handoff', 'outro']),
+    eyebrow: z.string().trim().min(1).max(28).optional(),
+    title: z.string().trim().min(1).max(28),
+    subtitle: z.string().trim().min(1).max(56).optional(),
+    accent: z.enum(['lime', 'cyan', 'orange']).default('lime'),
+    index: z.string().trim().min(1).max(6).optional(),
+    items: z.array(z.string().trim().min(1).max(16)).max(4).default([]),
+    left: z.string().trim().min(1).max(16).optional(),
+    right: z.string().trim().min(1).max(16).optional(),
+    connector: z.string().trim().min(1).max(10).optional(),
+  })
+  .strict();
+
 export const sceneContentSchema = z.discriminatedUnion('kind', [
-  z.object({kind: z.literal('SectionStamp'), props: sectionStampPropsSchema}),
-  z.object({kind: z.literal('HeadlineTakeover'), props: headlineTakeoverPropsSchema}),
-  z.object({kind: z.literal('ConceptSplit'), props: conceptSplitPropsSchema}),
   z.object({kind: z.literal('EvidenceClip'), props: evidenceClipPropsSchema}),
   z.object({kind: z.literal('MetricSpread'), props: metricSpreadPropsSchema}),
-  z.object({kind: z.literal('EditorialOverlay'), props: editorialOverlayPropsSchema}),
   z.object({kind: z.literal('NarrationEchoLayer'), props: narrationEchoLayerPropsSchema}),
   z.object({kind: z.literal('MediaWall'), props: acidComponentPropsSchema}),
   z.object({kind: z.literal('Countdown'), props: acidComponentPropsSchema}),
@@ -566,6 +377,8 @@ export const sceneContentSchema = z.discriminatedUnion('kind', [
   z.object({kind: z.literal('WorkflowPath'), props: workflowPathPropsSchema}),
   z.object({kind: z.literal('DemoFocusFrame'), props: demoFocusFramePropsSchema}),
   z.object({kind: z.literal('AssetStack'), props: assetStackPropsSchema}),
+  z.object({kind: z.literal('TalkVideoBase'), props: talkVideoBasePropsSchema}),
+  z.object({kind: z.literal('RemotionTalkEffect'), props: remotionTalkEffectPropsSchema}),
 ]);
 
 export const sceneSchema = z

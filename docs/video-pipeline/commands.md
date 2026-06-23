@@ -19,14 +19,6 @@ npm run episode:preview -- --episode <slug>
 npm run episode:render -- --episode <slug>
 ```
 
-SectionStamp demo：
-
-```bash
-npm run episode:validate -- --episode demo-section-stamp
-npm run episode:frames -- --episode demo-section-stamp
-npm run episode:preview -- --episode demo-section-stamp
-```
-
 Component gallery：
 
 ```bash
@@ -49,22 +41,6 @@ MetricSpread demo：
 npm run episode:validate -- --episode demo-metric-spread
 npm run episode:frames -- --episode demo-metric-spread
 npm run episode:preview -- --episode demo-metric-spread
-```
-
-ConceptSplit demo：
-
-```bash
-npm run episode:validate -- --episode demo-concept-split
-npm run episode:frames -- --episode demo-concept-split
-npm run episode:preview -- --episode demo-concept-split
-```
-
-EditorialOverlay demo：
-
-```bash
-npm run episode:validate -- --episode demo-editorial-overlay
-npm run episode:frames -- --episode demo-editorial-overlay
-npm run episode:preview -- --episode demo-editorial-overlay
 ```
 
 说明：

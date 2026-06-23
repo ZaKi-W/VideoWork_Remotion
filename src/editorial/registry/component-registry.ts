@@ -1,25 +1,21 @@
 import {
   acidComponentPropsSchema,
   assetStackPropsSchema,
-  conceptSplitPropsSchema,
-  editorialOverlayPropsSchema,
   demoFocusFramePropsSchema,
   evidenceClipPropsSchema,
-  headlineTakeoverPropsSchema,
   metricSpreadPropsSchema,
   narrationEchoLayerPropsSchema,
-  sectionStampPropsSchema,
+  remotionTalkEffectPropsSchema,
+  talkVideoBasePropsSchema,
   workflowPathPropsSchema,
 } from '../schema/episode.schema';
 import {AcidComponent} from '../components/AcidComponent';
-import {ConceptSplit} from '../components/ConceptSplit';
-import {EditorialOverlay} from '../components/EditorialOverlay';
 import {EvidenceClip} from '../components/EvidenceClip';
-import {HeadlineTakeover} from '../components/HeadlineTakeover';
 import {MetricSpread} from '../components/MetricSpread';
 import {NarrationEchoLayer} from '../components/NarrationEchoLayer';
 import {PrototypeScene} from '../components/prototype/PrototypeScene';
-import {SectionStamp} from '../components/SectionStamp';
+import {RemotionTalkEffect} from '../components/RemotionTalkEffect';
+import {TalkVideoBase} from '../components/TalkVideoBase';
 import type {ComponentRegistryItem} from './component.types';
 
 const commonStageModes = ['presenter-center', 'presenter-small', 'screen-primary', 'no-presenter'] as const;
@@ -179,37 +175,6 @@ export const componentRegistry = {
     schema: acidComponentPropsSchema,
     render: AcidComponent,
   },
-  SectionStamp: {
-    name: 'SectionStamp',
-    purpose: '章节切换 / 话题标记',
-    allowedStageModes: ['presenter-center', 'presenter-small', 'screen-primary', 'no-presenter'],
-    allowedSlots: ['top-left', 'top-right', 'edge-left', 'edge-right'],
-    requiresSource: false,
-    implementationStatus: 'ready',
-    schema: sectionStampPropsSchema,
-    render: SectionStamp,
-  },
-  HeadlineTakeover: {
-    name: 'HeadlineTakeover',
-    purpose: '核心观点 / 强势结论 / 转折句',
-    allowedStageModes: ['presenter-center', 'presenter-small', 'screen-primary', 'no-presenter'],
-    allowedSlots: ['top-left', 'top-right', 'edge-left', 'edge-right', 'full-bleed', 'center-overlay', 'screen-primary'],
-    requiresSource: false,
-    implementationStatus: 'ready',
-    schema: headlineTakeoverPropsSchema,
-    render: HeadlineTakeover,
-  },
-  ConceptSplit: {
-    name: 'ConceptSplit',
-    purpose: '概念对比、新旧方式切换、认知转折',
-    allowedStageModes: [...commonStageModes],
-    allowedSlots: ['top-left', 'top-right', 'edge-left', 'edge-right', 'screen-primary', 'full-bleed'],
-    requiresSource: false,
-    requiresAsset: false,
-    implementationStatus: 'ready',
-    schema: conceptSplitPropsSchema,
-    render: ConceptSplit,
-  },
   EvidenceClip: {
     name: 'EvidenceClip',
     purpose: '官方来源、新闻、公告、网页、数据截图等证据展示',
@@ -232,17 +197,6 @@ export const componentRegistry = {
     implementationStatus: 'ready',
     schema: metricSpreadPropsSchema,
     render: MetricSpread,
-  },
-  EditorialOverlay: {
-    name: 'EditorialOverlay',
-    purpose: '轻量关键词、编号、短列表、小数据、批注等基础信息填充',
-    allowedStageModes: [...commonStageModes],
-    allowedSlots: ['top-left', 'top-right', 'edge-left', 'edge-right'],
-    requiresSource: false,
-    requiresAsset: false,
-    implementationStatus: 'ready',
-    schema: editorialOverlayPropsSchema,
-    render: EditorialOverlay,
   },
   NarrationEchoLayer: {
     name: 'NarrationEchoLayer',
@@ -284,5 +238,27 @@ export const componentRegistry = {
     implementationStatus: 'planned',
     schema: assetStackPropsSchema,
     render: PrototypeScene,
+  },
+  TalkVideoBase: {
+    name: 'TalkVideoBase',
+    purpose: '口播视频底层 / 本地视频、音频和 SRT 字幕承载',
+    allowedStageModes: ['no-presenter'],
+    allowedSlots: ['full-bleed'],
+    requiresSource: false,
+    requiresAsset: true,
+    implementationStatus: 'ready',
+    schema: talkVideoBasePropsSchema,
+    render: TalkVideoBase,
+  },
+  RemotionTalkEffect: {
+    name: 'RemotionTalkEffect',
+    purpose: 'RemotionTalk 本期一次性特效层',
+    allowedStageModes: ['presenter-center'],
+    allowedSlots: ['edge-left'],
+    requiresSource: false,
+    requiresAsset: false,
+    implementationStatus: 'ready',
+    schema: remotionTalkEffectPropsSchema,
+    render: RemotionTalkEffect,
   },
 } satisfies Record<string, ComponentRegistryItem>;

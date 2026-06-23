@@ -22,7 +22,7 @@
 ## 使用频率
 
 - 一条 5 到 10 分钟视频，建议使用 2 到 6 次。
-- 同一段内不要同时使用 `HeadlineTakeover` 和 `MetricSpread`。
+- 同一段内不要同时使用多个主视觉组件。
 - 数据讲完后，应切回人物、证据、录屏、案例或下一段逻辑。
 
 ## Props
@@ -78,7 +78,5 @@ type MetricSpreadProps = {
 
 ## 组件边界
 
-- `SectionStamp` 只负责章节切换，不展示具体数据。
-- `HeadlineTakeover` 只负责一句观点压场，不展示多行前后数据。
 - `EvidenceClip` 只负责真实来源截图和批注，不承担数据账页排版。
 - `MetricSpread` 只负责一个主要指标、少量对照数据和来源索引。

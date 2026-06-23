@@ -13,13 +13,13 @@
 
 | 时间 | 主视觉任务 | 组件 | 内容 |
 | --- | --- | --- | --- |
-| 00:00-00:14 | 开场建立“AI + Remotion 自动化特效”主题 | NarrationEchoLayer | 当前看到的特效来自自动化流程 |
-| 00:14-00:40 | 解释前置剪辑处理 | NarrationEchoLayer | 录制、剪气口、变速、拿字幕 |
-| 00:40-00:58 | 强调 SRT 是时间轴核心 | NarrationEchoLayer | 字幕决定特效出现时机 |
-| 00:58-01:28 | 展示交给 Codex 的工作流 | NarrationEchoLayer | 视频 + 字幕 + Remotion 插件 |
-| 01:28-02:03 | 转入“AI 味”和风格调整问题 | NarrationEchoLayer | 直出不是终点，审美需要校准 |
-| 02:03-02:27 | 说明把风格沉淀成 Skill | NarrationEchoLayer | 调好的规则可复用 |
-| 02:27-02:51.667 | 收束和下期预告 | NarrationEchoLayer | Remotion / HyperFrames 后续探索 |
+| 00:00-00:14 | 开场建立“AI + Remotion 自动化特效”主题 | RemotionTalkEffect | 当前看到的特效来自自动化流程 |
+| 00:14-00:40 | 解释前置剪辑处理 | RemotionTalkEffect | 录制、剪气口、变速、拿字幕 |
+| 00:40-00:58 | 强调 SRT 是时间轴核心 | RemotionTalkEffect | 字幕决定特效出现时机 |
+| 00:58-01:28 | 展示交给 Codex 的工作流 | RemotionTalkEffect | 视频 + 字幕 + Remotion 插件 |
+| 01:28-02:03 | 转入“AI 味”和风格调整问题 | RemotionTalkEffect | 直出不是终点，审美需要校准 |
+| 02:03-02:27 | 说明把风格沉淀成 Skill | RemotionTalkEffect | 调好的规则可复用 |
+| 02:27-02:51.667 | 收束和下期预告 | RemotionTalkEffect | Remotion / HyperFrames 后续探索 |
 
 ## QC 关键帧
 
