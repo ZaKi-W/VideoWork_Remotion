@@ -49,6 +49,18 @@ export const ensureDir = (dir: string): void => {
 
 export const syncEpisodeAssetsToPublic = (slug: string): void => {
   const source = episodeAssetsDir(slug);
+  const episodeSource = episodeDir(slug);
+  const episodeDestination = path.join(publicDir, 'episodes', slug);
+
+  ensureDir(episodeDestination);
+
+  for (const filename of ['talk.mp4', 'talk.srt']) {
+    const inputPath = path.join(episodeSource, filename);
+    if (fs.existsSync(inputPath)) {
+      fs.copyFileSync(inputPath, path.join(episodeDestination, filename));
+    }
+  }
+
   if (!fs.existsSync(source)) {
     return;
   }

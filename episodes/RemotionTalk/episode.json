@@ -1,0 +1,320 @@
+{
+  "version": 1,
+  "episode": {
+    "id": "RemotionTalk",
+    "title": "Remotion Talk Workflow Effects",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "durationInSeconds": 171.667,
+    "status": "QC"
+  },
+  "presenter": {
+    "mode": "video",
+    "videoAssetId": "talk-video",
+    "subtitleAssetId": "talk-subtitle",
+    "defaultStageMode": "presenter-center"
+  },
+  "scenes": [
+    {
+      "id": "rt-01-opening-proof",
+      "start": 0,
+      "end": 14,
+      "track": "overlay",
+      "kind": "NarrationEchoLayer",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "NarrationEchoLayer",
+        "props": {
+          "placement": "edge-left",
+          "charFrames": 2,
+          "segmentPauseFrames": 6,
+          "exitFrames": 12,
+          "exitAtFrame": 390,
+          "showSoftener": true,
+          "backgroundVideoPath": "episodes/RemotionTalk/talk.mp4",
+          "backgroundStartFromFrame": 0,
+          "backgroundAudio": true,
+          "items": [
+            {
+              "label": "开场",
+              "beat": "01 / 07",
+              "segments": [
+                {"text": "这些特效，"},
+                {"break": true, "pauseFrames": 5},
+                {"text": "来自"},
+                {"text": "自动化流程", "accent": true}
+              ],
+              "copy": "先让观众知道：这不是随机贴纸，而是一套可复制的视频生产链路。",
+              "track": ["AI", "Remotion", "工作流"],
+              "activeTrackIndex": 1,
+              "focus": "自动化特效"
+            }
+          ]
+        }
+      },
+      "assetIds": ["talk-video"],
+      "sourceRefIds": ["local-talk-video"],
+      "status": "ready",
+      "notes": "开场主题提要，只做抽象解释，不使用证据画面。"
+    },
+    {
+      "id": "rt-02-prep-cut",
+      "start": 14,
+      "end": 40,
+      "track": "overlay",
+      "kind": "NarrationEchoLayer",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "NarrationEchoLayer",
+        "props": {
+          "placement": "edge-left",
+          "charFrames": 2,
+          "segmentPauseFrames": 6,
+          "exitFrames": 12,
+          "exitAtFrame": 750,
+          "showSoftener": true,
+          "backgroundVideoPath": "episodes/RemotionTalk/talk.mp4",
+          "backgroundStartFromFrame": 420,
+          "backgroundAudio": true,
+          "items": [
+            {
+              "label": "前置处理",
+              "beat": "02 / 07",
+              "segments": [
+                {"text": "先处理"},
+                {"text": "口播节奏", "accent": true},
+                {"text": "。"}
+              ],
+              "copy": "剪掉气口、停顿和说错的地方，再把整体节奏压紧。",
+              "track": ["录制", "剪气口", "变速"],
+              "activeTrackIndex": 1,
+              "focus": "口播干净"
+            }
+          ]
+        }
+      },
+      "assetIds": ["talk-video"],
+      "sourceRefIds": ["local-talk-video"],
+      "status": "ready",
+      "notes": "剪映预处理段，只承担流程节点说明。"
+    },
+    {
+      "id": "rt-03-srt-timing",
+      "start": 40,
+      "end": 58,
+      "track": "overlay",
+      "kind": "NarrationEchoLayer",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "NarrationEchoLayer",
+        "props": {
+          "placement": "edge-left",
+          "charFrames": 2,
+          "segmentPauseFrames": 6,
+          "exitFrames": 12,
+          "exitAtFrame": 510,
+          "showSoftener": true,
+          "backgroundVideoPath": "episodes/RemotionTalk/talk.mp4",
+          "backgroundStartFromFrame": 1200,
+          "backgroundAudio": true,
+          "items": [
+            {
+              "label": "时间轴",
+              "beat": "03 / 07",
+              "segments": [
+                {"text": "SRT 决定"},
+                {"break": true, "pauseFrames": 5},
+                {"text": "特效"},
+                {"text": "何时出现", "accent": true}
+              ],
+              "copy": "字幕文件不是附属品，它是后面所有视觉节奏的定位坐标。",
+              "track": ["字幕", "定位", "入场"],
+              "activeTrackIndex": 1,
+              "focus": "精确时机"
+            }
+          ]
+        }
+      },
+      "assetIds": ["talk-video", "talk-subtitle"],
+      "sourceRefIds": ["local-talk-video", "local-talk-subtitle"],
+      "status": "ready",
+      "notes": "SRT 时间轴说明，信息留在左侧，不进入字幕安全区。"
+    },
+    {
+      "id": "rt-04-codex-handoff",
+      "start": 58,
+      "end": 88,
+      "track": "overlay",
+      "kind": "NarrationEchoLayer",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "NarrationEchoLayer",
+        "props": {
+          "placement": "edge-left",
+          "charFrames": 2,
+          "segmentPauseFrames": 6,
+          "exitFrames": 12,
+          "exitAtFrame": 870,
+          "showSoftener": true,
+          "backgroundVideoPath": "episodes/RemotionTalk/talk.mp4",
+          "backgroundStartFromFrame": 1740,
+          "backgroundAudio": true,
+          "items": [
+            {
+              "label": "交给 Codex",
+              "beat": "04 / 07",
+              "segments": [
+                {"text": "视频 + 字幕，"},
+                {"break": true, "pauseFrames": 5},
+                {"text": "生成"},
+                {"text": "特效结构", "accent": true}
+              ],
+              "copy": "先让 AI 分析内容和时间轴，再决定整条视频的视觉结构。",
+              "track": ["素材", "规划", "预览"],
+              "activeTrackIndex": 1,
+              "focus": "先规划"
+            }
+          ]
+        }
+      },
+      "assetIds": ["talk-video", "talk-subtitle"],
+      "sourceRefIds": ["local-talk-video", "local-talk-subtitle"],
+      "status": "ready",
+      "notes": "Codex 处理流程，使用抽象节点，不模拟真实软件证据。"
+    },
+    {
+      "id": "rt-05-style-correction",
+      "start": 88,
+      "end": 123,
+      "track": "overlay",
+      "kind": "NarrationEchoLayer",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "NarrationEchoLayer",
+        "props": {
+          "placement": "edge-left",
+          "charFrames": 2,
+          "segmentPauseFrames": 6,
+          "exitFrames": 12,
+          "exitAtFrame": 1020,
+          "showSoftener": true,
+          "backgroundVideoPath": "episodes/RemotionTalk/talk.mp4",
+          "backgroundStartFromFrame": 2640,
+          "backgroundAudio": true,
+          "items": [
+            {
+              "label": "风格校准",
+              "beat": "05 / 07",
+              "segments": [
+                {"text": "直出不是"},
+                {"break": true, "pauseFrames": 5},
+                {"text": "最终"},
+                {"text": "审美", "accent": true}
+              ],
+              "copy": "默认炫酷很容易撞风格，真正费神的是把它调成自己的视觉语言。",
+              "track": ["默认感", "调细节", "辨识度"],
+              "activeTrackIndex": 1,
+              "focus": "去 AI 味"
+            }
+          ]
+        }
+      },
+      "assetIds": ["talk-video"],
+      "sourceRefIds": ["local-talk-video"],
+      "status": "ready",
+      "notes": "观点转折段，强调风格调校，不加入额外证据或数据。"
+    },
+    {
+      "id": "rt-06-skill-system",
+      "start": 123,
+      "end": 147,
+      "track": "overlay",
+      "kind": "NarrationEchoLayer",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "NarrationEchoLayer",
+        "props": {
+          "placement": "edge-left",
+          "charFrames": 2,
+          "segmentPauseFrames": 6,
+          "exitFrames": 12,
+          "exitAtFrame": 690,
+          "showSoftener": true,
+          "backgroundVideoPath": "episodes/RemotionTalk/talk.mp4",
+          "backgroundStartFromFrame": 3690,
+          "backgroundAudio": true,
+          "items": [
+            {
+              "label": "沉淀 Skill",
+              "beat": "06 / 07",
+              "segments": [
+                {"text": "把风格"},
+                {"break": true, "pauseFrames": 5},
+                {"text": "沉淀成"},
+                {"text": "标准流程", "accent": true}
+              ],
+              "copy": "组件、动效和视觉规范稳定下来，后面才是真正省时间。",
+              "track": ["组件", "动效", "规范"],
+              "activeTrackIndex": 2,
+              "focus": "可复用"
+            }
+          ]
+        }
+      },
+      "assetIds": ["talk-video"],
+      "sourceRefIds": ["local-talk-video"],
+      "status": "ready",
+      "notes": "Skill 沉淀段，表达复用逻辑。"
+    },
+    {
+      "id": "rt-07-outro",
+      "start": 147,
+      "end": 171.667,
+      "track": "overlay",
+      "kind": "NarrationEchoLayer",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "NarrationEchoLayer",
+        "props": {
+          "placement": "edge-left",
+          "charFrames": 2,
+          "segmentPauseFrames": 6,
+          "exitFrames": 12,
+          "exitAtFrame": 710,
+          "showSoftener": true,
+          "backgroundVideoPath": "episodes/RemotionTalk/talk.mp4",
+          "backgroundStartFromFrame": 4410,
+          "backgroundAudio": true,
+          "items": [
+            {
+              "label": "收束",
+              "beat": "07 / 07",
+              "segments": [
+                {"text": "下一步，"},
+                {"break": true, "pauseFrames": 5},
+                {"text": "继续比较"},
+                {"text": "新工具", "accent": true}
+              ],
+              "copy": "这期先把 Remotion 工作流讲清楚，后面再看 HyperFrames 是否更适合。",
+              "track": ["Remotion", "Skill", "HyperFrames"],
+              "activeTrackIndex": 2,
+              "focus": "持续迭代"
+            }
+          ]
+        }
+      },
+      "assetIds": ["talk-video"],
+      "sourceRefIds": ["local-talk-video"],
+      "status": "ready",
+      "notes": "结尾轻量提示，保留口播结束空间。"
+    }
+  ]
+}

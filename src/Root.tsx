@@ -4,6 +4,17 @@ import {AcidScrimContactSheet} from './editorial/fixtures/AcidScrimContactSheet'
 import {acidStrikeDemos, acidStrikeGallery} from './editorial/fixtures/demo-acid-strike';
 import {narrationEchoLayerDemo} from './editorial/fixtures/demo-narration-echo-layer';
 import type {EpisodeInputProps} from './editorial/schema/episode.types';
+import remotionTalkAssets from '../episodes/RemotionTalk/asset-manifest.json';
+import remotionTalkEpisode from '../episodes/RemotionTalk/episode.json';
+import remotionTalkSources from '../episodes/RemotionTalk/sources.json';
+
+const remotionTalkProps: EpisodeInputProps = {
+  episode: remotionTalkEpisode as EpisodeInputProps['episode'],
+  assets: remotionTalkAssets as EpisodeInputProps['assets'],
+  sources: remotionTalkSources as EpisodeInputProps['sources'],
+  debug: false,
+  strict: false,
+};
 
 const getMetadata = (props: EpisodeInputProps) => ({
   width: props.episode.episode.width,
@@ -15,6 +26,12 @@ const getMetadata = (props: EpisodeInputProps) => ({
 export const RemotionRoot = () => {
   return (
     <>
+      <Composition
+        id="Episode"
+        component={EpisodeComposition}
+        defaultProps={remotionTalkProps}
+        calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
+      />
       <Composition
         id="AcidStrikeGallery"
         component={EpisodeComposition}
@@ -33,6 +50,12 @@ export const RemotionRoot = () => {
         id="DemoNarrationEchoLayer"
         component={EpisodeComposition}
         defaultProps={narrationEchoLayerDemo}
+        calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
+      />
+      <Composition
+        id="RemotionTalk"
+        component={EpisodeComposition}
+        defaultProps={remotionTalkProps}
         calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
       />
       {Object.entries(acidStrikeDemos).map(([kind, props]) => (

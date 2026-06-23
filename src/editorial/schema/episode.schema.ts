@@ -465,6 +465,8 @@ export const narrationEchoLayerPropsSchema = z
     exitAtFrame: z.number().int().min(1).optional(),
     showSoftener: z.boolean().default(true),
     backgroundVideoPath: z.string().trim().min(1).max(160).optional(),
+    backgroundStartFromFrame: z.number().int().min(0).optional(),
+    backgroundAudio: z.boolean().optional(),
   })
   .strict();
 

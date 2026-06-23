@@ -9,4 +9,4 @@ script.md
 assets/
 ```
 
-`script.md` 可以保留 Obsidian 图片写法，例如 `![[Pasted image 20260522160436.png|574]]`。对应文件放进 `assets/`，后续脚本会按文件名识别。
+`script.md` 可以是纯口播文案，不要求一定有素材。需要展示截图、录屏或图片时，可以保留 Obsidian 图片写法，例如 `![[Pasted image 20260522160436.png|574]]`。对应文件放进 `assets/`，后续脚本会按文件名识别。

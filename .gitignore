@@ -6,4 +6,5 @@ build/
 episodes/*/output/
 episodes/*/.cache/
 episodes/*/talk.mp4
+public/episodes/
 *.log

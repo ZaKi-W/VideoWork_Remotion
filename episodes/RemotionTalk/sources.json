@@ -1,0 +1,26 @@
+{
+  "sources": [
+    {
+      "id": "local-talk-video",
+      "title": "RemotionTalk 口播视频",
+      "publisher": "local",
+      "url": "episodes/RemotionTalk/talk.mp4",
+      "publishedAt": "2026-06-23",
+      "capturedAssetId": "talk-video",
+      "notes": "本地素材，用于承载口播画面和音频，不作为外部事实证据。",
+      "kind": "local",
+      "status": "captured"
+    },
+    {
+      "id": "local-talk-subtitle",
+      "title": "RemotionTalk 字幕时间轴",
+      "publisher": "local",
+      "url": "episodes/RemotionTalk/talk.srt",
+      "publishedAt": "2026-06-23",
+      "capturedAssetId": "talk-subtitle",
+      "notes": "本地自动字幕，用于分段和特效时机判断。",
+      "kind": "local",
+      "status": "captured"
+    }
+  ]
+}

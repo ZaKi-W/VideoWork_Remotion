@@ -3,6 +3,7 @@ import {episodeDir} from '../src/editorial/shared/paths';
 import {validateEpisodeData} from '../src/editorial/validation/validate-episode';
 import {
   ensureDir,
+  getArg,
   loadEpisodeBundle,
   printIssues,
   publicDir,
@@ -11,7 +12,7 @@ import {
   writePropsFile,
 } from './episode-utils';
 
-const slug = 'demo-paper-lab';
+const slug = getArg('episode', 'demo-paper-lab');
 syncEpisodeAssetsToPublic(slug);
 const bundle = loadEpisodeBundle(slug);
 const result = validateEpisodeData(bundle.episode, bundle.assets, bundle.sources, {mode: 'preview', publicDir});

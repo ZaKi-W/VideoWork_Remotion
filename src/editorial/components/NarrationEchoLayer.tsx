@@ -368,11 +368,20 @@ const fullCanvasContentStyle: CSSProperties = {
   zIndex: 2,
 };
 
-const VideoBackplate = ({src}: {src: string}) => (
+const VideoBackplate = ({
+  src,
+  startFromFrame = 0,
+  withAudio = false,
+}: {
+  src: string;
+  startFromFrame?: number;
+  withAudio?: boolean;
+}) => (
   <>
     <OffthreadVideo
       src={staticFile(src)}
-      muted
+      startFrom={startFromFrame}
+      muted={!withAudio}
       style={{
         position: 'absolute',
         inset: 0,
@@ -484,7 +493,11 @@ export const NarrationEchoLayer = (rendererProps: ComponentRendererProps) => {
           'radial-gradient(circle at 50% 18%, rgba(255,255,255,0.96), transparent 31%), linear-gradient(113deg, #dedbd5 0%, #f7f5ef 49%, #e2dfd8 100%)',
       }}
     >
-      <VideoBackplate src={props.backgroundVideoPath} />
+      <VideoBackplate
+        src={props.backgroundVideoPath}
+        startFromFrame={props.backgroundStartFromFrame ?? 0}
+        withAudio={props.backgroundAudio ?? false}
+      />
       {props.showSoftener ?? true ? <div style={canvasScrimStyle(frame, exit)} /> : null}
       <SubtitleBackplate />
       <div style={fullCanvasContentStyle}>{content}</div>

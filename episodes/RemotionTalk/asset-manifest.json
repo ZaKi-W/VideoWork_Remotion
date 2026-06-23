@@ -1,0 +1,24 @@
+{
+  "assets": [
+    {
+      "id": "talk-video",
+      "type": "talk-video",
+      "path": "episodes/RemotionTalk/talk.mp4",
+      "purpose": "本期口播视频底层画面和音频",
+      "sourceRefId": "local-talk-video",
+      "sceneHints": ["all-scenes", "presenter-video"],
+      "status": "ready",
+      "priority": "high"
+    },
+    {
+      "id": "talk-subtitle",
+      "type": "subtitle",
+      "path": "episodes/RemotionTalk/talk.srt",
+      "purpose": "按真实口播时间轴定位场景和文字提示",
+      "sourceRefId": "local-talk-subtitle",
+      "sceneHints": ["timing", "sectioning"],
+      "status": "ready",
+      "priority": "high"
+    }
+  ]
+}

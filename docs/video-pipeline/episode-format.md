@@ -13,7 +13,7 @@ episodes/<slug>/
     Pasted image 20260522160436.png
 ```
 
-`script.md` 可以保留 Obsidian 嵌入素材写法，例如 `![[Pasted image 20260522160436.png|574]]`。脚本会提取 `|` 前面的文件名，并检查它是否存在于 `assets/`。
+`script.md` 可以是纯口播文案，不要求一定出现素材。需要展示截图、录屏或图片时，可以保留 Obsidian 嵌入素材写法，例如 `![[Pasted image 20260522160436.png|574]]`。脚本会提取 `|` 前面的文件名，并检查它是否存在于 `assets/`；没有 `![[...]]` 时视为本期没有脚本指定素材。
 
 渲染脚本会自动把 `episodes/<slug>/assets/` 镜像到 `public/episodes/<slug>/assets/`，供 Remotion 的 `staticFile()` 使用。不要手动维护 public 里的镜像文件。
 

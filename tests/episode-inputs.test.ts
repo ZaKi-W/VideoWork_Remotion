@@ -34,6 +34,12 @@ describe('episode input helpers', () => {
     ]);
   });
 
+  it('allows scripts without asset embeds', () => {
+    const markdown = '这一期只有口播文案，没有任何截图或录屏素材。';
+
+    expect(parseObsidianAssetRefs(markdown)).toEqual([]);
+  });
+
   it('deduplicates references while preserving first-seen order', () => {
     const markdown = '![[same.png|574]]\n![[other.png]]\n![[same.png|581]]';
 
