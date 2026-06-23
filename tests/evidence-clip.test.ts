@@ -1,13 +1,7 @@
-import fs from 'node:fs';
 import path from 'node:path';
 import {describe, expect, it} from 'vitest';
 import {componentRegistry} from '../src/editorial/registry/component-registry';
-import {
-  assetManifestSchema,
-  episodeSchema,
-  evidenceClipPropsSchema,
-  sourceManifestSchema,
-} from '../src/editorial/schema/episode.schema';
+import {evidenceClipPropsSchema} from '../src/editorial/schema/episode.schema';
 import type {AssetManifest, EvidenceClipProps, EpisodeConfig, EpisodeScene, SourceManifest} from '../src/editorial/schema/episode.types';
 import {validateEpisodeData} from '../src/editorial/validation/validate-episode';
 
@@ -52,7 +46,7 @@ const makeAsset = (
 ): AssetManifest['assets'][number] => ({
   id: 'asset-evidence',
   type: 'screenshot',
-  path: 'episodes/demo-evidence-clip/assets/screenshots/demo-reference-policy.svg',
+  path: 'episodes/test-evidence-clip/assets/screenshots/reference-policy.svg',
   purpose: 'test evidence',
   sourceRefId: 'source-evidence',
   sceneHints: ['scene-evidence'],
@@ -122,19 +116,6 @@ const makeEpisode = (scene: EpisodeScene, presenterMode: 'placeholder' | 'video'
   },
   scenes: [scene],
 });
-
-const loadDemoEvidenceClip = () => {
-  const episode = episodeSchema.parse(
-    JSON.parse(fs.readFileSync(path.join(repoRoot, 'episodes/demo-evidence-clip/episode.json'), 'utf8')),
-  );
-  const assets = assetManifestSchema.parse(
-    JSON.parse(fs.readFileSync(path.join(repoRoot, 'episodes/demo-evidence-clip/asset-manifest.json'), 'utf8')),
-  );
-  const sources = sourceManifestSchema.parse(
-    JSON.parse(fs.readFileSync(path.join(repoRoot, 'episodes/demo-evidence-clip/sources.json'), 'utf8')),
-  );
-  return {episode, assets, sources};
-};
 
 describe('EvidenceClip', () => {
   it('accepts legal EvidenceClip props', () => {
@@ -273,16 +254,24 @@ describe('EvidenceClip', () => {
     expect(componentRegistry.EvidenceClip.implementationStatus).toBe('ready');
   });
 
-  it('passes preview validation for demo-evidence-clip', () => {
-    const {episode, assets, sources} = loadDemoEvidenceClip();
-    const result = validateEpisodeData(episode, assets, sources, {mode: 'preview', publicDir});
+  it('passes preview validation for an EvidenceClip sample episode', () => {
+    const result = validateEpisodeData(
+      makeEpisode(makeScene()),
+      {assets: [makeAsset()]},
+      {sources: [makeSource()]},
+      {mode: 'preview', publicDir},
+    );
 
     expect(result.ok).toBe(true);
   });
 
-  it('blocks demo-evidence-clip in strict validation because presenter and demo evidence are preview-only', () => {
-    const {episode, assets, sources} = loadDemoEvidenceClip();
-    const result = validateEpisodeData(episode, assets, sources, {mode: 'strict', publicDir});
+  it('blocks EvidenceClip sample in strict validation because presenter and generated evidence are preview-only', () => {
+    const result = validateEpisodeData(
+      makeEpisode(makeScene(), 'placeholder'),
+      {assets: [makeAsset({type: 'generated'})]},
+      {sources: [makeSource()]},
+      {mode: 'strict', publicDir},
+    );
 
     expect(result.ok).toBe(false);
     expect(result.issues.some((issue) => issue.code === 'presenter.placeholder')).toBe(true);

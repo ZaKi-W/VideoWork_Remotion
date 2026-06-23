@@ -1,29 +1,13 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import {describe, expect, it} from 'vitest';
 import {componentRegistry} from '../src/editorial/registry/component-registry';
-import {
-  episodeSchema,
-  sectionStampPropsSchema,
-} from '../src/editorial/schema/episode.schema';
+import {sectionStampPropsSchema} from '../src/editorial/schema/episode.schema';
 import {
   normalizeSectionStampVariant,
   splitSectionStampTitle,
 } from '../src/editorial/components/section-stamp-layout';
 import {visualTokens} from '../src/editorial/stage/visual-tokens';
-import type {AssetManifest, SourceManifest} from '../src/editorial/schema/episode.types';
+import type {EpisodeConfig, EpisodeScene} from '../src/editorial/schema/episode.types';
 import {validateEpisodeData} from '../src/editorial/validation/validate-episode';
-
-const repoRoot = process.cwd();
-
-const loadDemoSectionStamp = () => {
-  const episode = episodeSchema.parse(
-    JSON.parse(fs.readFileSync(path.join(repoRoot, 'episodes/demo-section-stamp/episode.json'), 'utf8')),
-  );
-  const assets: AssetManifest = {assets: []};
-  const sources: SourceManifest = {sources: []};
-  return {episode, assets, sources};
-};
 
 const baseSectionStampProps = {
   sectionNo: '01',
@@ -40,6 +24,48 @@ const baseSectionStampProps = {
     mode: 'highlight-block',
   },
 } as const;
+
+const makeSectionStampScene = (overrides: Partial<EpisodeScene> = {}): EpisodeScene => ({
+  id: 'scene-section-stamp',
+  start: 0,
+  end: 5,
+  track: 'primary',
+  kind: 'SectionStamp',
+  stageMode: 'presenter-center',
+  slot: 'top-left',
+  content: {
+    kind: 'SectionStamp',
+    props: baseSectionStampProps,
+  },
+  assetIds: [],
+  sourceRefIds: [],
+  status: 'ready',
+  notes: '',
+  ...overrides,
+});
+
+const makeEpisode = (
+  scenes: EpisodeScene[],
+  presenterMode: 'placeholder' | 'video' = 'video',
+): EpisodeConfig => ({
+  version: 1,
+  episode: {
+    id: 'section-stamp-test',
+    title: 'SectionStamp Test',
+    width: 1920,
+    height: 1080,
+    fps: 30,
+    durationInSeconds: 12,
+    status: 'DRAFT',
+  },
+  presenter: {
+    mode: presenterMode,
+    videoAssetId: null,
+    subtitleAssetId: null,
+    defaultStageMode: 'presenter-center',
+  },
+  scenes,
+});
 
 describe('SectionStamp', () => {
   it('accepts legal SectionStamp props', () => {
@@ -183,9 +209,8 @@ describe('SectionStamp', () => {
   it.each(['bottom-left', 'bottom-right', 'center-overlay', 'full-bleed', 'screen-primary'] as const)(
     'rejects %s as a SectionStamp scene slot',
     (slot) => {
-      const {episode, assets, sources} = loadDemoSectionStamp();
-      episode.scenes[0] = {
-        ...episode.scenes[0],
+      const episode = makeEpisode([
+        makeSectionStampScene({
         slot,
         content: {
           kind: 'SectionStamp',
@@ -194,9 +219,10 @@ describe('SectionStamp', () => {
             placement: 'top-left',
           },
         },
-      };
+        }),
+      ]);
 
-      const result = validateEpisodeData(episode, assets, sources, {mode: 'preview'});
+      const result = validateEpisodeData(episode, {assets: []}, {sources: []}, {mode: 'preview'});
 
       expect(result.ok).toBe(false);
       expect(result.issues.some((issue) => issue.code === 'component.slot')).toBe(true);
@@ -208,19 +234,17 @@ describe('SectionStamp', () => {
   });
 
   it('is not blocked by component status in strict validation', () => {
-    const {episode, assets, sources} = loadDemoSectionStamp();
-    episode.presenter.mode = 'video';
+    const episode = makeEpisode([makeSectionStampScene()]);
 
-    const result = validateEpisodeData(episode, assets, sources, {mode: 'strict'});
+    const result = validateEpisodeData(episode, {assets: []}, {sources: []}, {mode: 'strict'});
 
     expect(result.issues.some((issue) => issue.code === 'component.prototype')).toBe(false);
     expect(result.issues.some((issue) => issue.code === 'component.planned')).toBe(false);
   });
 
   it('warns when SectionStamp title may become long', () => {
-    const {episode, assets, sources} = loadDemoSectionStamp();
-    episode.scenes[0] = {
-      ...episode.scenes[0],
+    const episode = makeEpisode([
+      makeSectionStampScene({
       content: {
         kind: 'SectionStamp',
         props: {
@@ -233,25 +257,45 @@ describe('SectionStamp', () => {
           },
         },
       },
-    };
+      }),
+    ]);
 
-    const result = validateEpisodeData(episode, assets, sources, {mode: 'preview'});
+    const result = validateEpisodeData(episode, {assets: []}, {sources: []}, {mode: 'preview'});
 
     expect(result.issues.some((issue) => issue.code === 'section-stamp.title-long')).toBe(true);
   });
 
-  it('passes preview validation for demo-section-stamp', () => {
-    const {episode, assets, sources} = loadDemoSectionStamp();
+  it('passes preview validation for a SectionStamp sample episode', () => {
+    const episode = makeEpisode([makeSectionStampScene()]);
 
-    const result = validateEpisodeData(episode, assets, sources, {mode: 'preview'});
+    const result = validateEpisodeData(episode, {assets: []}, {sources: []}, {mode: 'preview'});
 
     expect(result.ok).toBe(true);
   });
 
-  it('warns for the demo long-title stress scene without blocking preview', () => {
-    const {episode, assets, sources} = loadDemoSectionStamp();
+  it('warns for a long-title stress scene without blocking preview', () => {
+    const episode = makeEpisode([
+      makeSectionStampScene(),
+      makeSectionStampScene({
+        id: 'scene-04',
+        start: 6,
+        end: 10,
+        content: {
+          kind: 'SectionStamp',
+          props: {
+            ...baseSectionStampProps,
+            title: '这是一个比较偏长但仍然合法的章节标题啊',
+            emphasis: {
+              text: '章节标题',
+              color: 'orange',
+              mode: 'underline',
+            },
+          },
+        },
+      }),
+    ]);
 
-    const result = validateEpisodeData(episode, assets, sources, {mode: 'preview'});
+    const result = validateEpisodeData(episode, {assets: []}, {sources: []}, {mode: 'preview'});
 
     expect(result.ok).toBe(true);
     expect(
@@ -262,22 +306,18 @@ describe('SectionStamp', () => {
   });
 
   it('still blocks center-overlay in presenter-center through safe-zone rules', () => {
-    const {episode, assets, sources} = loadDemoSectionStamp();
-    episode.scenes[0] = {
-      ...episode.scenes[0],
-      slot: 'center-overlay',
-    };
+    const episode = makeEpisode([makeSectionStampScene({slot: 'center-overlay'})]);
 
-    const result = validateEpisodeData(episode, assets, sources, {mode: 'preview'});
+    const result = validateEpisodeData(episode, {assets: []}, {sources: []}, {mode: 'preview'});
 
     expect(result.ok).toBe(false);
     expect(result.issues.some((issue) => issue.code === 'safe-zone.presenter')).toBe(true);
   });
 
-  it('blocks demo-section-stamp in strict validation because presenter is placeholder', () => {
-    const {episode, assets, sources} = loadDemoSectionStamp();
+  it('blocks SectionStamp sample in strict validation because presenter is placeholder', () => {
+    const episode = makeEpisode([makeSectionStampScene()], 'placeholder');
 
-    const result = validateEpisodeData(episode, assets, sources, {mode: 'strict'});
+    const result = validateEpisodeData(episode, {assets: []}, {sources: []}, {mode: 'strict'});
 
     expect(result.ok).toBe(false);
     expect(result.issues.some((issue) => issue.code === 'presenter.placeholder')).toBe(true);

@@ -202,3 +202,38 @@ Props 示例：
 - `screen-primary` 只允许 `presenter-small`、`screen-primary`、`no-presenter`。
 - strict render 来源状态必须是 `captured` 或 `verified`。
 - `kind: "demo"` 的 source 只允许 preview。
+
+## EditorialOverlay Scene
+
+`EditorialOverlay` 不需要素材和来源，必须放在 `overlay` track。它用于普通口播阶段的轻量信息填充，不用于章节开场、核心观点、证据、复杂数据或操作演示。
+
+Props 示例：
+
+```json
+{
+  "placement": "top-left",
+  "layout": "corner-stack",
+  "density": "medium",
+  "accent": "orange",
+  "items": [
+    {"type": "ghost-number", "value": "01"},
+    {"type": "keyword", "text": "工作流", "emphasis": "block"},
+    {
+      "type": "mini-list",
+      "title": "关键环节",
+      "rows": [{"label": "口播"}, {"label": "字幕"}, {"label": "分镜"}]
+    }
+  ]
+}
+```
+
+限制：
+
+- `track` 必须是 `overlay`。
+- `slot` 和 `content.props.placement` 只能是 `top-left`、`top-right`、`edge-left`、`edge-right`，且必须一致。
+- `items` 最少 1 个、最多 4 个。
+- `ghost-number`、`keyword`、`mini-list`、`annotation` 最多各 1 个；`stat-tag` 最多 2 个。
+- `mini-list.rows` 必须是 2 到 4 条。
+- `scatter` 最多 2 个 item。
+- 与 `EvidenceClip`、`MetricSpread`、`ConceptSplit` 同时出现时只能用 `density: "light"`。
+- 与 `HeadlineTakeover` 或 `SectionStamp` 重叠在 preview 中 warning，strict render 中 blocking。

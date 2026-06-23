@@ -1,17 +1,8 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import {describe, expect, it} from 'vitest';
 import {componentRegistry} from '../src/editorial/registry/component-registry';
-import {
-  assetManifestSchema,
-  episodeSchema,
-  metricSpreadPropsSchema,
-  sourceManifestSchema,
-} from '../src/editorial/schema/episode.schema';
-import type {AssetManifest, EpisodeConfig, EpisodeScene, MetricSpreadProps, SourceManifest} from '../src/editorial/schema/episode.types';
+import {metricSpreadPropsSchema} from '../src/editorial/schema/episode.schema';
+import type {EpisodeConfig, EpisodeScene, MetricSpreadProps, SourceManifest} from '../src/editorial/schema/episode.types';
 import {validateEpisodeData} from '../src/editorial/validation/validate-episode';
-
-const repoRoot = process.cwd();
 
 const baseProps: MetricSpreadProps = {
   variant: 'delta-ledger',
@@ -98,23 +89,6 @@ const makeEpisode = (scene: EpisodeScene, presenterMode: 'placeholder' | 'video'
   },
   scenes: [scene],
 });
-
-const loadDemoMetricSpread = (): {
-  episode: EpisodeConfig;
-  assets: AssetManifest;
-  sources: SourceManifest;
-} => {
-  const episode = episodeSchema.parse(
-    JSON.parse(fs.readFileSync(path.join(repoRoot, 'episodes/demo-metric-spread/episode.json'), 'utf8')),
-  );
-  const assets = assetManifestSchema.parse(
-    JSON.parse(fs.readFileSync(path.join(repoRoot, 'episodes/demo-metric-spread/asset-manifest.json'), 'utf8')),
-  );
-  const sources = sourceManifestSchema.parse(
-    JSON.parse(fs.readFileSync(path.join(repoRoot, 'episodes/demo-metric-spread/sources.json'), 'utf8')),
-  );
-  return {episode, assets, sources};
-};
 
 describe('MetricSpread', () => {
   it('accepts legal MetricSpread props', () => {
@@ -227,16 +201,24 @@ describe('MetricSpread', () => {
     expect(componentRegistry.MetricSpread.implementationStatus).toBe('ready');
   });
 
-  it('passes preview validation for demo-metric-spread', () => {
-    const {episode, assets, sources} = loadDemoMetricSpread();
-    const result = validateEpisodeData(episode, assets, sources, {mode: 'preview'});
+  it('passes preview validation for a MetricSpread sample episode', () => {
+    const result = validateEpisodeData(
+      makeEpisode(makeScene()),
+      {assets: []},
+      {sources: [makeSource()]},
+      {mode: 'preview'},
+    );
 
     expect(result.ok).toBe(true);
   });
 
-  it('blocks demo-metric-spread in strict validation because presenter and demo source are preview-only', () => {
-    const {episode, assets, sources} = loadDemoMetricSpread();
-    const result = validateEpisodeData(episode, assets, sources, {mode: 'strict'});
+  it('blocks MetricSpread sample in strict validation because presenter and demo source are preview-only', () => {
+    const result = validateEpisodeData(
+      makeEpisode(makeScene(), 'placeholder'),
+      {assets: []},
+      {sources: [makeSource({kind: 'demo', status: 'captured'})]},
+      {mode: 'strict'},
+    );
 
     expect(result.ok).toBe(false);
     expect(result.issues.some((issue) => issue.code === 'presenter.placeholder')).toBe(true);

@@ -59,6 +59,14 @@ npm run episode:frames -- --episode demo-concept-split
 npm run episode:preview -- --episode demo-concept-split
 ```
 
+EditorialOverlay demo：
+
+```bash
+npm run episode:validate -- --episode demo-editorial-overlay
+npm run episode:frames -- --episode demo-editorial-overlay
+npm run episode:preview -- --episode demo-editorial-overlay
+```
+
 说明：
 
 - `episode:validate` 默认是 preview 校验。

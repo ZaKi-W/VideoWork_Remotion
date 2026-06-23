@@ -132,3 +132,31 @@ Production rules:
 - Strict render requires source status `captured` or `verified`.
 - `kind: "demo"` source is preview-only.
 - Do not put full webpage screenshots, report images, or dense tables into `MetricSpread`; use `EvidenceClip` for source screenshots.
+
+## EditorialOverlay
+
+`EditorialOverlay` is ready for production.
+
+Allowed placement rules:
+
+- stage modes: `presenter-center`, `presenter-small`, `screen-primary`, `no-presenter`.
+- slots: `top-left`, `top-right`, `edge-left`, `edge-right`.
+- track: `overlay` only.
+- Never use `bottom-left`, `bottom-right`, `center-overlay`, `full-bleed`, or `screen-primary`.
+
+Production rules:
+
+- `assetIds` should be `[]`.
+- `sourceRefIds` should be `[]`.
+- `content.props.placement` must match scene `slot`.
+- `layout` must be `corner-stack`, `edge-rail`, `counterweight`, or `scatter`.
+- `density` must be `light` or `medium`; there is no heavy mode.
+- Use `accent: "orange"` by default.
+- Use `accent: "blue"` only for Agent, automation, code, engineering, workflow, or technical capability.
+- Use 1 to 4 items total.
+- Use at most one `ghost-number`, one `keyword`, one `mini-list`, one `annotation`, and two `stat-tag` items.
+- `mini-list.rows` must contain 2 to 4 short rows.
+- `scatter` may use at most 2 items.
+- Do not overlap `SectionStamp` or `HeadlineTakeover`; preview warns and strict render blocks.
+- When overlapping `EvidenceClip`, `MetricSpread`, or `ConceptSplit`, use only `density: "light"`.
+- Do not build HUD frames, TV sidebars, right news cards, dark battle panels, rounded white cards, dense tables, or pill tags.

@@ -4,6 +4,7 @@ export const visualTokens = {
     warmGray: '#E8E5DF',
     inkBlack: '#151515',
     graphite: '#3C3C3C',
+    acid: '#D9FF4C',
     signalOrange: '#F26A2E',
     electricBlue: '#2563EB',
     mutedBlue: '#6B8DBF',

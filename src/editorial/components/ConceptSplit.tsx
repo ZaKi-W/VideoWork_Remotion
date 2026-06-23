@@ -1,7 +1,8 @@
 import type {CSSProperties, ReactElement} from 'react';
-import {Easing, interpolate, useCurrentFrame} from 'remotion';
+import {useCurrentFrame} from 'remotion';
 import type {ComponentRendererProps} from '../registry/component.types';
 import type {ConceptSplitProps} from '../schema/episode.types';
+import {editorialExitProgress, editorialProgress} from '../shared/motion';
 import {getStageLayout} from '../stage/stage.config';
 import {visualTokens} from '../stage/visual-tokens';
 
@@ -33,29 +34,6 @@ const getConceptSplitProps = (props: ComponentRendererProps): ConceptSplitProps 
     throw new Error(`ConceptSplit renderer received ${props.scene.content.kind}`);
   }
   return props.scene.content.props;
-};
-
-const progressFor = (frame: number, start: number, end: number, durationInFrames: number): number => {
-  const available = Math.max(1, durationInFrames - 1);
-  const compressedStart = Math.min(start, Math.floor(available * 0.18));
-  const compressedEnd = Math.min(end, Math.floor(available * 0.42));
-  if (compressedEnd <= compressedStart) {
-    return frame >= compressedStart ? 1 : 0;
-  }
-  return interpolate(frame, [compressedStart, compressedEnd], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.out(Easing.cubic),
-  });
-};
-
-const exitProgressFor = (frame: number, durationInFrames: number): number => {
-  const exitDuration = Math.min(12, Math.max(8, Math.floor(durationInFrames * 0.16)));
-  return interpolate(frame, [durationInFrames - exitDuration, durationInFrames - 1], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.in(Easing.cubic),
-  });
 };
 
 const accentFor = (accent: ConceptSplitProps['accent']): string =>
@@ -418,11 +396,11 @@ export const ConceptSplit = (rendererProps: ComponentRendererProps) => {
   const mode = props.mode ?? 'cross-cut';
   const emphasize = props.emphasize ?? 'right';
   const accent = accentFor(props.accent);
-  const exit = exitProgressFor(frame, rendererProps.durationInFrames);
-  const cutIntro = progressFor(frame, 0, 5, rendererProps.durationInFrames);
-  const oldIntro = progressFor(frame, 2, 9, rendererProps.durationInFrames);
-  const newIntro = progressFor(frame, 5, 13, rendererProps.durationInFrames);
-  const detailIntro = progressFor(frame, 8, 16, rendererProps.durationInFrames);
+  const exit = editorialExitProgress(frame, rendererProps.durationInFrames, 12, 18);
+  const cutIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 0, end: 24});
+  const oldIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 6, end: 32});
+  const newIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 12, end: 40});
+  const detailIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 20, end: 50});
   const layout =
     mode === 'editorial-fold'
       ? layoutForFold(rendererProps, emphasize)
@@ -440,6 +418,7 @@ export const ConceptSplit = (rendererProps: ComponentRendererProps) => {
         height: layout.canvasHeight,
         overflow: 'hidden',
         color: visualTokens.color.inkBlack,
+        transform: `scale(${0.992 + cutIntro * 0.008})`,
       }}
     >
       {layout.foldPanel ? (

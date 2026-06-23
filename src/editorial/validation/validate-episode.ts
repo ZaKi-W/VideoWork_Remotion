@@ -14,6 +14,7 @@ import {
 import type {
   AssetManifest,
   ConceptSplitProps,
+  EditorialOverlayProps,
   EvidenceClipProps,
   EpisodeConfig,
   EpisodeScene,
@@ -49,6 +50,8 @@ const conceptFoldStageModes: StageMode[] = ['no-presenter', 'screen-primary'];
 const conceptFoldSlots: StageSlot[] = ['full-bleed', 'screen-primary'];
 const conceptHandoffStageModes: StageMode[] = ['presenter-small', 'screen-primary', 'no-presenter'];
 const conceptHandoffSlots: StageSlot[] = ['edge-left', 'edge-right', 'screen-primary'];
+const editorialOverlayStageModes: StageMode[] = ['presenter-center', 'presenter-small', 'screen-primary', 'no-presenter'];
+const editorialOverlaySlots: StageSlot[] = ['top-left', 'top-right', 'edge-left', 'edge-right'];
 
 const headlineContext = (episode: EpisodeConfig, scene: EpisodeScene): string => {
   const mode = scene.content.kind === 'HeadlineTakeover' ? scene.content.props.mode ?? 'punch' : 'unknown';
@@ -68,6 +71,25 @@ const isConceptSplitFoldCanvas = (scene: EpisodeScene): boolean =>
   (scene.content.props.mode ?? 'cross-cut') === 'editorial-fold' &&
   scene.slot === 'full-bleed';
 
+const acidFullCanvasKinds = new Set<EpisodeScene['kind']>([
+  'MediaWall',
+  'Countdown',
+  'ChapterIndex',
+  'CountryGap',
+  'ReleaseTimeline',
+  'StatsBoard',
+  'Ecosystem',
+  'OpenSourceWave',
+  'MapFocus',
+  'TimeGap',
+  'PricePage',
+  'TokenBoard',
+  'AgentExecution',
+]);
+
+const isAcidFullCanvas = (scene: EpisodeScene): boolean =>
+  acidFullCanvasKinds.has(scene.kind) && scene.stageMode === 'no-presenter' && scene.slot === 'full-bleed';
+
 const evidenceContext = (episode: EpisodeConfig, scene: EpisodeScene, props: EvidenceClipProps): string =>
   `episode=${episode.episode.id}; scene=${scene.id}; variant=${props.variant ?? 'clipping'}; stageMode=${
     scene.stageMode
@@ -80,6 +102,13 @@ const conceptContext = (episode: EpisodeConfig, scene: EpisodeScene, props: Conc
   `episode=${episode.episode.id}; scene=${scene.id}; mode=${props.mode ?? 'cross-cut'}; relationship=${
     props.relationship ?? 'from-to'
   }; stageMode=${scene.stageMode}; slot=${scene.slot}`;
+
+const editorialOverlayContext = (episode: EpisodeConfig, scene: EpisodeScene, props: EditorialOverlayProps): string =>
+  `episode=${episode.episode.id}; scene=${scene.id}; layout=${props.layout ?? 'corner-stack'}; density=${
+    props.density ?? 'light'
+  }; stageMode=${scene.stageMode}; slot=${scene.slot}`;
+
+const scenesOverlap = (a: EpisodeScene, b: EpisodeScene): boolean => a.start < b.end && b.start < a.end;
 
 const hasLocalVerificationNote = (notes: string): boolean => /local|本地|可验证|demo/i.test(notes);
 
@@ -147,8 +176,72 @@ export const validateEpisodeData = (
     }
   }
 
+  validateEditorialOverlayTimeline(episode, issues, strict);
+
   const ok = !issues.some((issue) => issue.level === 'blocking' || issue.level === 'error');
   return {ok, issues};
+};
+
+const validateEditorialOverlayTimeline = (
+  episode: EpisodeConfig,
+  issues: ValidationIssue[],
+  strict: boolean,
+) => {
+  const overlayScenes = episode.scenes
+    .filter((scene) => scene.kind === 'EditorialOverlay')
+    .sort((a, b) => a.start - b.start);
+
+  for (let index = 1; index < overlayScenes.length; index += 1) {
+    const previous = overlayScenes[index - 1];
+    const current = overlayScenes[index];
+    if (scenesOverlap(previous, current)) {
+      push(
+        issues,
+        'blocking',
+        'editorial-overlay.concurrent',
+        `only one EditorialOverlay can be active at a time; overlaps ${previous.id}`,
+        current.id,
+      );
+    }
+  }
+
+  for (const overlay of overlayScenes) {
+    for (const scene of episode.scenes) {
+      if (scene.id === overlay.id || !scenesOverlap(overlay, scene)) {
+        continue;
+      }
+      if (scene.kind === 'HeadlineTakeover') {
+        push(
+          issues,
+          strict ? 'blocking' : 'warning',
+          'editorial-overlay.headline-overlap',
+          `EditorialOverlay overlaps HeadlineTakeover ${scene.id}`,
+          overlay.id,
+        );
+      }
+      if (scene.kind === 'SectionStamp') {
+        push(
+          issues,
+          strict ? 'blocking' : 'warning',
+          'editorial-overlay.section-overlap',
+          `EditorialOverlay overlaps SectionStamp ${scene.id}`,
+          overlay.id,
+        );
+      }
+      if (scene.kind === 'EvidenceClip' || scene.kind === 'MetricSpread' || scene.kind === 'ConceptSplit') {
+        const density = overlay.content.kind === 'EditorialOverlay' ? overlay.content.props.density ?? 'light' : 'light';
+        if (density !== 'light') {
+          push(
+            issues,
+            strict ? 'blocking' : 'warning',
+            'editorial-overlay.density-with-main',
+            `EditorialOverlay must use light density when overlapping ${scene.kind}`,
+            overlay.id,
+          );
+        }
+      }
+    }
+  }
 };
 
 const validateScene = (
@@ -211,7 +304,8 @@ const validateScene = (
     rectsIntersect(slotRect, layout.subtitleSafeZone) &&
     !isHeadlineTakeoverFullCanvas(scene) &&
     !isEvidenceClipSpotlightCanvas(scene) &&
-    !isConceptSplitFoldCanvas(scene)
+    !isConceptSplitFoldCanvas(scene) &&
+    !isAcidFullCanvas(scene)
   ) {
     push(issues, 'blocking', 'safe-zone.subtitle', `${scene.slot} enters subtitle safe zone`, scene.id);
   }
@@ -373,6 +467,10 @@ const validateScene = (
     validateConceptSplit(scene, episode, issues, strict);
   }
 
+  if (scene.content.kind === 'EditorialOverlay') {
+    validateEditorialOverlay(scene, episode, issues, strict);
+  }
+
   if (publicDir) {
     for (const assetId of scene.assetIds) {
       const asset = assets.assets.find((candidate) => candidate.id === assetId);
@@ -384,6 +482,86 @@ const validateScene = (
         push(issues, strict ? 'blocking' : 'warning', 'asset.file-missing', `asset file missing: ${asset.path}`, scene.id);
       }
     }
+  }
+};
+
+const validateEditorialOverlay = (
+  scene: EpisodeScene,
+  episode: EpisodeConfig,
+  issues: ValidationIssue[],
+  strict: boolean,
+) => {
+  const props: EditorialOverlayProps | undefined =
+    scene.content.kind === 'EditorialOverlay' ? scene.content.props : undefined;
+  if (!props) {
+    return;
+  }
+
+  const context = editorialOverlayContext(episode, scene, props);
+  const issueLevel = strict ? 'blocking' : 'error';
+
+  if (scene.track !== 'overlay') {
+    push(
+      issues,
+      strict ? 'blocking' : 'warning',
+      'editorial-overlay.track',
+      `EditorialOverlay belongs on overlay track (${context})`,
+      scene.id,
+    );
+  }
+
+  if (!editorialOverlayStageModes.includes(scene.stageMode)) {
+    push(issues, issueLevel, 'editorial-overlay.stage-mode', `EditorialOverlay stageMode is illegal (${context})`, scene.id);
+  }
+
+  if (!editorialOverlaySlots.includes(scene.slot)) {
+    push(
+      issues,
+      issueLevel,
+      'editorial-overlay.slot',
+      `EditorialOverlay only allows top-left, top-right, edge-left, or edge-right (${context})`,
+      scene.id,
+    );
+  }
+
+  if (props.placement !== scene.slot) {
+    push(
+      issues,
+      issueLevel,
+      'editorial-overlay.placement-mismatch',
+      `EditorialOverlay props placement ${props.placement} must match scene slot ${scene.slot} (${context})`,
+      scene.id,
+    );
+  }
+
+  const textLoad = props.items.reduce((sum, item) => {
+    if (item.type === 'mini-list') {
+      return (
+        sum +
+        (item.title?.length ?? 0) +
+        item.rows.reduce((rowSum, row) => rowSum + row.label.length + (row.value?.length ?? 0), 0)
+      );
+    }
+    if (item.type === 'annotation') {
+      return sum + item.text.length;
+    }
+    if (item.type === 'keyword') {
+      return sum + item.text.length;
+    }
+    if (item.type === 'stat-tag') {
+      return sum + item.value.length + (item.label?.length ?? 0);
+    }
+    return sum + item.value.length;
+  }, 0);
+
+  if (textLoad > 48) {
+    push(
+      issues,
+      'warning',
+      'editorial-overlay.text-load',
+      `EditorialOverlay may contain too much small text; verify it stays like information air (${context})`,
+      scene.id,
+    );
   }
 };
 

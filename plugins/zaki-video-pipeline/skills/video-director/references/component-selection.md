@@ -145,3 +145,35 @@ Do not use `MetricSpread`:
 - Just to fill empty space.
 
 Recommended frequency: 2 to 6 times in a 5 to 10 minute video. Do not use `HeadlineTakeover` and `MetricSpread` in the same spoken segment.
+
+## EditorialOverlay
+
+Use `EditorialOverlay` when:
+
+- A normal talking-head segment feels visually empty.
+- One short keyword needs quiet support.
+- Two to four short facts, labels, or reminders help maintain information density.
+- A small metric tag or short editorial annotation is enough.
+
+`EditorialOverlay` is information air, not a main visual. It should sit on the `overlay` track and stay lighter than the presenter and any main component.
+
+Use atoms:
+
+- `ghost-number` for weak chapter, phase, or index atmosphere.
+- `keyword` for one short word or phrase.
+- `mini-list` for 2 to 4 short rows.
+- `stat-tag` for one tiny data marker.
+- `annotation` for one short note and a short guide line.
+
+Do not use `EditorialOverlay`:
+
+- For chapter starts; use `SectionStamp`.
+- For core claims; use `HeadlineTakeover`.
+- For evidence screenshots or source material; use `EvidenceClip`.
+- For important numbers or before/after data; use `MetricSpread`.
+- For two-concept explanation; use `ConceptSplit`.
+- For screen demos or complex workflows.
+- During `SectionStamp` or `HeadlineTakeover`.
+- Just because every sentence seems to need motion.
+
+Recommended frequency: 6 to 15 times in a 5 to 10 minute video, usually 3 to 8 seconds each. Do not repeat the same layout in adjacent uses, and do not use the same item combination three times in a row.

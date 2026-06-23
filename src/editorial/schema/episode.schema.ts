@@ -27,6 +27,20 @@ export const componentKindSchema = z.enum([
   'ConceptSplit',
   'EvidenceClip',
   'MetricSpread',
+  'EditorialOverlay',
+  'MediaWall',
+  'Countdown',
+  'ChapterIndex',
+  'CountryGap',
+  'ReleaseTimeline',
+  'StatsBoard',
+  'Ecosystem',
+  'OpenSourceWave',
+  'MapFocus',
+  'TimeGap',
+  'PricePage',
+  'TokenBoard',
+  'AgentExecution',
   'WorkflowPath',
   'DemoFocusFrame',
   'AssetStack',
@@ -248,6 +262,172 @@ export const metricSpreadPropsSchema = z
   })
   .strict();
 
+export const editorialOverlayPlacementSchema = z.enum([
+  'top-left',
+  'top-right',
+  'edge-left',
+  'edge-right',
+]);
+
+const editorialOverlayMiniListRowSchema = z
+  .object({
+    label: z.string().trim().min(1).max(14),
+    value: z.string().trim().min(1).max(12).optional(),
+    emphasis: z.enum(['label', 'value', 'none']).default('none'),
+  })
+  .strict();
+
+const editorialOverlayItemSchema = z.discriminatedUnion('type', [
+  z
+    .object({
+      type: z.literal('ghost-number'),
+      value: z.string().trim().min(1).max(6),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('keyword'),
+      text: z.string().trim().min(1).max(12),
+      emphasis: z.enum(['none', 'block', 'reverse', 'underline']).default('none'),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('mini-list'),
+      title: z.string().trim().min(1).max(12).optional(),
+      rows: z.array(editorialOverlayMiniListRowSchema).min(2).max(4),
+    })
+    .strict()
+    .superRefine((item, ctx) => {
+      const emphasizedRows = item.rows.filter((row) => row.emphasis !== 'none').length;
+      if (emphasizedRows > 1) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'EditorialOverlay mini-list can emphasize at most one row',
+          path: ['rows'],
+        });
+      }
+    }),
+  z
+    .object({
+      type: z.literal('stat-tag'),
+      value: z.string().trim().min(1).max(12),
+      label: z.string().trim().min(1).max(10).optional(),
+      tone: z.enum(['accent', 'neutral']).default('neutral'),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('annotation'),
+      text: z.string().trim().min(1).max(18),
+      direction: z.enum(['left', 'right', 'up', 'down']).default('left'),
+    })
+    .strict(),
+]);
+
+export const editorialOverlayPropsSchema = z
+  .object({
+    placement: editorialOverlayPlacementSchema,
+    layout: z.enum(['corner-stack', 'edge-rail', 'counterweight', 'scatter']).default('corner-stack'),
+    density: z.enum(['light', 'medium']).default('light'),
+    accent: z.enum(['orange', 'blue']).default('orange'),
+    items: z.array(editorialOverlayItemSchema).min(1).max(4),
+  })
+  .strict()
+  .superRefine((props, ctx) => {
+    const counts = props.items.reduce<Record<string, number>>((memo, item) => {
+      memo[item.type] = (memo[item.type] ?? 0) + 1;
+      return memo;
+    }, {});
+    const limits: Record<string, number> = {
+      'ghost-number': 1,
+      keyword: 1,
+      'mini-list': 1,
+      'stat-tag': 2,
+      annotation: 1,
+    };
+
+    for (const [type, count] of Object.entries(counts)) {
+      if (count > 2 || count > limits[type]) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `EditorialOverlay allows at most ${limits[type]} ${type} item(s)`,
+          path: ['items'],
+        });
+      }
+    }
+
+    if (props.density === 'light' && props.items.length > 2) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'EditorialOverlay light density allows 1 to 2 items',
+        path: ['items'],
+      });
+    }
+    if (props.density === 'medium' && props.items.length < 2) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'EditorialOverlay medium density requires 2 to 4 items',
+        path: ['items'],
+      });
+    }
+    if (props.layout === 'scatter' && props.items.length > 2) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'EditorialOverlay scatter layout allows at most 2 items',
+        path: ['items'],
+      });
+    }
+  });
+
+const acidSourceCardSchema = z
+  .object({
+    label: z.string().trim().min(1).max(36).optional(),
+    code: z.string().trim().min(1).max(10).optional(),
+    meta: z.string().trim().min(1).max(48).optional(),
+    title: z.string().trim().min(1).max(64).optional(),
+    highlight: z.string().trim().min(1).max(80).optional(),
+    footer: z.string().trim().min(1).max(32).optional(),
+    assetId: z.string().trim().min(1).optional(),
+    sourceRefId: z.string().trim().min(1).optional(),
+  })
+  .strict();
+
+const acidItemSchema = z
+  .object({
+    label: z.string().trim().min(1).max(24),
+    value: z.string().trim().min(1).max(20).optional(),
+    detail: z.string().trim().min(1).max(44).optional(),
+    percent: z.number().min(0).max(100).optional(),
+  })
+  .strict();
+
+const acidMessageSchema = z
+  .object({
+    speaker: z.enum(['me', 'agent']),
+    text: z.string().trim().min(1).max(64),
+  })
+  .strict();
+
+export const acidComponentPropsSchema = z
+  .object({
+    topic: z.string().trim().min(1).max(44).optional(),
+    topicDetail: z.string().trim().min(1).max(44).optional(),
+    eyebrow: z.string().trim().min(1).max(44).optional(),
+    title: z.array(z.string().trim().min(1).max(14)).min(1).max(3),
+    copy: z.string().trim().min(1).max(90).optional(),
+    subtitle: z.string().trim().min(1).max(56),
+    subtitleEn: z.string().trim().min(1).max(90).optional(),
+    primaryValue: z.string().trim().min(1).max(16).optional(),
+    primaryUnit: z.string().trim().min(1).max(12).optional(),
+    caption: z.string().trim().min(1).max(18).optional(),
+    items: z.array(acidItemSchema).max(8).default([]),
+    source: acidSourceCardSchema.optional(),
+    messages: z.array(acidMessageSchema).max(6).default([]),
+    mediaCount: z.number().int().min(12).max(60).default(48),
+  })
+  .strict();
+
 export const workflowPathPropsSchema = z.object({
   nodes: z.array(z.string()).min(1),
   activeNodeIndexes: z.array(z.number().int().nonnegative()).default([]),
@@ -276,6 +456,20 @@ export const sceneContentSchema = z.discriminatedUnion('kind', [
   z.object({kind: z.literal('ConceptSplit'), props: conceptSplitPropsSchema}),
   z.object({kind: z.literal('EvidenceClip'), props: evidenceClipPropsSchema}),
   z.object({kind: z.literal('MetricSpread'), props: metricSpreadPropsSchema}),
+  z.object({kind: z.literal('EditorialOverlay'), props: editorialOverlayPropsSchema}),
+  z.object({kind: z.literal('MediaWall'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('Countdown'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('ChapterIndex'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('CountryGap'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('ReleaseTimeline'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('StatsBoard'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('Ecosystem'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('OpenSourceWave'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('MapFocus'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('TimeGap'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('PricePage'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('TokenBoard'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('AgentExecution'), props: acidComponentPropsSchema}),
   z.object({kind: z.literal('WorkflowPath'), props: workflowPathPropsSchema}),
   z.object({kind: z.literal('DemoFocusFrame'), props: demoFocusFramePropsSchema}),
   z.object({kind: z.literal('AssetStack'), props: assetStackPropsSchema}),
@@ -286,7 +480,7 @@ export const sceneSchema = z
     id: z.string().min(1),
     start: z.number().nonnegative(),
     end: z.number().positive(),
-    track: z.enum(['primary', 'annotation', 'background']),
+    track: z.enum(['primary', 'annotation', 'background', 'overlay']),
     kind: componentKindSchema,
     stageMode: stageModeSchema,
     slot: slotSchema,

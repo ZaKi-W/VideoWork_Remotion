@@ -1,7 +1,8 @@
-import {Easing, interpolate, useCurrentFrame} from 'remotion';
+import {useCurrentFrame} from 'remotion';
 import type {CSSProperties, ReactNode} from 'react';
 import type {ComponentRendererProps} from '../registry/component.types';
 import type {HeadlineTakeoverProps} from '../schema/episode.types';
+import {editorialExitProgress, editorialProgress} from '../shared/motion';
 import {visualTokens} from '../stage/visual-tokens';
 
 const getHeadlineTakeoverProps = (props: ComponentRendererProps): HeadlineTakeoverProps => {
@@ -9,29 +10,6 @@ const getHeadlineTakeoverProps = (props: ComponentRendererProps): HeadlineTakeov
     throw new Error(`HeadlineTakeover renderer received ${props.scene.content.kind}`);
   }
   return props.scene.content.props;
-};
-
-const introProgress = (frame: number, start: number, end: number, durationInFrames: number): number => {
-  const available = Math.max(1, durationInFrames - 1);
-  const compressedStart = Math.min(start, Math.floor(available * 0.18));
-  const compressedEnd = Math.min(end, Math.floor(available * 0.38));
-  if (compressedEnd <= compressedStart) {
-    return frame >= compressedStart ? 1 : 0;
-  }
-  return interpolate(frame, [compressedStart, compressedEnd], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.out(Easing.cubic),
-  });
-};
-
-const exitProgress = (frame: number, durationInFrames: number): number => {
-  const exitDuration = Math.min(11, Math.max(7, Math.floor(durationInFrames * 0.14)));
-  return interpolate(frame, [durationInFrames - exitDuration, durationInFrames - 1], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.in(Easing.cubic),
-  });
 };
 
 const colorFor = (color: 'orange' | 'blue' | undefined): string =>
@@ -182,12 +160,12 @@ export const HeadlineTakeover = (rendererProps: ComponentRendererProps) => {
   const frame = useCurrentFrame();
   const props = getHeadlineTakeoverProps(rendererProps);
   const layout = layoutFor(props);
-  const blockIntro = introProgress(frame, 0, 3, rendererProps.durationInFrames);
-  const titleIntro = introProgress(frame, 2, 8, rendererProps.durationInFrames);
-  const emphasisIntro = introProgress(frame, 5, 11, rendererProps.durationInFrames);
-  const exit = exitProgress(frame, rendererProps.durationInFrames);
-  const entryShift = (1 - titleIntro) * layout.direction * -54;
-  const exitShift = exit * layout.direction * 96;
+  const blockIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 0, end: 24});
+  const titleIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 6, end: 32});
+  const emphasisIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 14, end: 40});
+  const exit = editorialExitProgress(frame, rendererProps.durationInFrames, 12, 18);
+  const entryShift = (1 - titleIntro) * layout.direction * -70;
+  const exitShift = exit * layout.direction * 112;
   const clip = (1 - titleIntro) * 100;
   const titleColor = layout.inverseTitle ? visualTokens.color.paperWhite : visualTokens.color.inkBlack;
 
@@ -197,8 +175,8 @@ export const HeadlineTakeover = (rendererProps: ComponentRendererProps) => {
     boxSizing: 'border-box',
     fontFamily: visualTokens.fontFamily.display,
     color: titleColor,
-    opacity: 1 - exit * 0.78,
-    transform: `translateX(${exitShift}px)`,
+    opacity: blockIntro * (1 - exit * 0.78),
+    transform: `translateX(${(1 - blockIntro) * layout.direction * -34 + exitShift}px) scale(${0.985 + blockIntro * 0.015})`,
   };
 
   return (
@@ -210,7 +188,7 @@ export const HeadlineTakeover = (rendererProps: ComponentRendererProps) => {
             ...layout.support,
             background: layout.supportColor,
             opacity: 1,
-            transform: `translateX(${(1 - blockIntro) * layout.direction * -140}px) scaleX(${
+            transform: `translateX(${(1 - blockIntro) * layout.direction * -170}px) scaleX(${
               0.05 + blockIntro * 0.95
             })`,
             transformOrigin: layout.direction === 1 ? 'right center' : 'left center',

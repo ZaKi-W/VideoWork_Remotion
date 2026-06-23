@@ -1,17 +1,8 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import {describe, expect, it} from 'vitest';
 import {componentRegistry} from '../src/editorial/registry/component-registry';
-import {
-  assetManifestSchema,
-  conceptSplitPropsSchema,
-  episodeSchema,
-  sourceManifestSchema,
-} from '../src/editorial/schema/episode.schema';
-import type {AssetManifest, ConceptSplitProps, EpisodeConfig, EpisodeScene, SourceManifest} from '../src/editorial/schema/episode.types';
+import {conceptSplitPropsSchema} from '../src/editorial/schema/episode.schema';
+import type {ConceptSplitProps, EpisodeConfig, EpisodeScene} from '../src/editorial/schema/episode.types';
 import {validateEpisodeData} from '../src/editorial/validation/validate-episode';
-
-const repoRoot = process.cwd();
 
 const baseProps: ConceptSplitProps = {
   mode: 'cross-cut',
@@ -83,23 +74,6 @@ const makeEpisode = (scene: EpisodeScene, presenterMode: 'placeholder' | 'video'
   },
   scenes: [scene],
 });
-
-const loadDemoConceptSplit = (): {
-  episode: EpisodeConfig;
-  assets: AssetManifest;
-  sources: SourceManifest;
-} => {
-  const episode = episodeSchema.parse(
-    JSON.parse(fs.readFileSync(path.join(repoRoot, 'episodes/demo-concept-split/episode.json'), 'utf8')),
-  );
-  const assets = assetManifestSchema.parse(
-    JSON.parse(fs.readFileSync(path.join(repoRoot, 'episodes/demo-concept-split/asset-manifest.json'), 'utf8')),
-  );
-  const sources = sourceManifestSchema.parse(
-    JSON.parse(fs.readFileSync(path.join(repoRoot, 'episodes/demo-concept-split/sources.json'), 'utf8')),
-  );
-  return {episode, assets, sources};
-};
 
 describe('ConceptSplit', () => {
   it('accepts legal ConceptSplit props', () => {
@@ -204,16 +178,14 @@ describe('ConceptSplit', () => {
     expect(componentRegistry.ConceptSplit.implementationStatus).toBe('ready');
   });
 
-  it('passes preview validation for demo-concept-split', () => {
-    const {episode, assets, sources} = loadDemoConceptSplit();
-    const result = validateEpisodeData(episode, assets, sources, {mode: 'preview'});
+  it('passes preview validation for a ConceptSplit sample episode', () => {
+    const result = validateEpisodeData(makeEpisode(makeScene()), {assets: []}, {sources: []}, {mode: 'preview'});
 
     expect(result.ok).toBe(true);
   });
 
-  it('blocks demo-concept-split in strict validation because presenter is placeholder', () => {
-    const {episode, assets, sources} = loadDemoConceptSplit();
-    const result = validateEpisodeData(episode, assets, sources, {mode: 'strict'});
+  it('blocks ConceptSplit sample in strict validation because presenter is placeholder', () => {
+    const result = validateEpisodeData(makeEpisode(makeScene(), 'placeholder'), {assets: []}, {sources: []}, {mode: 'strict'});
 
     expect(result.ok).toBe(false);
     expect(result.issues.some((issue) => issue.code === 'presenter.placeholder')).toBe(true);

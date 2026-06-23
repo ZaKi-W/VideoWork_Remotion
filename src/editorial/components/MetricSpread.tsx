@@ -1,7 +1,8 @@
-import {Easing, interpolate, useCurrentFrame} from 'remotion';
+import {useCurrentFrame} from 'remotion';
 import type {CSSProperties} from 'react';
 import type {ComponentRendererProps} from '../registry/component.types';
 import type {MetricSpreadProps, SourceManifest} from '../schema/episode.types';
+import {editorialExitProgress, editorialProgress} from '../shared/motion';
 import {visualTokens} from '../stage/visual-tokens';
 
 type MetricSource = SourceManifest['sources'][number];
@@ -11,29 +12,6 @@ const getMetricSpreadProps = (props: ComponentRendererProps): MetricSpreadProps 
     throw new Error(`MetricSpread renderer received ${props.scene.content.kind}`);
   }
   return props.scene.content.props;
-};
-
-const progressFor = (frame: number, start: number, end: number, durationInFrames: number): number => {
-  const available = Math.max(1, durationInFrames - 1);
-  const compressedStart = Math.min(start, Math.floor(available * 0.18));
-  const compressedEnd = Math.min(end, Math.floor(available * 0.42));
-  if (compressedEnd <= compressedStart) {
-    return frame >= compressedStart ? 1 : 0;
-  }
-  return interpolate(frame, [compressedStart, compressedEnd], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.out(Easing.cubic),
-  });
-};
-
-const exitProgressFor = (frame: number, durationInFrames: number): number => {
-  const exitDuration = Math.min(20, Math.max(14, Math.floor(durationInFrames * 0.18)));
-  return interpolate(frame, [durationInFrames - exitDuration, durationInFrames - 1], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.in(Easing.cubic),
-  });
 };
 
 const accentFor = (accent: MetricSpreadProps['accent']): string =>
@@ -132,15 +110,15 @@ export const MetricSpread = (rendererProps: ComponentRendererProps) => {
   const accent = accentFor(props.accent);
   const layout = layoutFor(placement, props.rows.length);
   const direction = -1;
-  const exit = exitProgressFor(frame, rendererProps.durationInFrames);
-  const blockIntro = progressFor(frame, 0, 8, rendererProps.durationInFrames);
-  const numberIntro = progressFor(frame, 6, 22, rendererProps.durationInFrames);
-  const labelIntro = progressFor(frame, 18, 32, rendererProps.durationInFrames);
-  const rowIntro = progressFor(frame, 28, 48, rendererProps.durationInFrames);
-  const ratioIntro = progressFor(frame, 42, 60, rendererProps.durationInFrames);
+  const exit = editorialExitProgress(frame, rendererProps.durationInFrames, 14, 20, 0.18);
+  const blockIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 0, end: 26});
+  const numberIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 8, end: 36});
+  const labelIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 18, end: 44});
+  const rowIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 30, end: 58});
+  const ratioIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 44, end: 68});
   const primaryLength = props.primary.value.length + (props.primary.unit?.length ?? 0);
   const primarySize = placement === 'screen-primary' ? (primaryLength > 6 ? 150 : 188) : primaryLength > 6 ? 86 : 122;
-  const bodyShift = (1 - blockIntro) * direction * -58 + exit * direction * 82;
+  const bodyShift = (1 - blockIntro) * direction * -72 + exit * direction * 92;
   const compactRows = placement !== 'screen-primary';
   const isScreenPrimary = placement === 'screen-primary';
   const kickerSize = isScreenPrimary ? 18 : 16;
@@ -168,7 +146,7 @@ export const MetricSpread = (rendererProps: ComponentRendererProps) => {
         color: visualTokens.color.inkBlack,
         fontFamily: visualTokens.fontFamily.body,
         opacity: 1 - exit * 0.74,
-        transform: `translateX(${bodyShift}px)`,
+        transform: `translateX(${bodyShift}px) scale(${0.985 + blockIntro * 0.015})`,
       }}
     >
       <div
@@ -220,7 +198,7 @@ export const MetricSpread = (rendererProps: ComponentRendererProps) => {
             letterSpacing: 0,
             color: visualTokens.color.inkBlack,
             textShadow: `0.018em 0 0 ${visualTokens.color.inkBlack}`,
-            transform: `scaleX(0.97) translateY(${(1 - numberIntro) * 10}px)`,
+            transform: `scaleX(${0.9 + numberIntro * 0.07}) translateY(${(1 - numberIntro) * 16}px)`,
             transformOrigin: `${layout.align} top`,
           }}
         >
@@ -288,7 +266,7 @@ export const MetricSpread = (rendererProps: ComponentRendererProps) => {
                 padding: rowPadding,
                 borderTop: index === 0 ? `1px solid ${visualTokens.color.graphite}` : `1px solid ${visualTokens.color.warmGray}`,
                 opacity: stagger,
-                transform: `translateX(${(1 - stagger) * direction * -20}px)`,
+                transform: `translateX(${(1 - stagger) * direction * -28}px)`,
               }}
             >
               <div style={{fontSize: rowLabelSize, fontWeight: 800, color: visualTokens.color.inkBlack}}>{row.label}</div>

@@ -1,0 +1,1983 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ZAKI Acid Strike · Component Layout Reference</title>
+  <style>
+    /*
+    =============================================================================
+    ZAKI ACID STRIKE — DIRECT LAYOUT REFERENCE
+    =============================================================================
+
+    这份 HTML 的原则：
+
+    1) 不再自行发明斜线、折页、杂志排版、随机色块、玻璃卡片。
+    2) 直接沿用参考视频中已验证有效的组件“展现形式”：
+       - 左侧主标题 / 数据 / 时间线 / 列表
+       - 中间真人口播
+       - 右侧网页、公告、推文、聊天记录、录屏或案例
+       - 顶部很小的主题语境
+       - 底部字幕
+    3) 唯一替换：
+       - 配色统一成 Acid Strike：炭黑 + 酸绿
+       - 字体、标签文案、细节尺寸、图标、数据示例改成自己的
+    4) 当前 talk.mp4 是白墙背景：
+       - 仍保留白墙与真人
+       - 只给左右信息区补局部暗化，保证可读性
+       - 不把白墙整体压成纯暗场
+
+    给 Codex：
+    - 参考本 HTML 的“区域布局”和“组件用途”，而不是给每个组件再加新设计。
+    - 尽量做成高度可复用的 Remotion 模板。
+    - 所有 scene 共用：白墙视频、人物居中、酸绿强调、右侧证据框、黑底字幕。
+    =============================================================================
+    */
+
+    :root {
+      --acid: #d9ff4c;
+      --acid-dim: rgba(217,255,76,.72);
+      --acid-line: rgba(217,255,76,.34);
+      --black: #0b0d0a;
+      --black-2: #11150f;
+      --black-3: #171c14;
+      --panel: rgba(8,10,7,.78);
+      --panel-strong: rgba(7,9,6,.91);
+      --paper: #f7f7ee;
+      --paper-2: #e7ead8;
+      --text: #f9faef;
+      --muted: rgba(249,250,239,.68);
+      --weak: rgba(249,250,239,.42);
+      --line: rgba(255,255,255,.15);
+      --wall: #f2f0ea;
+      --wall-2: #dedcd5;
+
+      --ui: "MiSans", "HarmonyOS Sans SC", "Source Han Sans SC",
+            "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      --display: "Arial Black", "MiSans Heavy", "HarmonyOS Sans SC Black",
+                 "Source Han Sans SC Heavy", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      min-width: 1180px;
+      background: #d8d6d1;
+    }
+
+    body {
+      margin: 0;
+      color: #101216;
+      font-family: var(--ui);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(217,255,76,.10), transparent 26%),
+        #d8d6d1;
+    }
+
+    .app {
+      width: min(1600px, calc(100vw - 48px));
+      margin: 28px auto 56px;
+      display: grid;
+      grid-template-columns: minmax(900px, 1fr) 318px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .shell,
+    .guide {
+      background: rgba(255,255,255,.76);
+      border: 1px solid rgba(16,18,24,.14);
+      box-shadow: 0 28px 72px rgba(16,18,24,.14);
+    }
+
+    .shell { overflow: hidden; }
+
+    .topbar {
+      min-height: 54px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(16,18,24,.12);
+      background: #f7f6f2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 11px;
+      color: rgba(16,18,24,.56);
+      font: 800 11px/1 var(--ui);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .brand strong {
+      color: #111317;
+      font: 900 13px/1 var(--display);
+      letter-spacing: .02em;
+    }
+
+    .topbar-meta {
+      color: rgba(16,18,24,.46);
+      font: 700 10px/1 var(--ui);
+      letter-spacing: .08em;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 7px;
+      padding: 10px 12px;
+      overflow-x: auto;
+      border-bottom: 1px solid rgba(16,18,24,.12);
+      background: #ece9e2;
+    }
+
+    .tab {
+      border: 1px solid rgba(16,18,24,.14);
+      background: rgba(255,255,255,.56);
+      color: rgba(16,18,24,.65);
+      padding: 8px 11px;
+      font: 800 12px/1 var(--ui);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: .16s ease;
+    }
+
+    .tab:hover { border-color: rgba(16,18,24,.42); color: #111317; }
+
+    .tab.is-active {
+      color: var(--acid);
+      background: var(--black);
+      border-color: var(--black);
+      box-shadow: inset 0 -2px 0 var(--acid);
+    }
+
+    /*
+      ─────────────────────────────────────────────────────────
+      STAGE BASE / 实际项目中背景层应为 talk.mp4
+      ─────────────────────────────────────────────────────────
+    */
+    .stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,.96), transparent 31%),
+        linear-gradient(113deg, #dedbd5 0%, #f7f5ef 49%, #e2dfd8 100%);
+    }
+
+    .stage::before {
+      content: "";
+      position: absolute;
+      z-index: -3;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 102%, rgba(16,18,24,.25), transparent 46%),
+        linear-gradient(90deg, rgba(0,0,0,.07), transparent 15%, transparent 81%, rgba(0,0,0,.06));
+      pointer-events: none;
+    }
+
+    /* 只负责让左侧文字、右侧素材在白墙上可读，不做额外造型。 */
+    .left-shadow {
+      position: absolute;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 42%;
+      background: linear-gradient(90deg, rgba(7,9,6,.92) 0%, rgba(12,15,10,.79) 69%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .right-shadow {
+      position: absolute;
+      z-index: 1;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 25%;
+      background: linear-gradient(90deg, transparent, rgba(10,12,9,.03) 30%, rgba(10,12,9,.15) 100%);
+      pointer-events: none;
+    }
+
+    .presenter {
+      position: absolute;
+      z-index: 12;
+      left: 50%;
+      bottom: 5.4%;
+      width: 30%;
+      height: 80%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .presenter-shadow {
+      position: absolute;
+      left: 50%;
+      bottom: -3%;
+      width: 113%;
+      height: 14%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(0,0,0,.37), transparent 70%);
+      filter: blur(8px);
+    }
+
+    .presenter-head {
+      position: absolute;
+      top: 2%;
+      left: 50%;
+      width: 28%;
+      aspect-ratio: 1;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 34% 27%, rgba(255,255,255,.40), transparent 20%),
+        linear-gradient(145deg, #d2a28e, #6c4b54 77%);
+      box-shadow: inset -10px -8px 0 rgba(0,0,0,.13);
+    }
+
+    .presenter-torso {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 92%;
+      height: 75%;
+      transform: translateX(-50%);
+      border-radius: 47% 47% 11% 11% / 22% 22% 7% 7%;
+      background: linear-gradient(135deg, #2a354c, #171c28 74%);
+      box-shadow:
+        inset 13px 0 0 rgba(255,255,255,.045),
+        inset -13px 0 0 rgba(0,0,0,.15);
+    }
+
+    .presenter-arm {
+      position: absolute;
+      right: -7%;
+      bottom: 21%;
+      width: 38%;
+      height: 17%;
+      border-radius: 50%;
+      transform: rotate(-17deg);
+      background: linear-gradient(145deg, #b7796c, #583a44);
+    }
+
+    .subtitle {
+      position: absolute;
+      z-index: 34;
+      left: 50%;
+      bottom: 2.55%;
+      transform: translateX(-50%);
+      min-width: 37%;
+      max-width: 64%;
+      padding: 8px 15px 9px;
+      color: #fff;
+      background: rgba(7,8,6,.87);
+      box-shadow: 0 7px 20px rgba(0,0,0,.22);
+      text-align: center;
+      font: 900 clamp(18px, 1.9vw, 34px)/1.1 var(--ui);
+      letter-spacing: -.025em;
+    }
+
+    .subtitle small {
+      display: block;
+      margin-top: 5px;
+      color: rgba(255,255,255,.62);
+      font: 600 clamp(9px,.88vw,14px)/1.1 var(--ui);
+    }
+
+    .scene {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      color: var(--text);
+    }
+    .scene.is-visible { display: block; }
+
+    /* Small top topic line—only text, no invented diagonal decoration */
+    .topic-line {
+      position: absolute;
+      z-index: 18;
+      top: 4.3%;
+      left: 4%;
+      color: var(--acid);
+      font: 900 10px/1 var(--ui);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .topic-line small {
+      margin-left: 9px;
+      color: var(--weak);
+      font: 700 8px/1 var(--ui);
+      letter-spacing: .08em;
+    }
+
+    .left-panel {
+      position: absolute;
+      z-index: 18;
+      left: 4.2%;
+      top: 15.5%;
+      width: 29%;
+    }
+
+    .eyebrow {
+      color: var(--acid);
+      font: 900 10px/1 var(--ui);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .display-title {
+      margin: 8px 0 0;
+      color: var(--text);
+      font: 900 clamp(33px,3.7vw,71px)/.84 var(--display);
+      letter-spacing: -.10em;
+    }
+
+    .copy {
+      margin-top: 12px;
+      color: var(--muted);
+      font: 800 13px/1.35 var(--ui);
+    }
+
+    .big-number {
+      color: var(--acid);
+      font: 900 clamp(92px, 10.7vw, 196px)/.70 var(--display);
+      letter-spacing: -.14em;
+      text-shadow: 6px 7px 0 rgba(0,0,0,.22);
+    }
+
+    .big-unit {
+      color: var(--text);
+      font: 900 clamp(30px, 2.9vw, 58px)/1 var(--display);
+      letter-spacing: -.05em;
+    }
+
+    /* Right card follows the reference pattern: white source image inside a dark frame */
+    .source-card {
+      position: absolute;
+      z-index: 20;
+      top: 13%;
+      right: 4.4%;
+      width: 29%;
+      color: #15181e;
+      transform: rotate(.45deg);
+    }
+
+    .source-shell {
+      padding: 7px;
+      background: var(--black);
+      border: 2px solid var(--acid);
+      box-shadow: 10px 12px 0 rgba(0,0,0,.18), 0 18px 34px rgba(0,0,0,.19);
+    }
+
+    .source-top,
+    .source-bottom {
+      height: 23px;
+      padding: 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: rgba(249,250,239,.60);
+      font: 900 8px/1 var(--ui);
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .source-top b { color: var(--acid); }
+    .source-bottom b { color: #fff; }
+
+    .source-page {
+      min-height: 280px;
+      padding: 16px 17px 13px;
+      background: linear-gradient(145deg, var(--paper), var(--paper-2));
+    }
+
+    .source-meta {
+      padding-bottom: 9px;
+      border-bottom: 1px solid rgba(21,24,30,.14);
+      color: rgba(21,24,30,.53);
+      font: 900 8px/1 var(--ui);
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .source-title {
+      margin: 13px 0 10px;
+      font: 900 clamp(16px,1.55vw,26px)/1.08 var(--display);
+      letter-spacing: -.05em;
+    }
+
+    .source-lines {
+      display: grid;
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .source-lines i {
+      display: block;
+      height: 7px;
+      border-radius: 3px;
+      background: #c7ccd6;
+    }
+
+    .source-lines i:nth-child(2) { width: 82%; }
+    .source-lines i:nth-child(3) { width: 63%; }
+    .source-lines i:nth-child(5) { width: 76%; }
+    .source-lines i:nth-child(6) { width: 52%; }
+
+    .source-highlight {
+      margin: 12px 0;
+      padding: 7px 8px;
+      color: #101317;
+      font: 800 11px/1.4 var(--ui);
+      background: rgba(217,255,76,.55);
+      border-left: 3px solid var(--acid);
+    }
+
+    /* 01 Media wall */
+    .media-wall {
+      position: absolute;
+      z-index: 18;
+      inset: 8% 3.2% 14%;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      gap: 5px;
+      opacity: .95;
+    }
+
+    .media-tile {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(155deg, #f8f7f0 0%, #d6dac2 100%);
+      border: 1px solid rgba(217,255,76,.42);
+    }
+
+    .media-tile::before {
+      content: "";
+      position: absolute;
+      inset: 10% 12%;
+      background:
+        linear-gradient(#11150f 0 0) 0 0 / 61% 7% no-repeat,
+        linear-gradient(#aeb4a8 0 0) 0 28% / 86% 5% no-repeat,
+        linear-gradient(#aeb4a8 0 0) 0 43% / 67% 5% no-repeat,
+        linear-gradient(#aeb4a8 0 0) 0 58% / 80% 5% no-repeat,
+        linear-gradient(#d9ff4c 0 0) 0 77% / 38% 11% no-repeat;
+      opacity: .72;
+    }
+
+    .media-tile:nth-child(3n) { background: linear-gradient(155deg, #eff4e0, #bcc796); }
+    .media-tile:nth-child(4n) { background: linear-gradient(155deg, #ecede8, #b9c7c2); }
+    .media-tile:nth-child(5n) { background: linear-gradient(155deg, #fff, #d4d4d1); }
+
+    .media-wall-title {
+      position: absolute;
+      z-index: 22;
+      left: 50%;
+      top: 47%;
+      width: 36%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      text-align: center;
+      text-shadow: 0 4px 18px rgba(0,0,0,.55);
+    }
+
+    .media-wall-title h1 {
+      margin: 0;
+      font: 900 clamp(40px,4.6vw,92px)/.82 var(--display);
+      letter-spacing: -.10em;
+    }
+
+    .media-wall-title p {
+      margin: 11px 0 0;
+      color: var(--acid);
+      font: 900 11px/1 var(--ui);
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .media-wall-wash {
+      position: absolute;
+      z-index: 20;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(8,10,7,.14) 0%, rgba(8,10,7,.77) 79%);
+    }
+
+    /* 02 countdown */
+    .countdown-title {
+      margin-top: 8px;
+      color: var(--text);
+      font: 900 clamp(44px,5vw,100px)/.80 var(--display);
+      letter-spacing: -.12em;
+    }
+
+    .countdown-row {
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+      margin-top: 18px;
+    }
+
+    .countdown-days {
+      color: var(--acid);
+      font: 900 clamp(68px,7.4vw,142px)/.73 var(--display);
+      letter-spacing: -.13em;
+    }
+
+    .countdown-days-label {
+      color: var(--text);
+      font: 900 16px/1.1 var(--ui);
+    }
+
+    .year-mark {
+      position: absolute;
+      z-index: 14;
+      top: 8%;
+      right: 5.5%;
+      color: rgba(11,13,10,.14);
+      font: 900 clamp(120px,15vw,280px)/.72 var(--display);
+      letter-spacing: -.14em;
+      text-align: right;
+      pointer-events: none;
+    }
+
+    /* 03 section index */
+    .index-panel {
+      position: absolute;
+      z-index: 18;
+      left: 3%;
+      top: 12%;
+      bottom: 14%;
+      width: 27%;
+      padding: 15px 14px;
+      background: rgba(7,9,6,.82);
+      border: 1px solid rgba(217,255,76,.28);
+    }
+
+    .index-panel h2 {
+      margin: 0 0 12px;
+      color: var(--text);
+      font: 900 24px/.94 var(--display);
+      letter-spacing: -.06em;
+    }
+
+    .index-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 17px;
+    }
+
+    .index-item {
+      display: grid;
+      grid-template-columns: 31px 1fr;
+      gap: 9px;
+      align-items: center;
+      min-height: 31px;
+      color: var(--muted);
+    }
+
+    .index-item b {
+      color: var(--acid);
+      font: 900 19px/.85 var(--display);
+      letter-spacing: -.08em;
+    }
+
+    .index-item strong {
+      display: block;
+      color: var(--text);
+      font: 900 14px/1.04 var(--ui);
+    }
+
+    .index-item small {
+      display: block;
+      margin-top: 3px;
+      color: var(--weak);
+      font: 700 9px/1 var(--ui);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    /* 04 national gap */
+    .gap-top {
+      margin-top: 8px;
+      color: var(--text);
+      font: 900 clamp(43px,4.7vw,94px)/.82 var(--display);
+      letter-spacing: -.12em;
+    }
+
+    .gap-countries {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-top: 17px;
+    }
+
+    .country {
+      min-height: 100px;
+      padding: 9px 10px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.15);
+    }
+
+    .country .flag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--acid);
+      font: 900 10px/1 var(--ui);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .country strong {
+      display: block;
+      margin-top: 9px;
+      color: var(--text);
+      font: 900 clamp(34px,3.7vw,67px)/.78 var(--display);
+      letter-spacing: -.10em;
+    }
+
+    .country small {
+      display: block;
+      margin-top: 5px;
+      color: var(--text-weak);
+      font: 700 9px/1.15 var(--ui);
+    }
+
+    .logo-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 11px;
+    }
+
+    .logo-pill {
+      padding: 4px 5px;
+      color: var(--acid);
+      border: 1px solid var(--acid-line);
+      font: 900 8px/1 var(--ui);
+    }
+
+    /* 05 release timeline */
+    .timeline {
+      position: relative;
+      margin-top: 17px;
+      padding-left: 22px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 7px;
+      bottom: 7px;
+      width: 1px;
+      background: rgba(255,255,255,.24);
+    }
+
+    .timeline-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 8px;
+      align-items: center;
+      min-height: 31px;
+    }
+
+    .timeline-row::before {
+      content: "";
+      position: absolute;
+      left: -19px;
+      top: 10px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--acid);
+      box-shadow: 0 0 10px rgba(217,255,76,.55);
+    }
+
+    .timeline-row time {
+      color: var(--acid);
+      font: 900 11px/1 var(--ui);
+    }
+
+    .timeline-row strong {
+      display: block;
+      color: var(--text);
+      font: 900 16px/1.04 var(--ui);
+    }
+
+    .timeline-row small {
+      display: block;
+      margin-top: 3px;
+      color: var(--weak);
+      font: 700 10px/1.15 var(--ui);
+    }
+
+    /* 06 stats board */
+    .stat-stack {
+      display: grid;
+      gap: 7px;
+      margin-top: 17px;
+    }
+
+    .stat-line {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 9px;
+      background: rgba(255,255,255,.06);
+      border-left: 4px solid var(--acid);
+    }
+
+    .stat-line b {
+      color: var(--text);
+      font: 900 13px/1.1 var(--ui);
+    }
+
+    .stat-line strong {
+      color: var(--acid);
+      font: 900 17px/1 var(--display);
+      letter-spacing: -.05em;
+    }
+
+    .mini-bars {
+      display: grid;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .mini-bar {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      gap: 6px;
+      align-items: center;
+      color: var(--weak);
+      font: 800 9px/1 var(--ui);
+    }
+
+    .mini-bar i {
+      display: block;
+      height: 6px;
+      background: rgba(255,255,255,.18);
+      position: relative;
+    }
+
+    .mini-bar i::after {
+      content: "";
+      display: block;
+      width: var(--w);
+      height: 100%;
+      background: var(--acid);
+    }
+
+    .mini-bar b {
+      color: var(--acid);
+      font-size: 10px;
+    }
+
+    /* 07 ecosystem */
+    .eco-list {
+      display: grid;
+      gap: 7px;
+      margin-top: 17px;
+    }
+
+    .eco-row {
+      display: grid;
+      grid-template-columns: 14px 1fr;
+      gap: 8px;
+      align-items: center;
+      color: var(--text);
+    }
+
+    .eco-row::before {
+      content: "●";
+      color: var(--acid);
+      font-size: 10px;
+    }
+
+    .eco-row strong {
+      font: 900 14px/1.08 var(--ui);
+    }
+
+    .eco-row small {
+      color: var(--weak);
+      font: 700 9px/1.05 var(--ui);
+      margin-left: 4px;
+    }
+
+    /* 08 open source wave */
+    .wave-list {
+      display: grid;
+      gap: 7px;
+      margin-top: 18px;
+    }
+
+    .wave-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 8px;
+      padding-bottom: 7px;
+      border-bottom: 1px solid rgba(255,255,255,.13);
+    }
+
+    .wave-item b {
+      color: var(--acid);
+      font: 900 20px/.9 var(--display);
+      letter-spacing: -.08em;
+    }
+
+    .wave-item strong {
+      display: block;
+      color: var(--text);
+      font: 900 14px/1.05 var(--ui);
+    }
+
+    .wave-item small {
+      display: block;
+      margin-top: 3px;
+      color: var(--weak);
+      font: 700 9px/1.1 var(--ui);
+    }
+
+    /* 09 map focus */
+    .map-area {
+      position: absolute;
+      z-index: 14;
+      left: 31%;
+      top: 24%;
+      width: 37%;
+      height: 40%;
+      opacity: .72;
+    }
+
+    .map-area svg { width: 100%; height: 100%; overflow: visible; }
+    .map-area path {
+      fill: rgba(217,255,76,.12);
+      stroke: var(--acid);
+      stroke-width: 2;
+    }
+
+    .map-point {
+      fill: var(--acid);
+      filter: drop-shadow(0 0 6px rgba(217,255,76,.85));
+    }
+
+    /* 10 time gap */
+    .gap-number-wrap {
+      position: absolute;
+      z-index: 18;
+      left: 7.3%;
+      top: 26%;
+      display: flex;
+      align-items: baseline;
+      color: var(--text);
+    }
+
+    .gap-number-wrap .num {
+      color: var(--acid);
+      font: 900 clamp(135px,16vw,295px)/.68 var(--display);
+      letter-spacing: -.16em;
+    }
+
+    .gap-number-wrap .unit {
+      margin-left: 8px;
+      color: var(--text);
+      font: 900 clamp(36px,3.8vw,72px)/1 var(--display);
+      letter-spacing: -.08em;
+    }
+
+    .gap-caption {
+      position: absolute;
+      z-index: 18;
+      left: 7.6%;
+      top: 55%;
+      color: var(--text);
+      font: 900 24px/1 var(--display);
+      letter-spacing: -.06em;
+    }
+
+    /* 11 price table */
+    .price-table {
+      display: grid;
+      gap: 6px;
+      margin-top: 17px;
+    }
+
+    .price-table .row-standard {
+      padding: 7px 8px;
+      background: rgba(255,255,255,.06);
+    }
+
+    /* 12 token board */
+    .token-hero {
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+      margin-top: 13px;
+    }
+
+    .token-hero .token-number {
+      color: var(--acid);
+      font: 900 clamp(60px,7vw,136px)/.72 var(--display);
+      letter-spacing: -.12em;
+    }
+
+    .token-hero .token-unit {
+      color: var(--text);
+      font: 900 17px/1.1 var(--ui);
+    }
+
+    .bar-comparison {
+      display: grid;
+      gap: 7px;
+      margin-top: 16px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 54px 1fr auto;
+      gap: 7px;
+      align-items: center;
+      color: var(--text);
+      font: 800 10px/1 var(--ui);
+    }
+
+    .bar-row i {
+      height: 8px;
+      background: rgba(255,255,255,.16);
+    }
+
+    .bar-row i::after {
+      content: "";
+      display: block;
+      height: 100%;
+      width: var(--p);
+      background: var(--acid);
+    }
+
+    .bar-row b { color: var(--acid); }
+
+    /* 13 Agent execution */
+    .agent-card {
+      position: absolute;
+      z-index: 20;
+      top: 20%;
+      right: 4.8%;
+      width: 29%;
+      padding: 8px;
+      background: var(--black);
+      border: 2px solid var(--acid);
+      box-shadow: 10px 12px 0 rgba(0,0,0,.18);
+    }
+
+    .chat {
+      padding: 12px;
+      background: #f4f6eb;
+      color: #11150f;
+    }
+
+    .chat-head {
+      padding-bottom: 9px;
+      border-bottom: 1px solid rgba(17,21,15,.14);
+      color: rgba(17,21,15,.55);
+      font: 900 8px/1 var(--ui);
+      letter-spacing: .10em;
+      text-transform: uppercase;
+    }
+
+    .bubble {
+      margin-top: 9px;
+      padding: 8px 9px;
+      max-width: 91%;
+      font: 800 10px/1.35 var(--ui);
+      background: #e3e7d2;
+    }
+
+    .bubble.me {
+      margin-left: auto;
+      color: #f8faef;
+      background: #161b14;
+    }
+
+    .bubble.agent {
+      border-left: 3px solid var(--acid);
+    }
+
+    /* sidebar */
+    .guide {
+      position: sticky;
+      top: 20px;
+      padding: 19px 17px;
+    }
+
+    .guide h2 {
+      margin: 0;
+      color: #111317;
+      font: 900 23px/.95 var(--display);
+      letter-spacing: -.05em;
+    }
+
+    .guide > p {
+      margin: 11px 0 17px;
+      color: rgba(16,18,24,.67);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .rule {
+      padding: 13px 0;
+      border-top: 1px solid rgba(16,18,24,.12);
+    }
+
+    .rule strong {
+      display: block;
+      margin-bottom: 7px;
+      color: #111317;
+      font: 900 12px/1 var(--ui);
+      letter-spacing: .03em;
+    }
+
+    .rule ul {
+      margin: 0;
+      padding-left: 17px;
+      color: rgba(16,18,24,.68);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .rule--acid strong { color: #6e8500; }
+
+    .debug-toggle {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px 11px;
+      color: var(--acid);
+      border: 1px solid #111317;
+      background: #111317;
+      font: 800 12px/1 var(--ui);
+      cursor: pointer;
+    }
+
+    .dev-note {
+      margin-top: 13px;
+      padding: 11px;
+      border-left: 3px solid #90aa00;
+      background: rgba(217,255,76,.10);
+      color: rgba(16,18,24,.70);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .dev-note code {
+      color: #111317;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 10px;
+    }
+
+    @media (max-width: 1180px) {
+      html { min-width: 0; }
+      .app { width: 100%; margin: 0; grid-template-columns: 1fr; }
+      .guide { position: static; }
+    }
+  
+    /*
+    =============================================================================
+    TYPOGRAPHY V2 — Chinese readability pass
+    =============================================================================
+    原则：
+    - 信息密度来自板块与层级，不来自把中文字压扁。
+    - 中文标题不使用极端负字距。
+    - 小字不低于可读尺寸；列表和来源页必须有行距。
+    - 左信息区和右证据区都要“留呼吸”，不能像一坨字。
+    */
+
+    :root {
+      --ui: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC",
+            "Source Han Sans SC", "HarmonyOS Sans SC", sans-serif;
+      --display: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC",
+                 "Source Han Sans SC", "HarmonyOS Sans SC", sans-serif;
+    }
+
+    .topic-line {
+      top: 4.6%;
+      left: 4.2%;
+      font-size: 11px;
+      letter-spacing: .075em;
+    }
+
+    .topic-line small {
+      margin-left: 11px;
+      font-size: 9px;
+      letter-spacing: .025em;
+    }
+
+    .left-panel {
+      left: 4.4%;
+      top: 15.8%;
+      width: 30.5%;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: .09em;
+    }
+
+    .display-title {
+      margin-top: 11px;
+      font-size: clamp(35px, 3.7vw, 71px);
+      line-height: .98;
+      letter-spacing: -.028em;
+    }
+
+    .copy {
+      margin-top: 15px;
+      max-width: 92%;
+      font-size: 14px;
+      line-height: 1.55;
+      letter-spacing: 0;
+    }
+
+    .big-number {
+      letter-spacing: -.075em;
+      line-height: .80;
+    }
+
+    .big-unit {
+      letter-spacing: -.02em;
+    }
+
+    .subtitle {
+      min-width: 39%;
+      max-width: 67%;
+      padding: 10px 17px 11px;
+      font-size: clamp(18px, 1.82vw, 33px);
+      line-height: 1.25;
+      letter-spacing: -.01em;
+    }
+
+    .subtitle small {
+      margin-top: 6px;
+      font-size: clamp(10px, .94vw, 15px);
+      line-height: 1.32;
+      letter-spacing: 0;
+    }
+
+    .source-card {
+      top: 11.7%;
+      right: 3.7%;
+      width: 31.2%;
+      transform: rotate(.32deg);
+    }
+
+    .source-shell {
+      padding: 9px;
+    }
+
+    .source-top,
+    .source-bottom {
+      height: 27px;
+      padding: 0 10px;
+      font-size: 9px;
+      letter-spacing: .075em;
+    }
+
+    .source-page {
+      min-height: 303px;
+      padding: 20px 20px 18px;
+    }
+
+    .source-meta {
+      padding-bottom: 11px;
+      font-size: 9px;
+      letter-spacing: .07em;
+    }
+
+    .source-title {
+      margin: 16px 0 13px;
+      font-size: clamp(17px, 1.62vw, 27px);
+      line-height: 1.22;
+      letter-spacing: -.015em;
+    }
+
+    .source-lines {
+      gap: 9px;
+      margin-top: 16px;
+    }
+
+    .source-lines i {
+      height: 8px;
+    }
+
+    .source-highlight {
+      margin: 14px 0;
+      padding: 9px 10px;
+      font-size: 12px;
+      line-height: 1.55;
+      letter-spacing: 0;
+    }
+
+    .index-panel {
+      left: 3.4%;
+      top: 11%;
+      bottom: 13.5%;
+      width: 29%;
+      padding: 18px 17px;
+    }
+
+    .index-panel h2 {
+      margin: 3px 0 15px;
+      font-size: 28px;
+      line-height: 1.05;
+      letter-spacing: -.025em;
+    }
+
+    .index-list {
+      gap: 12px;
+      margin-top: 19px;
+    }
+
+    .index-item {
+      grid-template-columns: 35px 1fr;
+      gap: 10px;
+      min-height: 39px;
+    }
+
+    .index-item b {
+      font-size: 21px;
+      letter-spacing: -.045em;
+    }
+
+    .index-item strong {
+      font-size: 15px;
+      line-height: 1.16;
+      letter-spacing: -.01em;
+    }
+
+    .index-item small {
+      margin-top: 4px;
+      font-size: 10px;
+      line-height: 1.2;
+      letter-spacing: .05em;
+    }
+
+    .countdown-title,
+    .gap-top {
+      line-height: .96;
+      letter-spacing: -.04em;
+    }
+
+    .countdown-row {
+      gap: 14px;
+      margin-top: 21px;
+    }
+
+    .countdown-days {
+      letter-spacing: -.09em;
+    }
+
+    .countdown-days-label {
+      font-size: 17px;
+      line-height: 1.22;
+      letter-spacing: 0;
+    }
+
+    .gap-countries {
+      gap: 11px;
+      margin-top: 20px;
+    }
+
+    .country {
+      min-height: 111px;
+      padding: 11px 12px;
+    }
+
+    .country .flag {
+      font-size: 11px;
+      letter-spacing: .04em;
+    }
+
+    .country strong {
+      margin-top: 11px;
+      line-height: .86;
+      letter-spacing: -.045em;
+    }
+
+    .country small {
+      margin-top: 7px;
+      font-size: 10px;
+      line-height: 1.26;
+    }
+
+    .logo-strip {
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .logo-pill {
+      padding: 5px 6px;
+      font-size: 9px;
+      letter-spacing: .04em;
+    }
+
+    .timeline {
+      margin-top: 20px;
+      gap: 13px;
+      padding-left: 25px;
+    }
+
+    .timeline-row {
+      grid-template-columns: 53px 1fr;
+      gap: 10px;
+      min-height: 40px;
+    }
+
+    .timeline-row::before {
+      left: -21px;
+      top: 11px;
+      width: 11px;
+      height: 11px;
+    }
+
+    .timeline-row time {
+      font-size: 12px;
+      letter-spacing: .035em;
+    }
+
+    .timeline-row strong {
+      font-size: 17px;
+      line-height: 1.15;
+      letter-spacing: -.01em;
+    }
+
+    .timeline-row small {
+      margin-top: 4px;
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .stat-stack {
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .stat-line {
+      padding: 11px 12px;
+      border-left-width: 5px;
+    }
+
+    .stat-line b {
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .stat-line strong {
+      font-size: 19px;
+      letter-spacing: -.025em;
+    }
+
+    .mini-bars {
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .mini-bar {
+      grid-template-columns: 56px 1fr auto;
+      gap: 8px;
+      font-size: 10px;
+    }
+
+    .mini-bar b {
+      font-size: 11px;
+    }
+
+    .eco-list {
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .eco-row {
+      grid-template-columns: 16px 1fr;
+      gap: 10px;
+    }
+
+    .eco-row strong {
+      font-size: 15px;
+      line-height: 1.2;
+      letter-spacing: -.005em;
+    }
+
+    .eco-row small {
+      margin-left: 0;
+      margin-top: 4px;
+      display: block;
+      font-size: 10px;
+      line-height: 1.25;
+    }
+
+    .wave-list {
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .wave-item {
+      grid-template-columns: 30px 1fr;
+      gap: 10px;
+      padding-bottom: 10px;
+    }
+
+    .wave-item b {
+      font-size: 22px;
+      letter-spacing: -.045em;
+    }
+
+    .wave-item strong {
+      font-size: 15px;
+      line-height: 1.18;
+      letter-spacing: -.008em;
+    }
+
+    .wave-item small {
+      margin-top: 4px;
+      font-size: 10px;
+      line-height: 1.28;
+    }
+
+    .gap-number-wrap .num {
+      letter-spacing: -.105em;
+    }
+
+    .gap-caption {
+      top: 57%;
+      font-size: 26px;
+      line-height: 1.1;
+      letter-spacing: -.025em;
+    }
+
+    .price-table {
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    .price-table .row-standard {
+      min-height: 39px;
+      padding: 9px 10px;
+    }
+
+    .row-standard {
+      font-size: 13px;
+      line-height: 1.2;
+    }
+
+    .row-standard strong {
+      font-size: 16px;
+    }
+
+    .token-hero {
+      gap: 11px;
+      margin-top: 17px;
+    }
+
+    .token-hero .token-number {
+      line-height: .82;
+      letter-spacing: -.07em;
+    }
+
+    .token-hero .token-unit {
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .bar-comparison {
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .bar-row {
+      grid-template-columns: 58px 1fr auto;
+      gap: 9px;
+      font-size: 11px;
+    }
+
+    .bar-row i {
+      height: 9px;
+    }
+
+    .agent-card {
+      top: 18%;
+      right: 3.8%;
+      width: 31%;
+      padding: 10px;
+    }
+
+    .chat {
+      padding: 15px;
+    }
+
+    .chat-head {
+      padding-bottom: 11px;
+      font-size: 9px;
+      letter-spacing: .06em;
+    }
+
+    .bubble {
+      margin-top: 11px;
+      padding: 10px 11px;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .media-wall-title h1 {
+      line-height: .94;
+      letter-spacing: -.035em;
+    }
+
+    .media-wall-title p {
+      margin-top: 14px;
+      font-size: 12px;
+      letter-spacing: .075em;
+    }
+
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <strong>ZAKI / ACID STRIKE LAYOUT KIT</strong>
+          <span>参考组件结构 · 仅替换配色与品牌细节</span>
+        </div>
+        <div class="topbar-meta">no extra diagonals · no magazine redesign · no random blocks</div>
+      </header>
+
+      <nav class="tabs" aria-label="component tabs">
+        <button class="tab is-active" data-scene="media">01 素材墙</button>
+        <button class="tab" data-scene="countdown">02 时间冲击</button>
+        <button class="tab" data-scene="index">03 章节索引</button>
+        <button class="tab" data-scene="gap">04 国家对比</button>
+        <button class="tab" data-scene="timeline">05 发布线</button>
+        <button class="tab" data-scene="stats">06 指标板</button>
+        <button class="tab" data-scene="ecosystem">07 生态列表</button>
+        <button class="tab" data-scene="wave">08 开源浪潮</button>
+        <button class="tab" data-scene="map">09 地图焦点</button>
+        <button class="tab" data-scene="timegap">10 时间差</button>
+        <button class="tab" data-scene="price">11 价格页</button>
+        <button class="tab" data-scene="tokens">12 Token 图</button>
+        <button class="tab" data-scene="agent">13 Agent 执行</button>
+      </nav>
+
+      <div class="stage" id="stage">
+        <div class="left-shadow"></div>
+        <div class="right-shadow"></div>
+
+        <div class="presenter" aria-label="talk.mp4 placeholder">
+          <div class="presenter-shadow"></div>
+          <div class="presenter-head"></div>
+          <div class="presenter-torso"></div>
+          <div class="presenter-arm"></div>
+        </div>
+
+        <!-- 01 Media Wall -->
+        <section class="scene is-visible" data-panel="media">
+          <div class="media-wall">
+            <div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div>
+            <div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div>
+            <div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div>
+            <div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div>
+            <div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div>
+            <div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div>
+            <div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div>
+            <div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div>
+            <div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div>
+            <div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div>
+            <div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div>
+            <div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div><div class="media-tile"></div>
+          </div>
+          <div class="media-wall-wash"></div>
+          <div class="media-wall-title">
+            <h1>AI 热点<br>大事</h1>
+            <p>ACID STRIKE / WEEKLY FIELD NOTE</p>
+          </div>
+          <div class="subtitle">这一期，我们把最近最重要的 AI 更新放在一张图里看。<small>Here is one visual map of the biggest recent AI updates.</small></div>
+        </section>
+
+        <!-- 02 Countdown -->
+        <section class="scene" data-panel="countdown">
+          <div class="topic-line">RECAP <small>TIME WINDOW / 2026</small></div>
+          <div class="left-panel">
+            <div class="eyebrow">COUNTDOWN</div>
+            <div class="countdown-title">三个月</div>
+            <div class="countdown-row">
+              <div class="countdown-days">90</div>
+              <div class="countdown-days-label">DAYS<br><span style="color:var(--acid)">AI 全面加速</span></div>
+            </div>
+            <div class="copy">从模型、价格到 Agent，变化密度已经远超前一个周期。</div>
+          </div>
+          <div class="year-mark">02<br>2026</div>
+          <div class="subtitle">可能过两周再看，很多结论又得重新写一遍。<small>In two weeks, many conclusions may already need an update.</small></div>
+        </section>
+
+        <!-- 03 Chapter Index -->
+        <section class="scene" data-panel="index">
+          <div class="index-panel">
+            <div class="eyebrow">BATTLEGROUNDS / 01</div>
+            <h2>模型战场</h2>
+            <div class="index-list">
+              <div class="index-item"><b>01</b><div><strong>模型之争</strong><small>model race</small></div></div>
+              <div class="index-item"><b>02</b><div><strong>价格之争</strong><small>price war</small></div></div>
+              <div class="index-item"><b>03</b><div><strong>智能体之争</strong><small>agent battle</small></div></div>
+              <div class="index-item"><b>04</b><div><strong>多模态之争</strong><small>multimodal</small></div></div>
+              <div class="index-item"><b>05</b><div><strong>算力之争</strong><small>compute</small></div></div>
+              <div class="index-item"><b>06</b><div><strong>人才与资本</strong><small>talent</small></div></div>
+            </div>
+          </div>
+          <div class="subtitle">我把整个问题拆成六条主线，后面按顺序讲。<small>I broke the topic into six tracks and will go through them one by one.</small></div>
+        </section>
+
+        <!-- 04 Country Gap -->
+        <section class="scene" data-panel="gap">
+          <div class="topic-line">BATTLEGROUND / 02 <small>MODEL GAP</small></div>
+          <div class="left-panel">
+            <div class="gap-top">中美代差</div>
+            <div class="gap-countries">
+              <div class="country">
+                <div class="flag">● US / 美国</div>
+                <strong>3</strong>
+                <small>领先模型梯队</small>
+              </div>
+              <div class="country">
+                <div class="flag">● CN / 中国</div>
+                <strong>10+</strong>
+                <small>快速追赶模型</small>
+              </div>
+            </div>
+            <div class="logo-strip">
+              <div class="logo-pill">MODEL A</div><div class="logo-pill">MODEL B</div><div class="logo-pill">MODEL C</div>
+              <div class="logo-pill">MODEL D</div><div class="logo-pill">MODEL E</div><div class="logo-pill">MODEL F</div>
+            </div>
+          </div>
+          <div class="subtitle">双方都在快速迭代，只是速度和节奏完全不同。<small>Both sides are iterating fast, but with very different cadence.</small></div>
+        </section>
+
+        <!-- 05 Timeline -->
+        <section class="scene" data-panel="timeline">
+          <div class="topic-line">OPEN MODELS <small>RELEASE TIMELINE</small></div>
+          <div class="left-panel">
+            <div class="eyebrow">RELEASE TRACK</div>
+            <h1 class="display-title">模型更新<br>密集出现</h1>
+            <div class="timeline">
+              <div class="timeline-row"><time>05.08</time><div><strong>MODEL 5</strong><small>推理与长上下文升级</small></div></div>
+              <div class="timeline-row"><time>05.12</time><div><strong>MODEL 5.1</strong><small>工具调用与执行能力增强</small></div></div>
+              <div class="timeline-row"><time>05.20</time><div><strong>MODEL 5.2</strong><small>多模态与视频理解</small></div></div>
+              <div class="timeline-row"><time>05.27</time><div><strong>MODEL 5.3</strong><small>开发者成本策略调整</small></div></div>
+              <div class="timeline-row"><time>06.03</time><div><strong>MODEL 5.5</strong><small>Agent 工作流升级</small></div></div>
+            </div>
+          </div>
+          <article class="source-card">
+            <div class="source-shell">
+              <div class="source-top"><span>Official update</span><b>05-A</b></div>
+              <div class="source-page">
+                <div class="source-meta">Release note · captured screenshot</div>
+                <div class="source-title">这里放真实发布公告、版本日志或官方产品页</div>
+                <div class="source-lines">
+                  <i></i><i></i><i></i>
+                  <div class="source-highlight">时间线讲到哪一条，右侧就切到对应来源或截图。</div>
+                  <i></i><i></i>
+                </div>
+              </div>
+              <div class="source-bottom"><span>Reference linked</span><b>Release note</b></div>
+            </div>
+          </article>
+          <div class="subtitle">不是单个模型在升级，是整个发布节奏都在提速。<small>The entire release cadence is accelerating, not just one model.</small></div>
+        </section>
+
+        <!-- 06 Stats Board -->
+        <section class="scene" data-panel="stats">
+          <div class="topic-line">BENCHMARK BOARD <small>MODEL PERFORMANCE</small></div>
+          <div class="left-panel">
+            <div class="eyebrow">KEY METRICS</div>
+            <h1 class="display-title">能力<br>跃升</h1>
+            <div class="stat-stack">
+              <div class="stat-line"><b>推理能力</b><strong>+8.4%</strong></div>
+              <div class="stat-line"><b>代码能力</b><strong>+6.2%</strong></div>
+              <div class="stat-line"><b>多模态理解</b><strong>+9.1%</strong></div>
+            </div>
+            <div class="mini-bars">
+              <div class="mini-bar"><span>Reason</span><i style="--w:88%"></i><b>88</b></div>
+              <div class="mini-bar"><span>Code</span><i style="--w:79%"></i><b>79</b></div>
+              <div class="mini-bar"><span>Vision</span><i style="--w:84%"></i><b>84</b></div>
+            </div>
+          </div>
+          <article class="source-card">
+            <div class="source-shell">
+              <div class="source-top"><span>Benchmark report</span><b>06-B</b></div>
+              <div class="source-page">
+                <div class="source-meta">Performance report · verified crop</div>
+                <div class="source-title">右侧放报告原图或 benchmark 页的关键区域</div>
+                <div class="source-lines">
+                  <i></i><i></i><i></i>
+                  <div class="source-highlight">左侧整理数据，右侧保留原始证据，逻辑就完整了。</div>
+                  <i></i><i></i>
+                </div>
+              </div>
+              <div class="source-bottom"><span>Reference linked</span><b>Report page</b></div>
+            </div>
+          </article>
+          <div class="subtitle">最明显的变化，是它不只会回答，而是开始稳定地完成任务。<small>The visible shift is from answering to reliably completing tasks.</small></div>
+        </section>
+
+        <!-- 07 Ecosystem -->
+        <section class="scene" data-panel="ecosystem">
+          <div class="topic-line">ECOSYSTEM <small>PRODUCT SURFACE</small></div>
+          <div class="left-panel">
+            <div class="eyebrow">ONE PLATFORM / MANY ENTRY POINTS</div>
+            <h1 class="display-title">全家桶<br>生态</h1>
+            <div class="eco-list">
+              <div class="eco-row"><div><strong>MODEL APP</strong><small>对话与创作入口</small></div></div>
+              <div class="eco-row"><div><strong>VIDEO CREATE</strong><small>视频生成与编辑</small></div></div>
+              <div class="eco-row"><div><strong>WORKSPACE</strong><small>文档与团队协作</small></div></div>
+              <div class="eco-row"><div><strong>AGENT API</strong><small>面向开发与自动化</small></div></div>
+              <div class="eco-row"><div><strong>CLOUD PLATFORM</strong><small>模型和算力基础层</small></div></div>
+            </div>
+          </div>
+          <div class="subtitle">真正有竞争力的，不只是一个模型，而是一整套生态入口。<small>Real advantage comes from an ecosystem, not just one model.</small></div>
+        </section>
+
+        <!-- 08 Open Source Wave -->
+        <section class="scene" data-panel="wave">
+          <div class="topic-line">OPEN-SOURCE WAVE <small>COMMUNITY MOMENTUM</small></div>
+          <div class="left-panel">
+            <div class="eyebrow">OPEN MODELS / COMMUNITY</div>
+            <h1 class="display-title">开源潮<br>来了</h1>
+            <div class="wave-list">
+              <div class="wave-item"><b>01</b><div><strong>模型 A 发布</strong><small>开放权重，支持本地部署</small></div></div>
+              <div class="wave-item"><b>02</b><div><strong>模型 B 跟进</strong><small>更长上下文与工具调用</small></div></div>
+              <div class="wave-item"><b>03</b><div><strong>模型 C 上线</strong><small>面向开发者的轻量版本</small></div></div>
+              <div class="wave-item"><b>04</b><div><strong>模型 D 扩展</strong><small>生态插件与社区工具</small></div></div>
+              <div class="wave-item"><b>05</b><div><strong>模型 E 迭代</strong><small>更低成本与更高吞吐</small></div></div>
+            </div>
+          </div>
+          <article class="source-card">
+            <div class="source-shell">
+              <div class="source-top"><span>Community page</span><b>08-C</b></div>
+              <div class="source-page">
+                <div class="source-meta">Open source release · captured page</div>
+                <div class="source-title">这里可放模型页、下载页、社区榜单、仓库截图</div>
+                <div class="source-lines">
+                  <i></i><i></i><i></i>
+                  <div class="source-highlight">左侧用清单讲趋势，右侧用真实页面证明发布确实发生。</div>
+                  <i></i><i></i>
+                </div>
+              </div>
+              <div class="source-bottom"><span>Reference linked</span><b>Community source</b></div>
+            </div>
+          </article>
+          <div class="subtitle">这波开源潮真正改变的，是普通人获取能力的门槛。<small>The open-source wave changes who can access these capabilities.</small></div>
+        </section>
+
+        <!-- 09 Map Focus -->
+        <section class="scene" data-panel="map">
+          <div class="topic-line">GLOBAL ACCESS <small>COMPUTE / INFRASTRUCTURE</small></div>
+          <div class="left-panel">
+            <div class="eyebrow">COMPUTE DISTRIBUTION</div>
+            <h1 class="display-title">全球进入<br>中国</h1>
+            <div class="copy">模型能力最终还要落到算力、部署和用户能不能真正用上。</div>
+            <div class="stat-stack">
+              <div class="stat-line"><b>可用区域</b><strong>500+</strong></div>
+              <div class="stat-line"><b>服务节点</b><strong>200+</strong></div>
+            </div>
+          </div>
+          <div class="map-area">
+            <svg viewBox="0 0 700 400" aria-label="abstract map">
+              <path d="M89 122 L155 79 L216 101 L278 68 L334 119 L410 95 L479 134 L560 115 L620 163 L577 211 L597 286 L525 314 L461 288 L399 322 L331 286 L270 319 L219 269 L155 285 L113 231 Z"/>
+              <circle class="map-point" cx="366" cy="194" r="9"/>
+              <circle class="map-point" cx="449" cy="215" r="6"/>
+              <circle class="map-point" cx="289" cy="232" r="6"/>
+              <circle class="map-point" cx="514" cy="175" r="6"/>
+            </svg>
+          </div>
+          <div class="subtitle">真正的差距，不只看模型，还要看谁能把能力接进真实世界。<small>The gap is not only models, but who can deliver capability to the real world.</small></div>
+        </section>
+
+        <!-- 10 Time Gap -->
+        <section class="scene" data-panel="timegap">
+          <div class="topic-line">GENERATION GAP <small>TIME TO FOLLOW</small></div>
+          <div class="gap-number-wrap"><span class="num">6</span><span class="unit">个月</span></div>
+          <div class="gap-caption">误差</div>
+          <div class="subtitle">我个人感觉，模型能力的代差正在被压缩到半年以内。<small>The perceived gap is compressing to within about six months.</small></div>
+        </section>
+
+        <!-- 11 Price -->
+        <section class="scene" data-panel="price">
+          <div class="topic-line">PRICE WAR <small>MODEL COST RESET</small></div>
+          <div class="left-panel">
+            <div class="eyebrow">DEVELOPER PRICING</div>
+            <h1 class="display-title">价格屠杀</h1>
+            <div style="display:flex;align-items:baseline;gap:5px;margin-top:12px">
+              <span class="big-number" style="font-size:clamp(78px,9vw,172px)">2.5</span>
+              <span class="big-unit">折</span>
+            </div>
+            <div class="price-table">
+              <div class="row-standard"><b>输入</b><em>¥0.103</em><i>→</i><strong>¥0.026</strong></div>
+              <div class="row-standard"><b>输出</b><em>¥12.35</em><i>→</i><strong>¥3.09</strong></div>
+              <div class="row-standard"><b>缓存</b><em>¥24.71</em><i>→</i><strong>¥6.18</strong></div>
+            </div>
+          </div>
+          <article class="source-card">
+            <div class="source-shell">
+              <div class="source-top"><span>Pricing page</span><b>11-A</b></div>
+              <div class="source-page">
+                <div class="source-meta">Public pricing · captured page</div>
+                <div class="source-title">这里放官方价格页截图，重点裁出价格表本体</div>
+                <div class="source-lines">
+                  <i></i><i></i><i></i>
+                  <div class="source-highlight">右侧来源越直观，左侧的“价格战”判断就越站得住。</div>
+                  <i></i><i></i>
+                </div>
+              </div>
+              <div class="source-bottom"><span>Reference linked</span><b>Price sheet</b></div>
+            </div>
+          </article>
+          <div class="subtitle">开发者看价格，最终看的就是能不能把规模跑起来。<small>Developers care about whether the economics can scale.</small></div>
+        </section>
+
+        <!-- 12 Tokens -->
+        <section class="scene" data-panel="tokens">
+          <div class="topic-line">TOKEN ECONOMY <small>UNIT COST COMPARISON</small></div>
+          <div class="left-panel">
+            <div class="eyebrow">COST PER MILLION TOKENS</div>
+            <h1 class="display-title">成本<br>打折</h1>
+            <div class="token-hero"><span class="token-number">1/35</span><span class="token-unit">原价水平</span></div>
+            <div class="bar-comparison">
+              <div class="bar-row"><span>旧方案</span><i style="--p:100%"></i><b>100</b></div>
+              <div class="bar-row"><span>新方案</span><i style="--p:38%"></i><b>38</b></div>
+              <div class="bar-row"><span>缓存后</span><i style="--p:12%"></i><b>12</b></div>
+            </div>
+            <div class="copy">同样预算下，能跑的调用量和产品空间都被拉大了。</div>
+          </div>
+          <article class="source-card">
+            <div class="source-shell">
+              <div class="source-top"><span>Pricing source</span><b>12-A</b></div>
+              <div class="source-page">
+                <div class="source-meta">Cost sheet · verified crop</div>
+                <div class="source-title">右侧可放价格明细、调用记录、控制台截图</div>
+                <div class="source-lines">
+                  <i></i><i></i><i></i>
+                  <div class="source-highlight">数据图只是结论，真实价格页才是观众确认结论的依据。</div>
+                  <i></i><i></i>
+                </div>
+              </div>
+              <div class="source-bottom"><span>Reference linked</span><b>Cost source</b></div>
+            </div>
+          </article>
+          <div class="subtitle">成本降下来以后，产品形态才有更多可能。<small>Lower cost opens room for entirely different product shapes.</small></div>
+        </section>
+
+        <!-- 13 Agent -->
+        <section class="scene" data-panel="agent">
+          <div class="topic-line">BATTLEGROUND / AGENT <small>EXECUTION MODE</small></div>
+          <div class="left-panel">
+            <div class="eyebrow">NOT JUST CHAT</div>
+            <h1 class="display-title">Agent<br>能执行</h1>
+            <div class="copy">它不是单纯在聊天框里给你建议，而是能把任务拆开、推进并完成。</div>
+            <div class="stat-stack">
+              <div class="stat-line"><b>读文件</b><strong>YES</strong></div>
+              <div class="stat-line"><b>改文件</b><strong>YES</strong></div>
+              <div class="stat-line"><b>执行任务</b><strong>YES</strong></div>
+            </div>
+          </div>
+          <article class="agent-card">
+            <div class="chat">
+              <div class="chat-head">Task conversation · execution trace</div>
+              <div class="bubble me">帮我把这段视频的素材和字幕整理成一个项目。</div>
+              <div class="bubble agent">我会先读取目录、检查素材，然后生成分镜配置。</div>
+              <div class="bubble agent">已完成：素材归类、字幕解析、场景清单生成。</div>
+              <div class="bubble me">接着把预览也渲染出来。</div>
+              <div class="bubble agent">任务已提交，正在生成低清预览。</div>
+            </div>
+          </article>
+          <div class="subtitle">讲得再厉害，不如它真的把任务替你做完。<small>What matters is not talk, but whether it actually finishes the task.</small></div>
+        </section>
+      </div>
+    </section>
+
+    <aside class="guide">
+      <h2>这版不再加戏</h2>
+      <p>你指出得对：之前的斜线、折页、玻璃、随机色块都是我擅自“设计”的。这里已经清掉，只保留参考里真正有效的组件展现形式。</p>
+
+      <section class="rule rule--acid">
+        <strong>这一版固定下来的东西</strong>
+        <ul>
+          <li>左信息、中人物、右证据、底部字幕。</li>
+          <li>右侧是大号白底真实素材，不缩成小卡。</li>
+          <li>顶部只留很小主题文字，不做装饰斜线。</li>
+          <li>左侧数据、列表、时间线、价格表按参考结构组织。</li>
+          <li>统一只替换成酸绿 + 黑灰配色。</li>
+        </ul>
+      </section>
+
+      <section class="rule">
+        <strong>HTML 内已覆盖的参考型组件</strong>
+        <ul>
+          <li>媒体素材墙</li>
+          <li>时间冲击大数字</li>
+          <li>章节目录</li>
+          <li>国家/阵营对比</li>
+          <li>发布版本时间线</li>
+          <li>指标/Benchmark 面板</li>
+          <li>生态清单</li>
+          <li>开源模型清单</li>
+          <li>地图焦点</li>
+          <li>时间代差页</li>
+          <li>价格战 / 折扣表</li>
+          <li>Token 成本比较</li>
+          <li>Agent 聊天执行页</li>
+        </ul>
+      </section>
+
+      <section class="rule">
+        <strong>交给 Codex 时的硬规则</strong>
+        <ul>
+          <li>不要额外创造斜线、斜切、色块、网格或玻璃。</li>
+          <li>不要缩小右侧证据区。</li>
+          <li>不要把人物安全区塞满文字。</li>
+          <li>不要让酸绿变成满屏背景，只用作高亮。</li>
+          <li>要以真实素材、真实截图、真实录屏替换演示占位。</li>
+        </ul>
+      </section>
+
+      <div class="dev-note">
+        让 Codex 参考时，最重要的一句：<br><br>
+        <code>保留这份 HTML 的组件布局、信息密度和左右分区；</code><br>
+        <code>不要为“原创”额外增加装饰；</code><br>
+        <code>只用 Acid Strike 配色替换参考视频原本的蓝、红、绿主题色。</code>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const tabs = [...document.querySelectorAll('.tab')];
+    const scenes = [...document.querySelectorAll('[data-panel]')];
+
+    function setScene(id) {
+      tabs.forEach((tab) => tab.classList.toggle('is-active', tab.dataset.scene === id));
+      scenes.forEach((scene) => scene.classList.toggle('is-visible', scene.dataset.panel === id));
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => setScene(tab.dataset.scene));
+    });
+  </script>
+</body>
+</html>

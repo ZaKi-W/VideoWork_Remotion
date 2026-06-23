@@ -1,7 +1,8 @@
-import {Easing, interpolate, useCurrentFrame} from 'remotion';
+import {useCurrentFrame} from 'remotion';
 import type {CSSProperties} from 'react';
 import type {ComponentRendererProps} from '../registry/component.types';
 import type {SectionStampProps} from '../schema/episode.types';
+import {editorialExitProgress, editorialProgress} from '../shared/motion';
 import {visualTokens} from '../stage/visual-tokens';
 import {
   normalizeSectionStampVariant,
@@ -13,29 +14,6 @@ const getSectionStampProps = (props: ComponentRendererProps): SectionStampProps 
     throw new Error(`SectionStamp renderer received ${props.scene.content.kind}`);
   }
   return props.scene.content.props;
-};
-
-const progressFor = (frame: number, start: number, end: number, durationInFrames: number): number => {
-  const available = Math.max(1, durationInFrames - 1);
-  const compressedStart = Math.min(start, Math.floor(available * 0.18));
-  const compressedEnd = Math.min(end, Math.floor(available * 0.34));
-  if (compressedEnd <= compressedStart) {
-    return frame >= compressedStart ? 1 : 0;
-  }
-  return interpolate(frame, [compressedStart, compressedEnd], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.out(Easing.cubic),
-  });
-};
-
-const exitProgressFor = (frame: number, durationInFrames: number): number => {
-  const exitDuration = Math.min(10, Math.max(6, Math.floor(durationInFrames * 0.12)));
-  return interpolate(frame, [durationInFrames - exitDuration, durationInFrames - 1], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.in(Easing.cubic),
-  });
 };
 
 const renderLine = (
@@ -165,11 +143,11 @@ export const SectionStamp = (rendererProps: ComponentRendererProps) => {
   const isRight = props.placement.endsWith('right');
   const isEdge = variant === 'edge-impact';
   const layout = layoutFor(isEdge, isRight);
-  const exit = exitProgressFor(frame, rendererProps.durationInFrames);
-  const blockIntro = progressFor(frame, 0, 3, rendererProps.durationInFrames);
-  const titleIntro = progressFor(frame, 3, 8, rendererProps.durationInFrames);
-  const emphasisIntro = progressFor(frame, 7, 11, rendererProps.durationInFrames);
-  const metaIntro = progressFor(frame, 9, 13, rendererProps.durationInFrames);
+  const exit = editorialExitProgress(frame, rendererProps.durationInFrames, 10, 18);
+  const blockIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 0, end: 22});
+  const titleIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 5, end: 30});
+  const emphasisIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 12, end: 36});
+  const metaIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 16, end: 40});
   const titleLines = splitSectionStampTitle(props.title, props.emphasis?.text);
   const clipFromEntry = (1 - titleIntro) * 100;
   const exitShift = layout.entranceDirection * exit * 82;
@@ -181,8 +159,8 @@ export const SectionStamp = (rendererProps: ComponentRendererProps) => {
     boxSizing: 'border-box',
     fontFamily: visualTokens.fontFamily.body,
     color: visualTokens.color.inkBlack,
-    opacity: 1 - exit * 0.72,
-    transform: `translateX(${exitShift}px)`,
+    opacity: blockIntro * (1 - exit * 0.72),
+    transform: `translateX(${(1 - blockIntro) * layout.entranceDirection * -38 + exitShift}px)`,
   };
 
   return (

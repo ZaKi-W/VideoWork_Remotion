@@ -1,7 +1,8 @@
-import {Easing, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
+import {Img, staticFile, useCurrentFrame} from 'remotion';
 import type {CSSProperties} from 'react';
 import type {ComponentRendererProps} from '../registry/component.types';
 import type {AssetManifest, EvidenceClipProps, SourceManifest} from '../schema/episode.types';
+import {editorialExitProgress, editorialProgress} from '../shared/motion';
 import {visualTokens} from '../stage/visual-tokens';
 
 type EvidenceAsset = AssetManifest['assets'][number];
@@ -12,29 +13,6 @@ const getEvidenceClipProps = (props: ComponentRendererProps): EvidenceClipProps 
     throw new Error(`EvidenceClip renderer received ${props.scene.content.kind}`);
   }
   return props.scene.content.props;
-};
-
-const progressFor = (frame: number, start: number, end: number, durationInFrames: number): number => {
-  const available = Math.max(1, durationInFrames - 1);
-  const compressedStart = Math.min(start, Math.floor(available * 0.18));
-  const compressedEnd = Math.min(end, Math.floor(available * 0.4));
-  if (compressedEnd <= compressedStart) {
-    return frame >= compressedStart ? 1 : 0;
-  }
-  return interpolate(frame, [compressedStart, compressedEnd], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.out(Easing.cubic),
-  });
-};
-
-const exitProgressFor = (frame: number, durationInFrames: number): number => {
-  const exitDuration = Math.min(12, Math.max(8, Math.floor(durationInFrames * 0.14)));
-  return interpolate(frame, [durationInFrames - exitDuration, durationInFrames - 1], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.in(Easing.cubic),
-  });
 };
 
 const accentFor = (color: 'orange' | 'blue' | undefined): string =>
@@ -241,17 +219,17 @@ export const EvidenceClip = (rendererProps: ComponentRendererProps) => {
   const variant = props.variant ?? 'clipping';
   const isSpotlight = variant === 'spotlight';
   const direction = directionFor(props.placement);
-  const exit = exitProgressFor(frame, rendererProps.durationInFrames);
-  const baseIntro = progressFor(frame, 0, 4, rendererProps.durationInFrames);
-  const imageIntro = progressFor(frame, 3, 8, rendererProps.durationInFrames);
-  const stripIntro = progressFor(frame, 7, 11, rendererProps.durationInFrames);
-  const markIntro = progressFor(frame, 9, 14, rendererProps.durationInFrames);
+  const exit = editorialExitProgress(frame, rendererProps.durationInFrames, 12, 18);
+  const baseIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 0, end: 24});
+  const imageIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 6, end: 32});
+  const stripIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 14, end: 40});
+  const markIntro = editorialProgress(frame, rendererProps.durationInFrames, {start: 20, end: 48});
   const layout = isSpotlight ? spotlightLayout(props.placement) : clippingLayout(props.placement);
   const assetPath = asset?.path ?? '';
   const label = labelFor(props, source);
   const fit = props.crop?.fit ?? (isSpotlight ? 'contain' : 'cover');
   const clipInset = (1 - imageIntro) * 100;
-  const bodyShift = (1 - baseIntro) * direction * 64 - exit * direction * 96;
+  const bodyShift = (1 - baseIntro) * direction * 82 - exit * direction * 108;
   const annotationBias = 'annotationBias' in layout && typeof layout.annotationBias === 'number' ? layout.annotationBias : 1;
 
   const wrapperStyle: CSSProperties = {
@@ -260,7 +238,7 @@ export const EvidenceClip = (rendererProps: ComponentRendererProps) => {
     color: visualTokens.color.inkBlack,
     fontFamily: visualTokens.fontFamily.body,
     opacity: 1 - exit * 0.74,
-    transform: `translateX(${bodyShift}px)`,
+    transform: `translateX(${bodyShift}px) rotate(${(1 - baseIntro) * direction * 0.9 - exit * direction * 0.7}deg)`,
   };
 
   const imageStyle: CSSProperties = {

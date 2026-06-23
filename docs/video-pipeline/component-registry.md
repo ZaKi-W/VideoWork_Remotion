@@ -28,11 +28,12 @@
 - `ConceptSplit`
 - `EvidenceClip`
 - `MetricSpread`
+- `EditorialOverlay`
 - `WorkflowPath`
 - `DemoFocusFrame`
 - `AssetStack`
 
-当前 `EditorialStage`、`StageDebugOverlay`、`SectionStamp`、`HeadlineTakeover`、`ConceptSplit`、`EvidenceClip` 与 `MetricSpread` 是 ready。其他高级组件仍只允许 prototype 或 planned。
+当前 `EditorialStage`、`StageDebugOverlay`、`SectionStamp`、`HeadlineTakeover`、`ConceptSplit`、`EvidenceClip`、`MetricSpread` 与 `EditorialOverlay` 是 ready。其他高级组件仍只允许 prototype 或 planned。
 
 `SectionStamp`：
 
@@ -104,6 +105,20 @@
 - implementationStatus：`ready`。
 - demo：`episodes/demo-metric-spread/`。
 
+`EditorialOverlay`：
+
+- 用途：轻量关键词、编号、短列表、小数据、批注等基础信息填充。
+- 定位：信息空气 / 环境信息层，不是主视觉。
+- 内部原子：`GhostNumber`、`KeywordStamp`、`MiniList`、`StatTag`、`Annotation`。
+- layouts：`corner-stack`、`edge-rail`、`counterweight`、`scatter`。
+- stageMode：`presenter-center`、`presenter-small`、`screen-primary`、`no-presenter`。
+- slot：`top-left`、`top-right`、`edge-left`、`edge-right`。
+- allowed track：`overlay`。
+- requiresSource：否。
+- requiresAsset：否。
+- implementationStatus：`ready`。
+- demo：`episodes/demo-editorial-overlay/`。
+
 Strict render 规则：
 
 - planned 组件阻止高清渲染。
@@ -119,3 +134,6 @@ Strict render 规则：
 - strict render 中 `MetricSpread` source status 必须是 `captured` 或 `verified`。
 - strict render 中 `MetricSpread` 不允许 `kind: "demo"` source。
 - preview 中 `provided` 或 demo source 只允许 warning 通过。
+- `EditorialOverlay` 必须在 `overlay` track；strict render 中非 overlay track 会 blocking。
+- 同一时刻超过一个 `EditorialOverlay` 活跃会 blocking。
+- `EditorialOverlay` 与 `HeadlineTakeover` 或 `SectionStamp` 重叠：preview warning，strict render blocking。

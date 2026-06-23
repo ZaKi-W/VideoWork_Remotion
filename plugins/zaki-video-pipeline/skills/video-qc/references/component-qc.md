@@ -102,3 +102,27 @@ Check:
 - `screen-primary` is not used with `presenter-center`.
 - It does not appear in the same spoken segment as `HeadlineTakeover`.
 - In a 5 to 10 minute video, usage stays around 2 to 6 times.
+
+## EditorialOverlay
+
+Check:
+
+- It reads as information air / environment information, not a main component.
+- It genuinely fills empty talking-head space without stealing focus from the presenter.
+- It is lighter than `SectionStamp`, `HeadlineTakeover`, `EvidenceClip`, `MetricSpread`, and `ConceptSplit`.
+- It uses the `overlay` track only.
+- There is no more than one active `EditorialOverlay` at a time.
+- It does not overlap `SectionStamp` or `HeadlineTakeover`.
+- If it overlaps `EvidenceClip`, `MetricSpread`, or `ConceptSplit`, density is `light`.
+- It uses only `top-left`, `top-right`, `edge-left`, or `edge-right`.
+- `slot` matches `content.props.placement`.
+- It avoids presenter safe zone in `presenter-center`.
+- It avoids subtitle safe zone in all modes.
+- It has 1 to 4 items only.
+- `ghost-number`, `keyword`, `mini-list`, and `annotation` appear at most once each; `stat-tag` appears at most twice.
+- `mini-list` has 2 to 4 short rows and emphasizes at most one row.
+- One overlay uses only one accent color.
+- Orange and blue are not mixed.
+- It does not look like HUD, cyberpunk, neon, radar, scanning UI, traditional TV corner graphics, a fixed side panel, a black SOURCE strip, or a right news card.
+- It does not contain too much small text.
+- Adjacent uses do not repeat the same layout, and three consecutive uses do not repeat the same item combination.
