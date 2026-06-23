@@ -425,6 +425,8 @@ export const acidComponentPropsSchema = z
     source: acidSourceCardSchema.optional(),
     messages: z.array(acidMessageSchema).max(6).default([]),
     mediaCount: z.number().int().min(12).max(60).default(48),
+    scrimIntensity: z.enum(['none', 'soft', 'medium']).default('soft'),
+    backgroundVideoPath: z.string().trim().min(1).max(160).optional(),
   })
   .strict();
 

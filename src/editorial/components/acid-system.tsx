@@ -1,8 +1,10 @@
 import type {CSSProperties, ReactNode} from 'react';
-import {Img, staticFile} from 'remotion';
+import {Img, OffthreadVideo, staticFile} from 'remotion';
 import type {AcidComponentProps, AssetManifest, SourceManifest} from '../schema/episode.types';
 import {editorialExitProgress, editorialProgress, revealInset, staggerProgress} from '../shared/motion';
 import {visualTokens} from '../stage/visual-tokens';
+
+export type ScrimIntensity = 'none' | 'soft' | 'medium';
 
 export const acidTokens = {
   color: {
@@ -11,8 +13,8 @@ export const acidTokens = {
     acidLine: 'rgba(217,255,76,0.34)',
     black: '#0B0D0A',
     black2: '#11150F',
-    panel: 'rgba(7,9,6,0.84)',
-    panelStrong: 'rgba(7,9,6,0.92)',
+    panel: 'rgba(7,9,6,0.32)',
+    panelStrong: 'rgba(7,9,6,0.42)',
     paper: '#F7F7EE',
     paper2: '#E7EAD8',
     text: '#F9FAEF',
@@ -30,6 +32,25 @@ export const acidTokens = {
   },
 } as const;
 
+export const leftInfoTextShadow =
+  '0 2px 10px rgba(0,0,0,0.24), 0 1px 2px rgba(0,0,0,0.28)';
+
+const leftScrimStyles: Record<ScrimIntensity, CSSProperties | null> = {
+  none: null,
+  soft: {
+    background:
+      'radial-gradient(ellipse at 18% 48%, rgba(7,9,6,0.30) 0%, rgba(7,9,6,0.17) 42%, rgba(7,9,6,0) 76%), linear-gradient(90deg, rgba(7,9,6,0.20) 0%, rgba(7,9,6,0.10) 42%, rgba(7,9,6,0) 76%)',
+  },
+  medium: {
+    background:
+      'radial-gradient(ellipse at 18% 48%, rgba(7,9,6,0.42) 0%, rgba(7,9,6,0.24) 42%, rgba(7,9,6,0) 76%), linear-gradient(90deg, rgba(7,9,6,0.28) 0%, rgba(7,9,6,0.14) 42%, rgba(7,9,6,0) 76%)',
+  },
+};
+
+export const acidLeftTextStyle: CSSProperties = {
+  textShadow: leftInfoTextShadow,
+};
+
 export type AcidRenderProps = {
   kind: string;
   props: AcidComponentProps;
@@ -37,16 +58,27 @@ export type AcidRenderProps = {
   sources: SourceManifest;
 };
 
-export const AcidStage = ({children, subtitle, subtitleEn, frame, durationInFrames}: {
+export const AcidStage = ({
+  children,
+  subtitle,
+  subtitleEn,
+  frame,
+  durationInFrames,
+  scrimIntensity = 'soft',
+  backgroundVideoPath,
+}: {
   children: ReactNode;
   subtitle: string;
   subtitleEn?: string;
   frame: number;
   durationInFrames: number;
+  scrimIntensity?: ScrimIntensity;
+  backgroundVideoPath?: string;
 }) => {
   const intro = editorialProgress(frame, durationInFrames, {start: 0, end: 26});
   const exit = editorialExitProgress(frame, durationInFrames, 12, 18);
   const subtitleIntro = editorialProgress(frame, durationInFrames, {start: 14, end: 36});
+  const scrimStyle = leftScrimStyles[scrimIntensity];
 
   return (
     <div
@@ -61,29 +93,49 @@ export const AcidStage = ({children, subtitle, subtitleEn, frame, durationInFram
       fontFamily: acidTokens.font.body,
     }}
   >
+    {backgroundVideoPath ? (
+      <OffthreadVideo
+        src={staticFile(backgroundVideoPath)}
+        muted
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+        }}
+      />
+    ) : null}
     <div
       style={{
         position: 'absolute',
         inset: 0,
         zIndex: 0,
         background:
-          'radial-gradient(ellipse at 50% 102%, rgba(16,18,24,0.25), transparent 46%), linear-gradient(90deg, rgba(0,0,0,0.07), transparent 15%, transparent 81%, rgba(0,0,0,0.06))',
+          backgroundVideoPath
+            ? 'radial-gradient(ellipse at 50% 102%, rgba(16,18,24,0.18), transparent 46%), linear-gradient(90deg, rgba(0,0,0,0.12), transparent 18%, transparent 78%, rgba(0,0,0,0.11))'
+            : 'radial-gradient(ellipse at 50% 102%, rgba(16,18,24,0.25), transparent 46%), linear-gradient(90deg, rgba(0,0,0,0.07), transparent 15%, transparent 81%, rgba(0,0,0,0.06))',
         transform: `scale(${1.035 - intro * 0.035 + exit * 0.018})`,
       }}
     />
-    <div
-      style={{
-        position: 'absolute',
-        zIndex: 1,
-        left: 0,
-        top: 0,
-        bottom: 0,
-        width: '42%',
-        background: 'linear-gradient(90deg, rgba(7,9,6,0.92) 0%, rgba(12,15,10,0.79) 69%, transparent 100%)',
-        transform: `translateX(${(1 - intro) * -44}px) scaleX(${0.88 + intro * 0.12})`,
-        transformOrigin: 'left center',
-      }}
-    />
+    {scrimStyle ? (
+      <div
+        style={{
+          position: 'absolute',
+          zIndex: 1,
+          left: 0,
+          top: '7.5%',
+          width: '46%',
+          height: '78%',
+          ...scrimStyle,
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%)',
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%)',
+          transform: `translateX(${(1 - intro) * -24}px) scaleX(${0.94 + intro * 0.06})`,
+          transformOrigin: 'left center',
+        }}
+      />
+    ) : null}
     <div
       style={{
         position: 'absolute',
@@ -96,7 +148,7 @@ export const AcidStage = ({children, subtitle, subtitleEn, frame, durationInFram
         transform: `translateX(${(1 - intro) * 34}px)`,
       }}
     />
-    <Presenter />
+    {backgroundVideoPath ? null : <Presenter />}
     <div style={{position: 'absolute', inset: 0, zIndex: 10}}>{children}</div>
     <Subtitle text={subtitle} en={subtitleEn} progress={subtitleIntro} exit={exit} />
   </div>
@@ -164,6 +216,7 @@ export const TopicLine = ({topic, detail}: {topic?: string; detail?: string}) =>
       zIndex: 18,
       top: '4.6%',
       left: '4.2%',
+      ...acidLeftTextStyle,
       color: acidTokens.color.acid,
       fontSize: 11,
       lineHeight: 1,
@@ -178,7 +231,7 @@ export const TopicLine = ({topic, detail}: {topic?: string; detail?: string}) =>
 );
 
 export const LeftPanel = ({children}: {children: ReactNode}) => (
-  <div style={{position: 'absolute', zIndex: 18, ...acidTokens.layout.left}}>{children}</div>
+  <div style={{position: 'absolute', zIndex: 18, ...acidTokens.layout.left, ...acidLeftTextStyle}}>{children}</div>
 );
 
 export const Eyebrow = ({children}: {children?: ReactNode}) =>

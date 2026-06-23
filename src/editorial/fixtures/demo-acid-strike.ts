@@ -18,6 +18,8 @@ const acidKinds = [
 
 type AcidKind = (typeof acidKinds)[number];
 
+const talkVideoPath = 'RemotionTalk/RemotionTalkVideo无字幕版.mp4';
+
 const demoSource = {
   id: 'source-acid-demo',
   title: 'Acid Strike demo source placeholder',
@@ -31,12 +33,13 @@ const demoSource = {
 };
 
 const acidProps = (
-  props: Omit<AcidComponentProps, 'items' | 'messages' | 'mediaCount'> &
-    Partial<Pick<AcidComponentProps, 'items' | 'messages' | 'mediaCount'>>,
+  props: Omit<AcidComponentProps, 'items' | 'messages' | 'mediaCount' | 'scrimIntensity'> &
+    Partial<Pick<AcidComponentProps, 'items' | 'messages' | 'mediaCount' | 'scrimIntensity'>>,
 ): AcidComponentProps => ({
   items: [],
   messages: [],
   mediaCount: 48,
+  scrimIntensity: 'soft',
   ...props,
 });
 
@@ -273,7 +276,13 @@ const acidPropsByKind = {
   }),
 } satisfies Record<AcidKind, AcidComponentProps>;
 
-const makeScene = (kind: AcidKind, index: number, start: number, end: number): EpisodeScene => {
+const makeScene = (
+  kind: AcidKind,
+  index: number,
+  start: number,
+  end: number,
+  backgroundVideoPath?: string,
+): EpisodeScene => {
   const sourceKinds: AcidKind[] = ['ReleaseTimeline', 'StatsBoard', 'OpenSourceWave', 'PricePage', 'TokenBoard'];
 
   return {
@@ -286,7 +295,10 @@ const makeScene = (kind: AcidKind, index: number, start: number, end: number): E
     slot: 'full-bleed',
     content: {
       kind,
-      props: acidPropsByKind[kind],
+      props: {
+        ...acidPropsByKind[kind],
+        backgroundVideoPath,
+      },
     },
     assetIds: [],
     sourceRefIds: sourceKinds.includes(kind) ? ['source-acid-demo'] : [],
@@ -328,7 +340,7 @@ const baseInput = (id: string, title: string, scenes: EpisodeScene[], durationIn
 export const acidStrikeGallery: EpisodeInputProps = baseInput(
   'demo-acid-strike-gallery',
   'Acid Strike Component Gallery',
-  acidKinds.map((kind, index) => makeScene(kind, index, index * 6, index * 6 + 6)),
+  acidKinds.map((kind, index) => makeScene(kind, index, index * 6, index * 6 + 6, talkVideoPath)),
   acidKinds.length * 6,
 );
 

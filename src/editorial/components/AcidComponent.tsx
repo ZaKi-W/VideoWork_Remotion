@@ -13,9 +13,11 @@ import {
   SourceCard,
   StatStack,
   TopicLine,
+  acidLeftTextStyle,
   acidTokens,
   rowStyle,
 } from './acid-system';
+import type {ScrimIntensity} from './acid-system';
 
 const acidKinds = [
   'MediaWall',
@@ -43,6 +45,22 @@ const getAcidProps = (rendererProps: ComponentRendererProps): {kind: AcidKind; p
   return {kind: content.kind as AcidKind, props: content.props as AcidComponentProps};
 };
 
+const mediumScrimKinds: ReadonlySet<AcidKind> = new Set([
+  'CountryGap',
+  'ReleaseTimeline',
+  'StatsBoard',
+  'PricePage',
+  'TokenBoard',
+]);
+
+const resolveScrimIntensity = (kind: AcidKind, requested: ScrimIntensity | undefined): ScrimIntensity => {
+  if (requested === 'medium' && !mediumScrimKinds.has(kind)) {
+    return 'soft';
+  }
+
+  return requested ?? 'soft';
+};
+
 export const AcidComponent = (rendererProps: ComponentRendererProps) => {
   const frame = useCurrentFrame();
   const {kind, props} = getAcidProps(rendererProps);
@@ -53,6 +71,8 @@ export const AcidComponent = (rendererProps: ComponentRendererProps) => {
       subtitleEn={props.subtitleEn}
       frame={frame}
       durationInFrames={rendererProps.durationInFrames}
+      scrimIntensity={resolveScrimIntensity(kind, props.scrimIntensity)}
+      backgroundVideoPath={props.backgroundVideoPath}
     >
       {renderByKind(kind, props, rendererProps, frame)}
     </AcidStage>
@@ -302,7 +322,7 @@ const ChapterIndex = ({props, frame, durationInFrames}: {props: AcidComponentPro
 
   return (
     <>
-      <div style={{position: 'absolute', zIndex: 18, left: '3.4%', top: '11%', bottom: '13.5%', width: '29%', padding: '18px 17px', background: 'rgba(7,9,6,0.82)', border: `1px solid ${acidTokens.color.acidLine}`, opacity: intro * (1 - exit * 0.78), transform: `translateX(${(1 - intro) * -64 + exit * -90}px) scaleX(${0.96 + intro * 0.04})`, transformOrigin: 'left center'}}>
+      <div style={{position: 'absolute', zIndex: 18, left: '3.4%', top: '11%', bottom: '13.5%', width: '29%', padding: '18px 17px', ...acidLeftTextStyle, background: 'rgba(7,9,6,0.18)', border: `1px solid ${acidTokens.color.acidLine}`, boxShadow: '0 14px 32px rgba(0,0,0,0.12)', opacity: intro * (1 - exit * 0.78), transform: `translateX(${(1 - intro) * -64 + exit * -90}px) scaleX(${0.96 + intro * 0.04})`, transformOrigin: 'left center'}}>
       <Eyebrow>{props.eyebrow}</Eyebrow>
       <h2 style={{margin: '18px 0 15px', color: acidTokens.color.text, fontFamily: acidTokens.font.display, fontSize: 44, lineHeight: 1.05, fontWeight: 900, letterSpacing: '-0.025em'}}>
         {props.title.join('')}
@@ -354,7 +374,7 @@ const TimeGap = ({props, frame, durationInFrames}: {props: AcidComponentProps; f
       <div style={{position: 'absolute', inset: 0, opacity: topicIntro}}>
         <TopicLine topic={props.topic} detail={props.topicDetail} />
       </div>
-      <div style={{position: 'absolute', zIndex: 18, left: '7.3%', top: '26%', display: 'flex', alignItems: 'baseline', color: acidTokens.color.text, opacity: valueIntro * (1 - exit * 0.78), transform: `translateX(${(1 - valueIntro) * -72 + exit * -108}px) scale(${0.88 + valueIntro * 0.12})`, clipPath: revealInset(valueIntro, -1)}}>
+      <div style={{position: 'absolute', zIndex: 18, left: '7.3%', top: '26%', display: 'flex', alignItems: 'baseline', ...acidLeftTextStyle, color: acidTokens.color.text, opacity: valueIntro * (1 - exit * 0.78), transform: `translateX(${(1 - valueIntro) * -72 + exit * -108}px) scale(${0.88 + valueIntro * 0.12})`, clipPath: revealInset(valueIntro, -1)}}>
       <span style={{color: acidTokens.color.acid, fontFamily: acidTokens.font.display, fontSize: 285, lineHeight: 0.68, fontWeight: 900, letterSpacing: '-0.105em'}}>
         {props.primaryValue ?? '6'}
       </span>
@@ -362,7 +382,7 @@ const TimeGap = ({props, frame, durationInFrames}: {props: AcidComponentProps; f
         {props.primaryUnit ?? '个月'}
       </span>
     </div>
-      <div style={{position: 'absolute', zIndex: 18, left: '7.6%', top: '57%', color: acidTokens.color.text, fontFamily: acidTokens.font.display, fontSize: 44, lineHeight: 1.1, fontWeight: 900, opacity: captionIntro * (1 - exit * 0.72), transform: `translateY(${(1 - captionIntro) * 18 + exit * 20}px)`}}>
+      <div style={{position: 'absolute', zIndex: 18, left: '7.6%', top: '57%', ...acidLeftTextStyle, color: acidTokens.color.text, fontFamily: acidTokens.font.display, fontSize: 44, lineHeight: 1.1, fontWeight: 900, opacity: captionIntro * (1 - exit * 0.72), transform: `translateY(${(1 - captionIntro) * 18 + exit * 20}px)`}}>
       {props.caption ?? '误差'}
     </div>
   </>
@@ -415,7 +435,7 @@ const BigValue = ({value, unit, compact = false}: {value: string; unit: string; 
   </div>
 );
 
-const Timeline = ({items, progress = 1}: {items: AcidComponentProps['items']; progress?: number}) => (
+export const Timeline = ({items, progress = 1}: {items: AcidComponentProps['items']; progress?: number}) => (
   <div style={{position: 'relative', marginTop: 20, paddingLeft: 25, display: 'grid', gap: 13}}>
     <div style={{position: 'absolute', left: 6, top: 7, bottom: 7, width: 1, background: 'rgba(255,255,255,0.24)', transform: `scaleY(${progress})`, transformOrigin: 'top center'}} />
     {items.map((item, index) => {

@@ -1,5 +1,6 @@
 import {Composition} from 'remotion';
 import {EpisodeComposition} from './compositions/EpisodeComposition';
+import {AcidScrimContactSheet} from './editorial/fixtures/AcidScrimContactSheet';
 import {acidStrikeDemos, acidStrikeGallery} from './editorial/fixtures/demo-acid-strike';
 import type {EpisodeInputProps} from './editorial/schema/episode.types';
 
@@ -18,6 +19,14 @@ export const RemotionRoot = () => {
         component={EpisodeComposition}
         defaultProps={acidStrikeGallery}
         calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
+      />
+      <Composition
+        id="AcidScrimContactSheet"
+        component={AcidScrimContactSheet}
+        durationInFrames={1}
+        fps={30}
+        width={1920}
+        height={1080}
       />
       {Object.entries(acidStrikeDemos).map(([kind, props]) => (
         <Composition
