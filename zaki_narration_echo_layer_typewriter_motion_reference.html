@@ -1,0 +1,1145 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ZAKI · Narration Echo Layer Typewriter Motion Reference</title>
+  <style>
+    /*
+    =============================================================================
+    NARRATION ECHO LAYER
+    =============================================================================
+
+    这是“普通口播填缝层”，不是信息列表组件。
+
+    它只负责四件事：
+      1. 底部保留真实逐字字幕；
+      2. 左侧同步出现一句“提要式短句”；
+      3. 背后放一个淡淡的大关键词；
+      4. 口播讲到新观点时，短句和关键词平滑切换。
+
+    严禁：
+      - 标题 + 摘要 + 列表
+      - 数据卡 / 价格表 / 时间线
+      - 黑色大背景
+      - 一堆英文标签和无意义装饰
+      - 抢人物或抢字幕
+
+    适用：
+      - 普通讲解
+      - 观点补充
+      - 一段逻辑的过渡
+      - 功能组件之间的“空白口播段”
+
+    退出时：
+      数据页、对比页、证据页、流程页即将出现前，
+      整个层在 10~12 帧内淡出并左移一点。
+    =============================================================================
+    */
+
+    :root {
+      --acid: #d9ff4c;
+      --acid-dark: #769000;
+      --ink: #0c0e0b;
+      --text: #161914;
+      --muted: rgba(22,25,20,.63);
+      --weak: rgba(22,25,20,.38);
+      --wall: #f4f2ec;
+      --wall-2: #dedcd5;
+
+      --ui: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC",
+            "Source Han Sans SC", "HarmonyOS Sans SC", sans-serif;
+      --display: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC",
+                 "Source Han Sans SC", "HarmonyOS Sans SC", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      min-width: 1120px;
+      background:
+        radial-gradient(circle at 13% 0%, rgba(217,255,76,.10), transparent 27%),
+        #d8d6d1;
+    }
+
+    body {
+      margin: 0;
+      color: #101216;
+      font-family: var(--ui);
+    }
+
+    .app {
+      width: min(1450px, calc(100vw - 48px));
+      margin: 28px auto 56px;
+      display: grid;
+      grid-template-columns: minmax(840px, 1fr) 305px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .shell,
+    .guide {
+      overflow: hidden;
+      border: 1px solid rgba(16,18,24,.14);
+      background: rgba(255,255,255,.77);
+      box-shadow: 0 28px 74px rgba(16,18,24,.14);
+    }
+
+    .topbar {
+      min-height: 54px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(16,18,24,.12);
+      background: #f8f7f3;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 11px;
+      color: rgba(16,18,24,.56);
+      font: 800 11px/1 var(--ui);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .brand strong {
+      color: #111317;
+      font: 900 13px/1 var(--display);
+      letter-spacing: .01em;
+    }
+
+    .top-meta {
+      color: rgba(16,18,24,.46);
+      font: 700 10px/1 var(--ui);
+      letter-spacing: .05em;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(16,18,24,.12);
+      background: #ece9e2;
+    }
+
+    .control {
+      border: 1px solid rgba(16,18,24,.15);
+      color: rgba(16,18,24,.68);
+      background: rgba(255,255,255,.60);
+      padding: 8px 11px;
+      font: 800 12px/1 var(--ui);
+      cursor: pointer;
+      transition: .16s ease;
+    }
+
+    .control:hover {
+      color: #111317;
+      border-color: rgba(16,18,24,.42);
+    }
+
+    .control.primary {
+      color: var(--acid);
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .control.status {
+      margin-left: auto;
+      cursor: default;
+      color: var(--acid-dark);
+      border-color: rgba(118,144,0,.45);
+      background: rgba(217,255,76,.18);
+    }
+
+    /*
+      真实项目这里是 talk.mp4。
+      人物占位只用于展示安全区和叠层位置。
+    */
+    .stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,.96), transparent 31%),
+        linear-gradient(113deg, var(--wall-2) 0%, #f8f6f0 49%, #e3e0d9 100%);
+    }
+
+    .stage::before {
+      content: "";
+      position: absolute;
+      z-index: -4;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 50% 102%, rgba(16,18,24,.23), transparent 46%),
+        linear-gradient(90deg, rgba(0,0,0,.06), transparent 15%, transparent 81%, rgba(0,0,0,.05));
+    }
+
+    /*
+      只用轻柔局部阴影帮助文字可读，
+      不再是一整块黑色或深灰色渐变。
+    */
+    .readability-softener {
+      position: absolute;
+      z-index: 1;
+      left: -2%;
+      top: 25%;
+      width: 34%;
+      height: 43%;
+      pointer-events: none;
+      opacity: 0;
+      background:
+        radial-gradient(
+          ellipse at 26% 48%,
+          rgba(7,9,6,.15) 0%,
+          rgba(7,9,6,.07) 48%,
+          rgba(7,9,6,0) 81%
+        );
+      transition: opacity .38s ease;
+    }
+
+    .stage.playing .readability-softener { opacity: 1; }
+
+    .presenter {
+      position: absolute;
+      z-index: 10;
+      left: 50%;
+      bottom: 5.4%;
+      width: 30%;
+      height: 80%;
+      transform: translateX(-50%);
+      transform-origin: bottom center;
+      pointer-events: none;
+    }
+
+    .stage.playing .presenter {
+      animation: liveSway 6.5s ease-in-out infinite;
+    }
+
+    .presenter-shadow {
+      position: absolute;
+      left: 50%;
+      bottom: -3%;
+      width: 113%;
+      height: 14%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(0,0,0,.37), transparent 70%);
+      filter: blur(8px);
+    }
+
+    .presenter-head {
+      position: absolute;
+      top: 2%;
+      left: 50%;
+      width: 28%;
+      aspect-ratio: 1;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 34% 27%, rgba(255,255,255,.40), transparent 20%),
+        linear-gradient(145deg, #d2a28e, #6c4b54 77%);
+      box-shadow: inset -10px -8px 0 rgba(0,0,0,.13);
+    }
+
+    .presenter-torso {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 92%;
+      height: 75%;
+      transform: translateX(-50%);
+      border-radius: 47% 47% 11% 11% / 22% 22% 7% 7%;
+      background: linear-gradient(135deg, #2a354c, #171c28 74%);
+      box-shadow:
+        inset 13px 0 0 rgba(255,255,255,.045),
+        inset -13px 0 0 rgba(0,0,0,.15);
+    }
+
+    .presenter-arm {
+      position: absolute;
+      right: -7%;
+      bottom: 21%;
+      width: 38%;
+      height: 17%;
+      border-radius: 50%;
+      transform: rotate(-17deg);
+      background: linear-gradient(145deg, #b7796c, #583a44);
+    }
+
+    @keyframes liveSway {
+      0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+      32% { transform: translateX(-49.3%) translateY(-2px) rotate(.38deg); }
+      68% { transform: translateX(-50.7%) translateY(0) rotate(-.24deg); }
+    }
+
+    /*
+      ───────────────────────────────────────────────────────────
+      NARRATION ECHO LAYER
+      只有「章节短标签 + 一句提要 + 大关键词 + 极轻进度」
+      没有标题/摘要/列表的结构。
+      ───────────────────────────────────────────────────────────
+    */
+    .echo-layer {
+      position: absolute;
+      z-index: 16;
+      left: 4.6%;
+      top: 23%;
+      width: 28%;
+      min-height: 42%;
+      pointer-events: none;
+    }
+
+    .echo-ghost {
+      position: absolute;
+      z-index: -1;
+      left: -2%;
+      top: -23%;
+      color: rgba(217,255,76,.15);
+      font: 900 clamp(92px, 11vw, 208px)/.82 var(--display);
+      letter-spacing: -.06em;
+      white-space: nowrap;
+      user-select: none;
+      opacity: 0;
+      transform: translateY(14px) scale(.96);
+    }
+
+    .echo-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: rgba(22,25,20,.54);
+      font: 900 10px/1 var(--ui);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    .echo-label i {
+      display: block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--acid);
+      box-shadow: 0 0 9px rgba(217,255,76,.62);
+    }
+
+    .echo-label b {
+      color: var(--acid-dark);
+      font-weight: 900;
+    }
+
+    /*
+      这就是填缝的核心：
+      一次只出现一句，最多两行，不是页面标题。
+    */
+    .echo-line {
+      max-width: 96%;
+      margin: 13px 0 0;
+      color: var(--ink);
+      font: 900 clamp(25px, 2.85vw, 53px)/1.18 var(--display);
+      letter-spacing: -.017em;
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    .echo-line em {
+      color: var(--acid-dark);
+      font-style: normal;
+    }
+
+    /*
+      语义分段打字机：
+      每个短语按字符打出，短语之间停顿。
+      不做老式“整段逐字打印”的拖沓效果。
+    */
+    .echo-line {
+      min-height: 2.38em;
+    }
+
+    .typed-segment {
+      white-space: pre-wrap;
+    }
+
+    .typed-segment.is-accent {
+      color: var(--acid-dark);
+    }
+
+    .type-caret {
+      display: inline-block;
+      width: .085em;
+      height: .86em;
+      margin-left: .10em;
+      vertical-align: -.07em;
+      background: var(--acid-dark);
+      opacity: 0;
+    }
+
+    .echo-line.is-typing .type-caret {
+      opacity: 1;
+      animation: caretBlink .58s steps(1, end) infinite;
+    }
+
+    .echo-line.is-typed .type-caret {
+      animation: caretFinish .42s ease forwards;
+    }
+
+    .echo-layer.idle .echo-note.is-waiting {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .echo-layer.idle .echo-note.is-ready {
+      animation: noteIn .28s cubic-bezier(.2,.86,.2,1) both;
+    }
+
+    @keyframes caretBlink {
+      0%, 48% { opacity: 1; }
+      49%, 100% { opacity: 0; }
+    }
+
+    @keyframes caretFinish {
+      to { opacity: 0; }
+    }
+
+    @keyframes noteIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .echo-rule {
+      width: 0;
+      height: 4px;
+      margin-top: 17px;
+      background: var(--acid);
+      box-shadow: 0 0 12px rgba(217,255,76,.30);
+    }
+
+    /*
+      只是一行短注释，用来把口播字幕里不容易一眼记住的点提出来。
+      不属于“摘要卡”。
+    */
+    .echo-note {
+      max-width: 89%;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font: 800 13px/1.55 var(--ui);
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .echo-counter {
+      position: absolute;
+      left: 0;
+      bottom: 3%;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--weak);
+      font: 800 9px/1 var(--ui);
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(7px);
+    }
+
+    .echo-counter b {
+      color: var(--acid-dark);
+      font: 900 12px/1 var(--display);
+      letter-spacing: 0;
+    }
+
+    .echo-counter i {
+      display: block;
+      width: 44px;
+      height: 2px;
+      background: rgba(22,25,20,.15);
+      overflow: hidden;
+    }
+
+    .echo-counter i::after {
+      content: "";
+      display: block;
+      width: var(--progress, 28%);
+      height: 100%;
+      background: var(--acid);
+      transition: width .34s ease;
+    }
+
+    /*
+      Enter sequence
+    */
+    .echo-layer.entering .echo-ghost {
+      animation: ghostIn .45s cubic-bezier(.2,.86,.2,1) .02s both;
+    }
+
+    .echo-layer.entering .echo-label {
+      animation: liftIn .28s cubic-bezier(.2,.86,.2,1) .10s both;
+    }
+
+    .echo-layer.entering .echo-line {
+      animation: liftIn .38s cubic-bezier(.2,.86,.2,1) .17s both;
+    }
+
+    .echo-layer.entering .echo-rule {
+      animation: ruleGrow .28s cubic-bezier(.2,.86,.2,1) .29s both;
+    }
+
+    .echo-layer.entering .echo-note {
+      animation: liftIn .30s cubic-bezier(.2,.86,.2,1) .33s both;
+    }
+
+    .echo-layer.entering .echo-counter {
+      animation: liftIn .25s cubic-bezier(.2,.86,.2,1) .39s both;
+    }
+
+    .echo-layer.idle .echo-ghost,
+    .echo-layer.idle .echo-label,
+    .echo-layer.idle .echo-line,
+    .echo-layer.idle .echo-note,
+    .echo-layer.idle .echo-counter {
+      opacity: 1;
+      transform: none;
+    }
+
+    .echo-layer.idle .echo-rule { width: 53px; }
+
+    /*
+      One piece of narration changes:
+      old line exits slightly upward; new line comes from below.
+    */
+    .echo-layer.swapping .echo-line,
+    .echo-layer.swapping .echo-note,
+    .echo-layer.swapping .echo-label {
+      animation: contentOut .17s ease both;
+    }
+
+    .echo-layer.swapping .echo-ghost {
+      animation: ghostOut .18s ease both;
+    }
+
+    .echo-layer.swapping .echo-rule {
+      animation: ruleOut .16s ease both;
+    }
+
+    /*
+      Overall exit before a main functional component enters.
+    */
+    .echo-layer.exiting .echo-ghost,
+    .echo-layer.exiting .echo-label,
+    .echo-layer.exiting .echo-line,
+    .echo-layer.exiting .echo-note,
+    .echo-layer.exiting .echo-rule,
+    .echo-layer.exiting .echo-counter {
+      animation: layerOut .28s ease both;
+    }
+
+    @keyframes ghostIn {
+      from { opacity: 0; transform: translateY(14px) scale(.96); filter: blur(5px); }
+      to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+
+    @keyframes liftIn {
+      from { opacity: 0; transform: translateY(12px); filter: blur(2px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    @keyframes ruleGrow {
+      from { width: 0; opacity: 0; }
+      to { width: 53px; opacity: 1; }
+    }
+
+    @keyframes contentOut {
+      to { opacity: 0; transform: translateY(-8px); filter: blur(2px); }
+    }
+
+    @keyframes ghostOut {
+      to { opacity: 0; transform: translateY(-7px) scale(.98); }
+    }
+
+    @keyframes ruleOut {
+      to { width: 18px; opacity: 0; }
+    }
+
+    @keyframes layerOut {
+      to { opacity: 0; transform: translateX(-19px); filter: blur(3px); }
+    }
+
+    /*
+      Normal subtitle stays at the bottom.
+      Echo line is a visual aid, not a replacement for the real subtitle.
+    */
+    .subtitle {
+      position: absolute;
+      z-index: 30;
+      left: 50%;
+      bottom: 2.55%;
+      transform: translateX(-50%);
+      min-width: 39%;
+      max-width: 67%;
+      padding: 10px 17px 11px;
+      color: #fff;
+      background: rgba(7,8,6,.86);
+      box-shadow: 0 7px 20px rgba(0,0,0,.22);
+      text-align: center;
+      font: 900 clamp(18px,1.82vw,33px)/1.25 var(--ui);
+      letter-spacing: -.01em;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+
+    .subtitle.changing {
+      opacity: 0;
+      transform: translate(-50%, 8px);
+    }
+
+    .subtitle small {
+      display: block;
+      margin-top: 6px;
+      color: rgba(255,255,255,.62);
+      font: 600 clamp(10px,.94vw,15px)/1.32 var(--ui);
+    }
+
+    .timecode {
+      position: absolute;
+      z-index: 30;
+      top: 3%;
+      right: 3.2%;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: rgba(22,25,21,.48);
+      font: 900 9px/1 var(--ui);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .timecode i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--acid);
+      box-shadow: 0 0 8px rgba(217,255,76,.68);
+      animation: blink .75s ease-in-out infinite alternate;
+    }
+
+    @keyframes blink {
+      from { opacity: .35; }
+      to { opacity: 1; }
+    }
+
+    .timeline-progress {
+      position: absolute;
+      z-index: 30;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: rgba(11,13,10,.10);
+    }
+
+    .timeline-progress b {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: var(--acid);
+      box-shadow: 0 0 10px rgba(217,255,76,.58);
+      transition: width .1s linear;
+    }
+
+    .debug-zone {
+      display: none;
+      position: absolute;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .debug-person {
+      left: 36%;
+      right: 36%;
+      top: 14%;
+      bottom: 16%;
+      border: 1px dashed rgba(217,255,76,.78);
+      background: rgba(217,255,76,.08);
+    }
+
+    .debug-subtitle {
+      left: 24%;
+      right: 24%;
+      bottom: 2%;
+      height: 12%;
+      border: 1px dashed rgba(255,94,70,.72);
+      background: rgba(255,94,70,.08);
+    }
+
+    .stage.debug .debug-zone { display: block; }
+
+    .guide {
+      position: sticky;
+      top: 20px;
+      padding: 19px 17px;
+    }
+
+    .guide h2 {
+      margin: 0;
+      color: #111317;
+      font: 900 23px/1 var(--display);
+      letter-spacing: -.02em;
+    }
+
+    .guide > p {
+      margin: 11px 0 17px;
+      color: rgba(16,18,24,.67);
+      font-size: 13px;
+      line-height: 1.62;
+    }
+
+    .rule {
+      padding: 13px 0;
+      border-top: 1px solid rgba(16,18,24,.12);
+    }
+
+    .rule strong {
+      display: block;
+      margin-bottom: 7px;
+      color: #111317;
+      font: 900 12px/1 var(--ui);
+      letter-spacing: .03em;
+    }
+
+    .rule ul {
+      margin: 0;
+      padding-left: 17px;
+      color: rgba(16,18,24,.68);
+      font-size: 12px;
+      line-height: 1.62;
+    }
+
+    .rule.acid strong { color: #6c8500; }
+
+    .debug-button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px 11px;
+      border: 1px solid #111317;
+      color: var(--acid);
+      background: #111317;
+      font: 800 12px/1 var(--ui);
+      cursor: pointer;
+    }
+
+    .dev-note {
+      margin-top: 13px;
+      padding: 11px;
+      border-left: 3px solid #8da800;
+      background: rgba(217,255,76,.10);
+      color: rgba(16,18,24,.70);
+      font-size: 11px;
+      line-height: 1.58;
+    }
+
+    .dev-note code {
+      color: #111317;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 10px;
+    }
+
+    @media (max-width: 1180px) {
+      html { min-width: 0; }
+      .app { width: 100%; margin: 0; grid-template-columns: 1fr; }
+      .guide { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <strong>ZAKI / NARRATION ECHO</strong>
+          <span>普通口播填缝层 · 非列表组件</span>
+        </div>
+        <div class="top-meta">caption → echo line → ghost keyword → main component exit</div>
+      </header>
+
+      <div class="controls">
+        <button class="control primary" id="playButton">播放模拟</button>
+        <button class="control" id="pauseButton">暂停</button>
+        <button class="control" id="replayButton">重新播放</button>
+        <button class="control status" id="statusButton">普通口播段</button>
+      </div>
+
+      <div class="stage" id="stage">
+        <div class="readability-softener"></div>
+
+        <div class="presenter" aria-label="talk.mp4 placeholder">
+          <div class="presenter-shadow"></div>
+          <div class="presenter-head"></div>
+          <div class="presenter-torso"></div>
+          <div class="presenter-arm"></div>
+        </div>
+
+        <section class="echo-layer" id="echoLayer">
+          <div class="echo-ghost" id="echoGhost">流程</div>
+
+          <div class="echo-label">
+            <i></i>
+            <span id="echoLabel">AI 工作流</span>
+            <b id="echoBeat">01 / 03</b>
+          </div>
+
+          <div class="echo-line" id="echoLine">
+            真正费神的，<br>不是生成。
+          </div>
+
+          <div class="echo-rule"></div>
+
+          <p class="echo-note" id="echoNote">
+            而是把默认效果调成自己的表达方式。
+          </p>
+
+          <div class="echo-counter">
+            <span>talk note</span>
+            <i id="echoProgress" style="--progress:33%"></i>
+            <b id="echoCounter">01</b>
+          </div>
+        </section>
+
+        <div class="timecode">
+          <i></i>
+          <span id="timecode">00:00 / 00:16</span>
+        </div>
+
+        <div class="subtitle" id="subtitle">
+          因为第一次让它直出效果，它大概率会给你一套很 AI 味的默认设计。
+          <small>First-pass output often falls into a generic AI-looking default style.</small>
+        </div>
+
+        <div class="timeline-progress"><b id="timelineFill"></b></div>
+
+        <div class="debug-zone debug-person"></div>
+        <div class="debug-zone debug-subtitle"></div>
+      </div>
+    </section>
+
+    <aside class="guide">
+      <h2>这才是“填缝层”</h2>
+      <p>它不是把口播再做一遍，也不替代列表组件。普通段落里，它只把最值得记住的那一句话，轻轻放到画面左边。</p>
+
+      <section class="rule acid">
+        <strong>页面上永远只保留这些</strong>
+        <ul>
+          <li>一条小章节标签。</li>
+          <li>一句最多两行的提要短句。</li>
+          <li>一个淡淡的大关键词。</li>
+          <li>一行很短的补充注释。</li>
+        </ul>
+      </section>
+
+      <section class="rule">
+        <strong>它和字幕的关系</strong>
+        <ul>
+          <li>底部字幕负责完整还原口播。</li>
+          <li>左侧短句只提炼一句“观众该记住什么”。</li>
+          <li>不要每句口播都更新，建议每 2~5 秒换一次。</li>
+          <li>没有合适提要时可以不显示短注释，只留关键词。</li>
+        </ul>
+      </section>
+
+      <section class="rule">
+        <strong>什么时候退出</strong>
+        <ul>
+          <li>数据、对比、时间线、证据、流程组件出现前。</li>
+          <li>画面需要展示真实素材、软件录屏、案例图前。</li>
+          <li>退出不是消失得很猛，而是 10~12 帧轻轻左退淡出。</li>
+        </ul>
+      </section>
+
+      <button class="debug-button" id="debugButton">显示 / 隐藏人物与字幕安全区</button>
+
+      <div class="dev-note">
+        给 Codex 的核心描述：<br><br>
+        <code>新增 NarrationEchoLayer，不要列表、不要卡片；</code><br>
+        <code>提要短句采用“语义分段式打字机”：短语依次打出，重点词最后高亮；</code><br>
+        <code>底部字幕仍保持完整口播；主功能组件出现时整体退出。</code>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const beats = [
+      {
+        ghost: "流程",
+        label: "AI 工作流",
+        beat: "01 / 03",
+        counter: "01",
+        progress: "33%",
+        segments: [
+          { text: "真正费神的，" },
+          { break: true, pause: 150 },
+          { text: "不是" },
+          { text: "生成", accent: true },
+          { text: "。" }
+        ],
+        note: "而是把默认效果调成自己的表达方式。",
+        subtitle: "因为第一次让它直出效果，它大概率会给你一套很 AI 味的默认设计。",
+        subtitleEn: "First-pass output often falls into a generic AI-looking default style."
+      },
+      {
+        ghost: "调整",
+        label: "视觉表达",
+        beat: "02 / 03",
+        counter: "02",
+        progress: "66%",
+        segments: [
+          { text: "你要做的，" },
+          { break: true, pause: 150 },
+          { text: "是把它调成" },
+          { text: "你的风格", accent: true },
+          { text: "。" }
+        ],
+        note: "这一段不需要表格，只需要把观点放大一点。",
+        subtitle: "所以真正的工作量，其实都在后面反复调整视觉和节奏的过程里。",
+        subtitleEn: "The real work is the iterative visual and pacing refinement."
+      },
+      {
+        ghost: "沉淀",
+        label: "可复用能力",
+        beat: "03 / 03",
+        counter: "03",
+        progress: "100%",
+        segments: [
+          { text: "调好以后，" },
+          { break: true, pause: 150 },
+          { text: "才能变成" },
+          { text: "自己的能力", accent: true },
+          { text: "。" }
+        ],
+        note: "下一步才值得进入具体案例或流程展示。",
+        subtitle: "当这一套东西被沉淀下来，你后面就不用每次都从零开始调了。",
+        subtitleEn: "Once it is systematized, you no longer need to rebuild it from zero."
+      }
+    ];
+
+    const timeline = [
+      { at: 0.0, type: "enter", beat: 0 },
+      { at: 4.5, type: "swap", beat: 1 },
+      { at: 9.2, type: "swap", beat: 2 },
+      { at: 13.7, type: "exit" }
+    ];
+
+    const DURATION = 16;
+    const stage = document.getElementById("stage");
+    const layer = document.getElementById("echoLayer");
+    const ghost = document.getElementById("echoGhost");
+    const label = document.getElementById("echoLabel");
+    const beat = document.getElementById("echoBeat");
+    const counter = document.getElementById("echoCounter");
+    const progress = document.getElementById("echoProgress");
+    const line = document.getElementById("echoLine");
+    const note = document.getElementById("echoNote");
+    const subtitle = document.getElementById("subtitle");
+    const timelineFill = document.getElementById("timelineFill");
+    const timecode = document.getElementById("timecode");
+    const statusButton = document.getElementById("statusButton");
+
+    let isPlaying = false;
+    let startAt = 0;
+    let elapsedBeforePause = 0;
+    let lastEvent = -1;
+    let rafId = null;
+
+    let typingRunId = 0;
+
+    function applyBeatMeta(index) {
+      const item = beats[index];
+      ghost.textContent = item.ghost;
+      label.textContent = item.label;
+      beat.textContent = item.beat;
+      counter.textContent = item.counter;
+      progress.style.setProperty("--progress", item.progress);
+      note.textContent = item.note;
+      note.className = "echo-note is-waiting";
+      subtitle.innerHTML = `${item.subtitle}<small>${item.subtitleEn}</small>`;
+    }
+
+    /*
+      每个 segment 以“短语”为单位推进；
+      短语内部再按 2 帧左右一个字的速度输入。
+      这比整句瞬间切换更像口播中的思路逐段展开。
+    */
+    function typeEchoLine(index) {
+      const item = beats[index];
+      const runId = ++typingRunId;
+      const charDelay = 64;       // 约 2 帧 / 字 @ 30fps
+      const segmentPause = 210;   // 两个短语之间的停顿
+      const output = document.createElement("span");
+      const caret = document.createElement("span");
+
+      caret.className = "type-caret";
+      line.className = "echo-line is-typing";
+      line.replaceChildren(output, caret);
+
+      let segmentIndex = 0;
+
+      function typeSegment() {
+        if (runId !== typingRunId) return;
+
+        if (segmentIndex >= item.segments.length) {
+          line.className = "echo-line is-typed";
+          note.className = "echo-note is-ready";
+          return;
+        }
+
+        const segment = item.segments[segmentIndex];
+        segmentIndex += 1;
+
+        if (segment.break) {
+          output.appendChild(document.createElement("br"));
+          window.setTimeout(typeSegment, segment.pause ?? segmentPause);
+          return;
+        }
+
+        const segmentNode = document.createElement("span");
+        segmentNode.className = `typed-segment${segment.accent ? " is-accent" : ""}`;
+        output.appendChild(segmentNode);
+
+        const characters = Array.from(segment.text);
+        let charIndex = 0;
+
+        function typeCharacter() {
+          if (runId !== typingRunId) return;
+
+          if (charIndex >= characters.length) {
+            window.setTimeout(typeSegment, segment.pause ?? segmentPause);
+            return;
+          }
+
+          segmentNode.textContent += characters[charIndex];
+          charIndex += 1;
+          window.setTimeout(typeCharacter, charDelay);
+        }
+
+        typeCharacter();
+      }
+
+      typeSegment();
+    }
+
+    function enter(index) {
+      applyBeatMeta(index);
+      line.className = "echo-line";
+      line.textContent = "";
+      layer.className = "echo-layer entering";
+      stage.classList.add("playing");
+      statusButton.textContent = "普通口播段";
+      void layer.offsetWidth;
+
+      window.setTimeout(() => {
+        layer.className = "echo-layer idle";
+        typeEchoLine(index);
+      }, 560);
+    }
+
+    function swap(index) {
+      typingRunId += 1;
+      layer.className = "echo-layer swapping";
+      subtitle.classList.add("changing");
+
+      window.setTimeout(() => {
+        applyBeatMeta(index);
+        line.className = "echo-line";
+        line.textContent = "";
+        layer.className = "echo-layer entering";
+        subtitle.classList.remove("changing");
+        void layer.offsetWidth;
+
+        window.setTimeout(() => {
+          layer.className = "echo-layer idle";
+          typeEchoLine(index);
+        }, 560);
+      }, 190);
+    }
+
+    function exit() {
+      typingRunId += 1;
+      layer.className = "echo-layer exiting";
+      statusButton.textContent = "大型组件即将接管";
+    }
+
+    function format(seconds) {
+      const safe = Math.max(0, Math.min(DURATION, seconds));
+      return `00:${String(Math.floor(safe)).padStart(2, "0")} / 00:16`;
+    }
+
+    function runEvents(elapsed) {
+      timeline.forEach((event, idx) => {
+        if (elapsed >= event.at && idx > lastEvent) {
+          lastEvent = idx;
+          if (event.type === "enter") enter(event.beat);
+          if (event.type === "swap") swap(event.beat);
+          if (event.type === "exit") exit();
+        }
+      });
+    }
+
+    function tick(now) {
+      if (!isPlaying) return;
+
+      const elapsed = (now - startAt) / 1000 + elapsedBeforePause;
+
+      if (elapsed >= DURATION) {
+        replay();
+        return;
+      }
+
+      runEvents(elapsed);
+      timelineFill.style.width = `${(elapsed / DURATION) * 100}%`;
+      timecode.textContent = format(elapsed);
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function play() {
+      if (isPlaying) return;
+      isPlaying = true;
+      startAt = performance.now();
+      stage.classList.add("playing");
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function pause() {
+      if (!isPlaying) return;
+      isPlaying = false;
+      elapsedBeforePause += (performance.now() - startAt) / 1000;
+      cancelAnimationFrame(rafId);
+      stage.classList.remove("playing");
+    }
+
+    function replay() {
+      isPlaying = false;
+      typingRunId += 1;
+      cancelAnimationFrame(rafId);
+      elapsedBeforePause = 0;
+      lastEvent = -1;
+      timelineFill.style.width = "0%";
+      timecode.textContent = "00:00 / 00:16";
+      stage.classList.add("playing");
+      layer.className = "echo-layer";
+
+      setTimeout(play, 80);
+    }
+
+    document.getElementById("playButton").addEventListener("click", play);
+    document.getElementById("pauseButton").addEventListener("click", pause);
+    document.getElementById("replayButton").addEventListener("click", replay);
+    document.getElementById("debugButton").addEventListener("click", () => stage.classList.toggle("debug"));
+
+    replay();
+  </script>
+</body>
+</html>

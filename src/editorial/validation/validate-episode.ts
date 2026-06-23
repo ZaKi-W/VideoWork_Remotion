@@ -19,6 +19,7 @@ import type {
   EpisodeConfig,
   EpisodeScene,
   MetricSpreadProps,
+  NarrationEchoLayerProps,
   SourceManifest,
 } from '../schema/episode.types';
 import type {StageMode, StageSlot} from '../stage/stage.types';
@@ -52,6 +53,8 @@ const conceptHandoffStageModes: StageMode[] = ['presenter-small', 'screen-primar
 const conceptHandoffSlots: StageSlot[] = ['edge-left', 'edge-right', 'screen-primary'];
 const editorialOverlayStageModes: StageMode[] = ['presenter-center', 'presenter-small', 'screen-primary', 'no-presenter'];
 const editorialOverlaySlots: StageSlot[] = ['top-left', 'top-right', 'edge-left', 'edge-right'];
+const narrationEchoStageModes: StageMode[] = ['presenter-center', 'presenter-small'];
+const narrationEchoSlots: StageSlot[] = ['top-left', 'edge-left'];
 
 const headlineContext = (episode: EpisodeConfig, scene: EpisodeScene): string => {
   const mode = scene.content.kind === 'HeadlineTakeover' ? scene.content.props.mode ?? 'punch' : 'unknown';
@@ -471,6 +474,10 @@ const validateScene = (
     validateEditorialOverlay(scene, episode, issues, strict);
   }
 
+  if (scene.content.kind === 'NarrationEchoLayer') {
+    validateNarrationEchoLayer(scene, episode, issues, strict);
+  }
+
   if (publicDir) {
     for (const assetId of scene.assetIds) {
       const asset = assets.assets.find((candidate) => candidate.id === assetId);
@@ -482,6 +489,75 @@ const validateScene = (
         push(issues, strict ? 'blocking' : 'warning', 'asset.file-missing', `asset file missing: ${asset.path}`, scene.id);
       }
     }
+  }
+};
+
+const validateNarrationEchoLayer = (
+  scene: EpisodeScene,
+  episode: EpisodeConfig,
+  issues: ValidationIssue[],
+  strict: boolean,
+) => {
+  const props: NarrationEchoLayerProps | undefined =
+    scene.content.kind === 'NarrationEchoLayer' ? scene.content.props : undefined;
+  if (!props) {
+    return;
+  }
+
+  const context = `episode=${episode.episode.id}; scene=${scene.id}; stageMode=${scene.stageMode}; slot=${scene.slot}`;
+  const issueLevel = strict ? 'blocking' : 'error';
+
+  if (scene.track !== 'overlay') {
+    push(
+      issues,
+      strict ? 'blocking' : 'warning',
+      'narration-echo.track',
+      `NarrationEchoLayer belongs on overlay track (${context})`,
+      scene.id,
+    );
+  }
+
+  if (!narrationEchoStageModes.includes(scene.stageMode)) {
+    push(
+      issues,
+      issueLevel,
+      'narration-echo.stage-mode',
+      `NarrationEchoLayer is only for presenter talk scenes (${context})`,
+      scene.id,
+    );
+  }
+
+  if (!narrationEchoSlots.includes(scene.slot)) {
+    push(
+      issues,
+      issueLevel,
+      'narration-echo.slot',
+      `NarrationEchoLayer only allows top-left or edge-left (${context})`,
+      scene.id,
+    );
+  }
+
+  if (props.placement !== scene.slot) {
+    push(
+      issues,
+      issueLevel,
+      'narration-echo.placement-mismatch',
+      `NarrationEchoLayer props placement ${props.placement} must match scene slot ${scene.slot} (${context})`,
+      scene.id,
+    );
+  }
+
+  const maxLineLoad = Math.max(
+    ...props.items.map((item) => item.segments.reduce((sum, segment) => sum + (segment.text?.length ?? 0), 0)),
+  );
+  if (maxLineLoad > 26) {
+    push(
+      issues,
+      'warning',
+      'narration-echo.line-long',
+      `NarrationEchoLayer line may exceed two readable lines; verify keyframes (${context})`,
+      scene.id,
+    );
   }
 };
 

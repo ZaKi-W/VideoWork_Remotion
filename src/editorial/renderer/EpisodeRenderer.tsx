@@ -8,6 +8,9 @@ import {getStageLayout} from '../stage/stage.config';
 const scenesOverlap = (a: {start: number; end: number}, b: {start: number; end: number}): boolean =>
   a.start < b.end && b.start < a.end;
 
+const hasOwnFullCanvasBackground = (scene: EpisodeInputProps['episode']['scenes'][number]): boolean =>
+  scene.content.kind === 'NarrationEchoLayer' && Boolean(scene.content.props.backgroundVideoPath);
+
 export const EpisodeRenderer = ({episode, assets, sources, debug = false}: EpisodeInputProps) => {
   const layout = getStageLayout(episode.episode.width, episode.episode.height);
 
@@ -25,7 +28,18 @@ export const EpisodeRenderer = ({episode, assets, sources, debug = false}: Episo
             from={secondsToFrames(scene.start, episode.episode.fps)}
             durationInFrames={sceneDurationInFrames(scene.start, scene.end, episode.episode.fps)}
           >
-            {hasBaseSceneUnderOverlay ? (
+            {hasOwnFullCanvasBackground(scene) ? (
+              <AbsoluteFill style={{pointerEvents: 'none'}}>
+                <SceneRenderer
+                  scene={scene}
+                  assets={assets}
+                  sources={sources}
+                  fps={episode.episode.fps}
+                  width={episode.episode.width}
+                  height={episode.episode.height}
+                />
+              </AbsoluteFill>
+            ) : hasBaseSceneUnderOverlay ? (
               <AbsoluteFill style={{pointerEvents: 'none'}}>
                 <div
                   style={{

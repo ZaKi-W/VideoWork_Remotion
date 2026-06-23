@@ -2,6 +2,7 @@ import {Composition} from 'remotion';
 import {EpisodeComposition} from './compositions/EpisodeComposition';
 import {AcidScrimContactSheet} from './editorial/fixtures/AcidScrimContactSheet';
 import {acidStrikeDemos, acidStrikeGallery} from './editorial/fixtures/demo-acid-strike';
+import {narrationEchoLayerDemo} from './editorial/fixtures/demo-narration-echo-layer';
 import type {EpisodeInputProps} from './editorial/schema/episode.types';
 
 const getMetadata = (props: EpisodeInputProps) => ({
@@ -27,6 +28,12 @@ export const RemotionRoot = () => {
         fps={30}
         width={1920}
         height={1080}
+      />
+      <Composition
+        id="DemoNarrationEchoLayer"
+        component={EpisodeComposition}
+        defaultProps={narrationEchoLayerDemo}
+        calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
       />
       {Object.entries(acidStrikeDemos).map(([kind, props]) => (
         <Composition

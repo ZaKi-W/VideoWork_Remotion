@@ -8,6 +8,7 @@ import type {
   episodeSchema,
   headlineTakeoverPropsSchema,
   metricSpreadPropsSchema,
+  narrationEchoLayerPropsSchema,
   sectionStampPropsSchema,
   sourceManifestSchema,
 } from './episode.schema';
@@ -20,6 +21,7 @@ export type ConceptSplitProps = z.infer<typeof conceptSplitPropsSchema>;
 export type EditorialOverlayProps = z.infer<typeof editorialOverlayPropsSchema>;
 export type EvidenceClipProps = z.infer<typeof evidenceClipPropsSchema>;
 export type MetricSpreadProps = z.infer<typeof metricSpreadPropsSchema>;
+export type NarrationEchoLayerProps = z.infer<typeof narrationEchoLayerPropsSchema>;
 export type AcidComponentProps = z.infer<typeof acidComponentPropsSchema>;
 export type AssetManifest = z.infer<typeof assetManifestSchema>;
 export type SourceManifest = z.infer<typeof sourceManifestSchema>;

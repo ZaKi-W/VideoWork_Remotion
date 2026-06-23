@@ -7,6 +7,7 @@ import {
   evidenceClipPropsSchema,
   headlineTakeoverPropsSchema,
   metricSpreadPropsSchema,
+  narrationEchoLayerPropsSchema,
   sectionStampPropsSchema,
   workflowPathPropsSchema,
 } from '../schema/episode.schema';
@@ -16,6 +17,7 @@ import {EditorialOverlay} from '../components/EditorialOverlay';
 import {EvidenceClip} from '../components/EvidenceClip';
 import {HeadlineTakeover} from '../components/HeadlineTakeover';
 import {MetricSpread} from '../components/MetricSpread';
+import {NarrationEchoLayer} from '../components/NarrationEchoLayer';
 import {PrototypeScene} from '../components/prototype/PrototypeScene';
 import {SectionStamp} from '../components/SectionStamp';
 import type {ComponentRegistryItem} from './component.types';
@@ -241,6 +243,17 @@ export const componentRegistry = {
     implementationStatus: 'ready',
     schema: editorialOverlayPropsSchema,
     render: EditorialOverlay,
+  },
+  NarrationEchoLayer: {
+    name: 'NarrationEchoLayer',
+    purpose: '普通口播填缝层 / 左侧提要式短句与淡关键词',
+    allowedStageModes: ['presenter-center', 'presenter-small'],
+    allowedSlots: ['edge-left', 'top-left'],
+    requiresSource: false,
+    requiresAsset: false,
+    implementationStatus: 'ready',
+    schema: narrationEchoLayerPropsSchema,
+    render: NarrationEchoLayer,
   },
   WorkflowPath: {
     name: 'WorkflowPath',

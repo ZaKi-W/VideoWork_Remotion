@@ -1,4 +1,4 @@
-import type {AcidComponentProps, EpisodeInputProps, EpisodeScene} from '../schema/episode.types';
+import type {AcidComponentProps, EpisodeInputProps, EpisodeScene, NarrationEchoLayerProps} from '../schema/episode.types';
 
 const acidKinds = [
   'MediaWall',
@@ -307,6 +307,81 @@ const makeScene = (
   } as unknown as EpisodeScene;
 };
 
+const narrationEchoProps: NarrationEchoLayerProps = {
+  placement: 'edge-left',
+  charFrames: 2,
+  segmentPauseFrames: 6,
+  exitFrames: 12,
+  exitAtFrame: 411,
+  showSoftener: true,
+  backgroundVideoPath: talkVideoPath,
+  items: [
+    {
+      label: 'AI 工作流',
+      beat: '01 / 03',
+      segments: [
+        {text: '真正费神的，'},
+        {break: true, pauseFrames: 5},
+        {text: '不是'},
+        {text: '生成', accent: true},
+        {text: '。'},
+      ],
+      copy: '直出只是起点，真正的工作量在后续视觉和节奏的调整。',
+      track: ['默认效果', '视觉调整', '形成风格'],
+      activeTrackIndex: 1,
+      focus: '视觉表达',
+    },
+    {
+      label: '视觉表达',
+      beat: '02 / 03',
+      segments: [
+        {text: '你要做的，'},
+        {break: true, pauseFrames: 5},
+        {text: '是把它调成'},
+        {text: '你的风格', accent: true},
+        {text: '。'},
+      ],
+      copy: '重点不是多炫，而是让画面语言和口播节奏对得上。',
+      track: ['删掉默认感', '保留重点', '建立辨识度'],
+      activeTrackIndex: 2,
+      focus: '调成自己',
+    },
+    {
+      label: '可复用能力',
+      beat: '03 / 03',
+      segments: [
+        {text: '调好以后，'},
+        {break: true, pauseFrames: 5},
+        {text: '才能变成'},
+        {text: '自己的能力', accent: true},
+        {text: '。'},
+      ],
+      copy: '把判断和视觉规则写进组件，后面才能稳定复用同一套表达。',
+      track: ['明确规则', '固化组件', '稳定交付'],
+      activeTrackIndex: 1,
+      focus: '沉淀成组件',
+    },
+  ],
+};
+
+const makeNarrationEchoScene = (start: number, end: number): EpisodeScene => ({
+  id: 'scene-acid-narration-echo-layer',
+  start,
+  end,
+  track: 'overlay',
+  kind: 'NarrationEchoLayer',
+  stageMode: 'presenter-center',
+  slot: 'edge-left',
+  content: {
+    kind: 'NarrationEchoLayer',
+    props: narrationEchoProps,
+  },
+  assetIds: [],
+  sourceRefIds: [],
+  status: 'ready',
+  notes: 'Acid Strike gallery demo for ordinary narration filler.',
+});
+
 const baseInput = (id: string, title: string, scenes: EpisodeScene[], durationInSeconds: number): EpisodeInputProps => ({
   debug: false,
   strict: false,
@@ -340,8 +415,11 @@ const baseInput = (id: string, title: string, scenes: EpisodeScene[], durationIn
 export const acidStrikeGallery: EpisodeInputProps = baseInput(
   'demo-acid-strike-gallery',
   'Acid Strike Component Gallery',
-  acidKinds.map((kind, index) => makeScene(kind, index, index * 6, index * 6 + 6, talkVideoPath)),
-  acidKinds.length * 6,
+  [
+    ...acidKinds.map((kind, index) => makeScene(kind, index, index * 6, index * 6 + 6, talkVideoPath)),
+    makeNarrationEchoScene(acidKinds.length * 6, acidKinds.length * 6 + 16),
+  ],
+  acidKinds.length * 6 + 16,
 );
 
 export const acidStrikeDemos: Record<AcidKind, EpisodeInputProps> = Object.fromEntries(

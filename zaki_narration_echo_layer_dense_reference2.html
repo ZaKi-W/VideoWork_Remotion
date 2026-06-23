@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ZAKI · Dense Narration Echo Layer Reference</title>
+  <style>
+    /*
+    =============================================================================
+    DENSE NARRATION ECHO LAYER
+    =============================================================================
+
+    这版只解决一件事：普通口播段“画面不够满”。
+
+    保留它作为填缝层的定位：
+      - 不是数据页
+      - 不是列表组件
+      - 不是流程图
+      - 不替代底部字幕
+
+    增加的密度来自：
+      1. 主提要（2 行以内，分段打字）
+      2. 解释短文（1~2 行）
+      3. 一条横向“思路轨迹”（不是卡片列表）
+      4. 当前段落标记 / 焦点提示
+
+    底色：
+      这里仅用局部深底模拟可读性；
+      实际项目请沿用你已经让 Codex 调好的底色，不要以此 HTML 的底色为准。
+    =============================================================================
+    */
+
+    :root {
+      --acid: #d9ff4c;
+      --acid-soft: rgba(217,255,76,.72);
+      --ink: #0a0c09;
+      --paper: #f9faef;
+      --muted: rgba(249,250,239,.68);
+      --muted-2: rgba(249,250,239,.46);
+      --wall-a: #dfddd7;
+      --wall-b: #f8f6f0;
+      --wall-c: #e5e2db;
+
+      --ui: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC",
+            "Source Han Sans SC", "HarmonyOS Sans SC", sans-serif;
+      --display: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC",
+                 "Source Han Sans SC", "HarmonyOS Sans SC", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      min-width: 1160px;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(217,255,76,.10), transparent 27%),
+        #d8d6d1;
+    }
+
+    body {
+      margin: 0;
+      color: #101216;
+      font-family: var(--ui);
+    }
+
+    .app {
+      width: min(1480px, calc(100vw - 48px));
+      margin: 28px auto 56px;
+      display: grid;
+      grid-template-columns: minmax(860px, 1fr) 304px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .shell,
+    .guide {
+      overflow: hidden;
+      border: 1px solid rgba(16,18,24,.14);
+      background: rgba(255,255,255,.78);
+      box-shadow: 0 28px 74px rgba(16,18,24,.14);
+    }
+
+    .topbar {
+      min-height: 54px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(16,18,24,.12);
+      background: #f8f7f3;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      color: rgba(16,18,24,.55);
+      font: 800 11px/1 var(--ui);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .brand strong {
+      color: #111317;
+      font: 900 13px/1 var(--display);
+    }
+
+    .top-meta {
+      color: rgba(16,18,24,.46);
+      font: 700 10px/1 var(--ui);
+      letter-spacing: .05em;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(16,18,24,.12);
+      background: #ece9e2;
+    }
+
+    .control {
+      padding: 8px 11px;
+      color: rgba(16,18,24,.68);
+      border: 1px solid rgba(16,18,24,.15);
+      background: rgba(255,255,255,.60);
+      font: 800 12px/1 var(--ui);
+      cursor: pointer;
+    }
+
+    .control.primary {
+      color: var(--acid);
+      border-color: var(--ink);
+      background: var(--ink);
+    }
+
+    .control.status {
+      margin-left: auto;
+      color: #6d8500;
+      border-color: rgba(109,133,0,.42);
+      background: rgba(217,255,76,.18);
+      cursor: default;
+    }
+
+    /*
+      Actual project: this is talk.mp4.
+    */
+    .stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,.96), transparent 31%),
+        linear-gradient(113deg, var(--wall-a) 0%, var(--wall-b) 49%, var(--wall-c) 100%);
+    }
+
+    .stage::before {
+      content: "";
+      position: absolute;
+      z-index: -4;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 102%, rgba(16,18,24,.23), transparent 46%),
+        linear-gradient(90deg, rgba(0,0,0,.06), transparent 15%, transparent 81%, rgba(0,0,0,.05));
+    }
+
+    /*
+      Placeholder-only local base.
+      The user's existing Codex version should remain authoritative.
+    */
+    .demo-ground {
+      position: absolute;
+      z-index: 12;
+      left: 0;
+      bottom: 0;
+      width: 44%;
+      height: 74%;
+      pointer-events: none;
+      opacity: .96;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(6,8,6,.91) 0%,
+          rgba(8,11,7,.80) 57%,
+          rgba(8,11,7,.32) 79%,
+          rgba(8,11,7,0) 100%
+        );
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,.20) 11%,
+        #000 27%,
+        #000 100%
+      );
+      mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,.20) 11%,
+        #000 27%,
+        #000 100%
+      );
+    }
+
+    .presenter {
+      position: absolute;
+      z-index: 10;
+      left: 50%;
+      bottom: 5.4%;
+      width: 30%;
+      height: 80%;
+      transform: translateX(-50%);
+      transform-origin: bottom center;
+      pointer-events: none;
+    }
+
+    .stage.playing .presenter {
+      animation: liveSway 6.5s ease-in-out infinite;
+    }
+
+    .presenter-shadow {
+      position: absolute;
+      left: 50%;
+      bottom: -3%;
+      width: 113%;
+      height: 14%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(0,0,0,.37), transparent 70%);
+      filter: blur(8px);
+    }
+
+    .presenter-head {
+      position: absolute;
+      top: 2%;
+      left: 50%;
+      width: 28%;
+      aspect-ratio: 1;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 34% 27%, rgba(255,255,255,.40), transparent 20%),
+        linear-gradient(145deg, #d2a28e, #6c4b54 77%);
+      box-shadow: inset -10px -8px 0 rgba(0,0,0,.13);
+    }
+
+    .presenter-torso {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 92%;
+      height: 75%;
+      transform: translateX(-50%);
+      border-radius: 47% 47% 11% 11% / 22% 22% 7% 7%;
+      background: linear-gradient(135deg, #2a354c, #171c28 74%);
+      box-shadow:
+        inset 13px 0 0 rgba(255,255,255,.045),
+        inset -13px 0 0 rgba(0,0,0,.15);
+    }
+
+    .presenter-arm {
+      position: absolute;
+      right: -7%;
+      bottom: 21%;
+      width: 38%;
+      height: 17%;
+      border-radius: 50%;
+      transform: rotate(-17deg);
+      background: linear-gradient(145deg, #b7796c, #583a44);
+    }
+
+    @keyframes liveSway {
+      0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+      34% { transform: translateX(-49.3%) translateY(-2px) rotate(.38deg); }
+      68% { transform: translateX(-50.7%) translateY(0) rotate(-.24deg); }
+    }
+
+    /*
+      ─────────────────────────────────────────────────────────────
+      Dense Narration Echo Layer
+      ─────────────────────────────────────────────────────────────
+    */
+    .echo-layer {
+      position: absolute;
+      z-index: 16;
+      left: 4.6%;
+      top: 20.5%;
+      width: 32.5%;
+      min-height: 58%;
+      pointer-events: none;
+    }
+
+    .echo-label,
+    .echo-line,
+    .echo-copy,
+    .thought-track,
+    .echo-footer {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    .echo-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,.66);
+      font: 900 10px/1 var(--ui);
+      letter-spacing: .095em;
+      text-transform: uppercase;
+    }
+
+    .echo-label i {
+      display: block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--acid);
+      box-shadow: 0 0 10px rgba(217,255,76,.76);
+    }
+
+    .echo-label b {
+      color: var(--acid);
+      font-weight: 900;
+    }
+
+    /*
+      Main line: still concise, but larger and used as the visual anchor.
+    */
+    .echo-line {
+      min-height: 2.38em;
+      max-width: 98%;
+      margin: 15px 0 0;
+      color: var(--paper);
+      text-shadow: 0 2px 8px rgba(0,0,0,.28);
+      font: 900 clamp(31px, 3.45vw, 63px)/1.13 var(--display);
+      letter-spacing: -.015em;
+    }
+
+    .typed-segment {
+      white-space: pre-wrap;
+    }
+
+    .typed-segment.is-accent {
+      color: var(--acid);
+      text-shadow: 0 0 12px rgba(217,255,76,.20);
+    }
+
+    .type-caret {
+      display: inline-block;
+      width: .085em;
+      height: .84em;
+      margin-left: .10em;
+      vertical-align: -.07em;
+      background: var(--acid);
+      opacity: 0;
+    }
+
+    .echo-line.is-typing .type-caret {
+      opacity: 1;
+      animation: caretBlink .58s steps(1,end) infinite;
+    }
+
+    .echo-line.is-typed .type-caret {
+      animation: caretFinish .42s ease forwards;
+    }
+
+    @keyframes caretBlink {
+      0%, 48% { opacity: 1; }
+      49%, 100% { opacity: 0; }
+    }
+
+    @keyframes caretFinish {
+      to { opacity: 0; }
+    }
+
+    /*
+      Supporting explanation: makes the panel fuller without becoming a card.
+    */
+    .echo-copy {
+      max-width: 96%;
+      margin: 17px 0 0;
+      color: var(--muted);
+      font: 800 clamp(13px, 1.12vw, 17px)/1.58 var(--ui);
+      letter-spacing: 0;
+    }
+
+    .echo-copy strong {
+      color: rgba(255,255,255,.93);
+      font-weight: 900;
+    }
+
+    /*
+      A single horizontal thought track.
+      It reads as a sentence/path, not a vertical "list component".
+    */
+    .thought-track {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 10px;
+      max-width: 98%;
+      margin-top: 21px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.18);
+    }
+
+    .thought-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,.53);
+      font: 900 11px/1.1 var(--ui);
+      letter-spacing: .02em;
+      transition: color .22s ease, transform .22s ease;
+    }
+
+    .thought-item b {
+      color: rgba(255,255,255,.38);
+      font: 900 9px/1 var(--display);
+      letter-spacing: 0;
+    }
+
+    .thought-item i {
+      display: block;
+      width: 13px;
+      height: 2px;
+      background: rgba(255,255,255,.26);
+    }
+
+    .thought-item.is-active {
+      color: var(--paper);
+      transform: translateY(-1px);
+    }
+
+    .thought-item.is-active b {
+      color: var(--acid);
+    }
+
+    .thought-item.is-active i {
+      background: var(--acid);
+      box-shadow: 0 0 8px rgba(217,255,76,.56);
+    }
+
+    /*
+      Small current-focus footer: fills the remaining visual blank,
+      but stays clearly secondary to the main sentence.
+    */
+    .echo-footer {
+      position: absolute;
+      left: 0;
+      bottom: 2%;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted-2);
+      font: 800 10px/1 var(--ui);
+      letter-spacing: .075em;
+      text-transform: uppercase;
+    }
+
+    .echo-footer::before {
+      content: "";
+      width: 39px;
+      height: 3px;
+      background: var(--acid);
+      box-shadow: 0 0 12px rgba(217,255,76,.34);
+    }
+
+    .echo-footer b {
+      color: var(--acid);
+      font-weight: 900;
+    }
+
+    .echo-layer.entering .echo-label {
+      animation: liftIn .28s cubic-bezier(.2,.86,.2,1) .08s both;
+    }
+
+    .echo-layer.entering .echo-line {
+      animation: liftIn .36s cubic-bezier(.2,.86,.2,1) .16s both;
+    }
+
+    .echo-layer.entering .echo-copy {
+      animation: liftIn .30s cubic-bezier(.2,.86,.2,1) .30s both;
+    }
+
+    .echo-layer.entering .thought-track {
+      animation: liftIn .30s cubic-bezier(.2,.86,.2,1) .40s both;
+    }
+
+    .echo-layer.entering .echo-footer {
+      animation: liftIn .26s cubic-bezier(.2,.86,.2,1) .48s both;
+    }
+
+    .echo-layer.idle .echo-label,
+    .echo-layer.idle .echo-line,
+    .echo-layer.idle .echo-copy,
+    .echo-layer.idle .thought-track,
+    .echo-layer.idle .echo-footer {
+      opacity: 1;
+      transform: none;
+    }
+
+    .echo-layer.swapping .echo-label,
+    .echo-layer.swapping .echo-line,
+    .echo-layer.swapping .echo-copy,
+    .echo-layer.swapping .thought-track,
+    .echo-layer.swapping .echo-footer {
+      animation: contentOut .17s ease both;
+    }
+
+    .echo-layer.exiting .echo-label,
+    .echo-layer.exiting .echo-line,
+    .echo-layer.exiting .echo-copy,
+    .echo-layer.exiting .thought-track,
+    .echo-layer.exiting .echo-footer {
+      animation: layerOut .28s ease both;
+    }
+
+    @keyframes liftIn {
+      from { opacity: 0; transform: translateY(12px); filter: blur(2px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    @keyframes contentOut {
+      to { opacity: 0; transform: translateY(-8px); filter: blur(2px); }
+    }
+
+    @keyframes layerOut {
+      to { opacity: 0; transform: translateX(-18px); filter: blur(3px); }
+    }
+
+    .subtitle {
+      position: absolute;
+      z-index: 30;
+      left: 50%;
+      bottom: 2.55%;
+      transform: translateX(-50%);
+      min-width: 39%;
+      max-width: 67%;
+      padding: 10px 17px 11px;
+      color: #fff;
+      background: rgba(7,8,6,.86);
+      box-shadow: 0 7px 20px rgba(0,0,0,.22);
+      text-align: center;
+      font: 900 clamp(18px,1.82vw,33px)/1.25 var(--ui);
+      letter-spacing: -.01em;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+
+    .subtitle.changing {
+      opacity: 0;
+      transform: translate(-50%, 8px);
+    }
+
+    .subtitle small {
+      display: block;
+      margin-top: 6px;
+      color: rgba(255,255,255,.62);
+      font: 600 clamp(10px,.94vw,15px)/1.32 var(--ui);
+    }
+
+    .timecode {
+      position: absolute;
+      z-index: 30;
+      top: 3%;
+      right: 3.2%;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: rgba(22,25,21,.48);
+      font: 900 9px/1 var(--ui);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .timecode i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--acid);
+      box-shadow: 0 0 8px rgba(217,255,76,.68);
+      animation: blink .75s ease-in-out infinite alternate;
+    }
+
+    @keyframes blink {
+      from { opacity: .35; }
+      to { opacity: 1; }
+    }
+
+    .progress-track {
+      position: absolute;
+      z-index: 30;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: rgba(11,13,10,.10);
+    }
+
+    .progress-track b {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: var(--acid);
+      box-shadow: 0 0 10px rgba(217,255,76,.58);
+      transition: width .1s linear;
+    }
+
+    .guide {
+      position: sticky;
+      top: 20px;
+      padding: 19px 17px;
+    }
+
+    .guide h2 {
+      margin: 0;
+      color: #111317;
+      font: 900 23px/1 var(--display);
+      letter-spacing: -.02em;
+    }
+
+    .guide > p {
+      margin: 11px 0 17px;
+      color: rgba(16,18,24,.67);
+      font-size: 13px;
+      line-height: 1.62;
+    }
+
+    .rule {
+      padding: 13px 0;
+      border-top: 1px solid rgba(16,18,24,.12);
+    }
+
+    .rule strong {
+      display: block;
+      margin-bottom: 7px;
+      color: #111317;
+      font: 900 12px/1 var(--ui);
+      letter-spacing: .03em;
+    }
+
+    .rule ul {
+      margin: 0;
+      padding-left: 17px;
+      color: rgba(16,18,24,.68);
+      font-size: 12px;
+      line-height: 1.62;
+    }
+
+    .rule.acid strong { color: #6c8500; }
+
+    @media (max-width: 1180px) {
+      html { min-width: 0; }
+      .app { width: 100%; margin: 0; grid-template-columns: 1fr; }
+      .guide { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <strong>ZAKI / DENSE NARRATION ECHO</strong>
+          <span>普通口播填缝层 · 内容密度增强</span>
+        </div>
+        <div class="top-meta">main takeaway + explanation + thought track</div>
+      </header>
+
+      <div class="controls">
+        <button class="control primary" id="playButton">播放模拟</button>
+        <button class="control" id="pauseButton">暂停</button>
+        <button class="control" id="replayButton">重新播放</button>
+        <button class="control status" id="statusButton">普通口播段</button>
+      </div>
+
+      <div class="stage" id="stage">
+        <div class="demo-ground" aria-hidden="true"></div>
+
+        <div class="presenter" aria-label="talk.mp4 placeholder">
+          <div class="presenter-shadow"></div>
+          <div class="presenter-head"></div>
+          <div class="presenter-torso"></div>
+          <div class="presenter-arm"></div>
+        </div>
+
+        <section class="echo-layer" id="echoLayer">
+          <div class="echo-label">
+            <i></i>
+            <span id="echoLabel">AI 工作流</span>
+            <b id="echoBeat">01 / 03</b>
+          </div>
+
+          <div class="echo-line" id="echoLine"></div>
+
+          <p class="echo-copy" id="echoCopy">
+            这里是补充解释，用来把短句的逻辑说完整。
+          </p>
+
+          <div class="thought-track" id="thoughtTrack"></div>
+
+          <div class="echo-footer">
+            <span>当前焦点</span>
+            <b id="echoFocus">视觉表达</b>
+          </div>
+        </section>
+
+        <div class="timecode">
+          <i></i>
+          <span id="timecode">00:00 / 00:16</span>
+        </div>
+
+        <div class="subtitle" id="subtitle"></div>
+        <div class="progress-track"><b id="progressFill"></b></div>
+      </div>
+    </section>
+
+    <aside class="guide">
+      <h2>这版不是加列表，是把一段话撑开</h2>
+      <p>主句负责抓注意力，解释句负责补逻辑，横向思路轨迹负责让画面持续有信息。它仍然只是普通口播层，主功能组件一来就退出。</p>
+
+      <section class="rule acid">
+        <strong>新增的内容层级</strong>
+        <ul>
+          <li>主提要：更大，最多两行。</li>
+          <li>解释短文：补一句逻辑，不写成长段。</li>
+          <li>思路轨迹：三个短词横排，不做卡片和列表。</li>
+          <li>当前焦点：填补底部空白，保持轻量。</li>
+        </ul>
+      </section>
+
+      <section class="rule">
+        <strong>实际使用建议</strong>
+        <ul>
+          <li>主句每 3~5 秒切一次，不要跟每句字幕同步。</li>
+          <li>解释短文可直接从脚本中抽取。</li>
+          <li>思路轨迹最多 3 项，保持横向一条线。</li>
+          <li>数据、对比、证据、流程出现时整体淡出。</li>
+        </ul>
+      </section>
+
+      <section class="rule">
+        <strong>刻意不加的东西</strong>
+        <ul>
+          <li>背景大字。</li>
+          <li>编号大水印。</li>
+          <li>竖向列表或多张信息卡。</li>
+          <li>额外的装饰线、网格和 HUD。</li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+
+  <script>
+    const beats = [
+      {
+        label: "AI 工作流",
+        beat: "01 / 03",
+        focus: "视觉表达",
+        segments: [
+          { text: "真正费神的，" },
+          { break: true, pause: 150 },
+          { text: "不是" },
+          { text: "生成", accent: true },
+          { text: "。" }
+        ],
+        copy: "直出只是起点。效果能不能像你的表达，真正取决于后面那一轮轮的视觉微调。",
+        track: ["默认效果", "视觉调整", "形成风格"],
+        active: 1,
+        subtitle: "因为第一次让它直出效果，它大概率会给你一套很 AI 味的默认设计。",
+        subtitleEn: "First-pass output often falls into a generic AI-looking default style."
+      },
+      {
+        label: "视觉表达",
+        beat: "02 / 03",
+        focus: "调成自己",
+        segments: [
+          { text: "你要做的，" },
+          { break: true, pause: 150 },
+          { text: "是把它调成" },
+          { text: "你的风格", accent: true },
+          { text: "。" }
+        ],
+        copy: "重点不是多炫，而是让画面语言和你的内容、口播节奏、观众预期对得上。",
+        track: ["删掉默认感", "保留重点", "建立辨识度"],
+        active: 2,
+        subtitle: "所以真正的工作量，其实都在后面反复调整视觉和节奏的过程里。",
+        subtitleEn: "The real work is the iterative visual and pacing refinement."
+      },
+      {
+        label: "可复用能力",
+        beat: "03 / 03",
+        focus: "沉淀成组件",
+        segments: [
+          { text: "调好以后，" },
+          { break: true, pause: 150 },
+          { text: "才能变成" },
+          { text: "自己的能力", accent: true },
+          { text: "。" }
+        ],
+        copy: "把这一套判断和视觉规则写进组件，后面给字幕和素材，就能稳定复用同一套表达。",
+        track: ["明确规则", "固化组件", "稳定交付"],
+        active: 2,
+        subtitle: "当这一套东西被沉淀下来，你后面就不用每次都从零开始调了。",
+        subtitleEn: "Once it is systematized, you no longer need to rebuild it from zero."
+      }
+    ];
+
+    const timeline = [
+      { at: 0.0, type: "enter", index: 0 },
+      { at: 4.7, type: "swap", index: 1 },
+      { at: 9.5, type: "swap", index: 2 },
+      { at: 14.0, type: "exit" }
+    ];
+
+    const DURATION = 16.4;
+    const stage = document.getElementById("stage");
+    const layer = document.getElementById("echoLayer");
+    const label = document.getElementById("echoLabel");
+    const beat = document.getElementById("echoBeat");
+    const line = document.getElementById("echoLine");
+    const copy = document.getElementById("echoCopy");
+    const track = document.getElementById("thoughtTrack");
+    const focus = document.getElementById("echoFocus");
+    const subtitle = document.getElementById("subtitle");
+    const progressFill = document.getElementById("progressFill");
+    const timecode = document.getElementById("timecode");
+    const statusButton = document.getElementById("statusButton");
+
+    let isPlaying = false;
+    let startedAt = 0;
+    let elapsedBeforePause = 0;
+    let lastEvent = -1;
+    let rafId = null;
+    let typingRun = 0;
+
+    function drawTrack(item) {
+      track.innerHTML = item.track.map((text, index) => `
+        <span class="thought-item ${index === item.active ? "is-active" : ""}">
+          <b>0${index + 1}</b>
+          <span>${text}</span>
+          ${index < item.track.length - 1 ? "<i></i>" : ""}
+        </span>
+      `).join("");
+    }
+
+    function applyMeta(index) {
+      const item = beats[index];
+      label.textContent = item.label;
+      beat.textContent = item.beat;
+      focus.textContent = item.focus;
+      copy.innerHTML = item.copy.replace(/(真正|重点|稳定|组件|规则|风格|判断)/g, "<strong>$1</strong>");
+      drawTrack(item);
+      subtitle.innerHTML = `${item.subtitle}<small>${item.subtitleEn}</small>`;
+    }
+
+    function typeLine(index) {
+      const item = beats[index];
+      const run = ++typingRun;
+      const charDelay = 62;
+      const segmentPause = 205;
+      const output = document.createElement("span");
+      const caret = document.createElement("span");
+
+      caret.className = "type-caret";
+      line.className = "echo-line is-typing";
+      line.replaceChildren(output, caret);
+
+      let segmentIndex = 0;
+
+      function nextSegment() {
+        if (run !== typingRun) return;
+
+        if (segmentIndex >= item.segments.length) {
+          line.className = "echo-line is-typed";
+          return;
+        }
+
+        const segment = item.segments[segmentIndex++];
+        if (segment.break) {
+          output.appendChild(document.createElement("br"));
+          window.setTimeout(nextSegment, segment.pause ?? segmentPause);
+          return;
+        }
+
+        const node = document.createElement("span");
+        node.className = `typed-segment${segment.accent ? " is-accent" : ""}`;
+        output.appendChild(node);
+
+        const chars = Array.from(segment.text);
+        let charIndex = 0;
+
+        function nextChar() {
+          if (run !== typingRun) return;
+          if (charIndex >= chars.length) {
+            window.setTimeout(nextSegment, segment.pause ?? segmentPause);
+            return;
+          }
+          node.textContent += chars[charIndex++];
+          window.setTimeout(nextChar, charDelay);
+        }
+
+        nextChar();
+      }
+
+      nextSegment();
+    }
+
+    function enter(index) {
+      applyMeta(index);
+      line.textContent = "";
+      line.className = "echo-line";
+      layer.className = "echo-layer entering";
+      stage.classList.add("playing");
+      statusButton.textContent = "普通口播段";
+      void layer.offsetWidth;
+
+      window.setTimeout(() => {
+        layer.className = "echo-layer idle";
+        typeLine(index);
+      }, 560);
+    }
+
+    function swap(index) {
+      typingRun += 1;
+      layer.className = "echo-layer swapping";
+      subtitle.classList.add("changing");
+
+      window.setTimeout(() => {
+        applyMeta(index);
+        line.textContent = "";
+        line.className = "echo-line";
+        layer.className = "echo-layer entering";
+        subtitle.classList.remove("changing");
+        void layer.offsetWidth;
+
+        window.setTimeout(() => {
+          layer.className = "echo-layer idle";
+          typeLine(index);
+        }, 560);
+      }, 190);
+    }
+
+    function exit() {
+      typingRun += 1;
+      layer.className = "echo-layer exiting";
+      statusButton.textContent = "大型组件即将接管";
+    }
+
+    function formatTime(seconds) {
+      const safe = Math.max(0, Math.min(DURATION, seconds));
+      const whole = Math.floor(safe);
+      return `00:${String(whole).padStart(2, "0")} / 00:16`;
+    }
+
+    function triggerEvents(elapsed) {
+      timeline.forEach((event, index) => {
+        if (elapsed >= event.at && index > lastEvent) {
+          lastEvent = index;
+          if (event.type === "enter") enter(event.index);
+          if (event.type === "swap") swap(event.index);
+          if (event.type === "exit") exit();
+        }
+      });
+    }
+
+    function tick(now) {
+      if (!isPlaying) return;
+      const elapsed = (now - startedAt) / 1000 + elapsedBeforePause;
+
+      if (elapsed >= DURATION) {
+        replay();
+        return;
+      }
+
+      triggerEvents(elapsed);
+      progressFill.style.width = `${(elapsed / DURATION) * 100}%`;
+      timecode.textContent = formatTime(elapsed);
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function play() {
+      if (isPlaying) return;
+      isPlaying = true;
+      startedAt = performance.now();
+      stage.classList.add("playing");
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function pause() {
+      if (!isPlaying) return;
+      isPlaying = false;
+      elapsedBeforePause += (performance.now() - startedAt) / 1000;
+      cancelAnimationFrame(rafId);
+      stage.classList.remove("playing");
+    }
+
+    function replay() {
+      isPlaying = false;
+      typingRun += 1;
+      cancelAnimationFrame(rafId);
+      elapsedBeforePause = 0;
+      lastEvent = -1;
+      progressFill.style.width = "0%";
+      timecode.textContent = "00:00 / 00:16";
+      layer.className = "echo-layer";
+      window.setTimeout(play, 80);
+    }
+
+    document.getElementById("playButton").addEventListener("click", play);
+    document.getElementById("pauseButton").addEventListener("click", pause);
+    document.getElementById("replayButton").addEventListener("click", replay);
+
+    replay();
+  </script>
+</body>
+</html>

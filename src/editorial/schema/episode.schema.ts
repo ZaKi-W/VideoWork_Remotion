@@ -28,6 +28,7 @@ export const componentKindSchema = z.enum([
   'EvidenceClip',
   'MetricSpread',
   'EditorialOverlay',
+  'NarrationEchoLayer',
   'MediaWall',
   'Countdown',
   'ChapterIndex',
@@ -380,6 +381,93 @@ export const editorialOverlayPropsSchema = z
     }
   });
 
+const narrationEchoSegmentSchema = z
+  .object({
+    text: z.string().trim().min(1).max(18).optional(),
+    break: z.boolean().optional(),
+    accent: z.boolean().optional(),
+    pauseFrames: z.number().int().min(0).max(24).optional(),
+  })
+  .strict()
+  .superRefine((segment, ctx) => {
+    if (!segment.text && !segment.break) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'NarrationEchoLayer segment requires text or break',
+      });
+    }
+    if (segment.text && segment.break) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'NarrationEchoLayer segment cannot combine text and break',
+      });
+    }
+    if (segment.accent && !segment.text) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'NarrationEchoLayer accent segment requires text',
+        path: ['accent'],
+      });
+    }
+  });
+
+const narrationEchoItemSchema = z
+  .object({
+    ghost: z.string().trim().min(1).max(8).optional(),
+    label: z.string().trim().min(1).max(18),
+    beat: z.string().trim().min(1).max(12).optional(),
+    counter: z.string().trim().min(1).max(4).optional(),
+    progress: z.number().min(0).max(1).optional(),
+    segments: z.array(narrationEchoSegmentSchema).min(1).max(8),
+    note: z.string().trim().min(1).max(34).optional(),
+    copy: z.string().trim().min(1).max(90).optional(),
+    track: z.array(z.string().trim().min(1).max(12)).min(1).max(3).optional(),
+    activeTrackIndex: z.number().int().min(0).max(2).optional(),
+    focus: z.string().trim().min(1).max(16).optional(),
+  })
+  .strict()
+  .superRefine((item, ctx) => {
+    const textSegments = item.segments.filter((segment) => segment.text);
+    const accentIndexes = textSegments
+      .map((segment, index) => (segment.accent ? index : -1))
+      .filter((index) => index >= 0);
+
+    if (accentIndexes.length > 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'NarrationEchoLayer allows at most one accent segment per item',
+        path: ['segments'],
+      });
+    }
+    if (accentIndexes.length === 1 && accentIndexes[0] !== textSegments.length - 2 && accentIndexes[0] !== textSegments.length - 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'NarrationEchoLayer accent should appear near the end of the line',
+        path: ['segments'],
+      });
+    }
+    if (item.activeTrackIndex !== undefined && item.track && item.activeTrackIndex >= item.track.length) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'NarrationEchoLayer activeTrackIndex must point to an existing track item',
+        path: ['activeTrackIndex'],
+      });
+    }
+  });
+
+export const narrationEchoLayerPropsSchema = z
+  .object({
+    placement: z.enum(['edge-left', 'top-left']).default('edge-left'),
+    items: z.array(narrationEchoItemSchema).min(1).max(5),
+    charFrames: z.number().int().min(1).max(5).default(2),
+    segmentPauseFrames: z.number().int().min(2).max(18).default(6),
+    exitFrames: z.number().int().min(10).max(12).default(12),
+    exitAtFrame: z.number().int().min(1).optional(),
+    showSoftener: z.boolean().default(true),
+    backgroundVideoPath: z.string().trim().min(1).max(160).optional(),
+  })
+  .strict();
+
 const acidSourceCardSchema = z
   .object({
     label: z.string().trim().min(1).max(36).optional(),
@@ -459,6 +547,7 @@ export const sceneContentSchema = z.discriminatedUnion('kind', [
   z.object({kind: z.literal('EvidenceClip'), props: evidenceClipPropsSchema}),
   z.object({kind: z.literal('MetricSpread'), props: metricSpreadPropsSchema}),
   z.object({kind: z.literal('EditorialOverlay'), props: editorialOverlayPropsSchema}),
+  z.object({kind: z.literal('NarrationEchoLayer'), props: narrationEchoLayerPropsSchema}),
   z.object({kind: z.literal('MediaWall'), props: acidComponentPropsSchema}),
   z.object({kind: z.literal('Countdown'), props: acidComponentPropsSchema}),
   z.object({kind: z.literal('ChapterIndex'), props: acidComponentPropsSchema}),
