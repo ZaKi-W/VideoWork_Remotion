@@ -412,9 +412,9 @@ const baseInput = (id: string, title: string, scenes: EpisodeScene[], durationIn
   },
 });
 
-export const acidStrikeGallery: EpisodeInputProps = baseInput(
-  'demo-acid-strike-gallery',
-  'Acid Strike Component Gallery',
+export const acidGallery: EpisodeInputProps = baseInput(
+  'demo-acid-gallery',
+  'Acid Gallery',
   [
     ...acidKinds.map((kind, index) => makeScene(kind, index, index * 6, index * 6 + 6, talkVideoPath)),
     makeNarrationEchoScene(acidKinds.length * 6, acidKinds.length * 6 + 16),

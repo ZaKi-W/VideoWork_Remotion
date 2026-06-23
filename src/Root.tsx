@@ -1,8 +1,9 @@
 import {Composition} from 'remotion';
 import {EpisodeComposition} from './compositions/EpisodeComposition';
 import {AcidScrimContactSheet} from './editorial/fixtures/AcidScrimContactSheet';
+import {AcidSrtSubtitleDemo} from './editorial/components/AcidSrtSubtitle';
 import {componentDemos} from './editorial/fixtures/demo-component-catalog';
-import {acidStrikeDemos, acidStrikeGallery} from './editorial/fixtures/demo-acid-strike';
+import {acidGallery, acidStrikeDemos} from './editorial/fixtures/demo-acid-strike';
 import {narrationEchoLayerDemo} from './editorial/fixtures/demo-narration-echo-layer';
 import {
   componentCatalog,
@@ -23,6 +24,18 @@ const remotionTalkProps: EpisodeInputProps = {
   strict: false,
 };
 
+const acidSrtSubtitleDemoSrt = `1
+00:00:00,300 --> 00:00:02,950
+这是一个只靠 SRT 驱动的底部字幕层，不需要任何关键词配置。
+
+2
+00:00:03,050 --> 00:00:06,100
+它会自动按中文标点切分短语，然后把当前读到的位置变成酸绿色。
+
+3
+00:00:06,250 --> 00:00:09,400
+如果单段文字偏长，组件会继续按字数拆分，保持两行以内的轻量阅读节奏。`;
+
 const getMetadata = (props: EpisodeInputProps) => ({
   width: props.episode.episode.width,
   height: props.episode.episode.height,
@@ -40,9 +53,9 @@ export const RemotionRoot = () => {
         calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
       />
       <Composition
-        id="AcidStrikeGallery"
+        id="AcidGallery"
         component={EpisodeComposition}
-        defaultProps={acidStrikeGallery}
+        defaultProps={acidGallery}
         calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
       />
       <Composition
@@ -52,6 +65,15 @@ export const RemotionRoot = () => {
         fps={30}
         width={1920}
         height={1080}
+      />
+      <Composition
+        id={componentCompositionId('AcidSrtSubtitle')}
+        component={AcidSrtSubtitleDemo}
+        durationInFrames={300}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{srt: acidSrtSubtitleDemoSrt}}
       />
       {componentCatalog.map(({kind}) => {
         const props =

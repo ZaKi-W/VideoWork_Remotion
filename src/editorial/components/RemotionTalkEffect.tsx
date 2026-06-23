@@ -12,14 +12,29 @@ const getProps = (rendererProps: ComponentRendererProps): RemotionTalkEffectProp
   return rendererProps.scene.content.props;
 };
 
-const colorFor = (accent: RemotionTalkEffectProps['accent']): string => {
-  if (accent === 'cyan') {
-    return '#63e7ff';
+const paletteFor = (accentName: RemotionTalkEffectProps['accent']) => {
+  if (accentName === 'cyan') {
+    return {
+      accent: '#63e7ff',
+      title: '#63e7ff',
+      soft: 'rgba(255,255,255,0.94)',
+      muted: 'rgba(222,245,255,0.76)',
+    };
   }
-  if (accent === 'orange') {
-    return '#ff9f43';
+  if (accentName === 'orange') {
+    return {
+      accent: '#ff9f43',
+      title: '#ffb04f',
+      soft: 'rgba(255,255,255,0.94)',
+      muted: 'rgba(255,235,205,0.76)',
+    };
   }
-  return '#d9ff4c';
+  return {
+    accent: '#d9ff4c',
+    title: '#d9ff4c',
+    soft: 'rgba(255,255,255,0.94)',
+    muted: 'rgba(239,255,202,0.76)',
+  };
 };
 
 const progress = (frame: number, start: number, end: number): number =>
@@ -42,8 +57,8 @@ const typewriterText = (text: string, frame: number, startFrame: number, charFra
 
 const shellStyle = (intro: number, exit: number): CSSProperties => ({
   position: 'relative',
-  width: 610,
-  minHeight: 430,
+  width: 700,
+  minHeight: 500,
   color: '#f8f8f2',
   fontFamily: visualTokens.fontFamily.body,
   opacity: intro * (1 - exit * 0.86),
@@ -95,12 +110,12 @@ const leftScrimStyle = (intro: number): CSSProperties => ({
 
 const TitleBlock = ({
   props,
-  accent,
+  palette,
   frame,
   intro,
 }: {
   props: RemotionTalkEffectProps;
-  accent: string;
+  palette: ReturnType<typeof paletteFor>;
   frame: number;
   intro: number;
 }) => {
@@ -115,8 +130,8 @@ const TitleBlock = ({
           display: 'inline-flex',
           alignItems: 'center',
           gap: 11,
-          color: 'rgba(255,255,255,0.94)',
-          fontSize: 16,
+          color: palette.soft,
+          fontSize: 18,
           lineHeight: 1,
           fontWeight: 900,
           letterSpacing: '0.08em',
@@ -124,20 +139,29 @@ const TitleBlock = ({
           opacity: intro,
         }}
       >
-        <span style={{width: 9, height: 9, borderRadius: 99, background: accent, boxShadow: `0 0 14px ${accent}`}} />
+        <span
+          style={{
+            width: 9,
+            height: 9,
+            borderRadius: 99,
+            background: palette.accent,
+            boxShadow: `0 0 14px ${palette.accent}`,
+          }}
+        />
         <span>{props.eyebrow}</span>
-        {props.index ? <b style={{color: accent, letterSpacing: 0}}>{props.index}</b> : null}
+        {props.index ? <b style={{color: palette.accent, letterSpacing: 0}}>{props.index}</b> : null}
       </div>
       <div
         style={{
           marginTop: 22,
           minHeight: '2.08em',
           fontFamily: visualTokens.fontFamily.display,
-          fontSize: props.title.length > 10 ? 72 : 82,
+          fontSize: props.title.length > 10 ? 82 : 92,
           lineHeight: 1.04,
           fontWeight: 900,
           letterSpacing: 0,
-          color: '#fff',
+          color: palette.title,
+          textShadow: `0 2px 14px rgba(0,0,0,0.34), 0 0 10px ${palette.accent}40`,
           transform: `translateY(${(1 - intro) * 10}px)`,
         }}
       >
@@ -149,8 +173,8 @@ const TitleBlock = ({
             height: '0.84em',
             marginLeft: '0.08em',
             verticalAlign: '-0.06em',
-            background: accent,
-            boxShadow: `0 0 12px ${accent}`,
+            background: palette.accent,
+            boxShadow: `0 0 12px ${palette.accent}`,
             opacity: cursorVisible ? (Math.floor(frame / 8) % 2 === 0 ? 1 : 0.22) : 0,
           }}
         />
@@ -158,12 +182,12 @@ const TitleBlock = ({
       {props.subtitle ? (
         <div
           style={{
-            maxWidth: 520,
-            marginTop: 18,
-            color: 'rgba(255,255,255,0.94)',
-            fontSize: 24,
-            lineHeight: 1.36,
-            fontWeight: 880,
+            maxWidth: 600,
+            marginTop: 20,
+            color: palette.soft,
+            fontSize: 28,
+            lineHeight: 1.28,
+            fontWeight: 900,
             opacity: detailIn,
             transform: `translateY(${(1 - detailIn) * 8}px)`,
           }}
@@ -175,13 +199,13 @@ const TitleBlock = ({
   );
 };
 
-const ItemRail = ({items, accent, frame}: {items: string[]; accent: string; frame: number}) => {
+const ItemRail = ({items, palette, frame}: {items: string[]; palette: ReturnType<typeof paletteFor>; frame: number}) => {
   if (items.length === 0) {
     return null;
   }
 
   return (
-    <div style={{display: 'grid', gap: 12, marginTop: 28}}>
+    <div style={{display: 'grid', gap: 14, marginTop: 32}}>
       {items.map((item, index) => {
         const itemIntro = progress(frame, 42 + index * 4, 56 + index * 4);
 
@@ -191,16 +215,16 @@ const ItemRail = ({items, accent, frame}: {items: string[]; accent: string; fram
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 12,
-              color: 'rgba(255,255,255,0.94)',
-              fontSize: 22,
+              gap: 14,
+              color: index === 0 ? palette.soft : palette.muted,
+              fontSize: 26,
               lineHeight: 1.16,
               fontWeight: 900,
               opacity: itemIntro,
               transform: `translateX(${(1 - itemIntro) * -10}px)`,
             }}
           >
-            <span style={{width: 22, height: 3, background: index === 0 ? accent : '#fff'}} />
+            <span style={{width: 26, height: 4, background: index === 0 ? palette.accent : 'rgba(255,255,255,0.86)'}} />
             <span>{item}</span>
           </div>
         );
@@ -209,8 +233,16 @@ const ItemRail = ({items, accent, frame}: {items: string[]; accent: string; fram
   );
 };
 
-const CompareBlock = ({props, accent, frame}: {props: RemotionTalkEffectProps; accent: string; frame: number}) => (
-  <div style={{marginTop: 32, display: 'grid', gap: 14, width: 520}}>
+const CompareBlock = ({
+  props,
+  palette,
+  frame,
+}: {
+  props: RemotionTalkEffectProps;
+  palette: ReturnType<typeof paletteFor>;
+  frame: number;
+}) => (
+  <div style={{marginTop: 36, display: 'grid', gap: 16, width: 600}}>
     {[props.left, props.right].map((label, index) => {
       if (!label) {
         return null;
@@ -225,11 +257,11 @@ const CompareBlock = ({props, accent, frame}: {props: RemotionTalkEffectProps; a
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderLeft: `5px solid ${active ? accent : '#fff'}`,
-            padding: '12px 0 12px 18px',
-            color: '#fff',
+            borderLeft: `5px solid ${active ? palette.accent : 'rgba(255,255,255,0.86)'}`,
+            padding: '14px 0 14px 20px',
+            color: active ? palette.title : palette.soft,
             fontFamily: visualTokens.fontFamily.display,
-            fontSize: active ? 50 : 42,
+            fontSize: active ? 62 : 52,
             lineHeight: 1,
             fontWeight: 900,
             opacity: itemIntro,
@@ -246,7 +278,8 @@ const CompareBlock = ({props, accent, frame}: {props: RemotionTalkEffectProps; a
 export const RemotionTalkEffect = (rendererProps: ComponentRendererProps) => {
   const frame = useCurrentFrame();
   const props = getProps(rendererProps);
-  const accent = colorFor(props.accent ?? 'lime');
+  const accentName = props.accent ?? 'lime';
+  const palette = paletteFor(accentName);
   const intro = progress(frame, 0, 24);
   const exit = progress(frame, Math.max(1, rendererProps.durationInFrames - 16), rendererProps.durationInFrames);
   const showCompare = props.variant === 'compare' || props.variant === 'handoff';
@@ -262,16 +295,16 @@ export const RemotionTalkEffect = (rendererProps: ComponentRendererProps) => {
               left: -26,
               top: 4,
               width: 3,
-              height: 370,
-              background: `linear-gradient(${accent}, rgba(255,255,255,0.08))`,
+              height: 430,
+              background: palette.accent,
               opacity: 0.82,
               transform: `scaleY(${intro})`,
               transformOrigin: 'top center',
             }}
           />
-          <TitleBlock props={props} accent={accent} frame={frame} intro={intro} />
-          {showCompare ? <CompareBlock props={props} accent={accent} frame={frame} /> : null}
-          <ItemRail items={props.items ?? []} accent={accent} frame={frame} />
+          <TitleBlock props={props} palette={palette} frame={frame} intro={intro} />
+          {showCompare ? <CompareBlock props={props} palette={palette} frame={frame} /> : null}
+          <ItemRail items={props.items ?? []} palette={palette} frame={frame} />
         </div>
       </div>
     </div>

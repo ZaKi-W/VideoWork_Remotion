@@ -41,8 +41,8 @@
     },
     {
       "id": "rt-effect-opening",
-      "start": 0.333,
-      "end": 10,
+      "start": 0,
+      "end": 14.6,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",
@@ -67,7 +67,7 @@
     {
       "id": "rt-effect-prep",
       "start": 14.6,
-      "end": 34.2,
+      "end": 40.6,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",
@@ -92,7 +92,7 @@
     {
       "id": "rt-effect-srt",
       "start": 40.6,
-      "end": 57.6,
+      "end": 58.2,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",
@@ -117,7 +117,7 @@
     {
       "id": "rt-effect-codex",
       "start": 58.2,
-      "end": 78.4,
+      "end": 82.2,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",
@@ -145,7 +145,7 @@
     {
       "id": "rt-effect-preview-first",
       "start": 82.2,
-      "end": 88,
+      "end": 88.8,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",
@@ -170,7 +170,7 @@
     {
       "id": "rt-effect-style",
       "start": 88.8,
-      "end": 122.8,
+      "end": 123.6,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",
@@ -198,7 +198,7 @@
     {
       "id": "rt-effect-skill",
       "start": 123.6,
-      "end": 147,
+      "end": 147.6,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",

@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ZAKI · Lightweight SRT Subtitle Reference</title>
+<style>
+/*
+=============================================================================
+LIGHTWEIGHT ACID STRIKE SUBTITLE — SRT ONLY
+=============================================================================
+目标：
+- 只靠 SRT 文本与时间驱动
+- 字幕是阅读层，不抢人物和主组件
+- 黑底更薄、更轻
+- 白字为主，当前短语轻量酸绿
+- 仅保留细酸绿竖线与底部细进度线
+=============================================================================
+*/
+
+:root{
+  --acid:#d9ff4c;
+  --ink:#070906;
+  --paper:#f8faef;
+  --text-soft:rgba(248,250,239,.70);
+  --wall-a:#dfddd7;
+  --wall-b:#f8f6f0;
+  --wall-c:#e5e2db;
+  --ui:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;
+}
+*{box-sizing:border-box}
+html{min-width:1060px;background:radial-gradient(circle at 12% 0%,rgba(217,255,76,.10),transparent 27%),#d8d6d1}
+body{margin:0;color:#111317;font-family:var(--ui)}
+.app{
+  width:min(1420px,calc(100vw - 48px));
+  margin:28px auto 54px;
+  display:grid;
+  grid-template-columns:minmax(800px,1fr) 292px;
+  gap:18px;
+  align-items:start;
+}
+.shell,.guide{
+  overflow:hidden;
+  border:1px solid rgba(16,18,24,.14);
+  background:rgba(255,255,255,.78);
+  box-shadow:0 28px 74px rgba(16,18,24,.14);
+}
+.topbar{
+  height:54px;
+  padding:0 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(16,18,24,.12);
+  background:#f8f7f3;
+}
+.brand{
+  display:flex;
+  gap:10px;
+  align-items:baseline;
+  color:rgba(16,18,24,.55);
+  font:800 11px/1 var(--ui);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.brand strong{color:#111317;font-size:13px}
+.top-meta{color:rgba(16,18,24,.45);font:700 10px/1 var(--ui);letter-spacing:.05em}
+.controls{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:10px 12px;
+  border-bottom:1px solid rgba(16,18,24,.12);
+  background:#ece9e2;
+}
+.control{
+  padding:8px 11px;
+  border:1px solid rgba(16,18,24,.15);
+  background:rgba(255,255,255,.60);
+  color:rgba(16,18,24,.68);
+  font:800 12px/1 var(--ui);
+  cursor:pointer;
+}
+.control.primary{color:var(--acid);background:var(--ink);border-color:var(--ink)}
+.status{
+  margin-left:auto;
+  padding:8px 11px;
+  color:#6c8500;
+  border:1px solid rgba(108,133,0,.42);
+  background:rgba(217,255,76,.18);
+  font:800 12px/1 var(--ui);
+}
+
+.stage{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    radial-gradient(circle at 50% 18%,rgba(255,255,255,.96),transparent 31%),
+    linear-gradient(113deg,var(--wall-a) 0%,var(--wall-b) 49%,var(--wall-c) 100%);
+}
+.stage:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-3;
+  background:
+    radial-gradient(ellipse at 50% 102%,rgba(16,18,24,.23),transparent 46%),
+    linear-gradient(90deg,rgba(0,0,0,.06),transparent 15%,transparent 81%,rgba(0,0,0,.05));
+}
+
+/* presenter placeholder — actual project uses talk.mp4 */
+.presenter{
+  position:absolute;
+  z-index:10;
+  left:50%;
+  bottom:7%;
+  width:30%;
+  height:78%;
+  transform:translateX(-50%);
+  transform-origin:bottom center;
+}
+.stage.playing .presenter{animation:sway 6.5s ease-in-out infinite}
+.shadow{
+  position:absolute;
+  left:50%;
+  bottom:-4%;
+  width:116%;
+  height:15%;
+  transform:translateX(-50%);
+  background:radial-gradient(ellipse,rgba(0,0,0,.35),transparent 70%);
+  filter:blur(8px);
+}
+.head{
+  position:absolute;
+  top:2%;
+  left:50%;
+  width:28%;
+  aspect-ratio:1;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 34% 27%,rgba(255,255,255,.40),transparent 20%),
+    linear-gradient(145deg,#d2a28e,#6c4b54 77%);
+  box-shadow:inset -10px -8px 0 rgba(0,0,0,.13);
+}
+.body{
+  position:absolute;
+  left:50%;
+  bottom:0;
+  width:92%;
+  height:75%;
+  transform:translateX(-50%);
+  border-radius:47% 47% 11% 11%/22% 22% 7% 7%;
+  background:linear-gradient(135deg,#2a354c,#171c28 74%);
+  box-shadow:inset 13px 0 0 rgba(255,255,255,.045),inset -13px 0 0 rgba(0,0,0,.15);
+}
+.arm{
+  position:absolute;
+  right:-7%;
+  bottom:21%;
+  width:38%;
+  height:17%;
+  border-radius:50%;
+  transform:rotate(-17deg);
+  background:linear-gradient(145deg,#b7796c,#583a44);
+}
+@keyframes sway{
+  0%,100%{transform:translateX(-50%) translateY(0)}
+  34%{transform:translateX(-49.3%) translateY(-2px) rotate(.38deg)}
+  68%{transform:translateX(-50.7%) rotate(-.24deg)}
+}
+
+/* =========================================================================
+   Lightweight subtitle
+   ========================================================================= */
+.subtitle-zone{
+  position:absolute;
+  z-index:30;
+  left:50%;
+  bottom:3.1%;
+  width:min(67%,930px);
+  transform:translateX(-50%);
+  pointer-events:none;
+}
+.subtitle{
+  position:relative;
+  display:grid;
+  grid-template-columns:6px 1fr;
+  min-height:58px;
+  overflow:hidden;
+  background:rgba(7,9,6,.82);
+  box-shadow:0 10px 24px rgba(0,0,0,.18);
+  opacity:0;
+  transform:translateY(11px);
+}
+.subtitle.enter{
+  animation:subtitleIn .24s cubic-bezier(.2,.86,.2,1) both;
+}
+.subtitle.leave{
+  animation:subtitleOut .16s ease both;
+}
+.subtitle-rail{
+  background:var(--acid);
+  box-shadow:0 0 11px rgba(217,255,76,.38);
+}
+.subtitle-content{
+  position:relative;
+  padding:11px 18px 12px 17px;
+}
+.subtitle-text{
+  min-height:1.25em;
+  color:var(--paper);
+  text-align:center;
+  font:900 clamp(20px,1.94vw,35px)/1.33 var(--ui);
+  letter-spacing:-.006em;
+}
+.segment{
+  position:relative;
+  color:rgba(248,250,239,.66);
+  transition:color .16s ease,text-shadow .16s ease;
+}
+.segment.done{color:var(--paper)}
+.segment.live{
+  color:var(--acid);
+  text-shadow:0 0 10px rgba(217,255,76,.18);
+}
+.segment.live:after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-.14em;
+  height:.09em;
+  background:var(--acid);
+  transform-origin:left;
+  animation:underlineIn .26s cubic-bezier(.2,.86,.2,1) both;
+  box-shadow:0 0 8px rgba(217,255,76,.35);
+}
+.segment.future{color:rgba(248,250,239,.42)}
+.subtitle-progress{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:var(--progress,18%);
+  height:3px;
+  background:var(--acid);
+  box-shadow:0 0 10px rgba(217,255,76,.38);
+  transition:width .18s cubic-bezier(.2,.86,.2,1);
+}
+@keyframes subtitleIn{
+  from{opacity:0;transform:translateY(11px);filter:blur(1px)}
+  to{opacity:1;transform:translateY(0);filter:blur(0)}
+}
+@keyframes subtitleOut{
+  to{opacity:0;transform:translateY(-5px);filter:blur(1px)}
+}
+@keyframes underlineIn{
+  from{transform:scaleX(0);opacity:0}
+  to{transform:scaleX(1);opacity:1}
+}
+
+.timecode{
+  position:absolute;
+  z-index:31;
+  top:3%;
+  right:3.2%;
+  display:flex;
+  gap:7px;
+  align-items:center;
+  color:rgba(22,25,21,.48);
+  font:900 9px/1 var(--ui);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.timecode i{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--acid);
+  box-shadow:0 0 8px rgba(217,255,76,.68);
+  animation:blink .75s ease-in-out infinite alternate;
+}
+@keyframes blink{from{opacity:.35}to{opacity:1}}
+.progress{
+  position:absolute;
+  z-index:32;
+  left:0;right:0;bottom:0;
+  height:4px;
+  background:rgba(11,13,10,.10);
+}
+.progress b{
+  display:block;
+  width:0;height:100%;
+  background:var(--acid);
+  box-shadow:0 0 10px rgba(217,255,76,.58);
+  transition:width .1s linear;
+}
+.safe{
+  display:none;
+  position:absolute;
+  z-index:42;
+  left:15%;right:15%;
+  bottom:2.4%;
+  height:16%;
+  pointer-events:none;
+  border:1px dashed rgba(255,93,70,.80);
+  background:rgba(255,93,70,.08);
+}
+.stage.debug .safe{display:block}
+
+/* guide */
+.guide{position:sticky;top:20px;padding:19px 17px}
+.guide h2{margin:0;font-size:23px;line-height:1;letter-spacing:-.02em}
+.guide>p{margin:11px 0 17px;color:rgba(16,18,24,.67);font-size:13px;line-height:1.62}
+.rule{padding:13px 0;border-top:1px solid rgba(16,18,24,.12)}
+.rule strong{display:block;margin-bottom:7px;font:900 12px/1 var(--ui);letter-spacing:.03em}
+.rule.acid strong{color:#6c8500}
+.rule ul{margin:0;padding-left:17px;color:rgba(16,18,24,.68);font-size:12px;line-height:1.62}
+.debug-btn{
+  width:100%;
+  margin-top:10px;
+  padding:10px 11px;
+  color:var(--acid);
+  border:1px solid var(--ink);
+  background:var(--ink);
+  font:800 12px/1 var(--ui);
+  cursor:pointer;
+}
+@media(max-width:1120px){
+  html{min-width:0}
+  .app{width:100%;margin:0;grid-template-columns:1fr}
+  .guide{position:static}
+}
+</style>
+</head>
+<body>
+<main class="app">
+  <section class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <strong>ZAKI / LIGHT SUBTITLE</strong>
+        <span>SRT 自动驱动 · 轻量阅读层</span>
+      </div>
+      <div class="top-meta">thin base · live phrase · minimal accent</div>
+    </header>
+
+    <div class="controls">
+      <button class="control primary" id="play">播放模拟</button>
+      <button class="control" id="pause">暂停</button>
+      <button class="control" id="replay">重新播放</button>
+      <button class="control" id="debug">显示字幕安全区</button>
+      <span class="status" id="status">SRT 01 / 03</span>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="presenter">
+        <div class="shadow"></div>
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="arm"></div>
+      </div>
+
+      <div class="timecode"><i></i><span id="time">00:00 / 00:17</span></div>
+
+      <div class="subtitle-zone">
+        <section class="subtitle" id="subtitle">
+          <div class="subtitle-rail"></div>
+          <div class="subtitle-content">
+            <div class="subtitle-text" id="subtitleText"></div>
+            <div class="subtitle-progress" id="subtitleProgress"></div>
+          </div>
+        </section>
+      </div>
+
+      <div class="safe"></div>
+      <div class="progress"><b id="globalProgress"></b></div>
+    </div>
+  </section>
+
+  <aside class="guide">
+    <h2>收成“有设计感的字幕”</h2>
+    <p>这版去掉时间、刻度、信号条、标签和扫光层，只保留底座、白字、当前短语酸绿高亮，以及一条很细的进度线。</p>
+
+    <section class="rule acid">
+      <strong>保留</strong>
+      <ul>
+        <li>半透明黑底，整体更薄。</li>
+        <li>左侧细酸绿竖线。</li>
+        <li>白色主字幕。</li>
+        <li>当前短语轻量酸绿高亮。</li>
+        <li>底部细酸绿进度线。</li>
+      </ul>
+    </section>
+
+    <section class="rule">
+      <strong>删掉</strong>
+      <ul>
+        <li>顶部 cue 时间与序号。</li>
+        <li>短语刻度、关键词带、信号条。</li>
+        <li>大面积扫光和多层 HUD。</li>
+        <li>过高的字幕框。</li>
+      </ul>
+    </section>
+
+    <section class="rule">
+      <strong>自动化方式</strong>
+      <ul>
+        <li>继续只读取 SRT 时间和文本。</li>
+        <li>按标点与字数自动切短语。</li>
+        <li>按短语长度比例估算高亮时机。</li>
+      </ul>
+    </section>
+
+    <button class="debug-btn" id="sideDebug">显示 / 隐藏字幕安全区</button>
+  </aside>
+</main>
+
+<script>
+const srtSource = `1
+00:00:00,500 --> 00:00:05,500
+真正费神的，不是生成。
+
+2
+00:00:05,700 --> 00:00:11,100
+而是把默认效果，调成你的风格。
+
+3
+00:00:11,300 --> 00:00:16,400
+调好以后，才能变成自己的能力。`;
+
+function toSeconds(value) {
+  const [hours, minutes, secondsMs] = value.trim().split(":");
+  const [seconds, ms] = secondsMs.split(",");
+  return Number(hours) * 3600 + Number(minutes) * 60 + Number(seconds) + Number(ms) / 1000;
+}
+
+function parseSrt(source) {
+  return source
+    .trim()
+    .replace(/\r/g, "")
+    .split(/\n{2,}/)
+    .map((block) => {
+      const lines = block.split("\n").filter(Boolean);
+      const [startRaw, endRaw] = lines[1].split("-->");
+      return {
+        index: Number(lines[0]),
+        start: toSeconds(startRaw),
+        end: toSeconds(endRaw),
+        text: lines.slice(2).join(" ").replace(/\s+/g, " ").trim()
+      };
+    });
+}
+
+function splitIntoPhrases(text, maxChars = 9) {
+  const chunks = text
+    .replace(/\s+/g, "")
+    .split(/(?<=[，。！？；：、,.!?;:])/u)
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const result = [];
+  chunks.forEach((chunk) => {
+    if (chunk.length <= maxChars + 2) {
+      result.push(chunk);
+      return;
+    }
+    let buffer = "";
+    for (const char of Array.from(chunk)) {
+      buffer += char;
+      if (buffer.length >= maxChars) {
+        result.push(buffer);
+        buffer = "";
+      }
+    }
+    if (buffer) result.push(buffer);
+  });
+
+  if (result.length > 4) {
+    const merged = [];
+    for (let i = 0; i < result.length; i += 2) {
+      merged.push(result.slice(i, i + 2).join(""));
+    }
+    return merged;
+  }
+
+  return result.length ? result : [text];
+}
+
+function buildPhrases(cue) {
+  const texts = splitIntoPhrases(cue.text);
+  const weights = texts.map((text) => Math.max(text.replace(/[，。！？；：、,.!?;:]/g, "").length, 1) + 1.2);
+  const total = weights.reduce((sum, value) => sum + value, 0);
+  const duration = cue.end - cue.start;
+  let cursor = cue.start;
+
+  return texts.map((text, index) => {
+    const segmentDuration = duration * weights[index] / total;
+    const start = cursor;
+    const end = index === texts.length - 1 ? cue.end : cursor + segmentDuration;
+    cursor = end;
+    return { text, start, end };
+  });
+}
+
+const cues = parseSrt(srtSource).map((cue) => ({ ...cue, phrases: buildPhrases(cue) }));
+const TOTAL = cues[cues.length - 1].end + 1.0;
+
+const el = {
+  stage: document.querySelector("#stage"),
+  subtitle: document.querySelector("#subtitle"),
+  text: document.querySelector("#subtitleText"),
+  subtitleProgress: document.querySelector("#subtitleProgress"),
+  status: document.querySelector("#status"),
+  time: document.querySelector("#time"),
+  global: document.querySelector("#globalProgress")
+};
+
+let isPlaying = false;
+let startedAt = 0;
+let pausedElapsed = 0;
+let raf = null;
+let activeCue = -1;
+let activePhrase = -1;
+
+function cueAt(time) {
+  return cues.findIndex((cue) => time >= cue.start && time < cue.end);
+}
+
+function phraseAt(cue, time) {
+  return cue.phrases.findIndex((phrase) => time >= phrase.start && time < phrase.end);
+}
+
+function renderCue(cueIndex, phraseIndex) {
+  const cue = cues[cueIndex];
+  el.status.textContent = `SRT ${String(cue.index).padStart(2, "0")} / ${String(cues.length).padStart(2, "0")}`;
+
+  el.text.innerHTML = cue.phrases.map((phrase, index) => {
+    const state = index < phraseIndex ? "done" : index === phraseIndex ? "live" : "future";
+    return `<span class="segment ${state}">${phrase.text}</span>`;
+  }).join("");
+
+  const progress = (phraseIndex + 1) / cue.phrases.length;
+  el.subtitleProgress.style.setProperty("--progress", `${18 + progress * 70}%`);
+}
+
+function showCue(cueIndex, phraseIndex, newCue) {
+  if (newCue && activeCue !== -1) {
+    el.subtitle.className = "subtitle leave";
+  }
+
+  window.setTimeout(() => {
+    activeCue = cueIndex;
+    activePhrase = phraseIndex;
+    renderCue(cueIndex, phraseIndex);
+    el.subtitle.className = "subtitle enter";
+  }, newCue && activeCue !== -1 ? 125 : 0);
+}
+
+function update(time) {
+  const cueIndex = cueAt(time);
+
+  if (cueIndex < 0) {
+    if (time > 0.25 && activeCue !== -1) {
+      el.subtitle.className = "subtitle leave";
+    }
+    return;
+  }
+
+  const cue = cues[cueIndex];
+  const phraseIndex = Math.max(0, phraseAt(cue, time));
+
+  if (cueIndex !== activeCue) {
+    showCue(cueIndex, phraseIndex, true);
+  } else if (phraseIndex !== activePhrase) {
+    activePhrase = phraseIndex;
+    renderCue(cueIndex, phraseIndex);
+  }
+}
+
+function tick(now) {
+  if (!isPlaying) return;
+
+  const elapsed = (now - startedAt) / 1000 + pausedElapsed;
+  if (elapsed >= TOTAL) {
+    replay();
+    return;
+  }
+
+  update(elapsed);
+  el.global.style.width = `${elapsed / TOTAL * 100}%`;
+  el.time.textContent = `00:${String(Math.floor(Math.max(0, elapsed))).padStart(2, "0")} / 00:17`;
+  raf = requestAnimationFrame(tick);
+}
+
+function play() {
+  if (isPlaying) return;
+  isPlaying = true;
+  startedAt = performance.now();
+  el.stage.classList.add("playing");
+  raf = requestAnimationFrame(tick);
+}
+
+function pause() {
+  if (!isPlaying) return;
+  isPlaying = false;
+  pausedElapsed += (performance.now() - startedAt) / 1000;
+  cancelAnimationFrame(raf);
+  el.stage.classList.remove("playing");
+}
+
+function replay() {
+  isPlaying = false;
+  cancelAnimationFrame(raf);
+  pausedElapsed = 0;
+  activeCue = -1;
+  activePhrase = -1;
+  el.subtitle.className = "subtitle";
+  el.text.innerHTML = "";
+  el.subtitleProgress.style.setProperty("--progress", "18%");
+  el.global.style.width = "0%";
+  el.time.textContent = "00:00 / 00:17";
+  el.stage.classList.add("playing");
+  window.setTimeout(play, 80);
+}
+
+document.querySelector("#play").addEventListener("click", play);
+document.querySelector("#pause").addEventListener("click", pause);
+document.querySelector("#replay").addEventListener("click", replay);
+document.querySelector("#debug").addEventListener("click", () => el.stage.classList.toggle("debug"));
+document.querySelector("#sideDebug").addEventListener("click", () => el.stage.classList.toggle("debug"));
+
+replay();
+</script>
+</body>
+</html>

@@ -14,6 +14,7 @@ export const componentCatalog = [
   {code: 'C13', kind: 'AgentExecution'},
   {code: 'C16', kind: 'NarrationEchoLayer'},
   {code: 'C21', kind: 'RemotionTalkEffect'},
+  {code: 'C22', kind: 'AcidSrtSubtitle'},
 ] as const;
 
 export const systemPreviewCatalog = [{code: 'BASE', kind: 'TalkVideoBase'}] as const;
