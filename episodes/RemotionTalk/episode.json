@@ -668,6 +668,166 @@
       "sourceRefIds": [],
       "status": "ready",
       "notes": "结尾预告。"
+    },
+    {
+      "id": "rt-content-codex-workflow",
+      "start": 58.2,
+      "end": 78.2,
+      "track": "primary",
+      "kind": "AgentExecution",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "AgentExecution",
+        "props": {
+          "topic": "Codex 生成流程",
+          "topicDetail": "视频 + SRT → 分镜 → 组件 → 预览",
+          "eyebrow": "WORKFLOW MAP",
+          "title": ["交给", "Codex", "编排"],
+          "copy": "这是抽象流程图，不作为外部事实证据；用于解释这一段口播里的工作流。",
+          "subtitle": "先读口播和字幕，再决定每段承担什么视觉任务。",
+          "subtitleEn": "Storyboard first, effects second.",
+          "caption": "ABSTRACT FLOW",
+          "items": [
+            {"label": "INPUT", "value": "01", "detail": "口播视频 + SRT"},
+            {"label": "PLAN", "value": "02", "detail": "分镜和素材确认"},
+            {"label": "BUILD", "value": "03", "detail": "组件与关键帧"},
+            {"label": "PREVIEW", "value": "04", "detail": "Studio 先确认"}
+          ],
+          "messages": [
+            {"speaker": "me", "text": "这段先讲流程，不堆随机特效。"},
+            {"speaker": "agent", "text": "按段落选择组件和镜头。"},
+            {"speaker": "agent", "text": "先启动预览，再决定是否导出。"}
+          ],
+          "mediaCount": 36,
+          "scrimIntensity": "soft"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "镜头布局系统内容层：Codex 工作流抽象解释，不作为证据画面。"
+    },
+    {
+      "id": "rt-content-preview-rule",
+      "start": 78.2,
+      "end": 88.8,
+      "track": "primary",
+      "kind": "ChapterIndex",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "ChapterIndex",
+        "props": {
+          "topic": "预览优先",
+          "topicDetail": "网页确认后再导出",
+          "eyebrow": "PREVIEW GATE",
+          "title": ["先看", "网页", "效果"],
+          "copy": "把 Studio 预览当成必经关口，确认画面节奏后再做低清或高清输出。",
+          "subtitle": "这段用 PIP 让内容做主角，人物只保留讲解感。",
+          "caption": "NO DEFAULT RENDER",
+          "items": [
+            {"label": "01", "value": "STUDIO", "detail": "网页预览"},
+            {"label": "02", "value": "QC", "detail": "关键帧确认"},
+            {"label": "03", "value": "OUTPUT", "detail": "按需导出"}
+          ],
+          "messages": [],
+          "mediaCount": 24,
+          "scrimIntensity": "soft"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "镜头布局系统内容层：预览优先规则抽象解释。"
+    },
+    {
+      "id": "rt-content-style-system",
+      "start": 104.8,
+      "end": 123.6,
+      "track": "primary",
+      "kind": "MediaWall",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "MediaWall",
+        "props": {
+          "topic": "风格调校",
+          "topicDetail": "速度 / 颜色 / 信息密度",
+          "eyebrow": "STYLE PASS",
+          "title": ["别让", "默认感", "接管"],
+          "copy": "这里展示的是抽象调校面板：少一点模板味，多一点可复用的个人判断。",
+          "subtitle": "生成只是起点，真正耗时的是把它调到自己的口味。",
+          "caption": "TASTE LAYER",
+          "items": [
+            {"label": "SPEED", "value": "快慢", "detail": "转场节奏"},
+            {"label": "COLOR", "value": "颜色", "detail": "品牌强调"},
+            {"label": "DENSITY", "value": "密度", "detail": "信息负载"},
+            {"label": "VOICE", "value": "口播", "detail": "不抢主体"}
+          ],
+          "messages": [],
+          "mediaCount": 48,
+          "scrimIntensity": "soft"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "镜头布局系统内容层：风格调校抽象解释。"
+    },
+    {
+      "id": "rt-content-skill-reuse",
+      "start": 123.6,
+      "end": 154.8,
+      "track": "primary",
+      "kind": "Ecosystem",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "Ecosystem",
+        "props": {
+          "topic": "Skill 复用系统",
+          "topicDetail": "一次调校，多次复用",
+          "eyebrow": "REUSABLE SYSTEM",
+          "title": ["沉淀", "成", "Skill"],
+          "copy": "把组件、动效和视觉判断固化下来，下一条只需要重新给素材和字幕。",
+          "subtitle": "复用的不是某个炫技效果，而是一套稳定判断。",
+          "caption": "SYSTEM LOOP",
+          "items": [
+            {"label": "COMPONENT", "value": "组件", "detail": "可重复打开检查"},
+            {"label": "MOTION", "value": "动效", "detail": "统一节奏"},
+            {"label": "RULE", "value": "规范", "detail": "安全区和层级"},
+            {"label": "OUTPUT", "value": "复用", "detail": "减少重复劳动"}
+          ],
+          "messages": [],
+          "mediaCount": 32,
+          "scrimIntensity": "soft"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "镜头布局系统内容层：Skill 复用系统抽象解释。"
     }
+  ],
+  "shots": [
+    {"from": 0, "to": 204, "mode": "talk", "summaryId": "rt-effect-opening"},
+    {"from": 204, "to": 438, "mode": "talk", "summaryId": "rt-effect-opening-flow"},
+    {"from": 438, "to": 687, "mode": "talk", "summaryId": "rt-effect-prep-import"},
+    {"from": 687, "to": 939, "mode": "talk", "summaryId": "rt-effect-prep-rhythm"},
+    {"from": 939, "to": 1218, "mode": "push-in", "summaryId": "rt-effect-prep-warning"},
+    {"from": 1218, "to": 1506, "mode": "talk", "summaryId": "rt-effect-srt-core"},
+    {"from": 1506, "to": 1746, "mode": "push-in", "summaryId": "rt-effect-srt-binding"},
+    {"from": 1746, "to": 2046, "mode": "speaker-left", "contentId": "rt-content-codex-workflow"},
+    {"from": 2046, "to": 2346, "mode": "speaker-right", "contentId": "rt-content-codex-workflow"},
+    {"from": 2346, "to": 2664, "mode": "pip-right", "contentId": "rt-content-preview-rule"},
+    {"from": 2664, "to": 2892, "mode": "talk", "summaryId": "rt-effect-style-workload"},
+    {"from": 2892, "to": 3144, "mode": "push-in", "summaryId": "rt-effect-style-ai-taste"},
+    {"from": 3144, "to": 3444, "mode": "speaker-left", "contentId": "rt-content-style-system"},
+    {"from": 3444, "to": 3708, "mode": "talk", "summaryId": "rt-effect-style-tuning"},
+    {"from": 3708, "to": 4020, "mode": "speaker-right", "contentId": "rt-content-skill-reuse"},
+    {"from": 4020, "to": 4344, "mode": "content-full", "contentId": "rt-content-skill-reuse"},
+    {"from": 4344, "to": 4644, "mode": "pip-right", "contentId": "rt-content-skill-reuse"},
+    {"from": 4644, "to": 5151, "mode": "talk", "summaryId": "rt-effect-outro"}
   ]
 }

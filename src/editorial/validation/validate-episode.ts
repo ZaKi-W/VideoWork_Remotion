@@ -123,7 +123,7 @@ export const validateEpisodeData = (
     validateScene(scene, episode, assets, assetIds, sourceIds, issues, strict, options.publicDir, layout);
   }
 
-  validateLayering(episode.scenes, issues);
+  validateLayering(episode.scenes, issues, Boolean(episode.shots?.length));
   validateShots(episode, issues);
 
   for (let index = 2; index < primaryScenes.length; index += 1) {
@@ -209,7 +209,7 @@ const validateShots = (episode: EpisodeConfig, issues: ValidationIssue[]) => {
   }
 };
 
-const validateLayering = (scenes: EpisodeScene[], issues: ValidationIssue[]) => {
+const validateLayering = (scenes: EpisodeScene[], issues: ValidationIssue[], usesShotDirector = false) => {
   const visualScenes = scenes.filter((scene) => scene.track !== 'background');
 
   for (let index = 0; index < visualScenes.length; index += 1) {
@@ -225,6 +225,10 @@ const validateLayering = (scenes: EpisodeScene[], issues: ValidationIssue[]) => 
         );
       }
     }
+  }
+
+  if (usesShotDirector) {
+    return;
   }
 
   for (const scene of visualScenes) {

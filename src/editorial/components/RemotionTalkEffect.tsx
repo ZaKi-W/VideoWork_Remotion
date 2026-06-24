@@ -223,7 +223,7 @@ const ItemRail = ({
       {items.map((item, index) => {
         const itemIntro = progress(frame, 42 + index * 4, 56 + index * 4);
         const isActive = index === activeIndex;
-        const pulse = 0.5 + Math.sin((frame - index * 5) / 8) * 0.5;
+        const activeWidth = isActive ? 42 : 24;
 
         return (
           <div
@@ -242,10 +242,10 @@ const ItemRail = ({
           >
             <span
               style={{
-                width: isActive ? 42 : 24,
+                width: activeWidth,
                 height: 4,
                 background: isActive ? palette.accent : 'rgba(255,255,255,0.72)',
-                boxShadow: isActive ? `0 0 ${8 + pulse * 12}px ${palette.accent}` : 'none',
+                boxShadow: isActive ? `0 0 12px ${palette.accent}` : 'none',
               }}
             />
             <span>{item}</span>
@@ -268,7 +268,6 @@ const CompareBlock = ({
   durationInFrames: number;
 }) => {
   const connectorIntro = progress(frame, 50, 66);
-  const connectorPulse = 0.5 + Math.sin(frame / 9) * 0.5;
   const holdShift = progress(frame, 68, Math.max(69, durationInFrames - 18));
 
   return (
@@ -296,7 +295,7 @@ const CompareBlock = ({
               fontWeight: 900,
               opacity: itemIntro,
               transform: `translateX(${(1 - itemIntro) * -12 + (active ? holdShift * 10 : 0)}px)`,
-              textShadow: active ? `0 0 ${10 + connectorPulse * 10}px ${palette.accent}55` : undefined,
+              textShadow: active ? `0 0 14px ${palette.accent}55` : undefined,
             }}
           >
             <span>{label}</span>
@@ -321,7 +320,7 @@ const CompareBlock = ({
             transform: `translateY(${(1 - connectorIntro) * -8}px)`,
           }}
         >
-          <span style={{width: 40 + connectorPulse * 28, height: 3, background: palette.accent}} />
+          <span style={{width: 54, height: 3, background: palette.accent, boxShadow: `0 0 10px ${palette.accent}55`}} />
           <span>{props.connector}</span>
         </div>
       ) : null}
