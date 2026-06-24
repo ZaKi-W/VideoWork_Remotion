@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZAKI Summary Set v2</title>
+<style>
+:root{
+  --bg:#0d100d;
+  --panel:#101411;
+  --paper:#f5f7ef;
+  --muted:rgba(245,247,239,.68);
+  --muted2:rgba(245,247,239,.45);
+  --line:rgba(245,247,239,.14);
+  --acid:#d9ff4c;
+  --blue:#2e8fff;
+  --yellow:#ffd84d;
+  --orange:#ff6a3d;
+  --red:#ff5538;
+  --cyan:#4ff1d8;
+  --ui:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;
+  --display:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;
+}
+*{box-sizing:border-box}
+html{min-width:1024px;background:#111}
+body{
+  margin:0; min-height:100vh; display:grid; place-items:center; overflow:hidden;
+  background:radial-gradient(circle at 50% 20%,rgba(255,255,255,.03),transparent 40%), #111412;
+  color:var(--paper); font-family:var(--ui);
+}
+.preview{
+  width:min(1360px,calc(100vw - 64px));
+  border:1px solid rgba(255,255,255,.12);
+  background:#0b0d0b;
+  box-shadow:0 30px 90px rgba(0,0,0,.42);
+  overflow:hidden;
+}
+.toolbar{
+  height:64px; display:flex; align-items:center; gap:8px; padding:0 14px;
+  border-bottom:1px solid rgba(255,255,255,.1); background:#121612;
+}
+.toolbar .label{
+  margin-right:10px; color:rgba(245,247,239,.46); font:900 10px/1 var(--ui);
+  letter-spacing:.12em; text-transform:uppercase;
+}
+.switch{
+  padding:9px 11px; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.03);
+  color:rgba(245,247,239,.66); font:900 12px/1 var(--ui); cursor:pointer; transition:.18s ease;
+}
+.switch:hover{border-color:rgba(217,255,76,.55); color:var(--paper)}
+.switch.active{border-color:var(--acid); color:var(--acid); background:rgba(217,255,76,.09)}
+.replay{
+  margin-left:auto; padding:9px 12px; border:1px solid var(--acid); background:var(--acid);
+  color:#111; font:900 12px/1 var(--ui); cursor:pointer;
+}
+.stage{
+  position:relative; aspect-ratio:16/9; overflow:hidden;
+  background:
+    radial-gradient(ellipse at 50% 110%, rgba(0,0,0,.6), transparent 55%),
+    linear-gradient(115deg,#171b17 0%,#0e100e 52%,#171b17 100%);
+}
+.stage:before{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.28;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:84px 84px;
+  -webkit-mask-image:radial-gradient(ellipse at center,black,transparent 74%);
+  mask-image:radial-gradient(ellipse at center,black,transparent 74%);
+}
+.scene{position:absolute; inset:0; visibility:hidden; pointer-events:none}
+.scene.active,.scene.leaving{visibility:visible}
+.scene.leaving .module{animation-duration:.26s; animation-fill-mode:both}
+.scene.leaving .module.left{animation-name:outLeft}
+.scene.leaving .module.right{animation-name:outRight}
+
+.module{
+  position:absolute; color:var(--paper);
+}
+.module.left{left:4.8%; top:12%; width:33%}
+.module.right{right:4.8%; top:14%; width:35%; text-align:right}
+.kicker{
+  display:flex; align-items:center; gap:8px; opacity:0;
+  color:rgba(245,247,239,.72); font:900 10px/1 var(--ui); letter-spacing:.14em; text-transform:uppercase;
+}
+.kicker i{display:block; width:3px; height:18px; border-radius:2px; background:currentColor}
+.right .kicker{justify-content:flex-end}
+.foot{
+  position:absolute; bottom:0; display:flex; align-items:center; gap:8px;
+  color:var(--muted2); font:800 10px/1 var(--ui); letter-spacing:.08em; text-transform:uppercase; opacity:0;
+}
+.foot:before{content:""; width:34px; height:2px; background:currentColor; opacity:.65}
+.right .foot{right:0; justify-content:flex-end}
+
+/* Component 1: OceanTotem · refined */
+.ocean-totem{min-height:72%}
+.ot-kicker{color:var(--yellow)}
+.ot-eng{
+  margin-top:20px; color:var(--yellow); font:900 clamp(20px,2.05vw,38px)/1 var(--display);
+  letter-spacing:.12em; opacity:0; transform:translateX(-16px);
+}
+.ot-title{
+  display:grid; gap:0; margin-top:12px;
+}
+.ot-line{
+  display:block; overflow:hidden; color:#fff;
+  font:900 clamp(74px,6.55vw,118px)/.88 var(--display);
+  letter-spacing:-.075em; opacity:0;
+}
+.ot-line span{display:inline-block; transform:translateY(115%)}
+.ot-line em{color:var(--acid); font-style:normal}
+.ot-note{
+  max-width:88%; margin-top:17px; padding-top:11px; border-top:1px solid rgba(255,255,255,.18);
+  color:var(--muted); font:800 14px/1.5 var(--ui);
+  opacity:0; transform:translateY(10px);
+}
+.ot-note b{color:#fff}
+.scene.active .ocean-totem .ot-kicker{animation:kickerIn .34s cubic-bezier(.2,.9,.24,1) .06s both}
+.scene.active .ocean-totem .ot-eng{animation:slideLeftFade .34s ease .18s both}
+.scene.active .ocean-totem .ot-line:nth-child(1){animation:show .01s linear .31s both}
+.scene.active .ocean-totem .ot-line:nth-child(1) span{animation:textLift .38s cubic-bezier(.2,.9,.22,1) .31s both}
+.scene.active .ocean-totem .ot-line:nth-child(2){animation:show .01s linear .45s both}
+.scene.active .ocean-totem .ot-line:nth-child(2) span{animation:textLift .38s cubic-bezier(.2,.9,.22,1) .45s both}
+.scene.active .ocean-totem .ot-note{animation:riseFade .30s ease .66s both}
+.scene.active .ocean-totem .foot{animation:footIn .28s ease .82s both}
+
+/* Component 2: OceanBanner */
+.ocean-banner{min-height:70%}
+.ob-kicker{color:var(--yellow)}
+.ob-row{
+  margin-top:42px; display:flex; align-items:center; gap:10px; opacity:0; transform:translateX(-16px);
+}
+.ob-wave{
+  color:var(--blue); font:900 26px/1 var(--display); letter-spacing:-.1em;
+}
+.ob-eng{
+  color:var(--blue); font:900 clamp(26px,2.8vw,54px)/1 var(--display); letter-spacing:.04em;
+}
+.ob-title{
+  margin-top:18px; overflow:hidden;
+}
+.ob-title span{
+  display:block; color:#fff; font:900 clamp(64px,6vw,108px)/.95 var(--display); letter-spacing:-.05em;
+  transform:translateY(110%);
+  text-shadow:0 0 16px rgba(255,255,255,.05);
+}
+.ob-sub{
+  margin-top:18px; color:rgba(255,255,255,.88); font:800 14px/1.5 var(--ui); max-width:92%;
+  opacity:0; transform:translateY(12px);
+}
+.ob-sub b{color:var(--blue)}
+.scene.active .ocean-banner .ob-kicker{animation:kickerIn .34s cubic-bezier(.2,.9,.24,1) .06s both}
+.scene.active .ocean-banner .ob-row{animation:slideLeftFade .34s ease .20s both}
+.scene.active .ocean-banner .ob-title span:nth-child(1){animation:textLift .38s cubic-bezier(.2,.9,.22,1) .34s both}
+.scene.active .ocean-banner .ob-title span:nth-child(2){animation:textLift .38s cubic-bezier(.2,.9,.22,1) .48s both}
+.scene.active .ocean-banner .ob-sub{animation:riseFade .30s ease .72s both}
+.scene.active .ocean-banner .foot{animation:footIn .28s ease .90s both}
+
+/* Component 3: TrackCard */
+.track-card{min-height:74%}
+.tc-pill{
+  display:inline-flex; align-items:center; gap:9px; padding:12px 16px; border-radius:14px;
+  border:1px solid rgba(255,106,61,.35); background:rgba(255,106,61,.08);
+  color:var(--orange); font:900 14px/1 var(--ui); letter-spacing:.12em; text-transform:uppercase;
+  opacity:0; transform:translateY(-10px);
+}
+.tc-pill small{
+  display:block; color:#fff; font:800 11px/1.1 var(--ui); letter-spacing:0; text-transform:none; margin-top:6px;
+}
+.tc-top-right{
+  position:absolute; top:8px; right:-6px; color:rgba(245,247,239,.7); font:900 12px/1 var(--ui); letter-spacing:.12em;
+  opacity:0; transform:translateX(16px);
+}
+.tc-kicker{
+  margin-top:22px; color:var(--orange); font:900 14px/1 var(--display); letter-spacing:.16em; text-transform:uppercase;
+  opacity:0; transform:translateX(-16px);
+}
+.tc-head{
+  margin-top:18px;
+}
+.tc-head .en{
+  color:#fff; font:900 clamp(56px,5.4vw,98px)/.94 var(--display); letter-spacing:-.04em;
+  opacity:0; transform:translateY(16px);
+}
+.tc-head .cn{
+  margin-top:4px; color:var(--red); font:900 clamp(88px,7.6vw,136px)/.88 var(--display); letter-spacing:-.08em;
+  opacity:0; transform:translateY(20px);
+  text-shadow:0 0 20px rgba(255,85,56,.15);
+}
+.tc-sub{
+  margin-top:12px; color:#fff; font:800 16px/1.4 var(--ui);
+  opacity:0; transform:translateY(10px);
+}
+.tc-sub b{color:rgba(255,255,255,.72)}
+.tc-tags{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:28px;
+}
+.tc-tag{
+  min-height:84px; padding:12px 14px; border:1px solid rgba(255,255,255,.14); border-radius:14px;
+  background:rgba(255,255,255,.03); opacity:0; transform:translateY(18px) scale(.96);
+}
+.tc-tag .top{
+  display:flex; align-items:center; gap:8px; font:900 11px/1 var(--display); letter-spacing:.12em; text-transform:uppercase;
+}
+.tc-tag .icon{width:14px; height:14px; display:inline-grid; place-items:center; border-radius:50%; font-size:10px}
+.tc-tag strong{
+  display:block; margin-top:10px; color:#fff; font:900 17px/1.2 var(--ui);
+}
+.tc-tag.green{border-color:rgba(79,241,216,.32); box-shadow:inset 0 0 0 1px rgba(79,241,216,.08)}
+.tc-tag.green .top{color:var(--cyan)} .tc-tag.green .icon{background:rgba(79,241,216,.15); color:var(--cyan)}
+.tc-tag.orange{border-color:rgba(255,106,61,.34); box-shadow:inset 0 0 0 1px rgba(255,106,61,.08)}
+.tc-tag.orange .top{color:var(--orange)} .tc-tag.orange .icon{background:rgba(255,106,61,.15); color:var(--orange)}
+.tc-tag.yellow{border-color:rgba(255,216,77,.34); box-shadow:inset 0 0 0 1px rgba(255,216,77,.08)}
+.tc-tag.yellow .top{color:var(--yellow)} .tc-tag.yellow .icon{background:rgba(255,216,77,.15); color:var(--yellow)}
+.scene.active .track-card .tc-pill{animation:dropFade .32s ease .08s both}
+.scene.active .track-card .tc-top-right{animation:inRight .30s ease .14s both}
+.scene.active .track-card .tc-kicker{animation:slideLeftFade .30s ease .22s both}
+.scene.active .track-card .tc-head .en{animation:riseFade .34s ease .34s both}
+.scene.active .track-card .tc-head .cn{animation:riseFade .38s ease .44s both}
+.scene.active .track-card .tc-sub{animation:riseFade .30s ease .58s both}
+.scene.active .track-card .tc-tag:nth-child(1){animation:cardIn .34s cubic-bezier(.2,.9,.22,1) .70s both}
+.scene.active .track-card .tc-tag:nth-child(2){animation:cardIn .34s cubic-bezier(.2,.9,.22,1) .82s both}
+.scene.active .track-card .tc-tag:nth-child(3){animation:cardIn .34s cubic-bezier(.2,.9,.22,1) .94s both}
+.scene.active .track-card .foot{animation:footIn .28s ease 1.10s both}
+
+/* Right component: SideBrief */
+.side-brief{width:34%; min-height:63%}
+.sb-shell{position:relative; min-height:100%; padding:0 22px 0 0}
+.sb-rail{
+  position:absolute; top:0; right:0; width:8px; height:100%; overflow:hidden; background:rgba(217,255,76,.14)
+}
+.sb-rail:before{
+  content:""; position:absolute; inset:0; transform:translateY(-104%);
+  background:var(--acid); box-shadow:0 0 18px rgba(217,255,76,.58)
+}
+.sb-rail:after{
+  content:""; position:absolute; top:14%; right:0; width:8px; height:26%; opacity:0;
+  background:#efff96; box-shadow:0 0 17px rgba(217,255,76,.74)
+}
+.side-brief .kicker,.sb-index,.sb-title,.sb-copy,.sb-focus,.sb-tail,.side-brief .foot{opacity:0}
+.sb-kicker{color:var(--acid)}
+.sb-index{
+  margin-top:20px; overflow:hidden; color:var(--acid);
+  font:900 clamp(38px,3.9vw,70px)/.76 var(--display); letter-spacing:-.08em;
+}
+.sb-index span{display:inline-block; transform:translateX(112%)}
+.sb-title{
+  margin-top:18px; overflow:hidden; color:#fff;
+  font:900 clamp(30px,3.05vw,57px)/1.1 var(--display); letter-spacing:-.024em;
+}
+.sb-title span{display:inline-block; transform:translateX(108%)}
+.sb-title em{color:var(--acid); font-style:normal}
+.sb-copy{
+  max-width:93%; margin:17px 0 0 auto; color:var(--muted); font:800 14px/1.58 var(--ui);
+  transform:translateX(22px)
+}
+.sb-focus{
+  display:inline-flex; align-items:center; gap:9px; margin-top:21px; padding:9px 12px 9px 11px;
+  color:#111; background:var(--acid); font:900 12px/1 var(--ui); letter-spacing:.04em;
+  transform:scaleX(0); transform-origin:right;
+}
+.sb-focus i{display:block; width:7px; height:7px; border-radius:50%; background:#111}
+.sb-tail{
+  display:grid; grid-template-columns:1fr 40px; align-items:center; gap:10px; max-width:84%; margin:18px 0 0 auto;
+  color:rgba(245,247,239,.5); font:800 11px/1.45 var(--ui); letter-spacing:.035em; transform:translateX(15px)
+}
+.sb-tail:after{
+  content:""; height:2px; background:rgba(245,247,239,.26); transform:scaleX(0); transform-origin:right
+}
+.scene.active .side-brief .sb-kicker{animation:kickerInRight .36s cubic-bezier(.2,.9,.24,1) .08s both}
+.scene.active .side-brief .sb-rail:before{animation:railSweep .68s cubic-bezier(.2,.86,.2,1) .12s both}
+.scene.active .side-brief .sb-rail:after{animation:railPulse 1.7s ease-in-out .86s infinite alternate}
+.scene.active .side-brief .sb-index{animation:show .01s linear .28s both}
+.scene.active .side-brief .sb-index span{animation:pushFromRight .42s cubic-bezier(.2,.9,.22,1) .28s both}
+.scene.active .side-brief .sb-title{animation:show .01s linear .44s both}
+.scene.active .side-brief .sb-title span{animation:pushFromRight .48s cubic-bezier(.2,.9,.22,1) .44s both}
+.scene.active .side-brief .sb-copy{animation:inRightSoft .34s cubic-bezier(.2,.86,.2,1) .73s both}
+.scene.active .side-brief .sb-focus{animation:focusPlate .34s cubic-bezier(.2,.9,.22,1) .91s both}
+.scene.active .side-brief .sb-tail{animation:inRightSoft .28s ease 1.07s both}
+.scene.active .side-brief .sb-tail:after{animation:tailLine .36s cubic-bezier(.2,.86,.2,1) 1.19s both}
+.scene.active .side-brief .foot{animation:footInRight .30s ease 1.30s both}
+
+/* motions */
+@keyframes kickerIn{from{opacity:0;transform:translateX(-13px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes kickerInRight{from{opacity:0;transform:translateX(13px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes slideLeftFade{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:none}}
+@keyframes riseFade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes dropFade{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@keyframes inRight{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes charUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes textLift{to{transform:translateY(0)}}
+@keyframes show{to{opacity:1}}
+@keyframes quoteMarkIn{0%{opacity:0;transform:translateX(-18px) rotate(-14deg) scale(.55)}62%{opacity:1;transform:translateX(4px) rotate(4deg) scale(1.12)}100%{opacity:1;transform:none}}
+@keyframes footIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+@keyframes footInRight{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:none}}
+@keyframes outLeft{to{opacity:0;transform:translateX(-24px);filter:blur(3px)}}
+@keyframes outRight{to{opacity:0;transform:translateX(24px);filter:blur(3px)}}
+@keyframes pushFromRight{to{transform:translateX(0)}}
+@keyframes inRightSoft{to{opacity:1;transform:translateX(0)}}
+@keyframes focusPlate{0%{opacity:0;transform:scaleX(0)}72%{opacity:1;transform:scaleX(1.08)}100%{opacity:1;transform:scaleX(1)}}
+@keyframes tailLine{to{transform:scaleX(1)}}
+@keyframes railSweep{to{transform:translateY(0)}}
+@keyframes railPulse{from{opacity:.18;transform:translateY(0)}to{opacity:1;transform:translateY(170%)}}
+</style>
+</head>
+<body>
+<main class="preview">
+  <nav class="toolbar">
+    <span class="label">DIRECT PREVIEW</span>
+    <button class="switch active" data-target="oceanTotem">左 01 · OceanTotem</button>
+    <button class="switch" data-target="oceanBanner">左 02 · OceanBanner</button>
+    <button class="switch" data-target="trackCard">左 03 · TrackCard</button>
+    <button class="switch" data-target="sideBrief">右 01 · SideBrief</button>
+    <button class="replay" id="replay">重播当前动效</button>
+  </nav>
+
+  <section class="stage">
+    <!-- Left 01 -->
+    <section class="scene active" data-scene="oceanTotem">
+      <article class="module left ocean-totem">
+        <div class="kicker ot-kicker"><i></i><span>更前沿 · 更早看见机会</span></div>
+        <div class="ot-eng">EARLY MOVE</div>
+        <div class="ot-title">
+          <div class="ot-line"><span>抢先</span></div>
+          <div class="ot-line"><span><em>布局</em></span></div>
+        </div>
+        <div class="ot-note"><b>未来新方向</b> · 适合强调“新机会 / 新趋势 / 值得提前做”的判断句。</div>
+        <div class="foot">左侧摘要 / 大字趋势型</div>
+      </article>
+    </section>
+
+    <!-- Left 02 -->
+    <section class="scene" data-scene="oceanBanner">
+      <article class="module left ocean-banner">
+        <div class="kicker ob-kicker"><i></i><span>趋势判断 · 明确看好</span></div>
+        <div class="ob-row">
+          <div class="ob-wave">≋</div>
+          <div class="ob-eng">NEW DIRECTION</div>
+        </div>
+        <div class="ob-title">
+          <span>未来大趋势</span>
+          <span>值得提前做</span>
+        </div>
+        <div class="ob-sub"><b>大标题更完整</b>，适合承接口播里的观点句、判断句、结论句。</div>
+        <div class="foot">左侧摘要 / 横向主标题型</div>
+      </article>
+    </section>
+
+    <!-- Left 03 -->
+    <section class="scene" data-scene="trackCard">
+      <article class="module left track-card">
+        <div class="tc-pill">
+          <span>AI HOT TRACK</span>
+          <div><small>热门方向 · 值得关注</small></div>
+        </div>
+        <div class="tc-top-right">EP · ZAKI CHANNEL</div>
+        <div class="tc-kicker">FOCUS TOPIC · PRACTICAL ENTRY</div>
+        <div class="tc-head">
+          <div class="en">TOPIC</div>
+          <div class="cn">切口</div>
+        </div>
+        <div class="tc-sub">一句补充说明 · <b>适合讲这段内容的核心切入点</b></div>
+        <div class="tc-tags">
+          <div class="tc-tag green">
+            <div class="top"><span class="icon">✦</span><span>NEW SPACE</span></div>
+            <strong>新机会<br>可先占位</strong>
+          </div>
+          <div class="tc-tag orange">
+            <div class="top"><span class="icon">●</span><span>UNPACKED</span></div>
+            <strong>尚未讲透<br>适合展开</strong>
+          </div>
+          <div class="tc-tag yellow">
+            <div class="top"><span class="icon">↗</span><span>JUST DO</span></div>
+            <strong>行动优先<br>先做再说</strong>
+          </div>
+        </div>
+        <div class="foot">左侧摘要 / 卡片信息型</div>
+      </article>
+    </section>
+
+    <!-- Right -->
+    <section class="scene" data-scene="sideBrief">
+      <article class="module right side-brief">
+        <div class="sb-shell">
+          <div class="sb-rail"></div>
+          <div class="kicker sb-kicker"><span>关键补充</span><b>RIGHT 01</b><i></i></div>
+          <div class="sb-index"><span>01</span></div>
+          <div class="sb-title"><span>默认效果只是起点。<br>真正决定内容质感的，<br>是你的<em>视觉判断</em>。</span></div>
+          <div class="sb-copy">把不属于你的默认感删掉，把真正重要的内容和节奏留下来，画面才会开始有自己的表达。</div>
+          <div class="sb-focus"><i></i><span>先判断，再加效果</span></div>
+          <div class="sb-tail"><span>从右侧建立一个稳定的收束点</span></div>
+        </div>
+        <div class="foot">右侧补充 / 结论收束</div>
+      </article>
+    </section>
+  </section>
+</main>
+
+<script>
+const btns = [...document.querySelectorAll('.switch')];
+const scenes = [...document.querySelectorAll('.scene')];
+const replayBtn = document.getElementById('replay');
+let active = 'oceanTotem';
+let timer = null;
+
+const getScene = (id) => document.querySelector(`[data-scene="${id}"]`);
+
+function setButtons(id){
+  btns.forEach(btn => btn.classList.toggle('active', btn.dataset.target === id));
+}
+
+function switchScene(id, replay=false){
+  clearTimeout(timer);
+  const current = getScene(active);
+  const next = getScene(id);
+
+  if(id === active && replay){
+    current.classList.remove('active','leaving');
+    void current.offsetWidth;
+    current.classList.add('active');
+    return;
+  }
+  if(id === active) return;
+
+  current.classList.remove('active');
+  current.classList.add('leaving');
+
+  timer = setTimeout(() => {
+    scenes.forEach(s => s.classList.remove('active','leaving'));
+    next.classList.add('active');
+    active = id;
+    setButtons(id);
+  }, 285);
+}
+
+btns.forEach(btn => {
+  btn.addEventListener('click', () => switchScene(btn.dataset.target));
+});
+replayBtn.addEventListener('click', () => switchScene(active, true));
+
+window.addEventListener('keydown', (e) => {
+  const idx = btns.findIndex(btn => btn.dataset.target === active);
+  if(e.key === 'ArrowRight') switchScene(btns[(idx + 1) % btns.length].dataset.target);
+  if(e.key === 'ArrowLeft') switchScene(btns[(idx - 1 + btns.length) % btns.length].dataset.target);
+});
+</script>
+</body>
+</html>

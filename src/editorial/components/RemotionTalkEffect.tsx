@@ -199,15 +199,31 @@ const TitleBlock = ({
   );
 };
 
-const ItemRail = ({items, palette, frame}: {items: string[]; palette: ReturnType<typeof paletteFor>; frame: number}) => {
+const ItemRail = ({
+  items,
+  palette,
+  frame,
+  durationInFrames,
+}: {
+  items: string[];
+  palette: ReturnType<typeof paletteFor>;
+  frame: number;
+  durationInFrames: number;
+}) => {
   if (items.length === 0) {
     return null;
   }
+
+  const cycleWindow = Math.max(1, durationInFrames - 78);
+  const cycleProgress = progress(frame, 58, 58 + cycleWindow);
+  const activeIndex = Math.min(items.length - 1, Math.floor(cycleProgress * items.length));
 
   return (
     <div style={{display: 'grid', gap: 14, marginTop: 32}}>
       {items.map((item, index) => {
         const itemIntro = progress(frame, 42 + index * 4, 56 + index * 4);
+        const isActive = index === activeIndex;
+        const pulse = 0.5 + Math.sin((frame - index * 5) / 8) * 0.5;
 
         return (
           <div
@@ -216,15 +232,22 @@ const ItemRail = ({items, palette, frame}: {items: string[]; palette: ReturnType
               display: 'flex',
               alignItems: 'center',
               gap: 14,
-              color: index === 0 ? palette.soft : palette.muted,
-              fontSize: 26,
+              color: isActive ? palette.soft : palette.muted,
+              fontSize: isActive ? 28 : 25,
               lineHeight: 1.16,
               fontWeight: 900,
-              opacity: itemIntro,
-              transform: `translateX(${(1 - itemIntro) * -10}px)`,
+              opacity: itemIntro * (isActive ? 1 : 0.68),
+              transform: `translateX(${(1 - itemIntro) * -10 + (isActive ? 8 : 0)}px)`,
             }}
           >
-            <span style={{width: 26, height: 4, background: index === 0 ? palette.accent : 'rgba(255,255,255,0.86)'}} />
+            <span
+              style={{
+                width: isActive ? 42 : 24,
+                height: 4,
+                background: isActive ? palette.accent : 'rgba(255,255,255,0.72)',
+                boxShadow: isActive ? `0 0 ${8 + pulse * 12}px ${palette.accent}` : 'none',
+              }}
+            />
             <span>{item}</span>
           </div>
         );
@@ -237,43 +260,74 @@ const CompareBlock = ({
   props,
   palette,
   frame,
+  durationInFrames,
 }: {
   props: RemotionTalkEffectProps;
   palette: ReturnType<typeof paletteFor>;
   frame: number;
-}) => (
-  <div style={{marginTop: 36, display: 'grid', gap: 16, width: 600}}>
-    {[props.left, props.right].map((label, index) => {
-      if (!label) {
-        return null;
-      }
-      const active = index === 1;
-      const itemIntro = progress(frame, 36 + index * 6, 52 + index * 6);
+  durationInFrames: number;
+}) => {
+  const connectorIntro = progress(frame, 50, 66);
+  const connectorPulse = 0.5 + Math.sin(frame / 9) * 0.5;
+  const holdShift = progress(frame, 68, Math.max(69, durationInFrames - 18));
 
-      return (
+  return (
+    <div style={{marginTop: 36, display: 'grid', gap: 12, width: 600}}>
+      {[props.left, props.right].map((label, index) => {
+        if (!label) {
+          return null;
+        }
+        const active = index === 1;
+        const itemIntro = progress(frame, 36 + index * 6, 52 + index * 6);
+
+        return (
+          <div
+            key={label}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              borderLeft: `5px solid ${active ? palette.accent : 'rgba(255,255,255,0.86)'}`,
+              padding: '14px 0 14px 20px',
+              color: active ? palette.title : palette.soft,
+              fontFamily: visualTokens.fontFamily.display,
+              fontSize: active ? 62 : 52,
+              lineHeight: 1,
+              fontWeight: 900,
+              opacity: itemIntro,
+              transform: `translateX(${(1 - itemIntro) * -12 + (active ? holdShift * 10 : 0)}px)`,
+              textShadow: active ? `0 0 ${10 + connectorPulse * 10}px ${palette.accent}55` : undefined,
+            }}
+          >
+            <span>{label}</span>
+          </div>
+        );
+      })}
+      {props.connector ? (
         <div
-          key={label}
           style={{
-            display: 'flex',
+            display: 'inline-flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            borderLeft: `5px solid ${active ? palette.accent : 'rgba(255,255,255,0.86)'}`,
-            padding: '14px 0 14px 20px',
-            color: active ? palette.title : palette.soft,
-            fontFamily: visualTokens.fontFamily.display,
-            fontSize: active ? 62 : 52,
+            width: 'max-content',
+            gap: 12,
+            marginLeft: 20 + holdShift * 18,
+            color: palette.accent,
+            fontSize: 19,
             lineHeight: 1,
             fontWeight: 900,
-            opacity: itemIntro,
-            transform: `translateX(${(1 - itemIntro) * -12}px)`,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            opacity: connectorIntro,
+            transform: `translateY(${(1 - connectorIntro) * -8}px)`,
           }}
         >
-          <span>{label}</span>
+          <span style={{width: 40 + connectorPulse * 28, height: 3, background: palette.accent}} />
+          <span>{props.connector}</span>
         </div>
-      );
-    })}
-  </div>
-);
+      ) : null}
+    </div>
+  );
+};
 
 export const RemotionTalkEffect = (rendererProps: ComponentRendererProps) => {
   const frame = useCurrentFrame();
@@ -303,8 +357,20 @@ export const RemotionTalkEffect = (rendererProps: ComponentRendererProps) => {
             }}
           />
           <TitleBlock props={props} palette={palette} frame={frame} intro={intro} />
-          {showCompare ? <CompareBlock props={props} palette={palette} frame={frame} /> : null}
-          <ItemRail items={props.items ?? []} palette={palette} frame={frame} />
+          {showCompare ? (
+            <CompareBlock
+              props={props}
+              palette={palette}
+              frame={frame}
+              durationInFrames={rendererProps.durationInFrames}
+            />
+          ) : null}
+          <ItemRail
+            items={props.items ?? []}
+            palette={palette}
+            frame={frame}
+            durationInFrames={rendererProps.durationInFrames}
+          />
         </div>
       </div>
     </div>

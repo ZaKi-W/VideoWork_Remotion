@@ -13,20 +13,34 @@
 
 | 时间 | 主视觉任务 | 组件 | 内容 |
 | --- | --- | --- | --- |
-| 00:00-00:14 | 开场建立“AI + Remotion 自动化特效”主题 | RemotionTalkEffect | 当前看到的特效来自自动化流程 |
-| 00:14-00:40 | 解释前置剪辑处理 | RemotionTalkEffect | 录制、剪气口、变速、拿字幕 |
-| 00:40-00:58 | 强调 SRT 是时间轴核心 | RemotionTalkEffect | 字幕决定特效出现时机 |
-| 00:58-01:28 | 展示交给 Codex 的工作流 | RemotionTalkEffect | 视频 + 字幕 + Remotion 插件 |
-| 01:28-02:03 | 转入“AI 味”和风格调整问题 | RemotionTalkEffect | 直出不是终点，审美需要校准 |
-| 02:03-02:27 | 说明把风格沉淀成 Skill | RemotionTalkEffect | 调好的规则可复用 |
-| 02:27-02:51.667 | 收束和下期预告 | RemotionTalkEffect | Remotion / HyperFrames 后续探索 |
+| 00:00-00:06.8 | 开场建立“AI + Remotion 自动化特效”主题 | RemotionTalkEffect | 当前看到的特效来自自动化流程 |
+| 00:06.8-00:14.6 | 转入工作流总览 | RemotionTalkEffect | 录制、剪辑、字幕三步先成立 |
+| 00:14.6-00:22.9 | 前置处理第一步 | RemotionTalkEffect | 先把口播素材丢进剪映 |
+| 00:22.9-00:31.3 | 前置处理第二步 | RemotionTalkEffect | 剪气口、删停顿、轻变速 |
+| 00:31.3-00:40.6 | 前置处理转折 | RemotionTalkEffect | 自动剪辑效果不好时手动控节奏 |
+| 00:40.6-00:50.2 | 强调 SRT 是时间轴核心 | RemotionTalkEffect | 字幕决定特效出现时机 |
+| 00:50.2-00:58.2 | 强调逐句绑定 | RemotionTalkEffect | 起点、停留、退出都跟字幕走 |
+| 00:58.2-01:08.2 | 展示交给 Codex 的工作流 | RemotionTalkEffect | 视频 + 字幕输入，输出特效结构 |
+| 01:08.2-01:18.2 | 先做整条规划 | RemotionTalkEffect | 读字幕、排结构、定卡点 |
+| 01:18.2-01:28.8 | 呼应先预览规则 | RemotionTalkEffect | 先看网页效果，确认后再导出 |
+| 01:28.8-01:36.4 | 风格调整工作量转折 | RemotionTalkEffect | 生成完之后才进入审美调整 |
+| 01:36.4-01:44.8 | 反默认 AI 味 | RemotionTalkEffect | 默认炫酷与个人风格对比 |
+| 01:44.8-01:54.8 | 同质化问题 | RemotionTalkEffect | 同一句提示词会让效果缺少识别度 |
+| 01:54.8-02:03.6 | 手动调校 | RemotionTalkEffect | 调速度、颜色和信息密度 |
+| 02:03.6-02:14 | 说明把风格沉淀成 Skill | RemotionTalkEffect | 调一条变成复用一套 |
+| 02:14-02:24.8 | 下一条复用 | RemotionTalkEffect | 再给视频和字幕即可按风格生成 |
+| 02:24.8-02:34.8 | 省掉重复劳动 | RemotionTalkEffect | 标准化流程减少重复做特效的时间 |
+| 02:34.8-02:51.667 | 收束和下期预告 | RemotionTalkEffect | Remotion / HyperFrames 后续探索 |
 
 ## QC 关键帧
 
 - 00:03：开场字卡不遮挡人脸。
-- 00:20：流程节点显示在左侧，底部字幕区域空出。
+- 00:11：工作流总览文字在左侧信息区，底部字幕区域空出。
+- 00:25：前置处理 item focus 有变化，不进入人物安全区。
+- 00:37：自动剪辑转折清楚，但不伪装成证据画面。
 - 00:48：SRT 关键提示出现，不能进入字幕安全区。
-- 01:07：Codex 输入组合清晰但不伪装成软件截图。
+- 01:12：Codex 规划段表达清楚，不叠加第二个主组件。
 - 01:39：反“默认赛博朋克渐变”提示要有足够对比。
-- 02:12：Skill 沉淀段落表达清楚，不超过两层辅助信息。
+- 02:08：Skill 沉淀段落表达清楚，不超过两层辅助信息。
+- 02:28：省时价值段轻量，不抢口播主体。
 - 02:42：结尾提示轻量，不抢口播结束。

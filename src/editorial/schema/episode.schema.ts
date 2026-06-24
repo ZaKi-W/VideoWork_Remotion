@@ -36,6 +36,10 @@ export const componentKindSchema = z.enum([
   'PricePage',
   'TokenBoard',
   'AgentExecution',
+  'TrendTotem',
+  'TrendBanner',
+  'TopicSignal',
+  'SideBrief',
   'TalkVideoBase',
   'RemotionTalkEffect',
 ]);
@@ -179,6 +183,31 @@ export const acidComponentPropsSchema = z
   })
   .strict();
 
+const summaryBlockSchema = z
+  .object({
+    label: z.string().trim().min(1).max(18),
+    title: z.string().trim().min(1).max(22),
+    icon: z.string().trim().min(1).max(2).optional(),
+    accent: z.enum(['acid', 'blue', 'yellow', 'orange', 'red', 'cyan']).optional(),
+  })
+  .strict();
+
+export const summaryComponentPropsSchema = z
+  .object({
+    kicker: z.string().trim().min(1).max(24).optional(),
+    label: z.string().trim().min(1).max(24).optional(),
+    title: z.array(z.string().trim().min(1).max(18)).min(1).max(3),
+    copy: z.string().trim().min(1).max(90).optional(),
+    foot: z.string().trim().min(1).max(24).optional(),
+    index: z.string().trim().min(1).max(6).optional(),
+    emphasis: z.string().trim().min(1).max(12).optional(),
+    focus: z.string().trim().min(1).max(18).optional(),
+    tail: z.string().trim().min(1).max(28).optional(),
+    blocks: z.array(summaryBlockSchema).max(3).default([]),
+    accent: z.enum(['acid', 'blue', 'yellow', 'orange', 'red', 'cyan']).default('acid'),
+  })
+  .strict();
+
 export const talkVideoBasePropsSchema = z
   .object({
     videoPath: z.string().trim().min(1).max(160),
@@ -219,6 +248,10 @@ export const sceneContentSchema = z.discriminatedUnion('kind', [
   z.object({kind: z.literal('PricePage'), props: acidComponentPropsSchema}),
   z.object({kind: z.literal('TokenBoard'), props: acidComponentPropsSchema}),
   z.object({kind: z.literal('AgentExecution'), props: acidComponentPropsSchema}),
+  z.object({kind: z.literal('TrendTotem'), props: summaryComponentPropsSchema}),
+  z.object({kind: z.literal('TrendBanner'), props: summaryComponentPropsSchema}),
+  z.object({kind: z.literal('TopicSignal'), props: summaryComponentPropsSchema}),
+  z.object({kind: z.literal('SideBrief'), props: summaryComponentPropsSchema}),
   z.object({kind: z.literal('TalkVideoBase'), props: talkVideoBasePropsSchema}),
   z.object({kind: z.literal('RemotionTalkEffect'), props: remotionTalkEffectPropsSchema}),
 ]);

@@ -2,11 +2,13 @@ import {
   acidComponentPropsSchema,
   narrationEchoLayerPropsSchema,
   remotionTalkEffectPropsSchema,
+  summaryComponentPropsSchema,
   talkVideoBasePropsSchema,
 } from '../schema/episode.schema';
 import {AcidComponent} from '../components/AcidComponent';
 import {NarrationEchoLayer} from '../components/NarrationEchoLayer';
 import {RemotionTalkEffect} from '../components/RemotionTalkEffect';
+import {SummaryComponents} from '../components/SummaryComponents';
 import {TalkVideoBase} from '../components/TalkVideoBase';
 import type {ComponentRegistryItem} from './component.types';
 
@@ -186,5 +188,49 @@ export const componentRegistry = {
     implementationStatus: 'ready',
     schema: remotionTalkEffectPropsSchema,
     render: RemotionTalkEffect,
+  },
+  TrendTotem: {
+    name: 'TrendTotem',
+    purpose: '左侧摘要 / 大字趋势型',
+    allowedStageModes: ['presenter-center', 'presenter-small'],
+    allowedSlots: ['edge-left', 'top-left'],
+    requiresSource: false,
+    requiresAsset: false,
+    implementationStatus: 'ready',
+    schema: summaryComponentPropsSchema,
+    render: SummaryComponents,
+  },
+  TrendBanner: {
+    name: 'TrendBanner',
+    purpose: '左侧摘要 / 横向大标题型',
+    allowedStageModes: ['presenter-center', 'presenter-small'],
+    allowedSlots: ['edge-left', 'top-left'],
+    requiresSource: false,
+    requiresAsset: false,
+    implementationStatus: 'ready',
+    schema: summaryComponentPropsSchema,
+    render: SummaryComponents,
+  },
+  TopicSignal: {
+    name: 'TopicSignal',
+    purpose: '左侧摘要 / 话题切口与三张信息块',
+    allowedStageModes: ['presenter-center', 'presenter-small'],
+    allowedSlots: ['edge-left', 'top-left'],
+    requiresSource: false,
+    requiresAsset: false,
+    implementationStatus: 'ready',
+    schema: summaryComponentPropsSchema,
+    render: SummaryComponents,
+  },
+  SideBrief: {
+    name: 'SideBrief',
+    purpose: '右侧摘要 / 结论收束与补充提示',
+    allowedStageModes: ['presenter-center', 'presenter-small'],
+    allowedSlots: ['edge-right', 'top-right'],
+    requiresSource: false,
+    requiresAsset: false,
+    implementationStatus: 'ready',
+    schema: summaryComponentPropsSchema,
+    render: SummaryComponents,
   },
 } satisfies Record<string, ComponentRegistryItem>;

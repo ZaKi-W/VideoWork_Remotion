@@ -42,7 +42,7 @@
     {
       "id": "rt-effect-opening",
       "start": 0,
-      "end": 14.6,
+      "end": 6.8,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",
@@ -62,12 +62,37 @@
       "assetIds": [],
       "sourceRefIds": [],
       "status": "ready",
-      "notes": "本期一次性开场特效。"
+      "notes": "开场主题建立。"
     },
     {
-      "id": "rt-effect-prep",
+      "id": "rt-effect-opening-flow",
+      "start": 6.8,
+      "end": 14.6,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "statement",
+          "index": "01B",
+          "eyebrow": "WORKFLOW",
+          "title": "流程不复杂",
+          "subtitle": "录好口播，再把节奏和字幕处理清楚",
+          "accent": "cyan",
+          "items": ["录制", "剪辑", "字幕"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "开场后半段转入流程。"
+    },
+    {
+      "id": "rt-effect-prep-import",
       "start": 14.6,
-      "end": 40.6,
+      "end": 22.9,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",
@@ -78,21 +103,71 @@
           "variant": "steps",
           "index": "02",
           "eyebrow": "BEFORE AI",
-          "title": "先把口播剪干净",
-          "subtitle": "AI 做特效之前，节奏先要成立",
+          "title": "先丢进剪映",
+          "subtitle": "AI 做特效之前，先处理基础口播素材",
           "accent": "orange",
+          "items": ["导入", "口播", "气口"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "前置处理：导入和定位气口。"
+    },
+    {
+      "id": "rt-effect-prep-rhythm",
+      "start": 22.9,
+      "end": 31.3,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "steps",
+          "index": "02B",
+          "eyebrow": "RHYTHM PASS",
+          "title": "把节奏剪顺",
+          "subtitle": "剪气口、删停顿，再补一点轻变速",
+          "accent": "lime",
           "items": ["剪气口", "删停顿", "轻变速"]
         }
       },
       "assetIds": [],
       "sourceRefIds": [],
       "status": "ready",
-      "notes": "前置处理段一次性特效。"
+      "notes": "前置处理：节奏清理。"
     },
     {
-      "id": "rt-effect-srt",
+      "id": "rt-effect-prep-warning",
+      "start": 31.3,
+      "end": 40.6,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "statement",
+          "index": "02C",
+          "eyebrow": "MANUAL TASTE",
+          "title": "别迷信自动剪",
+          "subtitle": "效果不好时，宁可自己把节奏重新控住",
+          "accent": "orange",
+          "items": ["节奏", "质感", "手动控"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "前置处理：自动剪辑效果不佳的转折。"
+    },
+    {
+      "id": "rt-effect-srt-core",
       "start": 40.6,
-      "end": 58.2,
+      "end": 50.2,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",
@@ -115,9 +190,34 @@
       "notes": "SRT 关键观点。"
     },
     {
-      "id": "rt-effect-codex",
+      "id": "rt-effect-srt-binding",
+      "start": 50.2,
+      "end": 58.2,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "steps",
+          "index": "03B",
+          "eyebrow": "BINDING",
+          "title": "每句都要对齐",
+          "subtitle": "特效出现、停留和退出都跟字幕时间走",
+          "accent": "cyan",
+          "items": ["起点", "停留", "退出"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "SRT 绑定动作。"
+    },
+    {
+      "id": "rt-effect-codex-handoff",
       "start": 58.2,
-      "end": 82.2,
+      "end": 68.2,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",
@@ -143,8 +243,33 @@
       "notes": "Codex 交接段一次性特效。"
     },
     {
+      "id": "rt-effect-codex-plan",
+      "start": 68.2,
+      "end": 78.2,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "steps",
+          "index": "04B",
+          "eyebrow": "PLAN FIRST",
+          "title": "先做整条规划",
+          "subtitle": "别直接套效果，先把结构和卡点排出来",
+          "accent": "lime",
+          "items": ["读字幕", "排结构", "定卡点"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "Codex 规划段。"
+    },
+    {
       "id": "rt-effect-preview-first",
-      "start": 82.2,
+      "start": 78.2,
       "end": 88.8,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
@@ -168,9 +293,9 @@
       "notes": "呼应项目规则：先网页看效果。"
     },
     {
-      "id": "rt-effect-style",
+      "id": "rt-effect-style-workload",
       "start": 88.8,
-      "end": 123.6,
+      "end": 96.4,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",
@@ -181,24 +306,102 @@
           "variant": "compare",
           "index": "06",
           "eyebrow": "STYLE FILTER",
-          "title": "不要默认 AI 味",
-          "subtitle": "真正费神的是把视觉调成自己的风格",
+          "title": "真正工作量",
+          "subtitle": "生成完之后，才开始进入审美调整",
           "accent": "orange",
-          "left": "默认炫酷",
-          "right": "个人风格",
-          "connector": "改掉",
-          "items": ["卡片", "速度", "颜色"]
+          "left": "直出",
+          "right": "校准",
+          "connector": "开始",
+          "items": ["风格", "节奏", "取舍"]
         }
       },
       "assetIds": [],
       "sourceRefIds": [],
       "status": "ready",
-      "notes": "AI 味与个人风格对比。"
+      "notes": "风格调整：工作量转折。"
     },
     {
-      "id": "rt-effect-skill",
+      "id": "rt-effect-style-ai-taste",
+      "start": 96.4,
+      "end": 104.8,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "compare",
+          "index": "06B",
+          "eyebrow": "STYLE FILTER",
+          "title": "不要默认 AI 味",
+          "subtitle": "赛博朋克加渐变色，看着酷但很容易撞脸",
+          "accent": "orange",
+          "left": "默认炫酷",
+          "right": "个人风格",
+          "connector": "改掉",
+          "items": ["颜色", "密度", "质感"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "风格调整：AI 味对比。"
+    },
+    {
+      "id": "rt-effect-style-same",
+      "start": 104.8,
+      "end": 114.8,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "statement",
+          "index": "06C",
+          "eyebrow": "NO SPECIALNESS",
+          "title": "大家都一样",
+          "subtitle": "同一句提示词出来的东西，很难形成自己的识别度",
+          "accent": "cyan",
+          "items": ["撞脸", "无差异", "不特殊"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "风格调整：同质化问题。"
+    },
+    {
+      "id": "rt-effect-style-tuning",
+      "start": 114.8,
+      "end": 123.6,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "steps",
+          "index": "06D",
+          "eyebrow": "TUNING PASS",
+          "title": "最累的是调效果",
+          "subtitle": "把速度、颜色和信息密度调到自己的口味",
+          "accent": "orange",
+          "items": ["速度", "颜色", "密度"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "风格调整：手动调校。"
+    },
+    {
+      "id": "rt-effect-skill-handoff",
       "start": 123.6,
-      "end": 147.6,
+      "end": 134,
       "track": "overlay",
       "kind": "RemotionTalkEffect",
       "stageMode": "presenter-center",
@@ -224,8 +427,58 @@
       "notes": "Skill 价值段。"
     },
     {
+      "id": "rt-effect-skill-reuse",
+      "start": 134,
+      "end": 144.8,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "steps",
+          "index": "07B",
+          "eyebrow": "NEXT VIDEO",
+          "title": "下一条直接复用",
+          "subtitle": "再给视频和字幕，它就按这套风格生成",
+          "accent": "lime",
+          "items": ["视频", "字幕", "风格"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "Skill 复用段。"
+    },
+    {
+      "id": "rt-effect-skill-save-time",
+      "start": 144.8,
+      "end": 154.8,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "statement",
+          "index": "07C",
+          "eyebrow": "TIME SAVED",
+          "title": "省掉重复劳动",
+          "subtitle": "标准化流程的价值，是少花时间重新造效果",
+          "accent": "cyan",
+          "items": ["复用", "稳定", "省时间"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "Skill 省时价值。"
+    },
+    {
       "id": "rt-effect-outro",
-      "start": 147.6,
+      "start": 154.8,
       "end": 171.667,
       "track": "overlay",
       "kind": "RemotionTalkEffect",

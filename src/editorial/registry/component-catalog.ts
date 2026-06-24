@@ -15,6 +15,10 @@ export const componentCatalog = [
   {code: 'C16', kind: 'NarrationEchoLayer'},
   {code: 'C21', kind: 'RemotionTalkEffect'},
   {code: 'C22', kind: 'AcidSrtSubtitle'},
+  {code: 'C23', kind: 'TrendTotem'},
+  {code: 'C24', kind: 'TrendBanner'},
+  {code: 'C25', kind: 'TopicSignal'},
+  {code: 'C26', kind: 'SideBrief'},
 ] as const;
 
 export const systemPreviewCatalog = [{code: 'BASE', kind: 'TalkVideoBase'}] as const;
