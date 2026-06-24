@@ -5,6 +5,7 @@ import {AcidSrtSubtitleDemo} from './editorial/components/AcidSrtSubtitle';
 import {componentDemos} from './editorial/fixtures/demo-component-catalog';
 import {acidGallery, acidStrikeDemos} from './editorial/fixtures/demo-acid-strike';
 import {narrationEchoLayerDemo} from './editorial/fixtures/demo-narration-echo-layer';
+import {shotLayoutSystemDemo} from './editorial/fixtures/demo-shot-layout-system';
 import {
   componentCatalog,
   componentCompositionId,
@@ -75,7 +76,17 @@ export const RemotionRoot = () => {
         height={1080}
         defaultProps={{srt: acidSrtSubtitleDemoSrt}}
       />
+      <Composition
+        id={componentCompositionId('ShotDirector')}
+        component={EpisodeComposition}
+        defaultProps={shotLayoutSystemDemo}
+        calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
+      />
       {componentCatalog.map(({kind}) => {
+        if (kind === 'ShotDirector') {
+          return null;
+        }
+
         const props =
           kind === 'NarrationEchoLayer'
             ? narrationEchoLayerDemo

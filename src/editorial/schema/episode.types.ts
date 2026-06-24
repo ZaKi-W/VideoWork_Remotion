@@ -3,6 +3,8 @@ import type {
   assetManifestSchema,
   acidComponentPropsSchema,
   episodeSchema,
+  shotModeSchema,
+  shotSchema,
   narrationEchoLayerPropsSchema,
   sourceManifestSchema,
   summaryComponentPropsSchema,
@@ -12,6 +14,8 @@ import type {
 
 export type EpisodeConfig = z.infer<typeof episodeSchema>;
 export type EpisodeScene = EpisodeConfig['scenes'][number];
+export type ShotMode = z.infer<typeof shotModeSchema>;
+export type Shot = z.infer<typeof shotSchema>;
 export type NarrationEchoLayerProps = z.infer<typeof narrationEchoLayerPropsSchema>;
 export type AcidComponentProps = z.infer<typeof acidComponentPropsSchema>;
 export type SummaryComponentProps = z.infer<typeof summaryComponentPropsSchema>;

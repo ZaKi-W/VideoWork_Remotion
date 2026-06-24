@@ -19,6 +19,7 @@ export const componentCatalog = [
   {code: 'C24', kind: 'TrendBanner', category: 'regular', tags: ['summary']},
   {code: 'C25', kind: 'TopicSignal', category: 'regular', tags: ['summary']},
   {code: 'C26', kind: 'SideBrief', category: 'regular', tags: ['summary']},
+  {code: 'C27', kind: 'ShotDirector', category: 'system', tags: ['layout']},
 ] as const;
 
 export const systemPreviewCatalog = [{code: 'BASE', kind: 'TalkVideoBase'}] as const;

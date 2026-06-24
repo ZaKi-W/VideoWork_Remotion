@@ -66,6 +66,31 @@ const makeSampleEpisode = (): EpisodeConfig => ({
 
 const cloneSample = (): EpisodeConfig => structuredClone(makeSampleEpisode());
 
+const addTalkVideoScene = (episode: EpisodeConfig) => {
+  episode.scenes.unshift({
+    id: 'talk-video',
+    start: 0,
+    end: 20,
+    track: 'background',
+    kind: 'TalkVideoBase',
+    stageMode: 'no-presenter',
+    slot: 'full-bleed',
+    content: {
+      kind: 'TalkVideoBase',
+      props: {
+        videoPath: 'episodes/RemotionTalk/talk.mp4',
+        audio: false,
+        fit: 'cover',
+        subtitleMaxWidth: 1040,
+      },
+    },
+    assetIds: [],
+    sourceRefIds: [],
+    status: 'ready',
+    notes: '',
+  });
+};
+
 describe('episode schema and validation', () => {
   it('rejects invalid scene time ranges', () => {
     const episode = cloneSample();
@@ -94,5 +119,55 @@ describe('episode schema and validation', () => {
     });
 
     expect(result.ok).toBe(true);
+  });
+
+  it('accepts a simple shot timeline with content and summary references', () => {
+    const episode = cloneSample();
+    addTalkVideoScene(episode);
+    episode.scenes[1].id = 'summary-01';
+    episode.scenes[1].track = 'overlay';
+    episode.scenes.push({
+      id: 'content-01',
+      start: 4,
+      end: 12,
+      track: 'primary',
+      kind: 'MediaWall',
+      stageMode: 'no-presenter',
+      slot: 'full-bleed',
+      content: {
+        kind: 'MediaWall',
+        props: {
+          title: ['内容', '展示'],
+          subtitle: '镜头内容层',
+          items: [],
+          messages: [],
+          mediaCount: 24,
+          scrimIntensity: 'soft',
+        },
+      },
+      assetIds: [],
+      sourceRefIds: [],
+      status: 'ready',
+      notes: '',
+    });
+    episode.shots = [
+      {from: 0, to: 90, mode: 'talk', summaryId: 'summary-01'},
+      {from: 90, to: 180, mode: 'speaker-left', contentId: 'content-01'},
+    ];
+
+    const result = validateEpisodeData(episode, sampleAssets, sampleSources, {mode: 'preview'});
+
+    expect(result.ok).toBe(true);
+  });
+
+  it('requires contentId for content shot modes', () => {
+    const episode = cloneSample();
+    addTalkVideoScene(episode);
+    episode.shots = [{from: 0, to: 90, mode: 'speaker-left'}];
+
+    const result = validateEpisodeData(episode, sampleAssets, sampleSources, {mode: 'preview'});
+
+    expect(result.ok).toBe(false);
+    expect(result.issues.some((issue) => issue.code === 'shots.content-required')).toBe(true);
   });
 });

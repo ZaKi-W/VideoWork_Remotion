@@ -56,6 +56,18 @@ const isTalkVideoBaseCanvas = (scene: EpisodeScene): boolean =>
 
 const sceneRangesOverlap = (a: EpisodeScene, b: EpisodeScene): boolean => a.start < b.end && b.start < a.end;
 
+const summaryKinds = new Set<EpisodeScene['kind']>([
+  'NarrationEchoLayer',
+  'RemotionTalkEffect',
+  'TrendTotem',
+  'TrendBanner',
+  'TopicSignal',
+  'SideBrief',
+]);
+
+const contentShotModes = new Set(['speaker-left', 'speaker-right', 'pip-right', 'content-full']);
+const summaryShotModes = new Set(['talk', 'push-in']);
+
 export const validateEpisodeData = (
   episode: EpisodeConfig,
   assets: AssetManifest,
@@ -112,6 +124,7 @@ export const validateEpisodeData = (
   }
 
   validateLayering(episode.scenes, issues);
+  validateShots(episode, issues);
 
   for (let index = 2; index < primaryScenes.length; index += 1) {
     const a = primaryScenes[index - 2];
@@ -124,6 +137,76 @@ export const validateEpisodeData = (
 
   const ok = !issues.some((issue) => issue.level === 'blocking' || issue.level === 'error');
   return {ok, issues};
+};
+
+const validateShots = (episode: EpisodeConfig, issues: ValidationIssue[]) => {
+  const shots = episode.shots ?? [];
+  if (shots.length === 0) {
+    return;
+  }
+
+  const durationInFrames = Math.ceil(episode.episode.durationInSeconds * episode.episode.fps);
+  const sceneById = new Map(episode.scenes.map((scene) => [scene.id, scene]));
+  const sortedShots = [...shots].sort((a, b) => a.from - b.from);
+
+  if (!episode.scenes.some(isTalkVideoBaseCanvas)) {
+    push(issues, 'blocking', 'shots.talk-video-missing', 'shots require one full-bleed TalkVideoBase scene');
+  }
+
+  for (let index = 0; index < sortedShots.length; index += 1) {
+    const shot = sortedShots[index];
+    const shotId = `${shot.mode}@${shot.from}`;
+
+    if (shot.to > durationInFrames) {
+      push(issues, 'blocking', 'shots.out-of-range', `shot exceeds episode duration: ${shotId}`);
+    }
+
+    if (index > 0 && shot.from < sortedShots[index - 1].to) {
+      push(issues, 'blocking', 'shots.overlap', `shot overlaps previous shot: ${shotId}`);
+    }
+
+    if (contentShotModes.has(shot.mode) && !shot.contentId) {
+      push(issues, 'blocking', 'shots.content-required', `${shot.mode} requires contentId`);
+    }
+
+    if (!contentShotModes.has(shot.mode) && shot.contentId) {
+      push(issues, 'warning', 'shots.content-unused', `${shot.mode} ignores contentId ${shot.contentId}`);
+    }
+
+    if (!summaryShotModes.has(shot.mode) && shot.summaryId) {
+      push(issues, 'warning', 'shots.summary-unused', `${shot.mode} exits summaryId ${shot.summaryId} before content enters`);
+    }
+
+    if (shot.contentId) {
+      const contentScene = sceneById.get(shot.contentId);
+      if (!contentScene) {
+        push(issues, 'blocking', 'shots.content-missing-ref', `contentId not found: ${shot.contentId}`);
+      } else if (summaryKinds.has(contentScene.kind) || contentScene.kind === 'TalkVideoBase') {
+        push(
+          issues,
+          'blocking',
+          'shots.content-kind',
+          `contentId must reference a main content scene: ${shot.contentId}`,
+          contentScene.id,
+        );
+      }
+    }
+
+    if (shot.summaryId) {
+      const summaryScene = sceneById.get(shot.summaryId);
+      if (!summaryScene) {
+        push(issues, 'blocking', 'shots.summary-missing-ref', `summaryId not found: ${shot.summaryId}`);
+      } else if (!summaryKinds.has(summaryScene.kind)) {
+        push(
+          issues,
+          'blocking',
+          'shots.summary-kind',
+          `summaryId must reference a summary scene: ${shot.summaryId}`,
+          summaryScene.id,
+        );
+      }
+    }
+  }
 };
 
 const validateLayering = (scenes: EpisodeScene[], issues: ValidationIssue[]) => {

@@ -4,6 +4,7 @@ import type {EpisodeInputProps} from '../schema/episode.types';
 import {sceneDurationInFrames, secondsToFrames} from '../shared/timing';
 import {SceneRenderer} from './SceneRenderer';
 import {getStageLayout} from '../stage/stage.config';
+import {ShotTimelineDirector} from '../shot/ShotTimelineDirector';
 
 const scenesOverlap = (a: {start: number; end: number}, b: {start: number; end: number}): boolean =>
   a.start < b.end && b.start < a.end;
@@ -12,6 +13,10 @@ const hasOwnFullCanvasBackground = (scene: EpisodeInputProps['episode']['scenes'
   scene.content.kind === 'NarrationEchoLayer' && Boolean(scene.content.props.backgroundVideoPath);
 
 export const EpisodeRenderer = ({episode, assets, sources, debug = false}: EpisodeInputProps) => {
+  if (episode.shots && episode.shots.length > 0) {
+    return <ShotTimelineDirector episode={episode} assets={assets} sources={sources} debug={debug} />;
+  }
+
   const layout = getStageLayout(episode.episode.width, episode.episode.height);
 
   return (

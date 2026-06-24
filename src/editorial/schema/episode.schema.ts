@@ -21,6 +21,34 @@ const slotSchema = z.enum([
 
 const statusSchema = z.enum(['DRAFT', 'APPROVED', 'IN_PRODUCTION', 'QC', 'FINAL']);
 
+export const shotModeSchema = z.enum([
+  'talk',
+  'speaker-left',
+  'speaker-right',
+  'pip-right',
+  'content-full',
+  'push-in',
+]);
+
+export const shotSchema = z
+  .object({
+    from: z.number().int().nonnegative(),
+    to: z.number().int().positive(),
+    mode: shotModeSchema,
+    contentId: z.string().trim().min(1).optional(),
+    summaryId: z.string().trim().min(1).optional(),
+  })
+  .strict()
+  .superRefine((shot, ctx) => {
+    if (shot.to <= shot.from) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'shot to must be greater than from',
+        path: ['to'],
+      });
+    }
+  });
+
 export const componentKindSchema = z.enum([
   'NarrationEchoLayer',
   'MediaWall',
@@ -306,6 +334,7 @@ export const episodeSchema = z.object({
     defaultStageMode: stageModeSchema,
   }),
   scenes: z.array(sceneSchema),
+  shots: z.array(shotSchema).optional(),
 });
 
 export const sourceManifestSchema = z.object({

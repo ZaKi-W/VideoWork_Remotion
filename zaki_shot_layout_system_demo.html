@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZAKI Shot Layout System Demo</title>
+<style>
+:root{
+  --acid:#d9ff4c;--paper:#f8faef;--muted:rgba(248,250,239,.62);--ink:#080a07;
+  --ui:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;
+  --display:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;
+}
+*{box-sizing:border-box}
+html{min-width:1120px;background:#d8d6d0}
+body{margin:0;min-height:100vh;display:grid;place-items:center;overflow:hidden;font-family:var(--ui);color:#111;background:radial-gradient(circle at 50% 0,rgba(217,255,76,.11),transparent 30%),#d8d6d0}
+.demo{width:min(1500px,calc(100vw - 64px));overflow:hidden;border:1px solid rgba(16,18,24,.15);background:#f8f7f3;box-shadow:0 30px 92px rgba(16,18,24,.2)}
+.head{min-height:62px;padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(16,18,24,.12)}
+.brand{margin-right:8px;color:rgba(16,18,24,.52);font:800 10px/1 var(--ui);letter-spacing:.1em;text-transform:uppercase}.brand strong{display:block;margin-bottom:4px;color:#111;font:900 13px/1 var(--display)}
+.mode{padding:9px 11px;border:1px solid rgba(16,18,24,.15);background:#fff;color:rgba(16,18,24,.68);font:900 12px/1 var(--ui);cursor:pointer;transition:.18s}.mode:hover{border-color:#111;color:#111}.mode.active{background:#111;color:var(--acid);border-color:#111}.restart{margin-left:auto;padding:9px 12px;border:1px solid var(--acid);background:var(--acid);color:#111;font:900 12px/1 var(--ui);cursor:pointer}
+.info{padding:12px 16px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(16,18,24,.12);background:#ece9e2}.info strong{font:900 14px/1 var(--ui)}.info span{color:rgba(16,18,24,.62);font:800 12px/1.45 var(--ui)}
+.stage{position:relative;aspect-ratio:16/9;overflow:hidden;isolation:isolate;background:#090b08}
+.stage:before{content:"";position:absolute;z-index:-6;inset:0;background:radial-gradient(ellipse at 50% 112%,rgba(0,0,0,.56),transparent 53%),linear-gradient(113deg,#151915,#070906 54%,#151915)}
+.stage:after{content:"";position:absolute;z-index:60;inset:0;pointer-events:none;border:1px solid rgba(255,255,255,.045)}
+/* camera = talk.mp4 layer in real Remotion */
+.camera{position:absolute;z-index:18;left:0;top:0;width:100%;height:100%;overflow:hidden;border:0 solid var(--acid);background:radial-gradient(circle at 50% 17%,rgba(255,255,255,.98),transparent 31%),linear-gradient(112deg,#d7d4cd,#f4f1ea 49%,#d9d6cf);box-shadow:0 16px 36px rgba(0,0,0,.28);transition:left .56s cubic-bezier(.2,.86,.2,1),top .56s cubic-bezier(.2,.86,.2,1),width .56s cubic-bezier(.2,.86,.2,1),height .56s cubic-bezier(.2,.86,.2,1),opacity .3s ease,border-width .3s ease,box-shadow .3s ease}
+.camera:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 105%,rgba(0,0,0,.25),transparent 42%),linear-gradient(90deg,rgba(0,0,0,.06),transparent 15%,transparent 84%,rgba(0,0,0,.05))}
+.camera-label{position:absolute;z-index:4;top:14px;left:14px;display:flex;gap:7px;align-items:center;color:rgba(16,18,14,.45);font:900 9px/1 var(--ui);letter-spacing:.1em;text-transform:uppercase}.camera-label i,.badge i{width:6px;height:6px;border-radius:50%;background:var(--acid);box-shadow:0 0 8px rgba(217,255,76,.65)}
+.speaker{position:absolute;left:50%;bottom:6%;width:31%;height:80%;transform:translateX(-50%);transform-origin:50% 88%;transition:transform .56s cubic-bezier(.2,.86,.2,1)}.camera.live .speaker{animation:idle 6.5s ease-in-out infinite}.shadow{position:absolute;left:50%;bottom:-3%;width:128%;height:14%;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(0,0,0,.34),transparent 70%);filter:blur(8px)}.face{position:absolute;left:50%;top:1%;width:27%;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle at 34% 26%,rgba(255,255,255,.44),transparent 20%),linear-gradient(145deg,#d2a28e,#6c4b54 76%)}.torso{position:absolute;left:50%;bottom:0;width:92%;height:76%;transform:translateX(-50%);border-radius:47% 47% 10% 10%/22% 22% 7% 7%;background:linear-gradient(135deg,#2d3a54,#171c28 75%)}.arm{position:absolute;right:-6%;bottom:21%;width:39%;height:17%;border-radius:50%;transform:rotate(-17deg);background:linear-gradient(145deg,#b7796c,#583a44)}.hand{position:absolute;right:-2%;bottom:28%;width:15%;aspect-ratio:1;border-radius:50%;background:linear-gradient(145deg,#d4a291,#6e4b52)}@keyframes idle{0%,100%{transform:translateX(-50%)}34%{transform:translateX(-49.3%) translateY(-2px) rotate(.35deg)}67%{transform:translateX(-50.7%) rotate(-.22deg)}}
+/* content layer = screenshot / webpage / screen recording / component */
+.content{position:absolute;z-index:8;left:7%;top:8%;width:86%;height:80%;overflow:hidden;opacity:0;transform:scale(.985);background:#111411;box-shadow:0 18px 38px rgba(0,0,0,.27);transition:left .56s cubic-bezier(.2,.86,.2,1),top .56s cubic-bezier(.2,.86,.2,1),width .56s cubic-bezier(.2,.86,.2,1),height .56s cubic-bezier(.2,.86,.2,1),opacity .28s ease,transform .42s cubic-bezier(.2,.86,.2,1)}.content-top{height:12%;padding:0 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.11);background:#171b16}.content-brand{display:flex;align-items:center;gap:9px;color:var(--paper);font:900 11px/1 var(--ui);letter-spacing:.06em}.content-brand i{width:9px;height:9px;border-radius:50%;background:var(--acid);box-shadow:0 0 12px rgba(217,255,76,.62)}.content-meta{color:rgba(248,250,239,.44);font:800 9px/1 var(--ui);letter-spacing:.08em}.canvas{height:88%;padding:16px;display:grid;grid-template-columns:1.18fr .82fr;gap:16px;background:radial-gradient(circle at 72% 20%,rgba(217,255,76,.09),transparent 28%),#0c0f0b}.browser{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#151a15}.tabs{height:12%;padding:0 10px;display:flex;align-items:center;gap:7px;border-bottom:1px solid rgba(255,255,255,.09);background:#1a211a}.tabs i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.24)}.tabs i:nth-child(1){background:#ff6a58}.tabs i:nth-child(2){background:#ffd84d}.tabs i:nth-child(3){background:#4ff1d8}.tabs b{margin-left:7px;color:rgba(248,250,239,.55);font:800 9px/1 var(--ui)}.browser-body{height:88%;padding:16px}.browser-title{color:var(--paper);font:900 clamp(19px,2vw,35px)/1.07 var(--display);letter-spacing:-.025em}.browser-title em{color:var(--acid);font-style:normal}.browser-note{max-width:86%;margin-top:10px;color:rgba(248,250,239,.58);font:800 11px/1.55 var(--ui)}.browser-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}.bcard{min-height:44%;padding:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035)}.bcard b{display:block;color:var(--acid);font:900 9px/1 var(--ui);letter-spacing:.08em}.bcard strong{display:block;margin-top:9px;color:var(--paper);font:900 14px/1.2 var(--ui)}.bcard span{display:block;margin-top:8px;color:rgba(248,250,239,.48);font:800 9px/1.42 var(--ui)}.rightcol{display:grid;grid-template-rows:1fr .72fr;gap:16px}.media{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.11);background:linear-gradient(145deg,#171c18,#10130f)}.lines{position:absolute;inset:16px;display:grid;gap:8px;align-content:center}.lines i{height:8px;background:rgba(248,250,239,.14)}.lines i:nth-child(1){width:74%;background:var(--acid)}.lines i:nth-child(2){width:90%}.lines i:nth-child(3){width:62%}.play{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:47px;height:47px;transform:translate(-50%,-50%);border:1px solid rgba(217,255,76,.75);border-radius:50%;color:var(--acid);font-size:19px;box-shadow:0 0 18px rgba(217,255,76,.18)}.media span{position:absolute;left:12px;right:12px;bottom:12px;color:rgba(248,250,239,.64);font:900 10px/1.3 var(--ui)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border:1px solid rgba(255,255,255,.11);background:rgba(255,255,255,.11)}.stats div{padding:12px;background:#121611}.stats b{display:block;color:var(--acid);font:900 clamp(19px,1.9vw,31px)/1 var(--display)}.stats span{display:block;margin-top:6px;color:rgba(248,250,239,.46);font:800 9px/1.2 var(--ui);letter-spacing:.05em}
+/* overlays */
+.summary{position:absolute;z-index:28;left:5%;top:21%;width:31%;opacity:0;transform:translateX(-14px);color:var(--paper);transition:opacity .28s ease,transform .42s cubic-bezier(.2,.86,.2,1)}.summary .eyebrow{display:flex;gap:8px;align-items:center;color:rgba(248,250,239,.64);font:900 10px/1 var(--ui);letter-spacing:.11em}.summary .eyebrow i{width:5px;height:18px;background:var(--acid);box-shadow:0 0 11px rgba(217,255,76,.42)}.summary h2{margin:17px 0 0;font:900 clamp(31px,3.1vw,59px)/1.1 var(--display);letter-spacing:-.025em}.summary h2 em,.push strong em{color:var(--acid);font-style:normal}.summary p{max-width:88%;margin:15px 0 0;color:var(--muted);font:800 14px/1.55 var(--ui)}.push{position:absolute;z-index:30;left:50%;top:18%;transform:translateX(-50%) translateY(-8px);text-align:center;color:var(--paper);opacity:0;transition:opacity .24s ease,transform .38s cubic-bezier(.2,.86,.2,1)}.push small{color:var(--acid);font:900 10px/1 var(--ui);letter-spacing:.12em}.push strong{display:block;margin-top:12px;font:900 clamp(30px,3.2vw,60px)/1.08 var(--display);letter-spacing:-.03em}.caption{position:absolute;z-index:46;left:50%;bottom:3%;width:min(66%,900px);min-height:50px;transform:translateX(-50%);display:grid;grid-template-columns:5px 1fr;overflow:hidden;background:rgba(7,9,6,.82);box-shadow:0 9px 24px rgba(0,0,0,.2)}.caption i{background:var(--acid)}.caption span{position:relative;padding:10px 15px;color:var(--paper);text-align:center;font:900 clamp(18px,1.72vw,31px)/1.3 var(--ui)}.caption span:after{content:"";position:absolute;left:0;bottom:0;width:44%;height:2px;background:var(--acid);box-shadow:0 0 8px rgba(217,255,76,.34)}.badge{position:absolute;z-index:48;right:3%;top:3%;display:flex;align-items:center;gap:7px;color:rgba(248,250,239,.55);font:900 9px/1 var(--ui);letter-spacing:.1em}
+/* modes */
+.layout-talk .camera{left:0;top:0;width:100%;height:100%;border-width:0}.layout-talk .content{opacity:0;transform:scale(.985)}.layout-talk .summary{opacity:1;transform:none}
+.layout-speaker-left .camera{left:3.4%;top:9%;width:27%;height:78%;border-width:2px}.layout-speaker-left .content{left:34%;top:9%;width:62.6%;height:78%;opacity:1;transform:none}
+.layout-speaker-right .camera{left:69.6%;top:9%;width:27%;height:78%;border-width:2px}.layout-speaker-right .content{left:3.4%;top:9%;width:62.6%;height:78%;opacity:1;transform:none}
+.layout-pip-right .camera{left:73%;top:6%;width:22%;height:27%;border-width:2px;box-shadow:0 18px 38px rgba(0,0,0,.38)}.layout-pip-right .content{left:3.5%;top:5%;width:93%;height:81%;opacity:1;transform:none}
+.layout-content-full .camera{left:73%;top:6%;width:22%;height:27%;border-width:2px;opacity:0}.layout-content-full .content{left:2.5%;top:4%;width:95%;height:84%;opacity:1;transform:none}.layout-content-full .caption{width:min(74%,1040px)}
+.layout-push-in .camera{left:0;top:0;width:100%;height:100%;border-width:0}.layout-push-in .speaker{transform:translateX(-58%) scale(1.12)}.layout-push-in .push{opacity:1;transform:translateX(-50%)}.layout-push-in .camera:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,9,6,.24),transparent 52%)}
+.layout-speaker-left .summary,.layout-speaker-right .summary,.layout-pip-right .summary,.layout-content-full .summary,.layout-push-in .summary{opacity:0;transform:translateX(-14px)}
+</style>
+</head>
+<body>
+<main class="demo">
+  <header class="head">
+    <div class="brand"><strong>ZAKI / SHOT LAYOUT SYSTEM</strong>人物与内容的分镜层</div>
+    <button class="mode active" data-mode="talk">1 · Talk</button>
+    <button class="mode" data-mode="speaker-left">2 · Speaker Left</button>
+    <button class="mode" data-mode="speaker-right">3 · Speaker Right</button>
+    <button class="mode" data-mode="pip-right">4 · PIP Right</button>
+    <button class="mode" data-mode="content-full">5 · Content Takeover</button>
+    <button class="mode" data-mode="push-in">6 · Push In</button>
+    <button class="restart" id="restart">重播当前转场</button>
+  </header>
+  <div class="info"><strong id="title">Talk / 当前口播</strong><span id="desc">人物居中，适合讲观点、铺垫和搭配左／右摘要组件。</span></div>
+  <section class="stage layout-talk" id="stage">
+    <div class="camera live">
+      <div class="camera-label"><i></i><span>talk.mp4 · speaker layer</span></div>
+      <div class="speaker"><div class="shadow"></div><div class="face"></div><div class="torso"></div><div class="arm"></div><div class="hand"></div></div>
+    </div>
+    <section class="content">
+      <div class="content-top"><div class="content-brand"><i></i><span>素材 / 网页 / 录屏 / 主功能组件</span></div><div class="content-meta">CONTENT LAYER / DEMO</div></div>
+      <div class="canvas">
+        <section class="browser">
+          <div class="tabs"><i></i><i></i><i></i><b>project-preview.local / workflow</b></div>
+          <div class="browser-body">
+            <div class="browser-title">把每次的视觉调整，<br>变成可重复的<em>工作流</em>。</div>
+            <div class="browser-note">这里替换成真实网页截图、录屏、案例图片、MediaWall 或任意主功能组件。</div>
+            <div class="browser-grid"><div class="bcard"><b>01 / INPUT</b><strong>口播与 SRT</strong><span>先保证内容和节奏清晰。</span></div><div class="bcard"><b>02 / BUILD</b><strong>组件自动组合</strong><span>把段落转成画面层。</span></div><div class="bcard"><b>03 / REFINE</b><strong>建立你的风格</strong><span>去掉默认感，留下判断。</span></div></div>
+          </div>
+        </section>
+        <section class="rightcol">
+          <div class="media"><div class="lines"><i></i><i></i><i></i></div><div class="play">▶</div><span>录屏、网页操作、产品演示</span></div>
+          <div class="stats"><div><b>12F</b><span>人物缩窗转场</span></div><div><b>06F</b><span>内容延迟进入</span></div><div><b>2–5s</b><span>素材接管时长</span></div></div>
+        </section>
+      </div>
+    </section>
+    <section class="summary"><div class="eyebrow"><i></i><span>镜头布局系统</span></div><h2>组件决定内容，<br>镜头决定<em>谁来讲</em>。</h2><p>普通讲解时人物居中；需要展示素材时，人物让位给内容区。</p></section>
+    <section class="push"><small>重点结论 / PUSH IN</small><strong>不是做得更复杂，<br>而是让它<em>能复用</em>。</strong></section>
+    <div class="badge"><i></i><span id="badge">TALK / 01</span></div>
+    <div class="caption"><i></i><span id="caption">讲概念和观点时，人物保持居中，画面只需要一层轻摘要就够了。</span></div>
+  </section>
+</main>
+<script>
+const configs={
+  talk:{cls:"layout-talk",title:"Talk / 当前口播",desc:"人物居中，适合讲观点、铺垫和搭配左／右摘要组件。",badge:"TALK / 01",caption:"讲概念和观点时，人物保持居中，画面只需要一层轻摘要就够了。"},
+  "speaker-left":{cls:"layout-speaker-left",title:"Speaker Left / 演讲者视图",desc:"人物缩到左侧，右侧交给网页、截图、素材展示或主功能组件。",badge:"SPEAKER LEFT / 02",caption:"需要解释素材时，让人物缩到一侧，把大面积舞台交给内容本身。"},
+  "speaker-right":{cls:"layout-speaker-right",title:"Speaker Right / 反向演讲者视图",desc:"人物缩到右侧，左侧交给内容；适合左侧素材更重要的场景。",badge:"SPEAKER RIGHT / 03",caption:"切换左右演讲者视图，可以避免整支视频的视觉重心始终不变。"},
+  "pip-right":{cls:"layout-pip-right",title:"PIP Right / 画中画讲解",desc:"素材和演示接近全屏，人物缩成右上角小窗，持续保留讲解感。",badge:"PIP RIGHT / 04",caption:"录屏、操作演示和案例展示时，让内容做主角，人物只保留在小窗里。"},
+  "content-full":{cls:"layout-content-full",title:"Content Takeover / 内容接管",desc:"素材接管舞台，人物短暂退出；适合重点结果、截图或短演示。",badge:"CONTENT FULL / 05",caption:"真正需要观众看清楚的内容，可以用两到五秒短暂接管整个舞台。"},
+  "push-in":{cls:"layout-push-in",title:"Push In / 推近强调",desc:"人物保持口播，但通过轻微推近和偏移放大重点，不需要切走内容。",badge:"PUSH IN / 06",caption:"讲结论、反问或关键提醒时，用一次轻推近就能明显提升强调感。"}
+};
+const stage=document.getElementById("stage"),title=document.getElementById("title"),desc=document.getElementById("desc"),badge=document.getElementById("badge"),caption=document.getElementById("caption"),buttons=[...document.querySelectorAll(".mode")];let current="talk";
+function setMode(key,restart=false){const x=configs[key];if(restart){stage.className="stage";void stage.offsetWidth}stage.className=`stage ${x.cls}`;title.textContent=x.title;desc.textContent=x.desc;badge.textContent=x.badge;caption.textContent=x.caption;current=key;buttons.forEach(b=>b.classList.toggle("active",b.dataset.mode===key))}
+buttons.forEach(b=>b.onclick=()=>setMode(b.dataset.mode));document.getElementById("restart").onclick=()=>setMode(current,true);
+window.addEventListener("keydown",e=>{const i=buttons.findIndex(b=>b.dataset.mode===current);if(e.key==="ArrowRight")setMode(buttons[(i+1)%buttons.length].dataset.mode);if(e.key==="ArrowLeft")setMode(buttons[(i-1+buttons.length)%buttons.length].dataset.mode)});
+</script>
+</body>
+</html>
