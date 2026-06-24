@@ -4,6 +4,7 @@ import type {StageMode, StageSlot} from '../stage/stage.types';
 import type {AssetManifest, EpisodeScene, SourceManifest} from '../schema/episode.types';
 
 export type ComponentImplementationStatus = 'planned' | 'prototype' | 'ready';
+export type ComponentCategory = 'regular' | 'system';
 
 export type ComponentRendererProps = {
   scene: EpisodeScene;
@@ -17,6 +18,8 @@ export type ComponentRendererProps = {
 
 export type ComponentRegistryItem = {
   name: EpisodeScene['kind'];
+  category?: ComponentCategory;
+  tags?: string[];
   purpose: string;
   allowedStageModes: StageMode[];
   allowedSlots: StageSlot[];

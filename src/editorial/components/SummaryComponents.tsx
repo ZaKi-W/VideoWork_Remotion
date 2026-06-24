@@ -192,6 +192,22 @@ const titleSize = (lines: string[], base: number, min: number): number => {
   return Math.max(min, Math.min(base, base - Math.max(0, longest - 6) * 6));
 };
 
+const topicCardTitleStyle = (title: string): CSSProperties => {
+  const lines = title.split('\n');
+  const longestLine = Math.max(...lines.map((line) => Array.from(line).length), 1);
+  const fontSize = Math.max(13, Math.min(17, 17 - Math.max(0, longestLine - 5) * 1.1 - Math.max(0, lines.length - 2) * 1.2));
+
+  return {
+    display: 'block',
+    marginTop: 10,
+    color: '#fff',
+    fontSize,
+    lineHeight: 1.36,
+    fontWeight: 900,
+    whiteSpace: 'pre-line',
+  };
+};
+
 const EmphasisText = ({text, emphasis, accent}: {text: string; emphasis?: string; accent: string}) => {
   if (!emphasis || !text.includes(emphasis)) {
     return <>{text}</>;
@@ -356,7 +372,7 @@ const TopicSignal = ({props, frame, exit}: {props: SummaryComponentProps; frame:
   const tagsIn = progress(frame, 27, 56);
   const cards = props.blocks.slice(0, 3);
   const titleLines = props.title.slice(0, 2);
-  const headSize = titleSize(titleLines, 96, 58);
+  const headSize = titleSize(titleLines, 92, 54);
 
   return (
     <div style={{...layerStyle(intro, exit, 'left'), ...summaryPanelStyle(560)}}>
@@ -397,10 +413,10 @@ const TopicSignal = ({props, frame, exit}: {props: SummaryComponentProps; frame:
               style={{
                 color: index === 1 ? colors.red : '#fff',
                 fontFamily: visualTokens.fontFamily.display,
-                fontSize: index === 1 ? headSize + 26 : headSize,
-                lineHeight: index === 1 ? 0.88 : 0.94,
+                fontSize: index === 1 ? headSize + 18 : headSize,
+                lineHeight: 1.05,
                 fontWeight: 900,
-                letterSpacing: index === 1 ? '-0.075em' : '-0.04em',
+                letterSpacing: 0,
                 opacity: lineIn,
                 transform: `translateY(${(1 - lineIn) * (index === 1 ? 20 : 16)}px)`,
               }}
@@ -423,7 +439,7 @@ const TopicSignal = ({props, frame, exit}: {props: SummaryComponentProps; frame:
             <div
               key={`${card.label}-${index}`}
               style={{
-                minHeight: 84,
+                minHeight: 112,
                 padding: '12px 14px',
                 border: `1px solid ${accent}55`,
                 borderRadius: 14,
@@ -433,11 +449,11 @@ const TopicSignal = ({props, frame, exit}: {props: SummaryComponentProps; frame:
                 transform: `translateY(${(1 - cardIn) * 18}px) scale(${0.96 + cardIn * 0.04})`,
               }}
             >
-              <div style={{display: 'flex', alignItems: 'center', gap: 8, color: accent, fontFamily: visualTokens.fontFamily.display, fontSize: 11, lineHeight: 1, fontWeight: 900, letterSpacing: '0.12em', textTransform: 'uppercase'}}>
-                <span style={{width: 14, height: 14, display: 'inline-grid', placeItems: 'center', borderRadius: '50%', background: `${accent}26`, fontSize: 10}}>{card.icon ?? '●'}</span>
-                <span>{card.label}</span>
+              <div style={{display: 'grid', gridTemplateColumns: '14px 1fr', alignItems: 'center', gap: 8, color: accent, fontFamily: visualTokens.fontFamily.display, fontSize: 10, lineHeight: 1.15, fontWeight: 900, letterSpacing: 0, textTransform: 'uppercase'}}>
+                <span style={{width: 14, height: 14, display: 'inline-grid', placeItems: 'center', borderRadius: '50%', background: `${accent}26`, fontSize: 9}}>{card.icon ?? '●'}</span>
+                <span style={{overflowWrap: 'anywhere'}}>{card.label}</span>
               </div>
-              <strong style={{display: 'block', marginTop: 10, color: '#fff', fontSize: Math.max(14, 17 - Math.max(0, card.title.length - 8)), lineHeight: 1.2, fontWeight: 900, whiteSpace: 'pre-line'}}>
+              <strong style={topicCardTitleStyle(card.title)}>
                 {card.title}
               </strong>
             </div>
@@ -455,18 +471,18 @@ const SideBrief = ({props, frame, exit}: {props: SummaryComponentProps; frame: n
   const titleLines = props.title.slice(0, 3);
   const titleIn = progress(frame, 14, 32);
   const titleFont = titleSize(titleLines, 78, 50);
+  const railOffset = -34;
 
   return (
     <div style={{...layerStyle(intro, exit, 'right'), ...summaryPanelStyle(720)}}>
-      <div style={{position: 'relative', height: 720, padding: '0 22px 0 0'}}>
-        <div style={{position: 'absolute', top: 0, right: 0, width: 8, height: '100%', overflow: 'hidden', background: 'rgba(217,255,76,0.14)'}}>
+      <div style={{position: 'relative', height: 720, padding: '0 42px 0 0'}}>
+        <div style={{position: 'absolute', top: 0, right: railOffset, width: 8, height: '100%', overflow: 'hidden', background: 'rgba(217,255,76,0.14)'}}>
           <div style={{position: 'absolute', inset: 0, background: accent, boxShadow: `0 0 18px ${accent}94`, transform: `translateY(${(-1 + progress(frame, 4, 24)) * 104}%)`}} />
-          <div style={{position: 'absolute', top: `${14 + (0.5 + Math.sin(frame / 16) * 0.5) * 44}%`, right: 0, width: 8, height: '26%', opacity: progress(frame, 30, 44), background: '#efff96', boxShadow: '0 0 17px rgba(217,255,76,0.74)'}} />
         </div>
         <Kicker text={props.kicker} accent={accent} side="right" progressValue={progress(frame, 3, 15)} />
         {props.index ? (
-          <div style={{marginTop: 34, overflow: 'hidden', color: accent, fontFamily: visualTokens.fontFamily.display, fontSize: Math.max(96, Math.min(146, 146 - Math.max(0, props.index.length - 2) * 8)), lineHeight: 0.76, fontWeight: 900, letterSpacing: '-0.08em', opacity: progress(frame, 10, 18)}}>
-            <span style={{display: 'inline-block', transform: `translateX(${(1 - progress(frame, 10, 25)) * 112}%)`}}>{props.index}</span>
+          <div style={{marginTop: 34, overflow: 'visible', color: accent, fontFamily: visualTokens.fontFamily.display, fontSize: Math.max(96, Math.min(146, 146 - Math.max(0, props.index.length - 2) * 8)), lineHeight: 0.76, fontWeight: 900, letterSpacing: 0, opacity: progress(frame, 10, 18)}}>
+            <span style={{display: 'inline-block', transform: `translateX(${(1 - progress(frame, 10, 25)) * 22}px)`}}>{props.index}</span>
           </div>
         ) : null}
         <div style={{marginTop: 28, overflow: 'hidden', color: '#fff', fontFamily: visualTokens.fontFamily.display, fontSize: titleFont, lineHeight: 1.1, fontWeight: 900, letterSpacing: '-0.024em', opacity: titleIn}}>
@@ -495,7 +511,7 @@ const SideBrief = ({props, frame, exit}: {props: SummaryComponentProps; frame: n
             <span style={{height: 2, background: accent, transform: `scaleX(${progress(frame, 50, 64)})`, transformOrigin: 'right'}} />
           </div>
         ) : null}
-        <div style={{position: 'absolute', right: 22, bottom: 0}}>
+        <div style={{position: 'absolute', right: 42, bottom: 0}}>
           <Foot text={props.foot} progressValue={progress(frame, 54, 70)} side="right" accent={accent} />
         </div>
       </div>

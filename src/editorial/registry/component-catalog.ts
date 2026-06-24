@@ -12,13 +12,13 @@ export const componentCatalog = [
   {code: 'C11', kind: 'PricePage'},
   {code: 'C12', kind: 'TokenBoard'},
   {code: 'C13', kind: 'AgentExecution'},
-  {code: 'C16', kind: 'NarrationEchoLayer'},
-  {code: 'C21', kind: 'RemotionTalkEffect'},
+  {code: 'C16', kind: 'NarrationEchoLayer', category: 'regular', tags: ['summary']},
+  {code: 'C21', kind: 'RemotionTalkEffect', category: 'regular', tags: ['summary']},
   {code: 'C22', kind: 'AcidSrtSubtitle'},
-  {code: 'C23', kind: 'TrendTotem'},
-  {code: 'C24', kind: 'TrendBanner'},
-  {code: 'C25', kind: 'TopicSignal'},
-  {code: 'C26', kind: 'SideBrief'},
+  {code: 'C23', kind: 'TrendTotem', category: 'regular', tags: ['summary']},
+  {code: 'C24', kind: 'TrendBanner', category: 'regular', tags: ['summary']},
+  {code: 'C25', kind: 'TopicSignal', category: 'regular', tags: ['summary']},
+  {code: 'C26', kind: 'SideBrief', category: 'regular', tags: ['summary']},
 ] as const;
 
 export const systemPreviewCatalog = [{code: 'BASE', kind: 'TalkVideoBase'}] as const;
@@ -30,7 +30,10 @@ export const componentCodeFor = (kind: string): string => {
   return entry?.code ?? 'C??';
 };
 
-export const componentCompositionId = (kind: string): string => `${componentCodeFor(kind)}-${kind}`;
+const summaryKinds = new Set(['NarrationEchoLayer', 'RemotionTalkEffect', 'TrendTotem', 'TrendBanner', 'TopicSignal', 'SideBrief']);
+
+export const componentCompositionId = (kind: string): string =>
+  `${componentCodeFor(kind)}-${summaryKinds.has(kind) ? 'Summary-' : ''}${kind}`;
 
 export const systemPreviewCompositionId = (kind: string): string => {
   const entry = systemPreviewCatalog.find((candidate) => candidate.kind === kind);

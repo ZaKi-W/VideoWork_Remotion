@@ -69,19 +69,19 @@
       "start": 6.8,
       "end": 14.6,
       "track": "overlay",
-      "kind": "RemotionTalkEffect",
+      "kind": "TrendBanner",
       "stageMode": "presenter-center",
       "slot": "edge-left",
       "content": {
-        "kind": "RemotionTalkEffect",
+        "kind": "TrendBanner",
         "props": {
-          "variant": "statement",
-          "index": "01B",
-          "eyebrow": "WORKFLOW",
-          "title": "流程不复杂",
-          "subtitle": "录好口播，再把节奏和字幕处理清楚",
-          "accent": "cyan",
-          "items": ["录制", "剪辑", "字幕"]
+          "kicker": "WORKFLOW",
+          "label": "THREE STEPS",
+          "title": ["录好口播", "处理节奏", "对齐字幕"],
+          "copy": "先把基础素材清干净，再让特效跟着真实时间轴走。",
+          "foot": "常规摘要 / 流程总览",
+          "accent": "blue",
+          "blocks": []
         }
       },
       "assetIds": [],
@@ -115,6 +115,33 @@
       "notes": "前置处理：导入和定位气口。"
     },
     {
+      "id": "rt-aux-prep-clean",
+      "start": 15.2,
+      "end": 22.2,
+      "track": "overlay",
+      "kind": "SideBrief",
+      "stageMode": "presenter-center",
+      "slot": "edge-right",
+      "content": {
+        "kind": "SideBrief",
+        "props": {
+          "kicker": "BASIC PASS",
+          "index": "02A",
+          "title": ["AI 之前，", "先把素材", "处理干净。"],
+          "copy": "右侧只做轻量补充，不抢左侧主步骤。",
+          "focus": "先清素材",
+          "tail": "辅助图层 / 右侧",
+          "foot": "常规摘要 / 辅助层",
+          "accent": "yellow",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "与左侧前置处理主组件同时出现的右侧辅助摘要。"
+    },
+    {
       "id": "rt-effect-prep-rhythm",
       "start": 22.9,
       "end": 31.3,
@@ -144,19 +171,23 @@
       "start": 31.3,
       "end": 40.6,
       "track": "overlay",
-      "kind": "RemotionTalkEffect",
+      "kind": "TopicSignal",
       "stageMode": "presenter-center",
       "slot": "edge-left",
       "content": {
-        "kind": "RemotionTalkEffect",
+        "kind": "TopicSignal",
         "props": {
-          "variant": "statement",
-          "index": "02C",
-          "eyebrow": "MANUAL TASTE",
-          "title": "别迷信自动剪",
-          "subtitle": "效果不好时，宁可自己把节奏重新控住",
+          "kicker": "MANUAL TASTE",
+          "label": "RHYTHM CHECK",
+          "title": ["别迷信", "自动剪"],
+          "copy": "效果不顺的时候，先回到节奏判断，而不是继续堆功能。",
+          "foot": "常规摘要 / 转折提醒",
           "accent": "orange",
-          "items": ["节奏", "质感", "手动控"]
+          "blocks": [
+            {"label": "节奏", "title": "先听顺\n再加效果", "icon": "01", "accent": "orange"},
+            {"label": "质感", "title": "宁可少\n不要乱", "icon": "02", "accent": "yellow"},
+            {"label": "控制", "title": "手动控\n关键点", "icon": "03", "accent": "cyan"}
+          ]
         }
       },
       "assetIds": [],
@@ -188,6 +219,33 @@
       "sourceRefIds": [],
       "status": "ready",
       "notes": "SRT 关键观点。"
+    },
+    {
+      "id": "rt-aux-srt-anchor",
+      "start": 41,
+      "end": 49.5,
+      "track": "overlay",
+      "kind": "SideBrief",
+      "stageMode": "presenter-center",
+      "slot": "edge-right",
+      "content": {
+        "kind": "SideBrief",
+        "props": {
+          "kicker": "ANCHOR",
+          "index": "03A",
+          "title": ["时间点", "不是装饰，", "是锚点。"],
+          "copy": "左侧讲 SRT，右侧补一句判断，强化时间轴概念。",
+          "focus": "跟字幕走",
+          "tail": "一左一右 / 不重叠",
+          "foot": "常规摘要 / 辅助层",
+          "accent": "cyan",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "与 SRT 左侧主组件同时出现的右侧补充。"
     },
     {
       "id": "rt-effect-srt-binding",
@@ -268,29 +326,83 @@
       "notes": "Codex 规划段。"
     },
     {
+      "id": "rt-aux-codex-plan-note",
+      "start": 68.8,
+      "end": 77.4,
+      "track": "overlay",
+      "kind": "SideBrief",
+      "stageMode": "presenter-center",
+      "slot": "edge-right",
+      "content": {
+        "kind": "SideBrief",
+        "props": {
+          "kicker": "STRUCTURE",
+          "index": "04C",
+          "title": ["先排结构，", "再做动效。"],
+          "copy": "右侧收束原则，左侧继续展示规划步骤。",
+          "focus": "结构优先",
+          "tail": "辅助图层 / 右侧",
+          "foot": "常规摘要 / 辅助层",
+          "accent": "acid",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "与 Codex 规划主组件同时出现的右侧辅助摘要。"
+    },
+    {
       "id": "rt-effect-preview-first",
       "start": 78.2,
       "end": 88.8,
       "track": "overlay",
-      "kind": "RemotionTalkEffect",
+      "kind": "SideBrief",
       "stageMode": "presenter-center",
-      "slot": "edge-left",
+      "slot": "edge-right",
       "content": {
-        "kind": "RemotionTalkEffect",
+        "kind": "SideBrief",
         "props": {
-          "variant": "statement",
+          "kicker": "PREVIEW FIRST",
           "index": "05",
-          "eyebrow": "PREVIEW FIRST",
-          "title": "先看网页效果",
-          "subtitle": "确认画面之后，再决定要不要导出",
+          "title": ["先看网页效果。", "确认画面之后，", "再决定要不要导出。"],
+          "copy": "这一步是为了把风格、节奏和遮挡问题先在浏览器里看清楚。",
+          "focus": "先确认，再导出",
+          "tail": "Studio 是决策点",
+          "foot": "常规摘要 / 预览规则",
           "accent": "cyan",
-          "items": ["Studio", "网页预览"]
+          "blocks": []
         }
       },
       "assetIds": [],
       "sourceRefIds": [],
       "status": "ready",
       "notes": "呼应项目规则：先网页看效果。"
+    },
+    {
+      "id": "rt-aux-preview-left",
+      "start": 78.6,
+      "end": 88,
+      "track": "overlay",
+      "kind": "TrendBanner",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "TrendBanner",
+        "props": {
+          "kicker": "CHECKPOINT",
+          "label": "BROWSER FIRST",
+          "title": ["网页预览", "先于导出"],
+          "copy": "左侧标记流程节点，右侧解释为什么先确认。",
+          "foot": "常规摘要 / 左侧辅助",
+          "accent": "cyan",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "预览规则段增加左侧辅助摘要，与右侧 SideBrief 同时出现。"
     },
     {
       "id": "rt-effect-style-workload",
@@ -325,22 +437,20 @@
       "start": 96.4,
       "end": 104.8,
       "track": "overlay",
-      "kind": "RemotionTalkEffect",
+      "kind": "TrendTotem",
       "stageMode": "presenter-center",
       "slot": "edge-left",
       "content": {
-        "kind": "RemotionTalkEffect",
+        "kind": "TrendTotem",
         "props": {
-          "variant": "compare",
-          "index": "06B",
-          "eyebrow": "STYLE FILTER",
-          "title": "不要默认 AI 味",
-          "subtitle": "赛博朋克加渐变色，看着酷但很容易撞脸",
+          "kicker": "STYLE FILTER",
+          "label": "NO DEFAULT LOOK",
+          "title": ["不要", "AI味"],
+          "copy": "默认炫酷很容易撞脸，真正要保留的是自己的判断。",
+          "foot": "常规摘要 / 风格判断",
+          "emphasis": "AI味",
           "accent": "orange",
-          "left": "默认炫酷",
-          "right": "个人风格",
-          "connector": "改掉",
-          "items": ["颜色", "密度", "质感"]
+          "blocks": []
         }
       },
       "assetIds": [],
@@ -372,6 +482,33 @@
       "sourceRefIds": [],
       "status": "ready",
       "notes": "风格调整：同质化问题。"
+    },
+    {
+      "id": "rt-aux-style-identity",
+      "start": 105.2,
+      "end": 113.8,
+      "track": "overlay",
+      "kind": "SideBrief",
+      "stageMode": "presenter-center",
+      "slot": "edge-right",
+      "content": {
+        "kind": "SideBrief",
+        "props": {
+          "kicker": "IDENTITY",
+          "index": "06C",
+          "title": ["别让效果", "压过口播。"],
+          "copy": "辅助层只负责补判断，不再额外堆信息。",
+          "focus": "识别度",
+          "tail": "右侧辅助 / 轻量",
+          "foot": "常规摘要 / 辅助层",
+          "accent": "orange",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "与同质化问题主组件同时出现的右侧辅助摘要。"
     },
     {
       "id": "rt-effect-style-tuning",
@@ -431,19 +568,23 @@
       "start": 134,
       "end": 144.8,
       "track": "overlay",
-      "kind": "RemotionTalkEffect",
+      "kind": "TopicSignal",
       "stageMode": "presenter-center",
       "slot": "edge-left",
       "content": {
-        "kind": "RemotionTalkEffect",
+        "kind": "TopicSignal",
         "props": {
-          "variant": "steps",
-          "index": "07B",
-          "eyebrow": "NEXT VIDEO",
-          "title": "下一条直接复用",
-          "subtitle": "再给视频和字幕，它就按这套风格生成",
-          "accent": "lime",
-          "items": ["视频", "字幕", "风格"]
+          "kicker": "NEXT VIDEO",
+          "label": "REUSE LOOP",
+          "title": ["下一条", "直接复用"],
+          "copy": "再给视频和字幕，就沿用同一套组件、动效和视觉规范。",
+          "foot": "常规摘要 / 复用价值",
+          "accent": "yellow",
+          "blocks": [
+            {"label": "输入", "title": "视频\n字幕", "icon": "in", "accent": "cyan"},
+            {"label": "规则", "title": "组件\n动效", "icon": "fx", "accent": "yellow"},
+            {"label": "输出", "title": "统一\n风格", "icon": "ok", "accent": "orange"}
+          ]
         }
       },
       "assetIds": [],
@@ -475,6 +616,33 @@
       "sourceRefIds": [],
       "status": "ready",
       "notes": "Skill 省时价值。"
+    },
+    {
+      "id": "rt-aux-skill-system",
+      "start": 145.2,
+      "end": 154.2,
+      "track": "overlay",
+      "kind": "SideBrief",
+      "stageMode": "presenter-center",
+      "slot": "edge-right",
+      "content": {
+        "kind": "SideBrief",
+        "props": {
+          "kicker": "SYSTEM",
+          "index": "07D",
+          "title": ["省时间，", "靠的是", "复用系统。"],
+          "copy": "左侧讲省时价值，右侧把结论固定住。",
+          "focus": "复用系统",
+          "tail": "右侧辅助 / 收束",
+          "foot": "常规摘要 / 辅助层",
+          "accent": "yellow",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "与省时价值主组件同时出现的右侧辅助摘要。"
     },
     {
       "id": "rt-effect-outro",

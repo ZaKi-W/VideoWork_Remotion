@@ -54,6 +54,8 @@ const isAcidFullCanvas = (scene: EpisodeScene): boolean =>
 const isTalkVideoBaseCanvas = (scene: EpisodeScene): boolean =>
   scene.kind === 'TalkVideoBase' && scene.stageMode === 'no-presenter' && scene.slot === 'full-bleed';
 
+const sceneRangesOverlap = (a: EpisodeScene, b: EpisodeScene): boolean => a.start < b.end && b.start < a.end;
+
 export const validateEpisodeData = (
   episode: EpisodeConfig,
   assets: AssetManifest,
@@ -109,6 +111,8 @@ export const validateEpisodeData = (
     validateScene(scene, episode, assets, assetIds, sourceIds, issues, strict, options.publicDir, layout);
   }
 
+  validateLayering(episode.scenes, issues);
+
   for (let index = 2; index < primaryScenes.length; index += 1) {
     const a = primaryScenes[index - 2];
     const b = primaryScenes[index - 1];
@@ -120,6 +124,38 @@ export const validateEpisodeData = (
 
   const ok = !issues.some((issue) => issue.level === 'blocking' || issue.level === 'error');
   return {ok, issues};
+};
+
+const validateLayering = (scenes: EpisodeScene[], issues: ValidationIssue[]) => {
+  const visualScenes = scenes.filter((scene) => scene.track !== 'background');
+
+  for (let index = 0; index < visualScenes.length; index += 1) {
+    const scene = visualScenes[index];
+    for (const candidate of visualScenes.slice(index + 1)) {
+      if (scene.slot === candidate.slot && sceneRangesOverlap(scene, candidate)) {
+        push(
+          issues,
+          'blocking',
+          'timeline.slot-overlap',
+          `${scene.slot} overlaps ${scene.id}; move one layer to another slot or change timing`,
+          candidate.id,
+        );
+      }
+    }
+  }
+
+  for (const scene of visualScenes) {
+    const activeLayers = visualScenes.filter((candidate) => sceneRangesOverlap(scene, candidate));
+    if (activeLayers.length > 3) {
+      push(
+        issues,
+        'warning',
+        'timeline.layer-density',
+        `more than three visual layers active near ${scene.start}s`,
+        scene.id,
+      );
+    }
+  }
 };
 
 const validateScene = (
