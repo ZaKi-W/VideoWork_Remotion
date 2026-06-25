@@ -13,6 +13,7 @@
 - 预计未来不能复用至少两次的效果，不得进入公共组件库。
 - 一次性效果应留在具体 episode 内。
 - 所有新增组件都必须分配稳定编号，写入 `src/editorial/registry/component-catalog.ts`，并注册到 Remotion Studio 左侧 Composition 菜单，确保可以像现有组件一样单独打开查看。
+- 每次对组件进行新增、删除或修改（包括表现形式、样式、动效、布局、行为、props、编号、可用 stageMode/slot）时，必须同步更新 `docs/component-and-shot-layout-guide.md`。
 - 每次针对组件表现、样式、动效、布局或行为的修改，都必须优先改组件本体，确保所有使用该组件的 episode / demo 同步生效；不得只在某一个 episode 配置里做局部覆盖，除非用户明确要求只改该期。
 - 摘要类组件不允许出现灰色文字；脚注、说明、尾注等辅助文本必须保留信息层级，使用白色或明确的品牌强调色，不得用直接删除文本来解决灰字问题。
 - 任何组件默认严禁自行添加渐变色；只有用户明确要求渐变时，才可以使用 linear-gradient、radial-gradient 或其他渐变写法。
