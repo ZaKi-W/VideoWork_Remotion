@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "title": "AI Tech Remotion Visual System Mood Board",
+    "brief": "A long-term reusable visual style system for an AI technology creator using Remotion video effects.",
+    "business": "AI 科技类博主视频特效体系",
+    "goal": "Explore visual direction only: future lab, human craft, product launch polish, precise cuts, and physical card motion.",
+    "audience": "Viewers interested in AI tools, technology trends, product launches, practical methods, and industry judgment.",
+    "imageCount": 12,
+    "notes": [
+      "One self-contained visual reference image per tile.",
+      "No readable text, no logos, no fake factual evidence, no collage, no mini mood board.",
+      "Avoid purple-blue AI template styling and corporate training deck aesthetics.",
+      "Respect video safety thinking: central presenter space, bottom subtitle zone, and restrained information density."
+    ]
+  },
+  "signals": {
+    "tone": ["future laboratory", "human craft", "premium product launch"],
+    "motion": ["precise cut-in", "physical card feel"],
+    "avoid": ["purple-blue AI template", "corporate training", "cluttered overlays", "fake evidence"],
+    "palette": ["warm white", "charcoal black", "soft tungsten", "brushed aluminum", "paper white", "controlled cyan", "muted gold"],
+    "motifs": ["glass desk", "paper notes", "machined aluminum", "modular cards", "thin calibration marks", "soft shadows", "hands arranging technology"]
+  },
+  "items": [
+    {
+      "id": "lab-desk-human-hands",
+      "title": "Warm Future Lab Desk",
+      "caption": "A clean AI research desk that feels precise but human, with hands arranging analog notes beside modern devices.",
+      "source": "Qualified moodboard intake: future lab, human craft, product launch polish.",
+      "tone": "calm, precise, tactile",
+      "motif": "hands, glass desk, paper notes, small device, warm task light",
+      "palette": "paper white, charcoal, tungsten warmth, restrained cyan",
+      "prompt": "Single editorial photograph of a clean future laboratory desk for an AI technology creator, human hands arranging white paper note cards beside a minimal tablet-like device and a small brushed aluminum object, warm task light, soft shadows, precise composition, no readable text, no logos, no UI labels, no purple or blue gradient, no corporate training aesthetic, cinematic product photography, 16:9."
+    },
+    {
+      "id": "floating-physical-cards",
+      "title": "Physical Cards In Air",
+      "caption": "The component system as tangible cards: modular, reusable, and ready to move with precise cut-ins.",
+      "source": "Remotion reusable effects constraint: one main visual task per spoken segment.",
+      "tone": "premium, modular, controlled",
+      "motif": "floating matte cards, central empty presenter space, subtle calibration marks",
+      "palette": "warm white, charcoal, muted gold, soft aluminum",
+      "prompt": "Single visual reference image of matte physical information cards suspended in a clean studio space, leaving a clear empty vertical center for a talking-head presenter and a clean bottom subtitle-safe band, subtle calibration marks and soft product-launch lighting, no readable text, no logos, no collage, no grid, no purple-blue AI template colors, 16:9."
+    },
+    {
+      "id": "product-launch-bench",
+      "title": "AI Product Launch Bench",
+      "caption": "A product-demo mood without fake UI claims: object, surface, light, and confidence.",
+      "source": "Audience expects AI tools and product launches without unsupported factual evidence.",
+      "tone": "polished, trustworthy, calm",
+      "motif": "device silhouette, black glass surface, brushed metal edge, soft reveal lighting",
+      "palette": "deep charcoal, warm white, brushed aluminum, tiny cyan accent",
+      "prompt": "Single cinematic product photograph of an abstract AI tool device silhouette on a black glass bench with brushed aluminum details and a tiny restrained cyan status light, premium launch-event lighting, no screen content, no readable text, no logo, no brand marks, no fake metrics, no purple gradient, not a collage, 16:9."
+    },
+    {
+      "id": "handwritten-model-map",
+      "title": "Handwritten Model Map",
+      "caption": "Human craft entering a technical explanation: marks, arrows, paper texture, and restraint.",
+      "source": "Human craft selection from intake.",
+      "tone": "thoughtful, tactile, editorial",
+      "motif": "blank diagrams, pencil, notebook, transparent overlay sheet",
+      "palette": "off-white paper, graphite, warm gray, black",
+      "prompt": "Single overhead editorial photograph of a blank handwritten-style technical map on off-white paper with pencil, transparent tracing sheet, and small neutral hardware pieces, marks are abstract and not readable as text, tactile paper texture, warm human craft mood, no logos, no legible words, no colorful cyberpunk styling, 16:9."
+    },
+    {
+      "id": "transparent-lab-panel",
+      "title": "Transparent Lab Panel",
+      "caption": "A restrained evidence-like frame for sourced material, without pretending unsourced facts are proof.",
+      "source": "Project constraint: evidence visuals must bind to traceable sources; abstract visuals when source is unknown.",
+      "tone": "careful, source-aware, analytical",
+      "motif": "clear acrylic panel, empty source slot, thin frame, presenter-safe center",
+      "palette": "clear glass, white, charcoal, soft cyan",
+      "prompt": "Single studio photograph of a clear acrylic analysis panel standing on a neutral desk, empty framed area suggesting a source placeholder without any text or data, thin precise edges, central presenter-safe negative space, clean bottom area, restrained cyan reflection, no readable text, no logos, no fake web page, no collage, 16:9."
+    },
+    {
+      "id": "caption-safe-stage",
+      "title": "Caption-Safe Stage",
+      "caption": "A composition that visually bakes in safe zones: components above or beside, never fighting subtitles.",
+      "source": "AGENTS.md safe-zone rules for Remotion components.",
+      "tone": "disciplined, production-ready, calm",
+      "motif": "empty bottom band, side annotations, centered human silhouette zone",
+      "palette": "charcoal, white, warm edge light, muted gold",
+      "prompt": "Single 16:9 studio composition showing an abstract talking-head video stage with a clear empty central vertical zone and a calm empty bottom subtitle-safe band, small physical annotation panels placed only in the side areas, premium black and warm white lighting, no readable text, no logos, no UI, no gradient background, no collage."
+    },
+    {
+      "id": "precise-cut-motion",
+      "title": "Precise Cut Motion",
+      "caption": "A visual hint for snap-in motion: one clean kinetic object, not a pile of effects.",
+      "source": "Motion selection: precise cut-in.",
+      "tone": "sharp, deliberate, modern",
+      "motif": "one sliding card, crisp shadow, motion trace, hard stop",
+      "palette": "white, black, aluminum, small amber accent",
+      "prompt": "Single high-speed product-style photograph of one matte rectangular card sliding into position on a clean surface, crisp shadow, subtle motion trace, hard-stop precision, minimal studio lighting, no readable text, no logos, no multiple panels, no corporate template look, no purple-blue palette, 16:9."
+    },
+    {
+      "id": "quiet-ai-workbench",
+      "title": "Quiet AI Workbench",
+      "caption": "A softer daily-work atmosphere for tutorials and method videos.",
+      "source": "Audience: AI tools, methods, workflow explanation.",
+      "tone": "approachable, competent, warm",
+      "motif": "laptop corner, paper checklist shapes, coffee ceramic, cable discipline",
+      "palette": "warm gray, ceramic white, black, soft metal",
+      "prompt": "Single editorial photograph of a quiet AI creator workbench with a laptop corner showing no visible screen content, abstract blank checklist cards, ceramic cup, tidy cables, warm daylight, human and useful mood, no readable text, no logos, no UI details, no stock corporate training feel, 16:9."
+    },
+    {
+      "id": "micro-chip-material",
+      "title": "Micro Detail Material",
+      "caption": "A macro language for technical moments: credible texture without fake specificity.",
+      "source": "Technology visual territory without unsupported factual claims.",
+      "tone": "technical, premium, abstract",
+      "motif": "machined surface, circuit-like traces, shallow depth of field",
+      "palette": "brushed aluminum, graphite, warm specular highlight, tiny cyan",
+      "prompt": "Single macro material photograph of an abstract machined technology surface with circuit-like grooves and shallow depth of field, premium restrained lighting, no readable labels, no brand marks, no fake chip model, no neon cyberpunk, no purple-blue gradients, 16:9."
+    },
+    {
+      "id": "editorial-thought-wall",
+      "title": "Editorial Thought Wall",
+      "caption": "For industry judgment videos: a composed wall of analog thinking, not a chaotic sticky-note board.",
+      "source": "Audience: technology trends and industry judgment.",
+      "tone": "editorial, intelligent, human",
+      "motif": "few blank cards, pins, neutral wall, one strong accent line",
+      "palette": "paper white, charcoal, muted gold, warm gray",
+      "prompt": "Single editorial photograph of a restrained thought wall with a few blank paper cards and one clean muted-gold connecting line, neutral studio wall, intelligent analysis mood, no legible writing, no logos, no crowded sticky-note chaos, no corporate workshop aesthetic, 16:9."
+    },
+    {
+      "id": "tool-comparison-tabletop",
+      "title": "Tool Comparison Tabletop",
+      "caption": "A visual route for comparing AI tools as objects with weight and distance.",
+      "source": "AI tool comparison and review use case.",
+      "tone": "fair, systematic, tactile",
+      "motif": "three blank object cards, measured spacing, ruler-like marks",
+      "palette": "warm white, black, aluminum, small cyan",
+      "prompt": "Single overhead product photograph of three blank physical comparison cards on a precise tabletop with subtle ruler-like marks and measured spacing, fair analytical mood, no readable text, no scores, no logos, no UI labels, no collage, no purple-blue AI styling, 16:9."
+    },
+    {
+      "id": "launch-light-reveal",
+      "title": "Launch Light Reveal",
+      "caption": "A hero-light direction for big claims or episode openings, while staying grounded.",
+      "source": "Product launch feel selected in intake.",
+      "tone": "anticipatory, premium, restrained",
+      "motif": "soft light beam, neutral object edge, black stage, clean negative space",
+      "palette": "deep black, warm white, brushed metal, faint cyan",
+      "prompt": "Single cinematic launch-stage photograph of a minimal abstract technology object edge revealed by a soft warm light beam on a black stage, large clean negative space for future motion graphics, no readable text, no logo, no gradient blob, no purple-blue AI template style, premium but grounded, 16:9."
+    }
+  ]
+}

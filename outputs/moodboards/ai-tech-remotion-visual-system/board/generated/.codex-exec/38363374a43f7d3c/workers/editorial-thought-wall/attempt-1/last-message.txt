@@ -1,0 +1,1 @@
+Failed to save the generated PNG because the native image tool did not expose accessible PNG bytes or a local file path. I wrote the required `result.json` with `status: "failed"` at the requested path.

@@ -1,21 +1,20 @@
-import type {CSSProperties, ReactNode} from 'react';
+import type {CSSProperties} from 'react';
 import {Easing, interpolate, OffthreadVideo, staticFile, useCurrentFrame} from 'remotion';
 import type {ComponentRendererProps} from '../registry/component.types';
 import type {NarrationEchoLayerProps} from '../schema/episode.types';
 import {getStageLayout} from '../stage/stage.config';
 import {visualTokens} from '../stage/visual-tokens';
-import {acidTokens, leftInfoTextShadow} from './acid-system';
+import {acidTokens} from './acid-system';
 
 type EchoItem = NarrationEchoLayerProps['items'][number];
 type EchoSegment = EchoItem['segments'][number];
 
 const echoText = acidTokens.color.text;
-const echoMuted = 'rgba(255,255,255,0.92)';
-const echoWeak = 'rgba(255,255,255,0.94)';
+const echoMuted = 'rgba(255,255,255,0.96)';
 
 const clamp01 = (value: number): number => Math.max(0, Math.min(1, value));
 
-const easeOut = (value: number): number => Easing.bezier(0.2, 0.86, 0.2, 1)(clamp01(value));
+const easeOut = (value: number): number => Easing.bezier(0.16, 1, 0.3, 1)(clamp01(value));
 
 const rangeProgress = (frame: number, start: number, end: number): number => {
   if (end <= start) {
@@ -24,7 +23,7 @@ const rangeProgress = (frame: number, start: number, end: number): number => {
   return interpolate(frame, [start, end], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
-    easing: Easing.bezier(0.2, 0.86, 0.2, 1),
+    easing: Easing.bezier(0.16, 1, 0.3, 1),
   });
 };
 
@@ -42,35 +41,93 @@ const itemTiming = (frame: number, itemCount: number, durationInFrames: number) 
   return {activeIndex, itemSpan, localFrame};
 };
 
-const typedTextFor = (
-  segment: EchoSegment,
-  localFrame: number,
-  cursorFrame: number,
-  charFrames: number,
-): {node: ReactNode; nextCursor: number; typing: boolean} => {
+// 动画注入：提供微波纹、呼吸发光和光标动画的局部样式块
+const StyleEffects = ({accentColor}: {accentColor: string}) => {
+  const cleanColor = accentColor.replace('#', '');
+  return (
+    <style dangerouslySetInnerHTML={{__html: `
+      @keyframes rippleWave-${cleanColor} {
+        0% { transform: scale(0.95); opacity: 0.85; }
+        100% { transform: scale(3.0); opacity: 0; }
+      }
+      @keyframes cursorBreathe {
+        0%, 100% { opacity: 1; transform: scaleY(1); }
+        50% { opacity: 0.15; transform: scaleY(0.9); }
+      }
+    `}} />
+  );
+};
+
+// 精细打字机渲染组件：支持模糊、淡入、物理回弹与瞬态爆印发光
+const SmoothSegmentText = ({
+  segment,
+  startFrame,
+  charFrames,
+  localFrame,
+}: {
+  segment: EchoSegment;
+  startFrame: number;
+  charFrames: number;
+  localFrame: number;
+}) => {
   if (segment.break) {
-    return {
-      node: localFrame >= cursorFrame ? <br /> : null,
-      nextCursor: cursorFrame + (segment.pauseFrames ?? 6),
-      typing: false,
-    };
+    return localFrame >= startFrame ? <br /> : null;
   }
 
   const text = segment.text ?? '';
   const chars = Array.from(text);
-  const visibleCount = Math.max(0, Math.min(chars.length, Math.floor((localFrame - cursorFrame) / charFrames)));
-  const nextCursor = cursorFrame + chars.length * charFrames + (segment.pauseFrames ?? 6);
 
-  return {
-    node:
-      visibleCount > 0 ? (
-        <span style={{whiteSpace: 'pre-wrap', color: segment.accent ? acidTokens.color.acid : undefined}}>
-          {chars.slice(0, visibleCount).join('')}
-        </span>
-      ) : null,
-    nextCursor,
-    typing: visibleCount > 0 && visibleCount < chars.length,
-  };
+  return (
+    <>
+      {chars.map((char, index) => {
+        const charStart = startFrame + index * charFrames;
+        const charProgress = rangeProgress(localFrame, charStart, charStart + 5);
+
+        if (charProgress <= 0) {
+          return (
+            <span
+              key={index}
+              style={{
+                display: 'inline-block',
+                whiteSpace: char === ' ' ? 'pre' : 'normal',
+                opacity: 0,
+              }}
+            >
+              {char}
+            </span>
+          );
+        }
+
+        const opacity = charProgress;
+        const blur = interpolate(charProgress, [0, 1], [8, 0]);
+        const scale = interpolate(charProgress, [0, 1], [1.2, 1], {
+          easing: Easing.bezier(0.175, 0.885, 0.32, 1.15),
+        });
+        const translateY = interpolate(charProgress, [0, 1], [10, 0]);
+        const glowPhase = interpolate(charProgress, [0, 0.4, 1], [0, 1, 0]);
+        // 瞬间爆发发光，突出白字在视频上的吸附效果
+        const textShadow = glowPhase > 0.1 ? `0 0 ${glowPhase * 16}px ${acidTokens.color.acid}` : '0 2px 14px rgba(0, 0, 0, 0.72)';
+
+        return (
+          <span
+            key={index}
+            style={{
+              display: 'inline-block',
+              whiteSpace: char === ' ' ? 'pre' : 'normal',
+              opacity,
+              filter: `blur(${blur}px)`,
+              transform: `translateY(${translateY}px) scale(${scale})`,
+              transformOrigin: 'center bottom',
+              color: segment.accent ? acidTokens.color.acid : undefined,
+              textShadow,
+            }}
+          >
+            {char}
+          </span>
+        );
+      })}
+    </>
+  );
 };
 
 const TypedLine = ({
@@ -90,19 +147,31 @@ const TypedLine = ({
   let cursorFrame = lineStart;
   let isTyping = false;
 
-  const nodes = item.segments.map((segment, index) => {
-    const {node, nextCursor, typing} = typedTextFor(
-      {...segment, pauseFrames: segment.pauseFrames ?? segmentPauseFrames},
-      localFrame,
-      cursorFrame,
-      charFrames,
+  const renderList = item.segments.map((segment, index) => {
+    const currentStart = cursorFrame;
+    const isBreak = segment.break;
+
+    if (isBreak) {
+      cursorFrame += (segment.pauseFrames ?? segmentPauseFrames);
+      return <SmoothSegmentText key={index} segment={segment} startFrame={currentStart} charFrames={charFrames} localFrame={localFrame} />;
+    }
+
+    const text = segment.text ?? '';
+    const charsLen = Array.from(text).length;
+    cursorFrame += charsLen * charFrames + (segment.pauseFrames ?? segmentPauseFrames);
+
+    const charEnd = currentStart + charsLen * charFrames;
+    if (localFrame >= currentStart && localFrame < charEnd) {
+      isTyping = true;
+    }
+
+    return (
+      <SmoothSegmentText key={index} segment={segment} startFrame={currentStart} charFrames={charFrames} localFrame={localFrame} />
     );
-    cursorFrame = nextCursor;
-    isTyping ||= typing;
-    return node ? <span key={`${item.label}-${index}`}>{node}</span> : null;
   });
 
   const typed = localFrame >= cursorFrame;
+  const cursorVisible = isTyping || (!typed && intro > 0.5);
 
   return (
     <div
@@ -115,27 +184,39 @@ const TypedLine = ({
         fontSize: 80,
         lineHeight: 1.13,
         fontWeight: 900,
-        letterSpacing: 0,
+        letterSpacing: '-0.02em',
         opacity: intro,
         transform: `translateY(${(1 - intro) * 14}px)`,
+        textShadow: '0 3px 20px rgba(0, 0, 0, 0.72)',
       }}
     >
-      {nodes}
+      {renderList}
       <span
         style={{
           display: 'inline-block',
-          width: '0.085em',
+          width: 5,
           height: '0.86em',
-          marginLeft: '0.1em',
+          borderRadius: 2,
+          marginLeft: 8,
           verticalAlign: '-0.07em',
           background: acidTokens.color.acid,
-          boxShadow: '0 0 10px rgba(217,255,76,0.42)',
-          opacity: isTyping ? (Math.floor(localFrame / 9) % 2 === 0 ? 1 : 0) : typed ? 0 : intro,
+          boxShadow: `0 0 16px ${acidTokens.color.acid}`,
+          opacity: cursorVisible ? 1 : 0,
+          animation: cursorVisible ? 'cursorBreathe 1.2s infinite cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
+          transformOrigin: 'center bottom',
         }}
       />
     </div>
   );
 };
+
+// 精致的双箭头数据流连线 SVG
+const FlowArrow = () => (
+  <svg width="18" height="12" viewBox="0 0 18 12" fill="none" style={{ opacity: 0.35, margin: '0 4px', pointerEvents: 'none' }}>
+    <path d="M5 2L9 6L5 10" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M10 2L14 6L10 10" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 
 const BeatBlock = ({
   item,
@@ -173,30 +254,44 @@ const BeatBlock = ({
         style={{
           display: 'inline-flex',
           alignItems: 'center',
-          gap: 7,
+          gap: 12,
           color: echoMuted,
           fontFamily: visualTokens.fontFamily.body,
-          fontSize: 13,
+          fontSize: 16,
           lineHeight: 1,
           fontWeight: 900,
-          letterSpacing: '0.08em',
+          letterSpacing: '0.12em',
           textTransform: 'uppercase',
           opacity: labelIn,
           transform: `translateY(${(1 - labelIn) * 12}px)`,
+          textShadow: '0 2px 8px rgba(0, 0, 0, 0.6)',
         }}
       >
-        <span
-          style={{
-            display: 'block',
-            width: 7,
-            height: 7,
-            borderRadius: '50%',
-            background: visualTokens.color.acid,
-            boxShadow: '0 0 9px rgba(217,255,76,0.62)',
-          }}
-        />
+        {/* Label 呼吸波纹圆点 */}
+        <div style={{ position: 'relative', width: 9, height: 9, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span
+            style={{
+              position: 'absolute',
+              width: 9,
+              height: 9,
+              borderRadius: '50%',
+              background: visualTokens.color.acid,
+              animation: `rippleWave-${visualTokens.color.acid.replace('#', '')} 2.4s infinite cubic-bezier(0.16, 1, 0.3, 1)`,
+            }}
+          />
+          <span
+            style={{
+              position: 'relative',
+              width: 7,
+              height: 7,
+              borderRadius: '50%',
+              background: visualTokens.color.acid,
+              boxShadow: `0 0 10px ${visualTokens.color.acid}`,
+            }}
+          />
+        </div>
         <span>{item.label}</span>
-        {item.beat ? <b style={{color: acidTokens.color.acid, fontWeight: 900}}>{item.beat}</b> : null}
+        {item.beat ? <b style={{color: acidTokens.color.acid, fontWeight: 900, marginLeft: -4}}>{item.beat}</b> : null}
       </div>
       <TypedLine
         item={item}
@@ -218,6 +313,7 @@ const BeatBlock = ({
             letterSpacing: 0,
             opacity: copyIn,
             transform: `translateY(${(1 - copyIn) * 9}px)`,
+            textShadow: '0 2px 14px rgba(0, 0, 0, 0.72)',
           }}
         >
           {copy}
@@ -240,61 +336,84 @@ const BeatBlock = ({
             const isActive = index === activeTrackIndex;
 
             return (
-              <span
-                key={`${item.label}-track-${text}`}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 7,
-                  color: isActive ? echoText : echoWeak,
-                  fontFamily: visualTokens.fontFamily.body,
-                  fontSize: 19,
-                  lineHeight: 1.1,
-                  fontWeight: 900,
-                  letterSpacing: '0.02em',
-                  transform: `translateY(${isActive ? -1 : 0}px)`,
-                }}
-              >
-                <b
+              <div key={`${item.label}-track-container-${text}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+                {/* 几何化步骤胶囊徽章 */}
+                <span
                   style={{
-                    color: isActive ? acidTokens.color.acid : '#fff',
-                    fontFamily: visualTokens.fontFamily.display,
-                    fontSize: 15,
-                    lineHeight: 1,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    padding: '6px 14px',
+                    borderRadius: '12px',
+                    background: isActive ? `${acidTokens.color.acid}18` : 'rgba(255, 255, 255, 0.02)',
+                    border: isActive ? `1px solid ${acidTokens.color.acid}44` : '1px solid rgba(255, 255, 255, 0.08)',
+                    color: isActive ? echoText : 'rgba(255, 255, 255, 0.45)',
+                    fontFamily: visualTokens.fontFamily.body,
+                    fontSize: 19,
+                    lineHeight: 1.1,
                     fontWeight: 900,
-                    letterSpacing: 0,
+                    letterSpacing: '0.02em',
+                    transform: `scale(${isActive ? 1.04 : 1}) translateY(${isActive ? -1 : 0}px)`,
+                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.6)',
+                    boxShadow: isActive ? `0 0 12px ${acidTokens.color.acid}15` : 'none',
                   }}
                 >
-                  {String(index + 1).padStart(2, '0')}
-                </b>
-                <span>{text}</span>
-                {index < track.length - 1 ? <i style={{color: '#fff', fontStyle: 'normal'}}>→</i> : null}
-              </span>
+                  <b
+                    style={{
+                      color: isActive ? acidTokens.color.acid : 'rgba(255, 255, 255, 0.4)',
+                      fontFamily: visualTokens.fontFamily.display,
+                      fontSize: 14,
+                      lineHeight: 1,
+                      fontWeight: 900,
+                    }}
+                  >
+                    {String(index + 1).padStart(2, '0')}
+                  </b>
+                  <span>{text}</span>
+                </span>
+                {index < track.length - 1 && <FlowArrow />}
+              </div>
             );
           })}
         </div>
       ) : null}
       {focus ? (
+        // 升级为 HUD 极简胶囊 Badge，浮空贴合
         <div
           style={{
             position: 'absolute',
             left: 0,
-            bottom: '3%',
-            display: 'flex',
+            bottom: '4%',
+            display: 'inline-flex',
             alignItems: 'center',
-            gap: 8,
-            color: echoWeak,
-            fontFamily: visualTokens.fontFamily.body,
-            fontSize: 15,
-            lineHeight: 1,
-            fontWeight: 800,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
+            gap: 10,
+            padding: '8px 18px',
+            borderRadius: '20px',
+            border: `1px solid ${acidTokens.color.acid}33`,
+            background: 'rgba(255, 255, 255, 0.03)',
+            backdropFilter: 'blur(8px)',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
             opacity: focusIn,
             transform: `translateY(${(1 - focusIn) * 7}px)`,
+            fontSize: 14,
+            fontFamily: visualTokens.fontFamily.body,
+            fontWeight: 900,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
           }}
         >
-          <span>当前焦点 ·</span>
+          {/* 微发光呼吸小绿点 */}
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: '50%',
+              background: acidTokens.color.acid,
+              boxShadow: `0 0 8px ${acidTokens.color.acid}`,
+            }}
+          />
+          <span style={{ color: 'rgba(255, 255, 255, 0.55)' }}>当前焦点 ·</span>
           <b style={{color: acidTokens.color.acid, fontWeight: 900, letterSpacing: 0}}>{focus}</b>
         </div>
       ) : null}
@@ -313,9 +432,11 @@ const containerStyle = (exit: number, placement: NarrationEchoLayerProps['placem
   color: echoText,
   opacity: 1 - exit,
   transform: `translateX(${-28 * exit}px)`,
-  textShadow: `${leftInfoTextShadow}, 0 0 18px rgba(255,255,255,0.16)`,
+  // 增加复合文字软投影，保护视频贴合下的高可读性
+  textShadow: '0 2px 16px rgba(0, 0, 0, 0.72), 0 1px 4px rgba(0, 0, 0, 0.6)',
 });
 
+// 调薄调透 Scrim 遮罩，防止硬色板边界
 const canvasScrimStyle = (frame: number, exit: number): CSSProperties => {
   const intro = rangeProgress(frame, 0, 26);
 
@@ -327,7 +448,7 @@ const canvasScrimStyle = (frame: number, exit: number): CSSProperties => {
     width: '46%',
     height: '78%',
     background:
-      'radial-gradient(ellipse at 18% 48%, rgba(7,9,6,0.30) 0%, rgba(7,9,6,0.17) 42%, rgba(7,9,6,0) 76%), linear-gradient(90deg, rgba(7,9,6,0.20) 0%, rgba(7,9,6,0.10) 42%, rgba(7,9,6,0) 76%)',
+      'radial-gradient(ellipse at 18% 48%, rgba(7,9,6,0.22) 0%, rgba(7,9,6,0.12) 42%, rgba(7,9,6,0) 76%), linear-gradient(90deg, rgba(7,9,6,0.15) 0%, rgba(7,9,6,0.07) 42%, rgba(7,9,6,0) 76%)',
     WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%)',
     maskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 82%, transparent 100%)',
     opacity: 1 - exit,
@@ -425,7 +546,7 @@ const SubtitleBackplate = () => (
       pointerEvents: 'none',
     }}
   >
-    <span style={{visibility: 'hidden'}}>双方都在快速迭代，只是速度和节奏完全不同。</span>
+    <span style={{visibility: 'hidden'}}>双方都在快速迭代，只是速度 and 节奏完全不同。</span>
     <small
       style={{
         display: 'block',
@@ -456,10 +577,9 @@ export const NarrationEchoLayer = (rendererProps: ComponentRendererProps) => {
   const swapOut = activeIndex > 0 ? 1 - easeOut(localFrame / 6) : 0;
   const activeIntroFrame = activeIndex > 0 ? Math.max(0, localFrame - 6) : localFrame;
   const previousItem = activeIndex > 0 ? props.items[activeIndex - 1] : null;
-  const fullCanvas = Boolean(props.backgroundVideoPath);
 
   const content = (
-    <div style={containerStyle(exit, props.placement, fullCanvas)}>
+    <div style={containerStyle(exit, props.placement, Boolean(props.backgroundVideoPath))}>
       {previousItem && localFrame < 7 ? (
         <BeatBlock
           item={previousItem}
@@ -473,34 +593,37 @@ export const NarrationEchoLayer = (rendererProps: ComponentRendererProps) => {
     </div>
   );
 
-  if (!props.backgroundVideoPath) {
-    return (
-      <div style={slotCanvasStyle(rendererProps)}>
-        {props.showSoftener ?? true ? <div style={canvasScrimStyle(frame, exit)} /> : null}
-        <div style={slotContentStyle(rendererProps)}>{content}</div>
-      </div>
-    );
-  }
-
   return (
-    <div
-      style={{
-        position: 'absolute',
-        inset: 0,
-        overflow: 'hidden',
-        isolation: 'isolate',
-        background:
-          'radial-gradient(circle at 50% 18%, rgba(255,255,255,0.96), transparent 31%), linear-gradient(113deg, #dedbd5 0%, #f7f5ef 49%, #e2dfd8 100%)',
-      }}
-    >
-      <VideoBackplate
-        src={props.backgroundVideoPath}
-        startFromFrame={props.backgroundStartFromFrame ?? 0}
-        withAudio={props.backgroundAudio ?? false}
-      />
-      {props.showSoftener ?? true ? <div style={canvasScrimStyle(frame, exit)} /> : null}
-      <SubtitleBackplate />
-      <div style={fullCanvasContentStyle}>{content}</div>
+    <div style={slotCanvasStyle(rendererProps)}>
+      {/* 动画载入样式 */}
+      <StyleEffects accentColor={acidTokens.color.acid} />
+      
+      {!props.backgroundVideoPath ? (
+        <>
+          {props.showSoftener ?? true ? <div style={canvasScrimStyle(frame, exit)} /> : null}
+          <div style={slotContentStyle(rendererProps)}>{content}</div>
+        </>
+      ) : (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            isolation: 'isolate',
+            background:
+              'radial-gradient(circle at 50% 18%, rgba(255,255,255,0.96), transparent 31%), linear-gradient(113deg, #dedbd5 0%, #f7f5ef 49%, #e2dfd8 100%)',
+          }}
+        >
+          <VideoBackplate
+            src={props.backgroundVideoPath}
+            startFromFrame={props.backgroundStartFromFrame ?? 0}
+            withAudio={props.backgroundAudio ?? false}
+          />
+          {props.showSoftener ?? true ? <div style={canvasScrimStyle(frame, exit)} /> : null}
+          <SubtitleBackplate />
+          <div style={fullCanvasContentStyle}>{content}</div>
+        </div>
+      )}
     </div>
   );
 };

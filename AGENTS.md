@@ -19,3 +19,6 @@
 - 任何组件默认严禁自行添加渐变色；只有用户明确要求渐变时，才可以使用 linear-gradient、radial-gradient 或其他渐变写法。
 - 每次任务执行都不要进行深度测试，除非用户明确要求深度测试。
 - 每次改动后必须执行相关 lint、typecheck、test 或 smoke test。
+- 所有的计划（Implementation Plan）、任务列表、验证报告以及对用户的询问都必须使用中文书写。
+- 初次在此项目工作、或涉及口播摘要组件（C16、C21、C23-C26）的样式、动效、高度布局与融入度开发时，必须优先阅读并遵守 `docs/visual-redesign-guide-c16-c21-c23-c26.md` 规范。
+

@@ -170,7 +170,7 @@ C23-C26 共用 `summaryComponentPropsSchema`。
 - Composition: `C03-ChapterIndex`
 - 类型：全屏 Acid 主视觉
 - 用途：章节索引 / 分段目录。
-- 展现：左侧窄面板，标题下方编号列表。
+- 展现：全屏人像安全区绝对净空（中轴 35%-65% 区域无元素干扰）。左右两侧信息区 100% 透明无遮挡悬浮。左侧为优雅的 2px 垂直生长轨线，文字配备 360 度 1px 黑色超细描边轮廓（在任何复杂/亮底视频上均字字锐利不发虚），并仅为当前激活章节渲染一个极窄（260px宽）的半透明小插槽进行局部提亮。最右侧边缘悬浮展示超细刻度进度尺与带描边游标，专为口播场景定制。
 - 允许：`stageMode: no-presenter`，`slot: full-bleed`
 - 来源：不强制。
 - 关键 props：`eyebrow`、`title`、`items[].label`、`items[].detail`、`subtitle`
@@ -284,7 +284,7 @@ C23-C26 共用 `summaryComponentPropsSchema`。
 - Composition: `C16-Summary-NarrationEchoLayer`
 - 类型：口播摘要组件
 - 用途：左侧提要式短句、打字机文本、淡关键词轨迹。
-- 展现：口播画面左侧/左上安全区，一次显示一个 item，按字符打字，可带 track 和 focus。
+- 展现：极致透底 HUD 悬浮设计。打字机具备物理阻尼缩放与 1 帧激光发光效果；流程轨 (track) 重构为半透胶囊徽章配精致的双向 SVG 数据流箭头；当前焦点升级为悬浮 HUD 圆角胶囊 Badge；全局正文附加复合软投影以保障透底融合度。
 - 允许：`stageMode: presenter-center | presenter-small`，`slot: edge-left | top-left`
 - 来源：不强制。
 - track 建议：`overlay`
@@ -328,7 +328,7 @@ Props：
 - Composition: `C21-Summary-RemotionTalkEffect`
 - 类型：口播摘要组件
 - 用途：标题打字机、步骤、声明、比较、交接、outro。
-- 展现：左侧黑底柔和 scrim + 高亮标题/条目/比较块。
+- 展现：极简无界透底 HUD 悬浮风格。左侧指示线升级为 4px 宽的能量条，带有多重外发光与顶部呼吸点；打字机带平滑模糊弹动与圆角胶囊光标；对比块重构为悬浮磨砂玻璃子卡片（底部含发光细光丝）；列表横杠支持动态帧插值平滑伸缩；去除了深色背景板。
 - 允许：`stageMode: presenter-center`，`slot: edge-left`
 - 来源：不强制。
 - 关键 props：`variant`、`title`、`subtitle`、`items`、`left/right/connector`
@@ -364,7 +364,7 @@ Props：
 - Composition: `C23-Summary-TrendTotem`
 - 类型：口播摘要组件
 - 用途：左侧大字趋势型，强调“机会、趋势、判断”。
-- 展现：kicker + label + 1-2 行超大标题 + copy + foot。
+- 展现：极致无界透底 HUD 悬浮。整体 top 位置提至 7.5%，容器高度增加至 788px 大纵向画幅。kicker + label + 1-2 行带有微模糊滑入的大标题 + 段间距拉宽的 copy + foot，全局文字带软阴影保护。
 - 允许：`stageMode: presenter-center | presenter-small`，`slot: edge-left | top-left`
 - 来源：不强制。
 - 关键 props：`kicker`、`label`、`title[0..1]`、`copy`、`foot`、`emphasis`、`accent`
@@ -374,7 +374,7 @@ Props：
 - Composition: `C24-Summary-TrendBanner`
 - 类型：口播摘要组件
 - 用途：左侧横向大标题型，承接口播观点句、判断句、结论句。
-- 展现：kicker + 波形符号 + label + 1-2 行大标题 + copy + foot。
+- 展现：极致无界透底 HUD 悬浮。kicker + 波形符号 + label + 1-2 行支持模糊滑入的大标题 + 间距拉宽的 copy + foot。容器高度纵向拉伸至 788px 画幅。
 - 允许：`stageMode: presenter-center | presenter-small`，`slot: edge-left | top-left`
 - 来源：不强制。
 - 关键 props：`kicker`、`label`、`title[0..1]`、`copy`、`foot`、`accent`
@@ -384,7 +384,7 @@ Props：
 - Composition: `C25-Summary-TopicSignal`
 - 类型：口播摘要组件
 - 用途：话题切口与三张信息块，适合把一个选题拆成 2-3 个信号。
-- 展现：顶部 label/kicker + 两行标题 + copy + 三张小卡 + foot。
+- 展现：无界透底 HUD 悬浮。顶部 label/kicker + 两行标题 + copy + 三张超轻量高透明度白色磨砂玻璃子卡片（内含微型呼吸指示亮点，最小高度拉伸至 160px） + foot。总高度纵向拉伸至 700px。
 - 允许：`stageMode: presenter-center | presenter-small`，`slot: edge-left | top-left`
 - 来源：不强制。
 - 关键 props：`label`、`kicker`、`title[0..1]`、`copy`、`blocks[0..2]`、`foot`
@@ -394,7 +394,7 @@ Props：
 - Composition: `C26-Summary-SideBrief`
 - 类型：口播摘要组件
 - 用途：右侧结论收束与补充提示。
-- 展现：右侧竖向强调轨 + kicker + 大序号 + 1-3 行标题 + copy/focus/tail/foot。
+- 展现：右侧无界透底 HUD 悬浮风格。右侧 3px 极细发光流轨与随动滑块灯点 + kicker + 大序号 + 1-3 行标题 + copy/当前焦点 HUD 胶囊/tail/foot。内部高度拉伸至 800px 纵向贯穿画幅。
 - 允许：`stageMode: presenter-center | presenter-small`，`slot: edge-right | top-right`
 - 来源：不强制。
 - 关键 props：`kicker`、`index`、`title[0..2]`、`copy`、`focus`、`tail`、`foot`、`emphasis`、`accent`

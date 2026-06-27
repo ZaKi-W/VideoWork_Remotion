@@ -1,0 +1,7 @@
+{
+  "id": "scanline-parameter-reveal",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation returned an image preview but no accessible local PNG path or image bytes to save.",
+  "caveats": ""
+}

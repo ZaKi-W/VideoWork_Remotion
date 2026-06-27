@@ -1,0 +1,7 @@
+{
+  "id": "handwritten-model-map",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation returned an image in chat, but no accessible file handle/path was provided to save it to the requested location.",
+  "caveats": ""
+}

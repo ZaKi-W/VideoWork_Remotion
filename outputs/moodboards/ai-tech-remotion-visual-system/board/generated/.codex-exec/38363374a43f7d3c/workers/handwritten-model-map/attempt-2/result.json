@@ -1,0 +1,7 @@
+{
+  "id": "handwritten-model-map",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation completed, but no local PNG file path or writable image bytes were exposed for saving.",
+  "caveats": ""
+}

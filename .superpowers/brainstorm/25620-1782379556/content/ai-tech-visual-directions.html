@@ -1,0 +1,207 @@
+<style>
+  .direction-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 22px;
+  }
+  .direction-card {
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px;
+    background: #101216;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .direction-card.selected {
+    outline: 2px solid #f5c84c;
+    outline-offset: 2px;
+  }
+  .frame {
+    height: 245px;
+    position: relative;
+    background: #08090b;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    overflow: hidden;
+  }
+  .caption-area {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 18px;
+    height: 34px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.06);
+  }
+  .safe-person {
+    position: absolute;
+    left: 50%;
+    top: 50px;
+    transform: translateX(-50%);
+    width: 74px;
+    height: 112px;
+    border-radius: 42px 42px 24px 24px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .card-copy {
+    padding: 16px;
+  }
+  .card-copy h3 {
+    margin: 0 0 8px;
+  }
+  .card-copy p {
+    margin: 0;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.45;
+  }
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .chip {
+    font-size: 11px;
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 999px;
+    padding: 4px 8px;
+    color: rgba(255,255,255,0.72);
+  }
+  .lab-line {
+    position: absolute;
+    height: 1px;
+    background: rgba(255,255,255,0.16);
+  }
+  .lab-dot {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #72e0c4;
+  }
+  .lab-panel {
+    position: absolute;
+    width: 90px;
+    height: 50px;
+    border: 1px solid rgba(114,224,196,0.45);
+    background: rgba(114,224,196,0.08);
+  }
+  .news-tag {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    height: 22px;
+    width: 74px;
+    background: #e84d3d;
+  }
+  .news-stack {
+    position: absolute;
+    right: 18px;
+    top: 38px;
+    width: 100px;
+    height: 124px;
+    border-left: 3px solid #f5c84c;
+  }
+  .news-stack div {
+    height: 16px;
+    margin: 0 0 10px 12px;
+    background: rgba(255,255,255,0.18);
+  }
+  .product-card {
+    position: absolute;
+    width: 118px;
+    height: 76px;
+    border: 1px solid rgba(255,255,255,0.24);
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.35);
+  }
+  .accent-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    background: #5fb4ff;
+  }
+  @media (max-width: 980px) {
+    .direction-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<h2>先选一个“主视觉世界”</h2>
+<p class="subtitle">这不是最终方案，是三种可长期复用的视频特效气质。请看人物安全区、字幕安全区、信息密度和动效暗示，点一个最接近你想成为的 AI 科技博主。</p>
+
+<div class="direction-grid">
+  <div class="direction-card" data-choice="future-lab-editorial" onclick="toggleSelect(this)">
+    <div class="frame">
+      <div class="safe-person"></div>
+      <div class="lab-panel" style="left:22px;top:34px;"></div>
+      <div class="lab-panel" style="right:20px;top:92px;width:76px;height:42px;"></div>
+      <div class="lab-line" style="left:112px;right:112px;top:84px;"></div>
+      <div class="lab-line" style="left:42px;width:120px;top:156px;"></div>
+      <div class="lab-dot" style="left:152px;top:80px;"></div>
+      <div class="lab-dot" style="right:118px;top:130px;"></div>
+      <div class="caption-area"></div>
+    </div>
+    <div class="card-copy">
+      <h3>A. 冷静未来实验室</h3>
+      <p>像把复杂 AI 概念放进一个干净的研究台：克制、精密、可信，适合解释模型、工具链、技术原理。</p>
+      <div class="chip-row">
+        <span class="chip">细线框</span>
+        <span class="chip">少量青绿强调</span>
+        <span class="chip">扫描式揭示</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="direction-card" data-choice="signal-newsroom" onclick="toggleSelect(this)">
+    <div class="frame">
+      <div class="safe-person"></div>
+      <div class="news-tag"></div>
+      <div class="news-stack">
+        <div style="width:86px;"></div>
+        <div style="width:64px;"></div>
+        <div style="width:94px;"></div>
+        <div style="width:52px;"></div>
+      </div>
+      <div style="position:absolute;left:20px;top:72px;width:82px;height:82px;border:1px solid rgba(255,255,255,0.2);"></div>
+      <div style="position:absolute;left:34px;top:96px;width:116px;height:2px;background:#f5c84c;"></div>
+      <div class="caption-area"></div>
+    </div>
+    <div class="card-copy">
+      <h3>B. 科技新闻信号台</h3>
+      <p>更像快节奏栏目：信息有冲击力，但不乱。适合 AI 新闻、发布会解读、热点判断、对比观点。</p>
+      <div class="chip-row">
+        <span class="chip">强标题条</span>
+        <span class="chip">红黄信号色</span>
+        <span class="chip">编辑部快切</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="direction-card" data-choice="premium-product-system" onclick="toggleSelect(this)">
+    <div class="frame">
+      <div class="safe-person"></div>
+      <div class="product-card" style="left:22px;top:42px;">
+        <div class="accent-bar"></div>
+      </div>
+      <div class="product-card" style="right:20px;top:84px;width:96px;height:88px;">
+        <div class="accent-bar" style="background:#f5c84c;"></div>
+      </div>
+      <div style="position:absolute;left:38px;top:138px;width:88px;height:8px;background:rgba(255,255,255,0.2);"></div>
+      <div style="position:absolute;right:40px;top:58px;width:54px;height:8px;background:rgba(255,255,255,0.2);"></div>
+      <div class="caption-area"></div>
+    </div>
+    <div class="card-copy">
+      <h3>C. 高级产品系统感</h3>
+      <p>像科技产品发布会和 SaaS 视觉系统的结合：清爽、模块化、可复用，适合工具评测、教程、榜单和案例拆解。</p>
+      <div class="chip-row">
+        <span class="chip">模块卡片</span>
+        <span class="chip">白蓝金点缀</span>
+        <span class="chip">实体滑入</span>
+      </div>
+    </div>
+  </div>
+</div>

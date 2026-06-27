@@ -1,0 +1,1 @@
+Wrote `result.json` with `status: failed` because the native image tool returned the image in chat but did not provide an accessible PNG file path or bytes I could copy to the requested destination.

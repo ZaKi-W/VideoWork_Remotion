@@ -1,0 +1,5 @@
+Wrote the required failure JSON to:
+
+[ result.json ](/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-overlay-components-system/board/generated/.codex-exec/136c98da26ffc82a/workers/scanline-parameter-reveal/attempt-2/result.json)
+
+The native image tool generated an image but did not expose a savable file path or bytes in this environment, so I could not place `image.png` at the requested path.

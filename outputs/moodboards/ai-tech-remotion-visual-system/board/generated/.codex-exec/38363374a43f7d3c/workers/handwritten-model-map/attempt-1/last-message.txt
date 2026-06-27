@@ -1,0 +1,1 @@
+Done. Native image generation ran, but no accessible generated file path was returned, so I wrote the required `failed` result JSON at the requested location.

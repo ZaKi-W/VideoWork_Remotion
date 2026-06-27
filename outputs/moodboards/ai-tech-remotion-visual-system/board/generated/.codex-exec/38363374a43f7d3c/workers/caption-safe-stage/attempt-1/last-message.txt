@@ -1,0 +1,1 @@
+已完成：生成并保存了 `image.png`，同时写入了指定的 `result.json`，状态为 `complete`。

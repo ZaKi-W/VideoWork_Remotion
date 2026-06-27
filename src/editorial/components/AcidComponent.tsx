@@ -315,21 +315,372 @@ const MediaWall = ({
   );
 };
 
+const ChapterTextList = ({
+  items,
+  progress = 1,
+}: {
+  items: AcidComponentProps['items'];
+  progress?: number;
+}) => {
+  return (
+    <div style={{position: 'relative', display: 'grid', gap: 20, marginTop: 24, paddingLeft: 22}}>
+      {/* 2px 左侧垂直生长轨线 */}
+      <div 
+        style={{
+          position: 'absolute', 
+          left: 6, 
+          top: 12, 
+          bottom: 12, 
+          width: 2, 
+          background: acidTokens.color.acidLine, 
+          transform: `scaleY(${progress})`, 
+          transformOrigin: 'top center',
+          opacity: Math.min(progress * 1.5, 1)
+        }} 
+      />
+      {items.map((item, index) => {
+        const itemIntro = staggerProgress(progress, index, 0.12);
+        const isActive = index === 0;
+
+        // 1px 超细高对比度文字描边
+        const strokeTextShadow = isActive
+          ? '1px 1px 0 #070906, -1px -1px 0 #070906, 1px -1px 0 #070906, -1px 1px 0 #070906, 0 0 10px rgba(217,255,76,0.65), 0 2px 4px rgba(0,0,0,0.95)'
+          : '1px 1px 0 #070906, -1px -1px 0 #070906, 1px -1px 0 #070906, -1px 1px 0 #070906, 0 2px 4px rgba(0,0,0,0.85)';
+
+        return (
+          <div 
+            key={item.label} 
+            style={{
+              position: 'relative', 
+              display: 'grid', 
+              gridTemplateColumns: '32px 1fr', 
+              gap: 12, 
+              alignItems: 'center',
+              padding: '6px 10px 6px 12px',
+              marginLeft: -12,
+              opacity: itemIntro,
+              transform: `translateX(${(1 - itemIntro) * -16}px)`,
+              clipPath: revealInset(itemIntro, -1)
+            }}
+          >
+            {/* 极窄局部激活黑插槽 (Active Slot Bed) */}
+            {isActive ? (
+              <div 
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: 260,
+                  background: 'rgba(7,9,6,0.68)',
+                  borderLeft: `3px solid ${acidTokens.color.acid}`,
+                  borderTop: '1px solid rgba(255,255,255,0.06)',
+                  borderBottom: '1px solid rgba(255,255,255,0.06)',
+                  zIndex: 0,
+                  transform: `scaleX(${itemIntro})`,
+                  transformOrigin: 'left center',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.25)',
+                }}
+              />
+            ) : null}
+
+            {/* 指示小绿点（仅限激活项） */}
+            {isActive ? (
+              <div 
+                style={{
+                  position: 'absolute',
+                  left: -8,
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  background: acidTokens.color.acid,
+                  boxShadow: '0 0 8px rgba(217,255,76,0.95)',
+                  filter: 'drop-shadow(0 0 4px rgba(217,255,76,0.85))',
+                  zIndex: 2,
+                }}
+              />
+            ) : null}
+
+            {/* 序号 */}
+            <div 
+              style={{
+                fontFamily: acidTokens.font.display,
+                fontSize: 24,
+                fontWeight: 900,
+                color: isActive ? acidTokens.color.acid : 'rgba(255,255,255,0.35)',
+                textShadow: strokeTextShadow,
+                lineHeight: 1,
+                zIndex: 1,
+              }}
+            >
+              {String(index + 1).padStart(2, '0')}
+            </div>
+
+            {/* 文本内容 */}
+            <div style={{zIndex: 1}}>
+              {/* 英文细节小标：置于标题上方 */}
+              {item.detail ? (
+                <div 
+                  style={{
+                    color: isActive ? acidTokens.color.acid : 'rgba(255,255,255,0.45)',
+                    textShadow: strokeTextShadow,
+                    fontFamily: acidTokens.font.display,
+                    fontSize: 10,
+                    fontWeight: 900,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    lineHeight: 1,
+                    marginBottom: 3,
+                  }}
+                >
+                  {item.detail}
+                </div>
+              ) : null}
+
+              {/* 中文标题 */}
+              <div 
+                style={{
+                  color: isActive ? acidTokens.color.acid : acidTokens.color.text,
+                  textShadow: strokeTextShadow,
+                  fontSize: 24,
+                  fontWeight: 900,
+                  lineHeight: 1.15,
+                  letterSpacing: '0.02em',
+                }}
+              >
+                {item.label}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+const RightEdgeRuler = ({
+  itemsCount,
+  progress = 1,
+  eyebrow
+}: {
+  itemsCount: number;
+  progress?: number;
+  eyebrow?: string;
+}) => {
+  const chapterMatch = eyebrow?.match(/\d+/);
+  const chapterNum = chapterMatch ? chapterMatch[0].padStart(2, '0') : '01';
+
+  // 游标在垂直方向的位置，随 listIntro 的 progress 从 5% 运动到 85%
+  const cursorY = 5 + progress * 80;
+
+  // 1px 超细高对比文字描边阴影
+  const ruleTextShadow = '1px 1px 0 #070906, -1px -1px 0 #070906, 1px -1px 0 #070906, -1px 1px 0 #070906, 0 1px 2px rgba(0,0,0,0.85)';
+
+  return (
+    <>
+      <div 
+        style={{
+          position: 'absolute',
+          zIndex: 10,
+          right: '5%',
+          top: '24%',
+          bottom: '24%',
+          width: 32,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          pointerEvents: 'none',
+          opacity: Math.min(progress * 1.5, 1),
+        }}
+      >
+        {/* 顶部微型文字 */}
+        <div 
+          style={{
+            fontFamily: acidTokens.font.display,
+            fontSize: 8,
+            fontWeight: 900,
+            letterSpacing: '0.08em',
+            color: 'rgba(255,255,255,0.4)',
+            textShadow: ruleTextShadow,
+            textTransform: 'uppercase',
+            marginBottom: 10,
+            whiteSpace: 'nowrap',
+            transform: 'rotate(90deg) translateY(-12px)',
+            transformOrigin: 'left center',
+          }}
+        >
+          TRACK_INDEX // CH_{chapterNum}
+        </div>
+
+        {/* 垂直进度轨线 */}
+        <div style={{position: 'relative', flex: 1, width: 20, display: 'flex', justifyContent: 'center'}}>
+          {/* 1px 细轴线 */}
+          <div style={{position: 'absolute', top: 0, bottom: 0, width: 1, background: 'rgba(255,255,255,0.18)', boxShadow: '0 0 2px rgba(0,0,0,0.8)'}} />
+          
+          {/* 刻度线 (5个均匀分布的刻度) */}
+          {Array.from({length: 5}).map((_, i) => (
+            <div 
+              key={i} 
+              style={{
+                position: 'absolute', 
+                top: `${5 + i * 22.5}%`, 
+                width: 6, 
+                height: 1, 
+                background: 'rgba(255,255,255,0.35)',
+                boxShadow: '0 1px 1px rgba(0,0,0,0.8)',
+              }} 
+            />
+          ))}
+
+          {/* 动态游标 */}
+          <div 
+            style={{
+              position: 'absolute',
+              top: `${cursorY}%`,
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 10,
+              height: 10,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'top 0.1s linear',
+            }}
+          >
+            {/* 外发光游标圈，带 1px 细黑描边防止视频过亮看不清 */}
+            <div 
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: acidTokens.color.acid,
+                boxShadow: '0 0 0 1px #070906, 0 0 10px rgba(217,255,76,0.95)',
+                filter: 'drop-shadow(0 0 4px rgba(217,255,76,0.9))',
+              }}
+            />
+          </div>
+        </div>
+
+        {/* 底部数量小标 */}
+        <div 
+          style={{
+            fontFamily: acidTokens.font.display,
+            fontSize: 9,
+            fontWeight: 900,
+            color: 'rgba(255,255,255,0.45)',
+            textShadow: ruleTextShadow,
+            marginTop: 10,
+            letterSpacing: '0.05em',
+          }}
+        >
+          {chapterNum}/{String(itemsCount).padStart(2, '0')}
+        </div>
+      </div>
+    </>
+  );
+};
+
 const ChapterIndex = ({props, frame, durationInFrames}: {props: AcidComponentProps; frame: number; durationInFrames: number}) => {
   const intro = editorialProgress(frame, durationInFrames, {start: 0, end: 26});
   const listIntro = editorialProgress(frame, durationInFrames, {start: 10, end: 36});
   const exit = editorialExitProgress(frame, durationInFrames, 12, 18);
 
+  const headingTextShadow = '1px 1px 0 #070906, -1px -1px 0 #070906, 1px -1px 0 #070906, -1px 1px 0 #070906, 0 2px 12px rgba(0,0,0,0.95)';
+
   return (
     <>
-      <div style={{position: 'absolute', zIndex: 18, left: '3.4%', top: '11%', bottom: '13.5%', width: '29%', padding: '18px 17px', ...acidLeftTextStyle, background: 'rgba(7,9,6,0.18)', border: `1px solid ${acidTokens.color.acidLine}`, boxShadow: '0 14px 32px rgba(0,0,0,0.12)', opacity: intro * (1 - exit * 0.78), transform: `translateX(${(1 - intro) * -64 + exit * -90}px) scaleX(${0.96 + intro * 0.04})`, transformOrigin: 'left center'}}>
-      <Eyebrow>{props.eyebrow}</Eyebrow>
-      <h2 style={{margin: '18px 0 15px', color: acidTokens.color.text, fontFamily: acidTokens.font.display, fontSize: 44, lineHeight: 1.05, fontWeight: 900, letterSpacing: '-0.025em'}}>
-        {props.title.join('')}
-      </h2>
-      <NumberList items={props.items} compact progress={listIntro} />
-    </div>
-  </>
+      {/* 核心排版内容 */}
+      <div 
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 10,
+          opacity: intro * (1 - exit * 0.8),
+          pointerEvents: 'none',
+        }}
+      >
+        {/* 左上角微标 */}
+        <div 
+          style={{
+            position: 'absolute',
+            left: '8%',
+            top: '8%',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            color: 'rgba(255,255,255,0.45)',
+            textShadow: headingTextShadow,
+            fontSize: 9,
+            fontFamily: acidTokens.font.display,
+            fontWeight: 900,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            transform: `translateY(${(1 - intro) * -8}px)`,
+          }}
+        >
+          <span>INDEX REGISTER</span>
+          <span style={{color: acidTokens.color.acid, textShadow: '0 0 6px rgba(217,255,76,0.6)'}}>● LIVE</span>
+          <span>F_{String(frame).padStart(3, '0')}</span>
+        </div>
+
+        {/* 左侧排版栏：章节标题与优雅列表 */}
+        <div 
+          style={{
+            position: 'absolute',
+            left: '8%',
+            top: '18%',
+            width: '25%',
+            display: 'flex',
+            flexDirection: 'column',
+            transform: `translateX(${(1 - intro) * -24 + exit * -48}px)`,
+          }}
+        >
+          <div style={{opacity: intro, transform: `translateY(${(1 - intro) * -8}px)`}}>
+            <Eyebrow>{props.eyebrow}</Eyebrow>
+            <h1 
+              style={{
+                margin: '10px 0 8px', 
+                color: acidTokens.color.text, 
+                fontFamily: acidTokens.font.display, 
+                fontSize: 54, 
+                lineHeight: 1.05, 
+                fontWeight: 900, 
+                letterSpacing: '-0.025em',
+                textShadow: headingTextShadow,
+              }}
+            >
+              {props.title.join('')}
+            </h1>
+          </div>
+
+          {/* 极简生长字列表 */}
+          <ChapterTextList items={props.items} progress={listIntro} />
+        </div>
+
+        {/* 左下角极简系统行 */}
+        <div 
+          style={{
+            position: 'absolute',
+            left: '8%',
+            bottom: '8%',
+            color: 'rgba(255,255,255,0.3)',
+            textShadow: headingTextShadow,
+            fontSize: 8,
+            fontFamily: acidTokens.font.display,
+            fontWeight: 800,
+            letterSpacing: '0.05em',
+            transform: `translateY(${(1 - intro) * 8}px)`,
+          }}
+        >
+          SYS_DEC_C03 // ALL_SYSTEMS_OPERATIONAL
+        </div>
+      </div>
+
+      {/* 右侧微型刻度尺进度条 */}
+      <RightEdgeRuler 
+        itemsCount={props.items.length} 
+        progress={listIntro} 
+        eyebrow={props.eyebrow} 
+      />
+    </>
   );
 };
 

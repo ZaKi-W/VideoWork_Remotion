@@ -1,0 +1,291 @@
+<style>
+  .spec-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 22px;
+  }
+  .spec-card {
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px;
+    background: #101216;
+    overflow: hidden;
+  }
+  .spec-preview {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+      #07080a;
+    background-size: 32px 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .host {
+    position: absolute;
+    left: 50%;
+    top: 18%;
+    transform: translateX(-50%);
+    width: 14%;
+    height: 37%;
+    border-radius: 999px 999px 18px 18px;
+    border: 1px solid rgba(255,255,255,0.24);
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 0 0 24px rgba(255,255,255,0.025);
+  }
+  .host-zone {
+    position: absolute;
+    left: 38%;
+    top: 10%;
+    width: 24%;
+    height: 58%;
+    border: 1px dashed rgba(240,196,90,0.36);
+  }
+  .sub-zone {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    bottom: 7%;
+    height: 12%;
+    border: 1px dashed rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.035);
+  }
+  .layer {
+    position: absolute;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(15,17,21,0.92);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.32);
+  }
+  .cyan { border-color: rgba(103,215,196,0.48); }
+  .gold { border-color: rgba(240,196,90,0.48); }
+  .red { border-color: rgba(232,90,79,0.5); }
+  .line {
+    position: absolute;
+    height: 5px;
+    background: rgba(255,255,255,0.26);
+  }
+  .accent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #67d7c4;
+  }
+  .scan {
+    position: absolute;
+    height: 2px;
+    background: #67d7c4;
+    box-shadow: 0 0 14px rgba(103,215,196,0.44);
+  }
+  .node {
+    position: absolute;
+    width: 36px;
+    height: 24px;
+    border: 1px solid rgba(103,215,196,0.55);
+    background: rgba(103,215,196,0.08);
+  }
+  .wire {
+    position: absolute;
+    height: 1px;
+    background: rgba(103,215,196,0.42);
+    transform-origin: left center;
+  }
+  .spec-body {
+    padding: 14px;
+  }
+  .spec-body h3 {
+    margin: 0 0 9px;
+    font-size: 17px;
+  }
+  .rule-table {
+    display: grid;
+    gap: 7px;
+  }
+  .rule {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 10px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.36;
+    font-size: 13px;
+  }
+  .rule b {
+    color: #f0c45a;
+    font-weight: 600;
+  }
+  .global {
+    margin-top: 18px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px;
+    background: #101216;
+    padding: 16px;
+  }
+  .global-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .global-item {
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 12px;
+    color: rgba(255,255,255,0.68);
+    line-height: 1.4;
+  }
+  .global-item strong {
+    display: block;
+    color: rgba(255,255,255,0.92);
+    margin-bottom: 6px;
+  }
+  @media (max-width: 980px) {
+    .spec-grid,
+    .global-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<h2>6 类口播上层特效：深一层视觉规范</h2>
+<p class="subtitle">每类组件都保留，但必须有共同的频道气质：黑玻璃底、白色信息、青绿/金色强调、精准切入、保护人物和字幕区。</p>
+
+<div class="spec-grid">
+  <div class="spec-card">
+    <div class="spec-preview">
+      <div class="host"></div><div class="host-zone"></div><div class="sub-zone"></div>
+      <div class="layer cyan" style="left:6%;top:18%;width:25%;height:30%;">
+        <div class="accent"></div>
+        <div class="line" style="left:15%;top:23%;width:52%;"></div>
+        <div class="line" style="left:15%;top:45%;width:68%;"></div>
+        <div class="line" style="left:15%;top:63%;width:42%;"></div>
+      </div>
+      <div class="layer gold" style="right:7%;top:30%;width:18%;height:18%;"></div>
+    </div>
+    <div class="spec-body">
+      <h3>来源证据 Dock</h3>
+      <div class="rule-table">
+        <div class="rule"><b>触发</b><span>网页、报告、论文、新闻、截图、数据来源。</span></div>
+        <div class="rule"><b>位置</b><span>优先左侧或右侧边栏，不进人物安全区。</span></div>
+        <div class="rule"><b>动效</b><span>先边缘滑入，再轻亮来源锚点，最后收成窄条。</span></div>
+        <div class="rule"><b>禁区</b><span>无来源时不能做事实证据，只能做抽象解释框。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spec-card">
+    <div class="spec-preview">
+      <div class="host"></div><div class="host-zone"></div><div class="sub-zone"></div>
+      <div class="layer" style="left:8%;top:16%;width:20%;height:18%;transform:rotate(-2deg);"></div>
+      <div class="layer cyan" style="left:11%;top:26%;width:23%;height:22%;transform:rotate(1deg);"></div>
+      <div class="layer gold" style="right:8%;top:18%;width:22%;height:25%;transform:rotate(2deg);">
+        <div class="line" style="left:14%;top:28%;width:56%;"></div>
+        <div class="line" style="left:14%;top:51%;width:39%;"></div>
+      </div>
+    </div>
+    <div class="spec-body">
+      <h3>实体卡片栈</h3>
+      <div class="rule-table">
+        <div class="rule"><b>触发</b><span>步骤、清单、结论、方法论、一个核心概念。</span></div>
+        <div class="rule"><b>位置</b><span>两侧浮动或短暂经过人物外沿，但不遮脸和字幕。</span></div>
+        <div class="rule"><b>动效</b><span>快速切入、轻微错层、短暂停顿、顺手收走。</span></div>
+        <div class="rule"><b>禁区</b><span>一张卡不要塞长正文；最多承担一个信息点。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spec-card">
+    <div class="spec-preview">
+      <div class="host"></div><div class="host-zone"></div><div class="sub-zone"></div>
+      <div class="node" style="left:9%;top:20%;"></div>
+      <div class="node" style="left:22%;top:41%;border-color:rgba(240,196,90,0.58);background:rgba(240,196,90,0.08);"></div>
+      <div class="node" style="right:10%;top:22%;"></div>
+      <div class="node" style="right:24%;top:48%;"></div>
+      <div class="wire" style="left:17%;top:29%;width:13%;transform:rotate(32deg);"></div>
+      <div class="wire" style="right:17%;top:32%;width:12%;transform:rotate(145deg);"></div>
+      <div class="wire" style="right:26%;top:47%;width:9%;transform:rotate(64deg);"></div>
+    </div>
+    <div class="spec-body">
+      <h3>模型结构浮层</h3>
+      <div class="rule-table">
+        <div class="rule"><b>触发</b><span>Agent 流程、模型链路、系统架构、输入输出关系。</span></div>
+        <div class="rule"><b>位置</b><span>围绕人物两侧展开，复杂结构拆成两三步出现。</span></div>
+        <div class="rule"><b>动效</b><span>节点先定点，连线后生长，关键节点短亮一次。</span></div>
+        <div class="rule"><b>禁区</b><span>不假装是真实架构图；没有依据时用抽象节点。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spec-card">
+    <div class="spec-preview">
+      <div class="host"></div><div class="host-zone"></div><div class="sub-zone"></div>
+      <div class="scan" style="left:7%;right:7%;top:24%;"></div>
+      <div class="scan" style="left:7%;right:7%;top:47%;opacity:.45;"></div>
+      <div class="layer cyan" style="left:8%;top:35%;width:19%;height:17%;"></div>
+      <div class="layer cyan" style="right:8%;top:16%;width:20%;height:18%;">
+        <div class="line" style="left:16%;top:40%;width:54%;background:rgba(103,215,196,.7);"></div>
+      </div>
+    </div>
+    <div class="spec-body">
+      <h3>扫描式标注</h3>
+      <div class="rule-table">
+        <div class="rule"><b>触发</b><span>产品 UI、参数、截图局部、功能点、版本变化。</span></div>
+        <div class="rule"><b>位置</b><span>框选目标区域，说明卡放目标旁边，避开字幕带。</span></div>
+        <div class="rule"><b>动效</b><span>扫描线扫过，目标框显形，说明卡短入短出。</span></div>
+        <div class="rule"><b>禁区</b><span>不要按每句话随机扫；一段只扫一个主要对象。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spec-card">
+    <div class="spec-preview">
+      <div class="host"></div><div class="host-zone"></div><div class="sub-zone"></div>
+      <div class="layer" style="left:7%;top:17%;width:23%;height:36%;"></div>
+      <div class="layer gold" style="right:7%;top:17%;width:23%;height:36%;"></div>
+      <div style="position:absolute;left:31%;right:31%;top:35%;height:1px;background:rgba(255,255,255,.22);"></div>
+      <div style="position:absolute;left:48.5%;top:31%;width:3%;height:9%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);"></div>
+    </div>
+    <div class="spec-body">
+      <h3>工具对比天平</h3>
+      <div class="rule-table">
+        <div class="rule"><b>触发</b><span>A/B 工具、两种路线、优缺点、价格/能力/适用场景。</span></div>
+        <div class="rule"><b>位置</b><span>左右对称，人物居中作为判断者。</span></div>
+        <div class="rule"><b>动效</b><span>两侧依次上秤，结论一侧轻微下压或高亮。</span></div>
+        <div class="rule"><b>禁区</b><span>不要把长表格塞进画面；结论比参数更重要。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spec-card">
+    <div class="spec-preview">
+      <div class="host"></div><div class="host-zone"></div><div class="sub-zone"></div>
+      <div style="position:absolute;left:8%;top:13%;font-family:Georgia,serif;font-size:58px;color:rgba(240,196,90,.72);">“</div>
+      <div class="layer gold" style="left:15%;top:24%;width:22%;height:22%;">
+        <div class="line" style="left:14%;top:35%;width:60%;"></div>
+        <div class="line" style="left:14%;top:56%;width:43%;"></div>
+      </div>
+      <div style="position:absolute;right:10%;top:24%;width:21%;height:2px;background:#e85a4f;"></div>
+      <div style="position:absolute;right:14%;top:38%;width:17%;height:2px;background:#f0c45a;"></div>
+      <div style="position:absolute;right:18%;top:52%;width:13%;height:2px;background:#67d7c4;"></div>
+    </div>
+    <div class="spec-body">
+      <h3>观点拆解浮层</h3>
+      <div class="rule-table">
+        <div class="rule"><b>触发</b><span>观点、争议、判断、风险、反常识结论。</span></div>
+        <div class="rule"><b>位置</b><span>主张在一侧，证据/风险在另一侧分层展开。</span></div>
+        <div class="rule"><b>动效</b><span>主张先入，依据后入，风险最后压住节奏。</span></div>
+        <div class="rule"><b>禁区</b><span>不要做成营销金句墙；必须服务论证层级。</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="global">
+  <h3>全局频道气质</h3>
+  <div class="global-grid">
+    <div class="global-item"><strong>颜色</strong>黑、白、透明玻璃为主；青绿表示技术定位，金色表示结论或重点。</div>
+    <div class="global-item"><strong>材质</strong>半透明黑玻璃、细描边、轻阴影、少量实体卡片厚度。</div>
+    <div class="global-item"><strong>动效</strong>切入要准，停顿要短，退场要干净；少用持续漂浮。</div>
+    <div class="global-item"><strong>密度</strong>一段一个主组件；辅助标注最多两个；正文不进字幕区。</div>
+  </div>
+</div>

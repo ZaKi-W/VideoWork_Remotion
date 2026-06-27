@@ -1,0 +1,5 @@
+Generated exactly one image with `image_gen.imagegen`, but the tool did not expose a savable local PNG path in this environment.
+
+Wrote the required failed `result.json` at:
+
+`generated/.codex-exec/38363374a43f7d3c/workers/product-launch-bench/attempt-1/result.json`

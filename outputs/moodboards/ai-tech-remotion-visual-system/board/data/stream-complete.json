@@ -1,0 +1,1215 @@
+{
+  "meta": {
+    "title": "AI Tech Remotion Visual System Mood Board",
+    "brief": "A long-term reusable visual style system for an AI technology creator using Remotion video effects.",
+    "business": "AI 科技类博主视频特效体系",
+    "goal": "Explore visual direction only: future lab, human craft, product launch polish, precise cuts, and physical card motion.",
+    "audience": "Viewers interested in AI tools, technology trends, product launches, practical methods, and industry judgment.",
+    "imageCount": 10,
+    "notes": [
+      "One self-contained visual reference image per tile.",
+      "No readable text, no logos, no fake factual evidence, no collage, no mini mood board.",
+      "Avoid purple-blue AI template styling and corporate training deck aesthetics.",
+      "Respect video safety thinking: central presenter space, bottom subtitle zone, and restrained information density."
+    ],
+    "generatedCount": 10,
+    "failedCount": 2
+  },
+  "signals": {
+    "tone": [
+      "future laboratory",
+      "human craft",
+      "premium product launch"
+    ],
+    "motion": [
+      "precise cut-in",
+      "physical card feel"
+    ],
+    "avoid": [
+      "purple-blue AI template",
+      "corporate training",
+      "cluttered overlays",
+      "fake evidence"
+    ],
+    "palette": [
+      "warm white",
+      "charcoal black",
+      "soft tungsten",
+      "brushed aluminum",
+      "paper white",
+      "controlled cyan",
+      "muted gold"
+    ],
+    "motifs": [
+      "glass desk",
+      "paper notes",
+      "machined aluminum",
+      "modular cards",
+      "thin calibration marks",
+      "soft shadows",
+      "hands arranging technology"
+    ]
+  },
+  "items": [
+    {
+      "id": "lab-desk-human-hands",
+      "title": "Warm Future Lab Desk",
+      "caption": "A clean AI research desk that feels precise but human, with hands arranging analog notes beside modern devices.",
+      "source": "Qualified moodboard intake: future lab, human craft, product launch polish.",
+      "tone": "calm, precise, tactile",
+      "motif": "hands, glass desk, paper notes, small device, warm task light",
+      "palette": "paper white, charcoal, tungsten warmth, restrained cyan",
+      "prompt": "Single editorial photograph of a clean future laboratory desk for an AI technology creator, human hands arranging white paper note cards beside a minimal tablet-like device and a small brushed aluminum object, warm task light, soft shadows, precise composition, no readable text, no logos, no UI labels, no purple or blue gradient, no corporate training aesthetic, cinematic product photography, 16:9. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Editorial Desk",
+            "description": "Cleaner light and hierarchy around Warm Future Lab Desk",
+            "promptHint": "Apply a polished editorial treatment to Warm Future Lab Desk; preserve A clean AI research desk that feels precise but human, with hands arranging analog notes beside modern..."
+          },
+          {
+            "label": "Minimal Desk",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Warm Future Lab Desk",
+            "promptHint": "Strip Warm Future Lab Desk down to a minimal premium frame; keep A clean AI research desk that feels precise but human, with hands arranging analog notes beside modern devices..."
+          },
+          {
+            "label": "Motion Desk",
+            "description": "More kinetic gesture, blur, or environmental energy around Warm Future Lab Desk",
+            "promptHint": "Introduce controlled motion to Warm Future Lab Desk while preserving the campaign cue: A clean AI research desk that feels precise but human, with hands arranging analog notes..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Cool Desk",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Warm Future Lab Desk; keep A clean AI research desk that feels precise but human, with hands arranging analog notes beside modern devices intact"
+          },
+          {
+            "label": "Monochrome Desk",
+            "description": "A narrower near-monochrome treatment that lets one cue around Warm Future Lab Desk stand out",
+            "promptHint": "Reduce the palette around Warm Future Lab Desk to tonal restraint plus one preserved cue from A clean AI research desk that feels precise but human, with hands arranging analog..."
+          },
+          {
+            "label": "Warm Desk",
+            "description": "Warmer neutrals and tactile highlights around Warm Future Lab Desk",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Warm Future Lab Desk"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Desk Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Warm Future Lab Desk, keeping the most important source cue visible"
+          },
+          {
+            "label": "Desk Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Warm Future Lab Desk",
+            "promptHint": "Reframe Warm Future Lab Desk as a backstage or preparation moment; keep A clean AI research desk that feels precise but human, with hands arranging analog notes beside modern..."
+          },
+          {
+            "label": "Desk In Use",
+            "description": "A more believable real-world context for Warm Future Lab Desk",
+            "promptHint": "Place Warm Future Lab Desk into a realistic usage context; preserve the source image's core cue: A clean AI research desk that feels precise but human, with hands arranging..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Warm Future Lab Desk; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Warm Future Lab Desk feel actively used",
+            "promptHint": "Add restrained process cues around Warm Future Lab Desk; preserve the strongest visual idea from A clean AI research desk that feels precise but human, with hands arranging..."
+          },
+          {
+            "label": "Desk Cues",
+            "description": "Add restrained supporting objects that clarify the context of Warm Future Lab Desk",
+            "promptHint": "Add a few contextual props that reinforce A clean AI research desk that feels precise but human, with hands arranging analog notes beside modern devices without distracting..."
+          }
+        ],
+        "character": [
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Warm Future Lab Desk in an everyday user context without losing A clean AI research desk that feels precise but human, with hands arranging analog notes beside modern devices"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Warm Future Lab Desk",
+            "promptHint": "Add a cropped passing figure or gesture around Warm Future Lab Desk; keep identity nonspecific and preserve A clean AI research desk that feels precise but human, with hands..."
+          },
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Warm Future Lab Desk",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Warm Future Lab Desk"
+          }
+        ],
+        "format": [
+          {
+            "label": "Square Desk",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Warm Future Lab Desk as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Desk",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Warm Future Lab Desk to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Desk Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Warm Future Lab Desk; keep A clean AI research desk that feels precise but human, with hands arranging analog notes beside modern devices legible"
+          }
+        ]
+      },
+      "imageUrl": "/generated/mcp-thumbs/lab-desk-human-hands.jpg",
+      "sourceImageUrl": "/generated/8df153844f459f3f7a905c56fe65ed59.png"
+    },
+    {
+      "id": "floating-physical-cards",
+      "title": "Physical Cards In Air",
+      "caption": "The component system as tangible cards: modular, reusable, and ready to move with precise cut-ins.",
+      "source": "Remotion reusable effects constraint: one main visual task per spoken segment.",
+      "tone": "premium, modular, controlled",
+      "motif": "floating matte cards, central empty presenter space, subtle calibration marks",
+      "palette": "warm white, charcoal, muted gold, soft aluminum",
+      "prompt": "Single visual reference image of matte physical information cards suspended in a clean studio space, leaving a clear empty vertical center for a talking-head presenter and a clean bottom subtitle-safe band, subtle calibration marks and soft product-launch lighting, no readable text, no logos, no collage, no grid, no purple-blue AI template colors, 16:9. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Minimal Air",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Physical Cards In Air",
+            "promptHint": "Strip Physical Cards In Air down to a minimal premium frame; keep The component system as tangible cards: modular, reusable, and ready to move with precise cut-ins legible but..."
+          },
+          {
+            "label": "Motion Air",
+            "description": "More kinetic gesture, blur, or environmental energy around Physical Cards In Air",
+            "promptHint": "Introduce controlled motion to Physical Cards In Air while preserving the campaign cue: The component system as tangible cards: modular, reusable, and ready to move with..."
+          },
+          {
+            "label": "Material Air",
+            "description": "A closer tactile read of surface, temperature, and finish around Physical Cards In Air",
+            "promptHint": "Rebuild Physical Cards In Air as a tactile material study inspired by The component system as tangible cards: modular, reusable, and ready to move with precise cut-ins, with a..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Unexpected Air",
+            "description": "A more surprising secondary color relationship around Physical Cards In Air",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends The component system as tangible cards: modular, reusable, and ready to move with..."
+          },
+          {
+            "label": "Cool Air",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Physical Cards In Air; keep The component system as tangible cards: modular, reusable, and ready to move with precise cut-ins intact"
+          },
+          {
+            "label": "Monochrome Air",
+            "description": "A narrower near-monochrome treatment that lets one cue around Physical Cards In Air stand out",
+            "promptHint": "Reduce the palette around Physical Cards In Air to tonal restraint plus one preserved cue from The component system as tangible cards: modular, reusable, and ready to move with..."
+          }
+        ],
+        "scene": [
+          {
+            "label": "Air Studio",
+            "description": "A cleaner controlled studio setting that keeps Physical Cards In Air dominant",
+            "promptHint": "Move Physical Cards In Air into a cleaner studio-hero setting while preserving The component system as tangible cards: modular, reusable, and ready to move with precise cut-ins"
+          },
+          {
+            "label": "Air Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Physical Cards In Air, keeping the most important source cue visible"
+          },
+          {
+            "label": "Air Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Physical Cards In Air",
+            "promptHint": "Reframe Physical Cards In Air as a backstage or preparation moment; keep The component system as tangible cards: modular, reusable, and ready to move with precise cut-ins..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Physical Cards In Air carries more weight",
+            "promptHint": "Remove nonessential props and keep Physical Cards In Air as the dominant read"
+          },
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Physical Cards In Air; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Physical Cards In Air feel actively used",
+            "promptHint": "Add restrained process cues around Physical Cards In Air; preserve the strongest visual idea from The component system as tangible cards: modular, reusable, and ready to move..."
+          }
+        ],
+        "character": [
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Physical Cards In Air",
+            "promptHint": "Introduce a collector or tastemaker presence around Physical Cards In Air while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Physical Cards In Air in an everyday user context without losing The component system as tangible cards: modular, reusable, and ready to move with precise cut-ins"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Physical Cards In Air",
+            "promptHint": "Add a cropped passing figure or gesture around Physical Cards In Air; keep identity nonspecific and preserve The component system as tangible cards: modular, reusable, and..."
+          }
+        ],
+        "format": [
+          {
+            "label": "Wide Air",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Physical Cards In Air to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Air",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Physical Cards In Air as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Air",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Physical Cards In Air to a portrait social crop while preserving the key visual read"
+          }
+        ]
+      },
+      "imageUrl": "/generated/mcp-thumbs/floating-physical-cards.jpg",
+      "sourceImageUrl": "/generated/cc75be7f771ba83821b37dcc2389b0f7.png"
+    },
+    {
+      "id": "product-launch-bench",
+      "title": "AI Product Launch Bench",
+      "caption": "A product-demo mood without fake UI claims: object, surface, light, and confidence.",
+      "source": "Audience expects AI tools and product launches without unsupported factual evidence.",
+      "tone": "polished, trustworthy, calm",
+      "motif": "device silhouette, black glass surface, brushed metal edge, soft reveal lighting",
+      "palette": "deep charcoal, warm white, brushed aluminum, tiny cyan accent",
+      "prompt": "Single cinematic product photograph of an abstract AI tool device silhouette on a black glass bench with brushed aluminum details and a tiny restrained cyan status light, premium launch-event lighting, no screen content, no readable text, no logo, no brand marks, no fake metrics, no purple gradient, not a collage, 16:9.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Dramatic Bench",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to AI Product Launch Bench; keep A product-demo mood without fake UI claims: object, surface, light, and confidence recognizable but..."
+          },
+          {
+            "label": "Candid Bench",
+            "description": "More natural texture and believable lived-in detail for AI Product Launch Bench",
+            "promptHint": "Shift AI Product Launch Bench toward documentary realism while preserving A product-demo mood without fake UI claims: object, surface, light, and confidence; make lighting and..."
+          },
+          {
+            "label": "Editorial Bench",
+            "description": "Cleaner light and hierarchy around AI Product Launch Bench",
+            "promptHint": "Apply a polished editorial treatment to AI Product Launch Bench; preserve A product-demo mood without fake UI claims: object, surface, light, and confidence while changing the..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Monochrome Bench",
+            "description": "A narrower near-monochrome treatment that lets one cue around AI Product Launch Bench stand out",
+            "promptHint": "Reduce the palette around AI Product Launch Bench to tonal restraint plus one preserved cue from A product-demo mood without fake UI claims: object, surface, light, and confidence"
+          },
+          {
+            "label": "Warm Bench",
+            "description": "Warmer neutrals and tactile highlights around AI Product Launch Bench",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of AI Product Launch Bench"
+          },
+          {
+            "label": "Accent Bench",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to AI Product Launch Bench without changing the main subject"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Bench Studio",
+            "description": "A cleaner controlled studio setting that keeps AI Product Launch Bench dominant",
+            "promptHint": "Move AI Product Launch Bench into a cleaner studio-hero setting while preserving A product-demo mood without fake UI claims: object, surface, light, and confidence"
+          },
+          {
+            "label": "Bench Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for AI Product Launch Bench, keeping the most important source cue visible"
+          },
+          {
+            "label": "Bench Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around AI Product Launch Bench",
+            "promptHint": "Reframe AI Product Launch Bench as a backstage or preparation moment; keep A product-demo mood without fake UI claims: object, surface, light, and confidence recognizable"
+          }
+        ],
+        "props": [
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so AI Product Launch Bench carries more weight",
+            "promptHint": "Remove nonessential props and keep AI Product Launch Bench as the dominant read"
+          },
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around AI Product Launch Bench; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make AI Product Launch Bench feel actively used",
+            "promptHint": "Add restrained process cues around AI Product Launch Bench; preserve the strongest visual idea from A product-demo mood without fake UI claims: object, surface, light, and..."
+          }
+        ],
+        "character": [
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let AI Product Launch Bench carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with AI Product Launch Bench",
+            "promptHint": "Introduce a collector or tastemaker presence around AI Product Launch Bench while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show AI Product Launch Bench in an everyday user context without losing A product-demo mood without fake UI claims: object, surface, light, and confidence"
+          }
+        ],
+        "format": [
+          {
+            "label": "Square Bench",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose AI Product Launch Bench as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Bench",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt AI Product Launch Bench to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Bench Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of AI Product Launch Bench; keep A product-demo mood without fake UI claims: object, surface, light, and confidence legible"
+          }
+        ]
+      },
+      "imageUrl": "/generated/mcp-thumbs/product-launch-bench.jpg",
+      "sourceImageUrl": "/generated/082bfb917e0a080f571f7552b5410799.png"
+    },
+    {
+      "id": "transparent-lab-panel",
+      "title": "Transparent Lab Panel",
+      "caption": "A restrained evidence-like frame for sourced material, without pretending unsourced facts are proof.",
+      "source": "Project constraint: evidence visuals must bind to traceable sources; abstract visuals when source is unknown.",
+      "tone": "careful, source-aware, analytical",
+      "motif": "clear acrylic panel, empty source slot, thin frame, presenter-safe center",
+      "palette": "clear glass, white, charcoal, soft cyan",
+      "prompt": "Single studio photograph of a clear acrylic analysis panel standing on a neutral desk, empty framed area suggesting a source placeholder without any text or data, thin precise edges, central presenter-safe negative space, clean bottom area, restrained cyan reflection, no readable text, no logos, no fake web page, no collage, 16:9. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Material Panel",
+            "description": "A closer tactile read of surface, temperature, and finish around Transparent Lab Panel",
+            "promptHint": "Rebuild Transparent Lab Panel as a tactile material study inspired by A restrained evidence-like frame for sourced material, without pretending unsourced facts are proof, with..."
+          },
+          {
+            "label": "Dramatic Panel",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Transparent Lab Panel; keep A restrained evidence-like frame for sourced material, without pretending unsourced facts are proof..."
+          },
+          {
+            "label": "Candid Panel",
+            "description": "More natural texture and believable lived-in detail for Transparent Lab Panel",
+            "promptHint": "Shift Transparent Lab Panel toward documentary realism while preserving A restrained evidence-like frame for sourced material, without pretending unsourced facts are proof..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Accent Panel",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Transparent Lab Panel without changing the main subject"
+          },
+          {
+            "label": "Unexpected Panel",
+            "description": "A more surprising secondary color relationship around Transparent Lab Panel",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends A restrained evidence-like frame for sourced material, without pretending unsourced..."
+          },
+          {
+            "label": "Cool Panel",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Transparent Lab Panel; keep A restrained evidence-like frame for sourced material, without pretending unsourced facts are proof intact"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Panel In Use",
+            "description": "A more believable real-world context for Transparent Lab Panel",
+            "promptHint": "Place Transparent Lab Panel into a realistic usage context; preserve the source image's core cue: A restrained evidence-like frame for sourced material, without pretending..."
+          },
+          {
+            "label": "Panel Exterior",
+            "description": "Move Transparent Lab Panel into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Transparent Lab Panel into an exterior or entryway scene while preserving the core cue: A restrained evidence-like frame for sourced material, without pretending..."
+          },
+          {
+            "label": "Panel Studio",
+            "description": "A cleaner controlled studio setting that keeps Transparent Lab Panel dominant",
+            "promptHint": "Move Transparent Lab Panel into a cleaner studio-hero setting while preserving A restrained evidence-like frame for sourced material, without pretending unsourced facts are proof"
+          }
+        ],
+        "props": [
+          {
+            "label": "Panel Cues",
+            "description": "Add restrained supporting objects that clarify the context of Transparent Lab Panel",
+            "promptHint": "Add a few contextual props that reinforce A restrained evidence-like frame for sourced material, without pretending unsourced facts are proof without distracting from..."
+          },
+          {
+            "label": "Unexpected Panel Prop",
+            "description": "One surprising but believable object that opens a new story around Transparent Lab Panel",
+            "promptHint": "Add one unexpected supporting prop that extends A restrained evidence-like frame for sourced material, without pretending unsourced facts are proof without stealing focus from..."
+          },
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Transparent Lab Panel carries more weight",
+            "promptHint": "Remove nonessential props and keep Transparent Lab Panel as the dominant read"
+          }
+        ],
+        "character": [
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Transparent Lab Panel",
+            "promptHint": "Introduce a collector or tastemaker presence around Transparent Lab Panel while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Transparent Lab Panel in an everyday user context without losing A restrained evidence-like frame for sourced material, without pretending unsourced facts are proof"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Transparent Lab Panel",
+            "promptHint": "Add a cropped passing figure or gesture around Transparent Lab Panel; keep identity nonspecific and preserve A restrained evidence-like frame for sourced material, without..."
+          }
+        ],
+        "format": [
+          {
+            "label": "Square Panel",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Transparent Lab Panel as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Panel",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Transparent Lab Panel to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Panel Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Transparent Lab Panel; keep A restrained evidence-like frame for sourced material, without pretending unsourced facts are proof legible"
+          }
+        ]
+      },
+      "imageUrl": "/generated/mcp-thumbs/transparent-lab-panel.jpg",
+      "sourceImageUrl": "/generated/246d9db80b931490901ccb1e893e8647.png"
+    },
+    {
+      "id": "caption-safe-stage",
+      "title": "Caption-Safe Stage",
+      "caption": "A composition that visually bakes in safe zones: components above or beside, never fighting subtitles.",
+      "source": "AGENTS.md safe-zone rules for Remotion components.",
+      "tone": "disciplined, production-ready, calm",
+      "motif": "empty bottom band, side annotations, centered human silhouette zone",
+      "palette": "charcoal, white, warm edge light, muted gold",
+      "prompt": "Single 16:9 studio composition showing an abstract talking-head video stage with a clear empty central vertical zone and a calm empty bottom subtitle-safe band, small physical annotation panels placed only in the side areas, premium black and warm white lighting, no readable text, no logos, no UI, no gradient background, no collage. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Minimal Stage",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Caption-Safe Stage",
+            "promptHint": "Strip Caption-Safe Stage down to a minimal premium frame; keep A composition that visually bakes in safe zones: components above or beside, never fighting subtitles legible but..."
+          },
+          {
+            "label": "Motion Stage",
+            "description": "More kinetic gesture, blur, or environmental energy around Caption-Safe Stage",
+            "promptHint": "Introduce controlled motion to Caption-Safe Stage while preserving the campaign cue: A composition that visually bakes in safe zones: components above or beside, never fighting..."
+          },
+          {
+            "label": "Material Stage",
+            "description": "A closer tactile read of surface, temperature, and finish around Caption-Safe Stage",
+            "promptHint": "Rebuild Caption-Safe Stage as a tactile material study inspired by A composition that visually bakes in safe zones: components above or beside, never fighting subtitles, with a..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Cool Stage",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Caption-Safe Stage; keep A composition that visually bakes in safe zones: components above or beside, never fighting subtitles intact"
+          },
+          {
+            "label": "Monochrome Stage",
+            "description": "A narrower near-monochrome treatment that lets one cue around Caption-Safe Stage stand out",
+            "promptHint": "Reduce the palette around Caption-Safe Stage to tonal restraint plus one preserved cue from A composition that visually bakes in safe zones: components above or beside, never..."
+          },
+          {
+            "label": "Warm Stage",
+            "description": "Warmer neutrals and tactile highlights around Caption-Safe Stage",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Caption-Safe Stage"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Stage Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Caption-Safe Stage, keeping the most important source cue visible"
+          },
+          {
+            "label": "Stage Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Caption-Safe Stage",
+            "promptHint": "Reframe Caption-Safe Stage as a backstage or preparation moment; keep A composition that visually bakes in safe zones: components above or beside, never fighting subtitles..."
+          },
+          {
+            "label": "Stage In Use",
+            "description": "A more believable real-world context for Caption-Safe Stage",
+            "promptHint": "Place Caption-Safe Stage into a realistic usage context; preserve the source image's core cue: A composition that visually bakes in safe zones: components above or beside..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Caption-Safe Stage; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Caption-Safe Stage feel actively used",
+            "promptHint": "Add restrained process cues around Caption-Safe Stage; preserve the strongest visual idea from A composition that visually bakes in safe zones: components above or beside..."
+          },
+          {
+            "label": "Stage Cues",
+            "description": "Add restrained supporting objects that clarify the context of Caption-Safe Stage",
+            "promptHint": "Add a few contextual props that reinforce A composition that visually bakes in safe zones: components above or beside, never fighting subtitles without distracting from..."
+          }
+        ],
+        "character": [
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Caption-Safe Stage in an everyday user context without losing A composition that visually bakes in safe zones: components above or beside, never fighting subtitles"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Caption-Safe Stage",
+            "promptHint": "Add a cropped passing figure or gesture around Caption-Safe Stage; keep identity nonspecific and preserve A composition that visually bakes in safe zones: components above or..."
+          },
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Caption-Safe Stage",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Caption-Safe Stage"
+          }
+        ],
+        "format": [
+          {
+            "label": "Square Stage",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Caption-Safe Stage as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Stage",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Caption-Safe Stage to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Stage Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Caption-Safe Stage; keep A composition that visually bakes in safe zones: components above or beside, never fighting subtitles legible"
+          }
+        ]
+      },
+      "imageUrl": "/generated/mcp-thumbs/caption-safe-stage.jpg",
+      "sourceImageUrl": "/generated/ffc981c4fb12f97c0d7c686061bea742.png"
+    },
+    {
+      "id": "precise-cut-motion",
+      "title": "Precise Cut Motion",
+      "caption": "A visual hint for snap-in motion: one clean kinetic object, not a pile of effects.",
+      "source": "Motion selection: precise cut-in.",
+      "tone": "sharp, deliberate, modern",
+      "motif": "one sliding card, crisp shadow, motion trace, hard stop",
+      "palette": "white, black, aluminum, small amber accent",
+      "prompt": "Single high-speed product-style photograph of one matte rectangular card sliding into position on a clean surface, crisp shadow, subtle motion trace, hard-stop precision, minimal studio lighting, no readable text, no logos, no multiple panels, no corporate template look, no purple-blue palette, 16:9. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Minimal Cut",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Precise Cut Motion",
+            "promptHint": "Strip Precise Cut Motion down to a minimal premium frame; keep A visual hint for snap-in motion: one clean kinetic object, not a pile of effects legible but change the..."
+          },
+          {
+            "label": "Motion Cut",
+            "description": "More kinetic gesture, blur, or environmental energy around Precise Cut Motion",
+            "promptHint": "Introduce controlled motion to Precise Cut Motion while preserving the campaign cue: A visual hint for snap-in motion: one clean kinetic object, not a pile of effects"
+          },
+          {
+            "label": "Material Cut",
+            "description": "A closer tactile read of surface, temperature, and finish around Precise Cut Motion",
+            "promptHint": "Rebuild Precise Cut Motion as a tactile material study inspired by A visual hint for snap-in motion: one clean kinetic object, not a pile of effects, with a visibly different..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Cool Cut",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Precise Cut Motion; keep A visual hint for snap-in motion: one clean kinetic object, not a pile of effects intact"
+          },
+          {
+            "label": "Monochrome Cut",
+            "description": "A narrower near-monochrome treatment that lets one cue around Precise Cut Motion stand out",
+            "promptHint": "Reduce the palette around Precise Cut Motion to tonal restraint plus one preserved cue from A visual hint for snap-in motion: one clean kinetic object, not a pile of effects"
+          },
+          {
+            "label": "Warm Cut",
+            "description": "Warmer neutrals and tactile highlights around Precise Cut Motion",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Precise Cut Motion"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Cut Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Precise Cut Motion, keeping the most important source cue visible"
+          },
+          {
+            "label": "Cut Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Precise Cut Motion",
+            "promptHint": "Reframe Precise Cut Motion as a backstage or preparation moment; keep A visual hint for snap-in motion: one clean kinetic object, not a pile of effects recognizable"
+          },
+          {
+            "label": "Cut In Use",
+            "description": "A more believable real-world context for Precise Cut Motion",
+            "promptHint": "Place Precise Cut Motion into a realistic usage context; preserve the source image's core cue: A visual hint for snap-in motion: one clean kinetic object, not a pile of effects"
+          }
+        ],
+        "props": [
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Precise Cut Motion; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Precise Cut Motion feel actively used",
+            "promptHint": "Add restrained process cues around Precise Cut Motion; preserve the strongest visual idea from A visual hint for snap-in motion: one clean kinetic object, not a pile of effects"
+          },
+          {
+            "label": "Cut Cues",
+            "description": "Add restrained supporting objects that clarify the context of Precise Cut Motion",
+            "promptHint": "Add a few contextual props that reinforce A visual hint for snap-in motion: one clean kinetic object, not a pile of effects without distracting from Precise Cut Motion"
+          }
+        ],
+        "character": [
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Precise Cut Motion in an everyday user context without losing A visual hint for snap-in motion: one clean kinetic object, not a pile of effects"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Precise Cut Motion",
+            "promptHint": "Add a cropped passing figure or gesture around Precise Cut Motion; keep identity nonspecific and preserve A visual hint for snap-in motion: one clean kinetic object, not a pile..."
+          },
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Precise Cut Motion",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Precise Cut Motion"
+          }
+        ],
+        "format": [
+          {
+            "label": "Square Cut",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Precise Cut Motion as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Cut",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Precise Cut Motion to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Cut Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Precise Cut Motion; keep A visual hint for snap-in motion: one clean kinetic object, not a pile of effects legible"
+          }
+        ]
+      },
+      "imageUrl": "/generated/mcp-thumbs/precise-cut-motion.jpg",
+      "sourceImageUrl": "/generated/39c4b60aa844594fc028a8683f755ea2.png"
+    },
+    {
+      "id": "micro-chip-material",
+      "title": "Micro Detail Material",
+      "caption": "A macro language for technical moments: credible texture without fake specificity.",
+      "source": "Technology visual territory without unsupported factual claims.",
+      "tone": "technical, premium, abstract",
+      "motif": "machined surface, circuit-like traces, shallow depth of field",
+      "palette": "brushed aluminum, graphite, warm specular highlight, tiny cyan",
+      "prompt": "Single macro material photograph of an abstract machined technology surface with circuit-like grooves and shallow depth of field, premium restrained lighting, no readable labels, no brand marks, no fake chip model, no neon cyberpunk, no purple-blue gradients, 16:9. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Material Material",
+            "description": "A closer tactile read of surface, temperature, and finish around Micro Detail Material",
+            "promptHint": "Rebuild Micro Detail Material as a tactile material study inspired by A macro language for technical moments: credible texture without fake specificity, with a visibly..."
+          },
+          {
+            "label": "Dramatic Material",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Micro Detail Material; keep A macro language for technical moments: credible texture without fake specificity recognizable but alter..."
+          },
+          {
+            "label": "Candid Material",
+            "description": "More natural texture and believable lived-in detail for Micro Detail Material",
+            "promptHint": "Shift Micro Detail Material toward documentary realism while preserving A macro language for technical moments: credible texture without fake specificity; make lighting and..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Accent Material",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Micro Detail Material without changing the main subject"
+          },
+          {
+            "label": "Unexpected Material",
+            "description": "A more surprising secondary color relationship around Micro Detail Material",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends A macro language for technical moments: credible texture without fake specificity"
+          },
+          {
+            "label": "Cool Material",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Micro Detail Material; keep A macro language for technical moments: credible texture without fake specificity intact"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Material In Use",
+            "description": "A more believable real-world context for Micro Detail Material",
+            "promptHint": "Place Micro Detail Material into a realistic usage context; preserve the source image's core cue: A macro language for technical moments: credible texture without fake specificity"
+          },
+          {
+            "label": "Material Exterior",
+            "description": "Move Micro Detail Material into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Micro Detail Material into an exterior or entryway scene while preserving the core cue: A macro language for technical moments: credible texture without fake specificity"
+          },
+          {
+            "label": "Material Studio",
+            "description": "A cleaner controlled studio setting that keeps Micro Detail Material dominant",
+            "promptHint": "Move Micro Detail Material into a cleaner studio-hero setting while preserving A macro language for technical moments: credible texture without fake specificity"
+          }
+        ],
+        "props": [
+          {
+            "label": "Material Cues",
+            "description": "Add restrained supporting objects that clarify the context of Micro Detail Material",
+            "promptHint": "Add a few contextual props that reinforce A macro language for technical moments: credible texture without fake specificity without distracting from Micro Detail Material"
+          },
+          {
+            "label": "Unexpected Material Prop",
+            "description": "One surprising but believable object that opens a new story around Micro Detail Material",
+            "promptHint": "Add one unexpected supporting prop that extends A macro language for technical moments: credible texture without fake specificity without stealing focus from Micro Detail Material"
+          },
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Micro Detail Material carries more weight",
+            "promptHint": "Remove nonessential props and keep Micro Detail Material as the dominant read"
+          }
+        ],
+        "character": [
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Micro Detail Material",
+            "promptHint": "Introduce a collector or tastemaker presence around Micro Detail Material while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Micro Detail Material in an everyday user context without losing A macro language for technical moments: credible texture without fake specificity"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Micro Detail Material",
+            "promptHint": "Add a cropped passing figure or gesture around Micro Detail Material; keep identity nonspecific and preserve A macro language for technical moments: credible texture without..."
+          }
+        ],
+        "format": [
+          {
+            "label": "Square Material",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Micro Detail Material as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Material",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Micro Detail Material to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Material Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Micro Detail Material; keep A macro language for technical moments: credible texture without fake specificity legible"
+          }
+        ]
+      },
+      "imageUrl": "/generated/mcp-thumbs/micro-chip-material.jpg",
+      "sourceImageUrl": "/generated/f756f9d76cc73dce4fd4e3bbe4cee526.png"
+    },
+    {
+      "id": "editorial-thought-wall",
+      "title": "Editorial Thought Wall",
+      "caption": "For industry judgment videos: a composed wall of analog thinking, not a chaotic sticky-note board.",
+      "source": "Audience: technology trends and industry judgment.",
+      "tone": "editorial, intelligent, human",
+      "motif": "few blank cards, pins, neutral wall, one strong accent line",
+      "palette": "paper white, charcoal, muted gold, warm gray",
+      "prompt": "Single editorial photograph of a restrained thought wall with a few blank paper cards and one clean muted-gold connecting line, neutral studio wall, intelligent analysis mood, no legible writing, no logos, no crowded sticky-note chaos, no corporate workshop aesthetic, 16:9. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Dramatic Wall",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Editorial Thought Wall; keep For industry judgment videos: a composed wall of analog thinking, not a chaotic sticky-note board..."
+          },
+          {
+            "label": "Candid Wall",
+            "description": "More natural texture and believable lived-in detail for Editorial Thought Wall",
+            "promptHint": "Shift Editorial Thought Wall toward documentary realism while preserving For industry judgment videos: a composed wall of analog thinking, not a chaotic sticky-note board; make..."
+          },
+          {
+            "label": "Editorial Wall",
+            "description": "Cleaner light and hierarchy around Editorial Thought Wall",
+            "promptHint": "Apply a polished editorial treatment to Editorial Thought Wall; preserve For industry judgment videos: a composed wall of analog thinking, not a chaotic sticky-note board while..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Accent Wall",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Editorial Thought Wall without changing the main subject"
+          },
+          {
+            "label": "Unexpected Wall",
+            "description": "A more surprising secondary color relationship around Editorial Thought Wall",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends For industry judgment videos: a composed wall of analog thinking, not a chaotic..."
+          },
+          {
+            "label": "Cool Wall",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Editorial Thought Wall; keep For industry judgment videos: a composed wall of analog thinking, not a chaotic sticky-note board intact"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Wall Exterior",
+            "description": "Move Editorial Thought Wall into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Editorial Thought Wall into an exterior or entryway scene while preserving the core cue: For industry judgment videos: a composed wall of analog thinking, not a..."
+          },
+          {
+            "label": "Wall Studio",
+            "description": "A cleaner controlled studio setting that keeps Editorial Thought Wall dominant",
+            "promptHint": "Move Editorial Thought Wall into a cleaner studio-hero setting while preserving For industry judgment videos: a composed wall of analog thinking, not a chaotic sticky-note board"
+          },
+          {
+            "label": "Wall Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Editorial Thought Wall, keeping the most important source cue visible"
+          }
+        ],
+        "props": [
+          {
+            "label": "Unexpected Wall Prop",
+            "description": "One surprising but believable object that opens a new story around Editorial Thought Wall",
+            "promptHint": "Add one unexpected supporting prop that extends For industry judgment videos: a composed wall of analog thinking, not a chaotic sticky-note board without stealing focus from..."
+          },
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Editorial Thought Wall carries more weight",
+            "promptHint": "Remove nonessential props and keep Editorial Thought Wall as the dominant read"
+          },
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Editorial Thought Wall; preserve the source image's composition"
+          }
+        ],
+        "character": [
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Editorial Thought Wall carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Editorial Thought Wall",
+            "promptHint": "Introduce a collector or tastemaker presence around Editorial Thought Wall while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Editorial Thought Wall in an everyday user context without losing For industry judgment videos: a composed wall of analog thinking, not a chaotic sticky-note board"
+          }
+        ],
+        "format": [
+          {
+            "label": "Split-Depth Wall",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Editorial Thought Wall; do not make a collage or panel layout"
+          },
+          {
+            "label": "Wide Wall",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Editorial Thought Wall to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Wall",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Editorial Thought Wall as a square frame with a changed focal balance and the core cue intact"
+          }
+        ]
+      },
+      "imageUrl": "/generated/mcp-thumbs/editorial-thought-wall.jpg",
+      "sourceImageUrl": "/generated/5fe1463995e9bbc21a28c7e05e8153db.png"
+    },
+    {
+      "id": "tool-comparison-tabletop",
+      "title": "Tool Comparison Tabletop",
+      "caption": "A visual route for comparing AI tools as objects with weight and distance.",
+      "source": "AI tool comparison and review use case.",
+      "tone": "fair, systematic, tactile",
+      "motif": "three blank object cards, measured spacing, ruler-like marks",
+      "palette": "warm white, black, aluminum, small cyan",
+      "prompt": "Single overhead product photograph of three blank physical comparison cards on a precise tabletop with subtle ruler-like marks and measured spacing, fair analytical mood, no readable text, no scores, no logos, no UI labels, no collage, no purple-blue AI styling, 16:9. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Dramatic Tabletop",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Tool Comparison Tabletop; keep A visual route for comparing AI tools as objects with weight and distance recognizable but alter..."
+          },
+          {
+            "label": "Candid Tabletop",
+            "description": "More natural texture and believable lived-in detail for Tool Comparison Tabletop",
+            "promptHint": "Shift Tool Comparison Tabletop toward documentary realism while preserving A visual route for comparing AI tools as objects with weight and distance; make lighting and staging..."
+          },
+          {
+            "label": "Editorial Tabletop",
+            "description": "Cleaner light and hierarchy around Tool Comparison Tabletop",
+            "promptHint": "Apply a polished editorial treatment to Tool Comparison Tabletop; preserve A visual route for comparing AI tools as objects with weight and distance while changing the..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Accent Tabletop",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Tool Comparison Tabletop without changing the main subject"
+          },
+          {
+            "label": "Unexpected Tabletop",
+            "description": "A more surprising secondary color relationship around Tool Comparison Tabletop",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends A visual route for comparing AI tools as objects with weight and distance"
+          },
+          {
+            "label": "Cool Tabletop",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Tool Comparison Tabletop; keep A visual route for comparing AI tools as objects with weight and distance intact"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Tabletop In Use",
+            "description": "A more believable real-world context for Tool Comparison Tabletop",
+            "promptHint": "Place Tool Comparison Tabletop into a realistic usage context; preserve the source image's core cue: A visual route for comparing AI tools as objects with weight and distance"
+          },
+          {
+            "label": "Tabletop Exterior",
+            "description": "Move Tool Comparison Tabletop into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Tool Comparison Tabletop into an exterior or entryway scene while preserving the core cue: A visual route for comparing AI tools as objects with weight and distance"
+          },
+          {
+            "label": "Tabletop Studio",
+            "description": "A cleaner controlled studio setting that keeps Tool Comparison Tabletop dominant",
+            "promptHint": "Move Tool Comparison Tabletop into a cleaner studio-hero setting while preserving A visual route for comparing AI tools as objects with weight and distance"
+          }
+        ],
+        "props": [
+          {
+            "label": "Tabletop Cues",
+            "description": "Add restrained supporting objects that clarify the context of Tool Comparison Tabletop",
+            "promptHint": "Add a few contextual props that reinforce A visual route for comparing AI tools as objects with weight and distance without distracting from Tool Comparison Tabletop"
+          },
+          {
+            "label": "Unexpected Tabletop Prop",
+            "description": "One surprising but believable object that opens a new story around Tool Comparison Tabletop",
+            "promptHint": "Add one unexpected supporting prop that extends A visual route for comparing AI tools as objects with weight and distance without stealing focus from Tool Comparison Tabletop"
+          },
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Tool Comparison Tabletop carries more weight",
+            "promptHint": "Remove nonessential props and keep Tool Comparison Tabletop as the dominant read"
+          }
+        ],
+        "character": [
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Tool Comparison Tabletop",
+            "promptHint": "Introduce a collector or tastemaker presence around Tool Comparison Tabletop while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Tool Comparison Tabletop in an everyday user context without losing A visual route for comparing AI tools as objects with weight and distance"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Tool Comparison Tabletop",
+            "promptHint": "Add a cropped passing figure or gesture around Tool Comparison Tabletop; keep identity nonspecific and preserve A visual route for comparing AI tools as objects with weight and..."
+          }
+        ],
+        "format": [
+          {
+            "label": "Square Tabletop",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Tool Comparison Tabletop as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Tabletop",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Tool Comparison Tabletop to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Tabletop Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Tool Comparison Tabletop; keep A visual route for comparing AI tools as objects with weight and distance legible"
+          }
+        ]
+      },
+      "imageUrl": "/generated/mcp-thumbs/tool-comparison-tabletop.jpg",
+      "sourceImageUrl": "/generated/748b6b4dadaaf654074962c0cc2542af.png"
+    },
+    {
+      "id": "launch-light-reveal",
+      "title": "Launch Light Reveal",
+      "caption": "A hero-light direction for big claims or episode openings, while staying grounded.",
+      "source": "Product launch feel selected in intake.",
+      "tone": "anticipatory, premium, restrained",
+      "motif": "soft light beam, neutral object edge, black stage, clean negative space",
+      "palette": "deep black, warm white, brushed metal, faint cyan",
+      "prompt": "Single cinematic launch-stage photograph of a minimal abstract technology object edge revealed by a soft warm light beam on a black stage, large clean negative space for future motion graphics, no readable text, no logo, no gradient blob, no purple-blue AI template style, premium but grounded, 16:9. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Motion Reveal",
+            "description": "More kinetic gesture, blur, or environmental energy around Launch Light Reveal",
+            "promptHint": "Introduce controlled motion to Launch Light Reveal while preserving the campaign cue: A hero-light direction for big claims or episode openings, while staying grounded"
+          },
+          {
+            "label": "Material Reveal",
+            "description": "A closer tactile read of surface, temperature, and finish around Launch Light Reveal",
+            "promptHint": "Rebuild Launch Light Reveal as a tactile material study inspired by A hero-light direction for big claims or episode openings, while staying grounded, with a visibly different..."
+          },
+          {
+            "label": "Dramatic Reveal",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Launch Light Reveal; keep A hero-light direction for big claims or episode openings, while staying grounded recognizable but alter..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Warm Reveal",
+            "description": "Warmer neutrals and tactile highlights around Launch Light Reveal",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Launch Light Reveal"
+          },
+          {
+            "label": "Accent Reveal",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Launch Light Reveal without changing the main subject"
+          },
+          {
+            "label": "Unexpected Reveal",
+            "description": "A more surprising secondary color relationship around Launch Light Reveal",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends A hero-light direction for big claims or episode openings, while staying grounded"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Reveal Exterior",
+            "description": "Move Launch Light Reveal into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Launch Light Reveal into an exterior or entryway scene while preserving the core cue: A hero-light direction for big claims or episode openings, while staying grounded"
+          },
+          {
+            "label": "Reveal Studio",
+            "description": "A cleaner controlled studio setting that keeps Launch Light Reveal dominant",
+            "promptHint": "Move Launch Light Reveal into a cleaner studio-hero setting while preserving A hero-light direction for big claims or episode openings, while staying grounded"
+          },
+          {
+            "label": "Reveal Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Launch Light Reveal, keeping the most important source cue visible"
+          }
+        ],
+        "props": [
+          {
+            "label": "Unexpected Reveal Prop",
+            "description": "One surprising but believable object that opens a new story around Launch Light Reveal",
+            "promptHint": "Add one unexpected supporting prop that extends A hero-light direction for big claims or episode openings, while staying grounded without stealing focus from Launch Light Reveal"
+          },
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Launch Light Reveal carries more weight",
+            "promptHint": "Remove nonessential props and keep Launch Light Reveal as the dominant read"
+          },
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Launch Light Reveal; preserve the source image's composition"
+          }
+        ],
+        "character": [
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Launch Light Reveal",
+            "promptHint": "Add a cropped passing figure or gesture around Launch Light Reveal; keep identity nonspecific and preserve A hero-light direction for big claims or episode openings, while..."
+          },
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Launch Light Reveal",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Launch Light Reveal"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Launch Light Reveal carry the image"
+          }
+        ],
+        "format": [
+          {
+            "label": "Square Reveal",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Launch Light Reveal as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Reveal",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Launch Light Reveal to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Reveal Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Launch Light Reveal; keep A hero-light direction for big claims or episode openings, while staying grounded legible"
+          }
+        ]
+      },
+      "imageUrl": "/generated/mcp-thumbs/launch-light-reveal.jpg",
+      "sourceImageUrl": "/generated/0684ec180fd5dd8c84a504a7ba045ba3.png"
+    }
+  ]
+}

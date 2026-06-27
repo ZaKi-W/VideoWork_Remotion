@@ -1,0 +1,7 @@
+{
+  "id": "editorial-thought-wall",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation returned an image in chat but did not provide accessible PNG bytes or a local file path to save.",
+  "caveats": ""
+}

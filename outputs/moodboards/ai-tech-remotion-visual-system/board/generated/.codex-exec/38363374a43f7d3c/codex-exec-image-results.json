@@ -1,0 +1,93 @@
+{
+  "status": "partial",
+  "total": 12,
+  "complete": 10,
+  "failed": 2,
+  "pending": 0,
+  "results": [
+    {
+      "id": "lab-desk-human-hands",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-remotion-visual-system/board/generated/.codex-exec/38363374a43f7d3c/8df153844f459f3f7a905c56fe65ed59.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "floating-physical-cards",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-remotion-visual-system/board/generated/.codex-exec/38363374a43f7d3c/cc75be7f771ba83821b37dcc2389b0f7.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "product-launch-bench",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-remotion-visual-system/board/generated/.codex-exec/38363374a43f7d3c/082bfb917e0a080f571f7552b5410799.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "handwritten-model-map",
+      "status": "failed",
+      "image_path": null,
+      "error": "Native image generation completed, but no local PNG file path or writable image bytes were exposed for saving.",
+      "caveats": ""
+    },
+    {
+      "id": "transparent-lab-panel",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-remotion-visual-system/board/generated/.codex-exec/38363374a43f7d3c/246d9db80b931490901ccb1e893e8647.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "caption-safe-stage",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-remotion-visual-system/board/generated/.codex-exec/38363374a43f7d3c/ffc981c4fb12f97c0d7c686061bea742.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "precise-cut-motion",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-remotion-visual-system/board/generated/.codex-exec/38363374a43f7d3c/39c4b60aa844594fc028a8683f755ea2.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "quiet-ai-workbench",
+      "status": "failed",
+      "image_path": null,
+      "error": "Native image generation completed but did not expose a local PNG path or bytes that could be saved in this environment.",
+      "caveats": ""
+    },
+    {
+      "id": "micro-chip-material",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-remotion-visual-system/board/generated/.codex-exec/38363374a43f7d3c/f756f9d76cc73dce4fd4e3bbe4cee526.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "editorial-thought-wall",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-remotion-visual-system/board/generated/.codex-exec/38363374a43f7d3c/5fe1463995e9bbc21a28c7e05e8153db.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "tool-comparison-tabletop",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-remotion-visual-system/board/generated/.codex-exec/38363374a43f7d3c/748b6b4dadaaf654074962c0cc2542af.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "launch-light-reveal",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-remotion-visual-system/board/generated/.codex-exec/38363374a43f7d3c/0684ec180fd5dd8c84a504a7ba045ba3.png",
+      "error": null,
+      "caveats": ""
+    }
+  ]
+}

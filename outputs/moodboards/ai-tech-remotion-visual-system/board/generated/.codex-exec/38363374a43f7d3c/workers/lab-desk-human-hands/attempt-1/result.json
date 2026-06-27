@@ -1,0 +1,7 @@
+{
+  "id": "lab-desk-human-hands",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation returned an image in chat, but no accessible PNG file handle/path was provided for saving to the requested location.",
+  "caveats": ""
+}

@@ -1,0 +1,7 @@
+{
+  "id": "source-dock-collapsed-strip",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation returned an image in-chat but did not expose a savable PNG file handle/path in this environment.",
+  "caveats": ""
+}

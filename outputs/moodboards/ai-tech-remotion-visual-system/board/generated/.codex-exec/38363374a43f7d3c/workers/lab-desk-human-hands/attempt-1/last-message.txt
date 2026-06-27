@@ -1,0 +1,4 @@
+Failed to save the generated PNG because the native image tool did not provide an accessible local PNG path/file handle.
+
+Wrote the required failure JSON to:
+`generated/.codex-exec/38363374a43f7d3c/workers/lab-desk-human-hands/attempt-1/result.json`

@@ -1,0 +1,7 @@
+{
+  "id": "quiet-ai-workbench",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation completed but did not expose a local PNG path or bytes that could be saved in this environment.",
+  "caveats": ""
+}

@@ -1,0 +1,93 @@
+{
+  "status": "partial",
+  "total": 12,
+  "complete": 10,
+  "failed": 2,
+  "pending": 0,
+  "results": [
+    {
+      "id": "source-dock-left-sidebar",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-overlay-components-system/board/generated/.codex-exec/136c98da26ffc82a/6f40d96bda0d606a5a2034d9f27ee490.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "source-dock-collapsed-strip",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-overlay-components-system/board/generated/.codex-exec/136c98da26ffc82a/1173fc1b43031f883bab91b8b643b48a.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "physical-card-step-stack",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-overlay-components-system/board/generated/.codex-exec/136c98da26ffc82a/3bbc1a33bd85d29926c780c2a6595dc7.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "physical-card-conclusion-snap",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-overlay-components-system/board/generated/.codex-exec/136c98da26ffc82a/d5b8eb563044d59779b1cceae84a577a.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "model-structure-agent-pipeline",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-overlay-components-system/board/generated/.codex-exec/136c98da26ffc82a/4cfac163b7856690976ecc9a4812511a.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "model-structure-loop-diagram",
+      "status": "failed",
+      "image_path": null,
+      "error": "Native image generation returned an in-chat image but no filesystem-writable PNG handle was available.",
+      "caveats": ""
+    },
+    {
+      "id": "scanline-ui-focus-box",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-overlay-components-system/board/generated/.codex-exec/136c98da26ffc82a/404432d56087b4f6966b99ba88811d63.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "scanline-parameter-reveal",
+      "status": "failed",
+      "image_path": null,
+      "error": "Native image generation completed but did not provide a savable file path or bytes in this environment.",
+      "caveats": ""
+    },
+    {
+      "id": "tool-comparison-balance",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-overlay-components-system/board/generated/.codex-exec/136c98da26ffc82a/6c543703ec4ccb8636e37d8d8b11bb12.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "tool-comparison-route-choice",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-overlay-components-system/board/generated/.codex-exec/136c98da26ffc82a/ff7258432d2d71bc582265751d4d0894.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "claim-deconstruction-three-layers",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-overlay-components-system/board/generated/.codex-exec/136c98da26ffc82a/fd5d29f2ed8b846ff078999969d33fe5.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "claim-deconstruction-risk-pin",
+      "status": "complete",
+      "image_path": "/Users/wangzijin/Documents/MyCode/VideoWork_Remotion/outputs/moodboards/ai-tech-overlay-components-system/board/generated/.codex-exec/136c98da26ffc82a/36fb8a80ab7fe8d86ed9908c92b6fdcc.png",
+      "error": null,
+      "caveats": ""
+    }
+  ]
+}

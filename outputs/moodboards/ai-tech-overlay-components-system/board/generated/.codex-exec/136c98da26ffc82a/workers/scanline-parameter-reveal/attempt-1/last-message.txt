@@ -1,0 +1,3 @@
+Failed per the requested fallback path: native `image_gen.imagegen` produced a preview but did not expose an accessible PNG path or bytes I could save.
+
+Wrote `result.json` with `"status": "failed"` at the requested location.

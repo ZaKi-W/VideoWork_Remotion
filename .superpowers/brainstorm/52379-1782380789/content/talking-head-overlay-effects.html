@@ -1,0 +1,280 @@
+<style>
+  :root {
+    --bg: #08090b;
+    --panel: rgba(18, 20, 24, 0.92);
+    --line: rgba(255, 255, 255, 0.22);
+    --line-soft: rgba(255, 255, 255, 0.12);
+    --text: rgba(255, 255, 255, 0.9);
+    --muted: rgba(255, 255, 255, 0.58);
+    --cyan: #67d7c4;
+    --gold: #f0c45a;
+    --red: #e85a4f;
+    --blue: #74a7ff;
+  }
+  .effect-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 22px;
+  }
+  .effect-card {
+    border: 1px solid var(--line-soft);
+    border-radius: 8px;
+    background: #101216;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .effect-card.selected {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+  .video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+      #07080a;
+    background-size: 32px 32px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .person {
+    position: absolute;
+    left: 50%;
+    top: 19%;
+    transform: translateX(-50%);
+    width: 17%;
+    height: 39%;
+    border: 1px solid rgba(255,255,255,0.24);
+    border-radius: 999px 999px 22px 22px;
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 0 0 28px rgba(255,255,255,0.025);
+  }
+  .safe {
+    position: absolute;
+    left: 39%;
+    top: 9%;
+    width: 22%;
+    height: 58%;
+    border: 1px dashed rgba(240,196,90,0.38);
+  }
+  .subtitle-safe {
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    bottom: 7%;
+    height: 12%;
+    border: 1px dashed rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.035);
+  }
+  .card-body {
+    padding: 14px 15px 16px;
+  }
+  .card-body h3 {
+    margin: 0 0 7px;
+    font-size: 17px;
+  }
+  .card-body p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 11px;
+  }
+  .tag {
+    font-size: 11px;
+    padding: 3px 7px;
+    border-radius: 999px;
+    border: 1px solid var(--line-soft);
+    color: rgba(255,255,255,0.68);
+  }
+  .mini-title {
+    height: 8px;
+    background: rgba(255,255,255,0.72);
+  }
+  .mini-line {
+    height: 5px;
+    background: rgba(255,255,255,0.18);
+  }
+  .float-card {
+    position: absolute;
+    background: rgba(15,17,21,0.94);
+    border: 1px solid var(--line);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.32);
+  }
+  .accent-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--cyan);
+  }
+  .pin {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .scan-line {
+    position: absolute;
+    left: 7%;
+    right: 7%;
+    height: 2px;
+    background: var(--cyan);
+    box-shadow: 0 0 16px rgba(103,215,196,0.45);
+  }
+  .node {
+    position: absolute;
+    width: 46px;
+    height: 30px;
+    border: 1px solid rgba(103,215,196,0.55);
+    background: rgba(103,215,196,0.08);
+  }
+  .connector {
+    position: absolute;
+    height: 1px;
+    background: rgba(103,215,196,0.45);
+    transform-origin: left center;
+  }
+  .compare-box {
+    position: absolute;
+    top: 17%;
+    width: 22%;
+    height: 38%;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.055);
+  }
+  .quote-mark {
+    position: absolute;
+    font-size: 62px;
+    line-height: 1;
+    color: rgba(240,196,90,0.72);
+    font-family: Georgia, serif;
+  }
+  @media (max-width: 980px) {
+    .effect-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<h2>口播视频上层特效：重新对准版</h2>
+<p class="subtitle">这些不是实拍 moodboard，而是“叠在你口播视频上的 Remotion 视觉组件风格”。虚线黄框是人物安全区，底部虚线框是字幕安全区。选 2-3 个最适合你长期复用的方向。</p>
+
+<div class="effect-grid" data-multiselect>
+  <div class="effect-card" data-choice="source-evidence-dock" onclick="toggleSelect(this)">
+    <div class="video">
+      <div class="person"></div><div class="safe"></div><div class="subtitle-safe"></div>
+      <div class="float-card" style="left:6%;top:18%;width:25%;height:32%;">
+        <div class="accent-left"></div>
+        <div class="mini-title" style="position:absolute;left:14%;top:18%;width:54%;"></div>
+        <div class="mini-line" style="position:absolute;left:14%;top:39%;width:72%;"></div>
+        <div class="mini-line" style="position:absolute;left:14%;top:55%;width:48%;"></div>
+        <div class="pin" style="right:9%;top:12%;"></div>
+      </div>
+      <div class="float-card" style="right:7%;top:28%;width:21%;height:22%;border-color:rgba(240,196,90,0.42);">
+        <div class="mini-line" style="position:absolute;left:14%;top:30%;width:64%;"></div>
+        <div class="mini-line" style="position:absolute;left:14%;top:52%;width:42%;"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. 来源证据 Dock</h3>
+      <p>证据类内容只在侧边出现，像“可追溯资料夹”贴在画面上，不侵入人物和字幕区。</p>
+      <div class="tag-row"><span class="tag">证据框</span><span class="tag">来源感</span><span class="tag">低信息密度</span></div>
+    </div>
+  </div>
+
+  <div class="effect-card" data-choice="floating-card-stack" onclick="toggleSelect(this)">
+    <div class="video">
+      <div class="person"></div><div class="safe"></div><div class="subtitle-safe"></div>
+      <div class="float-card" style="left:7%;top:16%;width:20%;height:18%;transform:rotate(-2deg);"></div>
+      <div class="float-card" style="left:10%;top:25%;width:24%;height:22%;transform:rotate(1deg);border-color:rgba(116,167,255,0.44);"></div>
+      <div class="float-card" style="right:8%;top:18%;width:23%;height:26%;transform:rotate(2deg);">
+        <div class="mini-title" style="position:absolute;left:12%;top:22%;width:52%;"></div>
+        <div class="mini-line" style="position:absolute;left:12%;top:48%;width:66%;"></div>
+      </div>
+      <div style="position:absolute;right:19%;top:49%;width:12%;height:2px;background:var(--gold);"></div>
+    </div>
+    <div class="card-body">
+      <h3>B. 实体卡片栈</h3>
+      <p>把观点、步骤、工具对比做成有厚度的悬浮卡片，靠切入和轻微错层建立节奏。</p>
+      <div class="tag-row"><span class="tag">实体感</span><span class="tag">精准切入</span><span class="tag">适合方法论</span></div>
+    </div>
+  </div>
+
+  <div class="effect-card" data-choice="model-structure-overlay" onclick="toggleSelect(this)">
+    <div class="video">
+      <div class="person"></div><div class="safe"></div><div class="subtitle-safe"></div>
+      <div class="node" style="left:10%;top:20%;"></div>
+      <div class="node" style="left:21%;top:40%;border-color:rgba(240,196,90,0.58);background:rgba(240,196,90,0.08);"></div>
+      <div class="node" style="right:12%;top:22%;"></div>
+      <div class="node" style="right:24%;top:48%;"></div>
+      <div class="connector" style="left:19%;top:29%;width:11%;transform:rotate(27deg);"></div>
+      <div class="connector" style="right:20%;top:32%;width:10%;transform:rotate(145deg);"></div>
+      <div class="connector" style="right:26%;top:47%;width:9%;transform:rotate(65deg);"></div>
+    </div>
+    <div class="card-body">
+      <h3>C. 模型结构浮层</h3>
+      <p>用节点、连线和少量高亮解释模型链路、Agent 流程或产品架构，保持抽象不伪造事实。</p>
+      <div class="tag-row"><span class="tag">结构图</span><span class="tag">抽象解释</span><span class="tag">技术可信</span></div>
+    </div>
+  </div>
+
+  <div class="effect-card" data-choice="scanline-callout" onclick="toggleSelect(this)">
+    <div class="video">
+      <div class="person"></div><div class="safe"></div><div class="subtitle-safe"></div>
+      <div class="scan-line" style="top:22%;"></div>
+      <div class="scan-line" style="top:48%;opacity:0.45;"></div>
+      <div class="float-card" style="right:8%;top:16%;width:20%;height:18%;border-color:rgba(103,215,196,0.5);">
+        <div class="mini-line" style="position:absolute;left:16%;top:34%;width:56%;background:rgba(103,215,196,0.72);"></div>
+      </div>
+      <div style="position:absolute;left:8%;top:39%;width:16%;height:16%;border:1px solid rgba(103,215,196,0.42);"></div>
+    </div>
+    <div class="card-body">
+      <h3>D. 扫描式标注</h3>
+      <p>适合拆 UI、参数、发布会截图：扫描线经过，局部被框选，标注卡只承担一个说明任务。</p>
+      <div class="tag-row"><span class="tag">局部聚焦</span><span class="tag">界面分析</span><span class="tag">不堆特效</span></div>
+    </div>
+  </div>
+
+  <div class="effect-card" data-choice="tool-comparison-overlay" onclick="toggleSelect(this)">
+    <div class="video">
+      <div class="person"></div><div class="safe"></div><div class="subtitle-safe"></div>
+      <div class="compare-box" style="left:7%;"></div>
+      <div class="compare-box" style="right:7%;border-color:rgba(240,196,90,0.42);"></div>
+      <div style="position:absolute;left:30%;right:30%;top:35%;height:1px;background:rgba(255,255,255,0.22);"></div>
+      <div style="position:absolute;left:48.5%;top:31%;width:3%;height:9%;border:1px solid var(--line);background:rgba(255,255,255,0.06);"></div>
+    </div>
+    <div class="card-body">
+      <h3>E. 工具对比天平</h3>
+      <p>两侧悬浮对比，不把正文塞进字幕区；中间保留人物权威感，适合工具评测和观点对撞。</p>
+      <div class="tag-row"><span class="tag">左右对比</span><span class="tag">评测</span><span class="tag">人物居中安全</span></div>
+    </div>
+  </div>
+
+  <div class="effect-card" data-choice="claim-deconstruction" onclick="toggleSelect(this)">
+    <div class="video">
+      <div class="person"></div><div class="safe"></div><div class="subtitle-safe"></div>
+      <div class="quote-mark" style="left:8%;top:14%;">“</div>
+      <div class="float-card" style="left:15%;top:23%;width:22%;height:22%;border-color:rgba(240,196,90,0.48);">
+        <div class="mini-line" style="position:absolute;left:14%;top:34%;width:64%;"></div>
+        <div class="mini-line" style="position:absolute;left:14%;top:54%;width:44%;"></div>
+      </div>
+      <div style="position:absolute;right:11%;top:24%;width:20%;height:2px;background:var(--red);"></div>
+      <div style="position:absolute;right:14%;top:37%;width:16%;height:2px;background:var(--gold);"></div>
+      <div style="position:absolute;right:18%;top:50%;width:12%;height:2px;background:var(--cyan);"></div>
+    </div>
+    <div class="card-body">
+      <h3>F. 观点拆解浮层</h3>
+      <p>把一句话拆成“主张、证据、风险”三层，不靠花哨，而靠层级和节奏让观点变清楚。</p>
+      <div class="tag-row"><span class="tag">观点视频</span><span class="tag">三层拆解</span><span class="tag">编辑感</span></div>
+    </div>
+  </div>
+</div>

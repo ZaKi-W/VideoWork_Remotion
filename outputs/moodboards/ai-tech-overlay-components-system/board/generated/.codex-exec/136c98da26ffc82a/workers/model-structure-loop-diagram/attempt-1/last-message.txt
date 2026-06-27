@@ -1,0 +1,3 @@
+已调用一次原生 `image_gen.imagegen`。由于工具没有返回可访问的 PNG 文件路径或字节流，我没有创建占位图，并已按要求写入失败状态：
+
+`generated/.codex-exec/136c98da26ffc82a/workers/model-structure-loop-diagram/attempt-1/result.json`

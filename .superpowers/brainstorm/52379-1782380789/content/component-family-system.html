@@ -1,0 +1,226 @@
+<style>
+  .system-wrap {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 18px;
+  }
+  .panel {
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px;
+    background: #101216;
+    padding: 16px;
+  }
+  .panel h3 {
+    margin: 0 0 12px;
+  }
+  .rule-list {
+    display: grid;
+    gap: 10px;
+  }
+  .rule {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    gap: 12px;
+    padding: 11px 0;
+    border-top: 1px solid rgba(255,255,255,0.09);
+  }
+  .rule:first-child {
+    border-top: 0;
+  }
+  .trigger {
+    color: #f0c45a;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+  .use {
+    color: rgba(255,255,255,0.74);
+    line-height: 1.45;
+  }
+  .component-map {
+    display: grid;
+    gap: 10px;
+  }
+  .component-row {
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 12px;
+    background: rgba(255,255,255,0.035);
+  }
+  .component-row strong {
+    display: block;
+    margin-bottom: 6px;
+  }
+  .component-row span {
+    display: block;
+    color: rgba(255,255,255,0.64);
+    line-height: 1.42;
+  }
+  .video-strip {
+    margin-top: 18px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #07080a;
+  }
+  .strip-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+      #07080a;
+    background-size: 34px 34px;
+  }
+  .person {
+    position: absolute;
+    left: 50%;
+    top: 18%;
+    transform: translateX(-50%);
+    width: 12%;
+    height: 34%;
+    border-radius: 999px 999px 18px 18px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.1);
+  }
+  .subtitle-band {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    bottom: 7%;
+    height: 11%;
+    border: 1px dashed rgba(255,255,255,0.24);
+    background: rgba(255,255,255,0.035);
+  }
+  .effect {
+    position: absolute;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(18,20,24,0.9);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+  }
+  .mini {
+    position: absolute;
+    height: 5px;
+    background: rgba(255,255,255,0.26);
+  }
+  .accent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #67d7c4;
+  }
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .tick {
+    padding: 10px;
+    border-left: 1px solid rgba(255,255,255,0.08);
+    min-height: 64px;
+  }
+  .tick:first-child {
+    border-left: 0;
+  }
+  .tick b {
+    display: block;
+    font-size: 12px;
+    color: #f0c45a;
+    margin-bottom: 5px;
+  }
+  .tick span {
+    display: block;
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+  @media (max-width: 980px) {
+    .system-wrap {
+      grid-template-columns: 1fr;
+    }
+    .timeline {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
+
+<h2>组件系统原则：多样化，但由内容触发</h2>
+<p class="subtitle">6 类组件都保留。它们不是互斥风格，而是同一频道视觉语言下的不同“语法”。每段口播只选一个主组件，最多两个辅助标注。</p>
+
+<div class="system-wrap">
+  <div class="panel">
+    <h3>出现什么元素，就用什么组件</h3>
+    <div class="rule-list">
+      <div class="rule">
+        <div class="trigger">网页 / 新闻 / 报告 / 截图来源</div>
+        <div class="use">用 <strong>来源证据 Dock</strong>。来源必须可追溯；不确定来源时，只能做抽象解释框。</div>
+      </div>
+      <div class="rule">
+        <div class="trigger">步骤 / 清单 / 方法 / 结论</div>
+        <div class="use">用 <strong>实体卡片栈</strong>。一张卡承担一个信息点，靠切入和错层产生节奏。</div>
+      </div>
+      <div class="rule">
+        <div class="trigger">模型链路 / Agent 流程 / 架构关系</div>
+        <div class="use">用 <strong>模型结构浮层</strong>。节点连线保持抽象，不伪造具体数据或品牌事实。</div>
+      </div>
+      <div class="rule">
+        <div class="trigger">产品 UI / 参数 / 截图局部 / 功能点</div>
+        <div class="use">用 <strong>扫描式标注</strong>。扫描线只服务一个焦点，不把界面拆成一堆随机特效。</div>
+      </div>
+      <div class="rule">
+        <div class="trigger">A/B 工具 / 两种路线 / 优缺点</div>
+        <div class="use">用 <strong>工具对比天平</strong>。左右信息保持对称，中间让给人物判断。</div>
+      </div>
+      <div class="rule">
+        <div class="trigger">观点 / 争议 / 判断 / 风险</div>
+        <div class="use">用 <strong>观点拆解浮层</strong>。主张、依据、风险分层出现，适合行业判断视频。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>统一视觉约束</h3>
+    <div class="component-map">
+      <div class="component-row">
+        <strong>同一套材质</strong>
+        <span>暗底、半透明黑玻璃、白色主信息、青绿/金色少量强调，避免紫蓝 AI 模板感。</span>
+      </div>
+      <div class="component-row">
+        <strong>同一套空间纪律</strong>
+        <span>人物居中时，普通组件不进人物安全区；正文信息不进字幕安全区。</span>
+      </div>
+      <div class="component-row">
+        <strong>同一套动效语法</strong>
+        <span>精准切入、短暂停顿、轻微物理回弹、快速收束；不靠满屏粒子和随机漂浮。</span>
+      </div>
+      <div class="component-row">
+        <strong>同一套信息密度</strong>
+        <span>一个主组件最多承载一个主要视觉任务，辅助标注只解释或定位，不抢叙事。</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="video-strip">
+  <div class="strip-frame">
+    <div class="person"></div>
+    <div class="subtitle-band"></div>
+    <div class="effect" style="left:6%;top:18%;width:18%;height:24%;">
+      <div class="accent"></div>
+      <div class="mini" style="left:18%;top:28%;width:56%;"></div>
+      <div class="mini" style="left:18%;top:49%;width:42%;"></div>
+    </div>
+    <div class="effect" style="right:7%;top:17%;width:18%;height:18%;border-color:rgba(240,196,90,0.42);"></div>
+    <div class="effect" style="right:12%;top:42%;width:13%;height:13%;border-color:rgba(103,215,196,0.5);background:rgba(103,215,196,0.07);"></div>
+  </div>
+  <div class="timeline">
+    <div class="tick"><b>证据</b><span>来源 Dock</span></div>
+    <div class="tick"><b>步骤</b><span>卡片栈</span></div>
+    <div class="tick"><b>结构</b><span>模型浮层</span></div>
+    <div class="tick"><b>局部</b><span>扫描标注</span></div>
+    <div class="tick"><b>对比</b><span>工具天平</span></div>
+    <div class="tick"><b>观点</b><span>拆解浮层</span></div>
+  </div>
+</div>

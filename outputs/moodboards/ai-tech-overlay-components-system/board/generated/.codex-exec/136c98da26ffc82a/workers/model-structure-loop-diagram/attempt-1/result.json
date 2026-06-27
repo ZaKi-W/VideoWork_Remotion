@@ -1,0 +1,7 @@
+{
+  "id": "model-structure-loop-diagram",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation returned an image preview but no accessible PNG file path or bytes to save.",
+  "caveats": ""
+}

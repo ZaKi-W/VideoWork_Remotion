@@ -1,0 +1,1446 @@
+{
+  "meta": {
+    "title": "AI Tech Talking-Head Overlay Component System",
+    "brief": "A visual mood board for Remotion overlay effects that sit above talking-head AI technology videos.",
+    "business": "AI 科技类博主 Remotion 视频特效体系",
+    "goal": "Turn six talking-head overlay component families into a unified but diverse visual specification focused on screen position, visual form, and motion character.",
+    "audience": "Viewers interested in AI tools, technology trends, product launches, practical methods, and industry judgment.",
+    "imageCount": 12,
+    "notes": [
+      "Each tile is one single visual reference image: one talking-head frame plus one primary overlay component family.",
+      "Do not create live-action brand mood imagery, product photography, collage, grid, or mini mood board.",
+      "No readable text, no logos, no fake source facts, no fake metrics, no real UI data.",
+      "Preserve central presenter safety and bottom subtitle safety."
+    ]
+  },
+  "signals": {
+    "componentFamilies": [
+      "source evidence dock",
+      "physical card stack",
+      "model structure overlay",
+      "scanline callout",
+      "tool comparison balance",
+      "claim deconstruction overlay"
+    ],
+    "layout": [
+      "center presenter silhouette",
+      "left and right overlay lanes",
+      "empty bottom subtitle band",
+      "no ordinary component inside presenter safety zone"
+    ],
+    "visualLanguage": [
+      "dark glass",
+      "thin white strokes",
+      "restrained cyan technical accent",
+      "muted gold conclusion accent",
+      "precise modular panels",
+      "minimal placeholder bars instead of readable text"
+    ],
+    "motionFeel": [
+      "precise cut-in",
+      "short hold",
+      "physical card depth",
+      "scan reveal",
+      "line growth",
+      "clean exit"
+    ],
+    "avoid": [
+      "purple-blue AI template",
+      "corporate training deck",
+      "random SRT-driven effects",
+      "cluttered HUD",
+      "subtitle collision",
+      "fake evidence"
+    ]
+  },
+  "items": [
+    {
+      "id": "source-dock-left-sidebar",
+      "title": "Source Evidence Dock - Left Sidebar",
+      "caption": "A traceable-source panel lives in the side lane, with a small anchor cue and no factual text.",
+      "source": "Component family: 来源证据 Dock",
+      "tone": "credible, precise, source-aware",
+      "motif": "left glass sidebar, source anchor dot, compact placeholder bars, central presenter safety",
+      "palette": "charcoal black, white strokes, restrained cyan, muted gold",
+      "prompt": "Single clean motion-design frame for an AI technology talking-head video, 16:9. A neutral abstract presenter silhouette is centered, with a dashed presenter-safe zone and a calm empty bottom subtitle-safe band. A dark translucent glass source-evidence dock floats in the left side lane only, with thin white strokes, abstract placeholder bars, a small cyan source anchor dot, and one muted gold corner marker. No readable text, no logos, no real web page, no fake data, no real person face, no collage, no split panels, no purple-blue AI template styling. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Editorial Sidebar",
+            "description": "Cleaner light and hierarchy around Source Evidence Dock - Left Sidebar",
+            "promptHint": "Apply a polished editorial treatment to Source Evidence Dock - Left Sidebar; preserve A traceable-source panel lives in the side lane, with a small anchor cue and no factual..."
+          },
+          {
+            "label": "Minimal Sidebar",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Source Evidence Dock - Left Sidebar",
+            "promptHint": "Strip Source Evidence Dock - Left Sidebar down to a minimal premium frame; keep A traceable-source panel lives in the side lane, with a small anchor cue and no factual text..."
+          },
+          {
+            "label": "Motion Sidebar",
+            "description": "More kinetic gesture, blur, or environmental energy around Source Evidence Dock - Left Sidebar",
+            "promptHint": "Introduce controlled motion to Source Evidence Dock - Left Sidebar while preserving the campaign cue: A traceable-source panel lives in the side lane, with a small anchor cue..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Accent Sidebar",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Source Evidence Dock - Left Sidebar without changing the main subject"
+          },
+          {
+            "label": "Unexpected Sidebar",
+            "description": "A more surprising secondary color relationship around Source Evidence Dock - Left Sidebar",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends A traceable-source panel lives in the side lane, with a small anchor cue and no..."
+          },
+          {
+            "label": "Cool Sidebar",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Source Evidence Dock - Left Sidebar; keep A traceable-source panel lives in the side lane, with a small anchor cue and no factual text intact"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Sidebar Exterior",
+            "description": "Move Source Evidence Dock - Left Sidebar into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Source Evidence Dock - Left Sidebar into an exterior or entryway scene while preserving the core cue: A traceable-source panel lives in the side lane, with a small..."
+          },
+          {
+            "label": "Sidebar Studio",
+            "description": "A cleaner controlled studio setting that keeps Source Evidence Dock - Left Sidebar dominant",
+            "promptHint": "Move Source Evidence Dock - Left Sidebar into a cleaner studio-hero setting while preserving A traceable-source panel lives in the side lane, with a small anchor cue and no..."
+          },
+          {
+            "label": "Sidebar Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Source Evidence Dock - Left Sidebar, keeping the most important source cue visible"
+          }
+        ],
+        "props": [
+          {
+            "label": "Unexpected Sidebar Prop",
+            "description": "One surprising but believable object that opens a new story around Source Evidence Dock - Left Sidebar",
+            "promptHint": "Add one unexpected supporting prop that extends A traceable-source panel lives in the side lane, with a small anchor cue and no factual text without stealing focus from Source..."
+          },
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Source Evidence Dock - Left Sidebar carries more weight",
+            "promptHint": "Remove nonessential props and keep Source Evidence Dock - Left Sidebar as the dominant read"
+          },
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Source Evidence Dock - Left Sidebar; preserve the source image's composition"
+          }
+        ],
+        "character": [
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Source Evidence Dock - Left Sidebar carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Source Evidence Dock - Left Sidebar",
+            "promptHint": "Introduce a collector or tastemaker presence around Source Evidence Dock - Left Sidebar while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Source Evidence Dock - Left Sidebar in an everyday user context without losing A traceable-source panel lives in the side lane, with a small anchor cue and no factual text"
+          }
+        ],
+        "format": [
+          {
+            "label": "Split-Depth Sidebar",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Source Evidence Dock - Left Sidebar; do not make a collage or panel layout"
+          },
+          {
+            "label": "Wide Sidebar",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Source Evidence Dock - Left Sidebar to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Sidebar",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Source Evidence Dock - Left Sidebar as a square frame with a changed focal balance and the core cue intact"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/source-dock-left-sidebar.jpg",
+      "sourceImageUrl": "generated/6f40d96bda0d606a5a2034d9f27ee490.png"
+    },
+    {
+      "id": "source-dock-collapsed-strip",
+      "title": "Source Evidence Dock - Collapsed Strip",
+      "caption": "The evidence component can collapse into a narrow strip after the source cue has been established.",
+      "source": "Component family: 来源证据 Dock",
+      "tone": "restrained, editorial, trustworthy",
+      "motif": "narrow source strip, side rail, minimized evidence card, clean negative space",
+      "palette": "black glass, white, cyan, warm gold",
+      "prompt": "Single visual reference image of a 16:9 AI talking-head video frame with a centered abstract presenter silhouette and protected bottom subtitle band. Show a narrow collapsed source-evidence strip attached to the right edge, dark glass material, thin white outline, tiny cyan tick marks, and a muted gold source pin, suggesting a precise collapse motion after verification. No readable text, no logos, no factual claims, no fake browser content, no collage, no real photography mood board, no purple-blue gradient. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Candid Strip",
+            "description": "More natural texture and believable lived-in detail for Source Evidence Dock - Collapsed Strip",
+            "promptHint": "Shift Source Evidence Dock - Collapsed Strip toward documentary realism while preserving The evidence component can collapse into a narrow strip after the source cue has been..."
+          },
+          {
+            "label": "Editorial Strip",
+            "description": "Cleaner light and hierarchy around Source Evidence Dock - Collapsed Strip",
+            "promptHint": "Apply a polished editorial treatment to Source Evidence Dock - Collapsed Strip; preserve The evidence component can collapse into a narrow strip after the source cue has been..."
+          },
+          {
+            "label": "Minimal Strip",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Source Evidence Dock - Collapsed Strip",
+            "promptHint": "Strip Source Evidence Dock - Collapsed Strip down to a minimal premium frame; keep The evidence component can collapse into a narrow strip after the source cue has been..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Cool Strip",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Source Evidence Dock - Collapsed Strip; keep The evidence component can collapse into a narrow strip after the source cue has been established..."
+          },
+          {
+            "label": "Monochrome Strip",
+            "description": "A narrower near-monochrome treatment that lets one cue around Source Evidence Dock - Collapsed Strip stand out",
+            "promptHint": "Reduce the palette around Source Evidence Dock - Collapsed Strip to tonal restraint plus one preserved cue from The evidence component can collapse into a narrow strip after..."
+          },
+          {
+            "label": "Warm Strip",
+            "description": "Warmer neutrals and tactile highlights around Source Evidence Dock - Collapsed Strip",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Source Evidence Dock - Collapsed Strip"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Strip Exterior",
+            "description": "Move Source Evidence Dock - Collapsed Strip into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Source Evidence Dock - Collapsed Strip into an exterior or entryway scene while preserving the core cue: The evidence component can collapse into a narrow strip after..."
+          },
+          {
+            "label": "Strip Studio",
+            "description": "A cleaner controlled studio setting that keeps Source Evidence Dock - Collapsed Strip dominant",
+            "promptHint": "Move Source Evidence Dock - Collapsed Strip into a cleaner studio-hero setting while preserving The evidence component can collapse into a narrow strip after the source cue has..."
+          },
+          {
+            "label": "Strip Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Source Evidence Dock - Collapsed Strip, keeping the most important source cue visible"
+          }
+        ],
+        "props": [
+          {
+            "label": "Unexpected Strip Prop",
+            "description": "One surprising but believable object that opens a new story around Source Evidence Dock - Collapsed Strip",
+            "promptHint": "Add one unexpected supporting prop that extends The evidence component can collapse into a narrow strip after the source cue has been established without stealing focus from..."
+          },
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Source Evidence Dock - Collapsed Strip carries more weight",
+            "promptHint": "Remove nonessential props and keep Source Evidence Dock - Collapsed Strip as the dominant read"
+          },
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Source Evidence Dock - Collapsed Strip; preserve the source image's composition"
+          }
+        ],
+        "character": [
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Source Evidence Dock - Collapsed Strip",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Source Evidence Dock - Collapsed Strip"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Source Evidence Dock - Collapsed Strip carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Source Evidence Dock - Collapsed Strip",
+            "promptHint": "Introduce a collector or tastemaker presence around Source Evidence Dock - Collapsed Strip while changing wardrobe, gesture, or posture"
+          }
+        ],
+        "format": [
+          {
+            "label": "Wide Strip",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Source Evidence Dock - Collapsed Strip to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Strip",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Source Evidence Dock - Collapsed Strip as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Strip",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Source Evidence Dock - Collapsed Strip to a portrait social crop while preserving the key visual read"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/source-dock-collapsed-strip.jpg",
+      "sourceImageUrl": "generated/1173fc1b43031f883bab91b8b643b48a.png"
+    },
+    {
+      "id": "physical-card-step-stack",
+      "title": "Physical Card Stack - Step Cards",
+      "caption": "Method or checklist content appears as tangible cards with subtle depth and safe-zone discipline.",
+      "source": "Component family: 实体卡片栈",
+      "tone": "tactile, modular, premium",
+      "motif": "stacked matte cards, precise cut-in posture, side lane composition",
+      "palette": "charcoal, warm white, cyan edge, muted gold highlight",
+      "prompt": "Single polished motion-design frame for a talking-head AI tutorial video, 16:9. A neutral presenter silhouette stays centered, with an empty subtitle-safe band at the bottom. On the left and right side lanes, a small stack of matte dark glass information cards floats with physical depth, staggered shadows, thin white edges, one cyan edge line, and one muted gold active-card marker. Use abstract placeholder bars only, no readable text, no logo, no collage, no UI screenshot, no purple-blue AI template. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Candid Cards",
+            "description": "More natural texture and believable lived-in detail for Physical Card Stack - Step Cards",
+            "promptHint": "Shift Physical Card Stack - Step Cards toward documentary realism while preserving Method or checklist content appears as tangible cards with subtle depth and safe-zone..."
+          },
+          {
+            "label": "Editorial Cards",
+            "description": "Cleaner light and hierarchy around Physical Card Stack - Step Cards",
+            "promptHint": "Apply a polished editorial treatment to Physical Card Stack - Step Cards; preserve Method or checklist content appears as tangible cards with subtle depth and safe-zone..."
+          },
+          {
+            "label": "Minimal Cards",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Physical Card Stack - Step Cards",
+            "promptHint": "Strip Physical Card Stack - Step Cards down to a minimal premium frame; keep Method or checklist content appears as tangible cards with subtle depth and safe-zone discipline..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Cool Cards",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Physical Card Stack - Step Cards; keep Method or checklist content appears as tangible cards with subtle depth and safe-zone discipline intact"
+          },
+          {
+            "label": "Monochrome Cards",
+            "description": "A narrower near-monochrome treatment that lets one cue around Physical Card Stack - Step Cards stand out",
+            "promptHint": "Reduce the palette around Physical Card Stack - Step Cards to tonal restraint plus one preserved cue from Method or checklist content appears as tangible cards with subtle..."
+          },
+          {
+            "label": "Warm Cards",
+            "description": "Warmer neutrals and tactile highlights around Physical Card Stack - Step Cards",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Physical Card Stack - Step Cards"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Cards Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Physical Card Stack - Step Cards",
+            "promptHint": "Reframe Physical Card Stack - Step Cards as a backstage or preparation moment; keep Method or checklist content appears as tangible cards with subtle depth and safe-zone..."
+          },
+          {
+            "label": "Cards In Use",
+            "description": "A more believable real-world context for Physical Card Stack - Step Cards",
+            "promptHint": "Place Physical Card Stack - Step Cards into a realistic usage context; preserve the source image's core cue: Method or checklist content appears as tangible cards with subtle..."
+          },
+          {
+            "label": "Cards Exterior",
+            "description": "Move Physical Card Stack - Step Cards into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Physical Card Stack - Step Cards into an exterior or entryway scene while preserving the core cue: Method or checklist content appears as tangible cards with subtle..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Physical Card Stack - Step Cards feel actively used",
+            "promptHint": "Add restrained process cues around Physical Card Stack - Step Cards; preserve the strongest visual idea from Method or checklist content appears as tangible cards with subtle..."
+          },
+          {
+            "label": "Cards Cues",
+            "description": "Add restrained supporting objects that clarify the context of Physical Card Stack - Step Cards",
+            "promptHint": "Add a few contextual props that reinforce Method or checklist content appears as tangible cards with subtle depth and safe-zone discipline without distracting from Physical..."
+          },
+          {
+            "label": "Unexpected Cards Prop",
+            "description": "One surprising but believable object that opens a new story around Physical Card Stack - Step Cards",
+            "promptHint": "Add one unexpected supporting prop that extends Method or checklist content appears as tangible cards with subtle depth and safe-zone discipline without stealing focus from..."
+          }
+        ],
+        "character": [
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Physical Card Stack - Step Cards",
+            "promptHint": "Introduce a collector or tastemaker presence around Physical Card Stack - Step Cards while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Physical Card Stack - Step Cards in an everyday user context without losing Method or checklist content appears as tangible cards with subtle depth and safe-zone discipline"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Physical Card Stack - Step Cards",
+            "promptHint": "Add a cropped passing figure or gesture around Physical Card Stack - Step Cards; keep identity nonspecific and preserve Method or checklist content appears as tangible cards..."
+          }
+        ],
+        "format": [
+          {
+            "label": "Split-Depth Cards",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Physical Card Stack - Step Cards; do not make a collage or panel layout"
+          },
+          {
+            "label": "Wide Cards",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Physical Card Stack - Step Cards to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Cards",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Physical Card Stack - Step Cards as a square frame with a changed focal balance and the core cue intact"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/physical-card-step-stack.jpg",
+      "sourceImageUrl": "generated/3bbc1a33bd85d29926c780c2a6595dc7.png"
+    },
+    {
+      "id": "physical-card-conclusion-snap",
+      "title": "Physical Card Stack - Conclusion Snap",
+      "caption": "A single conclusion card lands beside the speaker, clean enough to support one spoken idea.",
+      "source": "Component family: 实体卡片栈",
+      "tone": "decisive, crisp, controlled",
+      "motif": "one main card, hard-stop motion trace, subtle depth, safe presenter gap",
+      "palette": "black, white, warm gold, minimal cyan",
+      "prompt": "Single 16:9 visual reference frame showing a centered abstract talking-head presenter silhouette and a large empty bottom subtitle-safe band. One dark translucent conclusion card has just snapped into the right side lane with a faint motion trace and a hard-stop shadow, thin white outline, muted gold accent bar, minimal cyan detail, and abstract non-readable placeholder marks. Clean negative space, no text, no logos, no real person, no collage, no corporate slide style, no purple-blue gradient. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Candid Snap",
+            "description": "More natural texture and believable lived-in detail for Physical Card Stack - Conclusion Snap",
+            "promptHint": "Shift Physical Card Stack - Conclusion Snap toward documentary realism while preserving A single conclusion card lands beside the speaker, clean enough to support one spoken..."
+          },
+          {
+            "label": "Editorial Snap",
+            "description": "Cleaner light and hierarchy around Physical Card Stack - Conclusion Snap",
+            "promptHint": "Apply a polished editorial treatment to Physical Card Stack - Conclusion Snap; preserve A single conclusion card lands beside the speaker, clean enough to support one spoken..."
+          },
+          {
+            "label": "Minimal Snap",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Physical Card Stack - Conclusion Snap",
+            "promptHint": "Strip Physical Card Stack - Conclusion Snap down to a minimal premium frame; keep A single conclusion card lands beside the speaker, clean enough to support one spoken idea..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Monochrome Snap",
+            "description": "A narrower near-monochrome treatment that lets one cue around Physical Card Stack - Conclusion Snap stand out",
+            "promptHint": "Reduce the palette around Physical Card Stack - Conclusion Snap to tonal restraint plus one preserved cue from A single conclusion card lands beside the speaker, clean enough..."
+          },
+          {
+            "label": "Warm Snap",
+            "description": "Warmer neutrals and tactile highlights around Physical Card Stack - Conclusion Snap",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Physical Card Stack - Conclusion Snap"
+          },
+          {
+            "label": "Accent Snap",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Physical Card Stack - Conclusion Snap without changing the main subject"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Snap Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Physical Card Stack - Conclusion Snap, keeping the most important source cue visible"
+          },
+          {
+            "label": "Snap Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Physical Card Stack - Conclusion Snap",
+            "promptHint": "Reframe Physical Card Stack - Conclusion Snap as a backstage or preparation moment; keep A single conclusion card lands beside the speaker, clean enough to support one spoken..."
+          },
+          {
+            "label": "Snap In Use",
+            "description": "A more believable real-world context for Physical Card Stack - Conclusion Snap",
+            "promptHint": "Place Physical Card Stack - Conclusion Snap into a realistic usage context; preserve the source image's core cue: A single conclusion card lands beside the speaker, clean..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Physical Card Stack - Conclusion Snap; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Physical Card Stack - Conclusion Snap feel actively used",
+            "promptHint": "Add restrained process cues around Physical Card Stack - Conclusion Snap; preserve the strongest visual idea from A single conclusion card lands beside the speaker, clean..."
+          },
+          {
+            "label": "Snap Cues",
+            "description": "Add restrained supporting objects that clarify the context of Physical Card Stack - Conclusion Snap",
+            "promptHint": "Add a few contextual props that reinforce A single conclusion card lands beside the speaker, clean enough to support one spoken idea without distracting from Physical Card..."
+          }
+        ],
+        "character": [
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Physical Card Stack - Conclusion Snap",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Physical Card Stack - Conclusion Snap"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Physical Card Stack - Conclusion Snap carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Physical Card Stack - Conclusion Snap",
+            "promptHint": "Introduce a collector or tastemaker presence around Physical Card Stack - Conclusion Snap while changing wardrobe, gesture, or posture"
+          }
+        ],
+        "format": [
+          {
+            "label": "Split-Depth Snap",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Physical Card Stack - Conclusion Snap; do not make a collage or panel layout"
+          },
+          {
+            "label": "Wide Snap",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Physical Card Stack - Conclusion Snap to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Snap",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Physical Card Stack - Conclusion Snap as a square frame with a changed focal balance and the core cue intact"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/physical-card-conclusion-snap.jpg",
+      "sourceImageUrl": "generated/d5b8eb563044d59779b1cceae84a577a.png"
+    },
+    {
+      "id": "model-structure-agent-pipeline",
+      "title": "Model Structure Overlay - Agent Pipeline",
+      "caption": "Nodes and lines explain an Agent flow without pretending to be a factual architecture diagram.",
+      "source": "Component family: 模型结构浮层",
+      "tone": "technical, abstract, controlled",
+      "motif": "nodes, growing connector lines, highlighted route, presenter-centered frame",
+      "palette": "charcoal, cyan, white, muted gold",
+      "prompt": "Single motion-graphics reference frame for an AI technology talking-head video, 16:9. Centered abstract presenter silhouette with protected central safety zone and empty bottom subtitle band. Around the side lanes, a minimal agent-pipeline overlay of small dark glass nodes and thin cyan connector lines grows around the presenter without covering the face area. One node glows muted gold as the current step. No readable labels, no logos, no fake architecture facts, no dense HUD, no collage, no purple-blue AI template. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Material Pipeline",
+            "description": "A closer tactile read of surface, temperature, and finish around Model Structure Overlay - Agent Pipeline",
+            "promptHint": "Rebuild Model Structure Overlay - Agent Pipeline as a tactile material study inspired by Nodes and lines explain an Agent flow without pretending to be a factual architecture..."
+          },
+          {
+            "label": "Dramatic Pipeline",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Model Structure Overlay - Agent Pipeline; keep Nodes and lines explain an Agent flow without pretending to be a factual architecture..."
+          },
+          {
+            "label": "Candid Pipeline",
+            "description": "More natural texture and believable lived-in detail for Model Structure Overlay - Agent Pipeline",
+            "promptHint": "Shift Model Structure Overlay - Agent Pipeline toward documentary realism while preserving Nodes and lines explain an Agent flow without pretending to be a factual architecture..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Monochrome Pipeline",
+            "description": "A narrower near-monochrome treatment that lets one cue around Model Structure Overlay - Agent Pipeline stand out",
+            "promptHint": "Reduce the palette around Model Structure Overlay - Agent Pipeline to tonal restraint plus one preserved cue from Nodes and lines explain an Agent flow without pretending to be..."
+          },
+          {
+            "label": "Warm Pipeline",
+            "description": "Warmer neutrals and tactile highlights around Model Structure Overlay - Agent Pipeline",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Model Structure Overlay - Agent Pipeline"
+          },
+          {
+            "label": "Accent Pipeline",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Model Structure Overlay - Agent Pipeline without changing the main subject"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Pipeline Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Model Structure Overlay - Agent Pipeline, keeping the most important source cue visible"
+          },
+          {
+            "label": "Pipeline Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Model Structure Overlay - Agent Pipeline",
+            "promptHint": "Reframe Model Structure Overlay - Agent Pipeline as a backstage or preparation moment; keep Nodes and lines explain an Agent flow without pretending to be a factual..."
+          },
+          {
+            "label": "Pipeline In Use",
+            "description": "A more believable real-world context for Model Structure Overlay - Agent Pipeline",
+            "promptHint": "Place Model Structure Overlay - Agent Pipeline into a realistic usage context; preserve the source image's core cue: Nodes and lines explain an Agent flow without pretending to..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Model Structure Overlay - Agent Pipeline; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Model Structure Overlay - Agent Pipeline feel actively used",
+            "promptHint": "Add restrained process cues around Model Structure Overlay - Agent Pipeline; preserve the strongest visual idea from Nodes and lines explain an Agent flow without pretending to..."
+          },
+          {
+            "label": "Pipeline Cues",
+            "description": "Add restrained supporting objects that clarify the context of Model Structure Overlay - Agent Pipeline",
+            "promptHint": "Add a few contextual props that reinforce Nodes and lines explain an Agent flow without pretending to be a factual architecture diagram without distracting from Model Structure..."
+          }
+        ],
+        "character": [
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Model Structure Overlay - Agent Pipeline",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Model Structure Overlay - Agent Pipeline"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Model Structure Overlay - Agent Pipeline carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Model Structure Overlay - Agent Pipeline",
+            "promptHint": "Introduce a collector or tastemaker presence around Model Structure Overlay - Agent Pipeline while changing wardrobe, gesture, or posture"
+          }
+        ],
+        "format": [
+          {
+            "label": "Split-Depth Pipeline",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Model Structure Overlay - Agent Pipeline; do not make a collage or panel layout"
+          },
+          {
+            "label": "Wide Pipeline",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Model Structure Overlay - Agent Pipeline to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Pipeline",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Model Structure Overlay - Agent Pipeline as a square frame with a changed focal balance and the core cue intact"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/model-structure-agent-pipeline.jpg",
+      "sourceImageUrl": "generated/4cfac163b7856690976ecc9a4812511a.png"
+    },
+    {
+      "id": "model-structure-loop-diagram",
+      "title": "Model Structure Overlay - Feedback Loop",
+      "caption": "A loop diagram visualizes input, reasoning, action, and feedback as abstract side-lane motion.",
+      "source": "Component family: 模型结构浮层",
+      "tone": "systematic, elegant, analytical",
+      "motif": "looping thin lines, abstract nodes, side-lane architecture",
+      "palette": "black glass, cyan, white, tiny gold accent",
+      "prompt": "Single clean 16:9 overlay-design frame for an AI creator's talking-head video. Show a neutral centered presenter silhouette, clear presenter-safe zone, and empty subtitle-safe band. A minimal feedback-loop structure floats mostly in the left upper and right upper lanes: dark glass nodes, thin cyan arcs, sparse white ticks, one tiny muted gold active point. Abstract and source-neutral, no readable text, no logos, no real UI, no fake metrics, no collage, no purple-blue gradient. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Dramatic Loop",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Model Structure Overlay - Feedback Loop; keep A loop diagram visualizes input, reasoning, action, and feedback as abstract side-lane..."
+          },
+          {
+            "label": "Candid Loop",
+            "description": "More natural texture and believable lived-in detail for Model Structure Overlay - Feedback Loop",
+            "promptHint": "Shift Model Structure Overlay - Feedback Loop toward documentary realism while preserving A loop diagram visualizes input, reasoning, action, and feedback as abstract side-lane..."
+          },
+          {
+            "label": "Editorial Loop",
+            "description": "Cleaner light and hierarchy around Model Structure Overlay - Feedback Loop",
+            "promptHint": "Apply a polished editorial treatment to Model Structure Overlay - Feedback Loop; preserve A loop diagram visualizes input, reasoning, action, and feedback as abstract side-lane..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Monochrome Loop",
+            "description": "A narrower near-monochrome treatment that lets one cue around Model Structure Overlay - Feedback Loop stand out",
+            "promptHint": "Reduce the palette around Model Structure Overlay - Feedback Loop to tonal restraint plus one preserved cue from A loop diagram visualizes input, reasoning, action, and..."
+          },
+          {
+            "label": "Warm Loop",
+            "description": "Warmer neutrals and tactile highlights around Model Structure Overlay - Feedback Loop",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Model Structure Overlay - Feedback Loop"
+          },
+          {
+            "label": "Accent Loop",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Model Structure Overlay - Feedback Loop without changing the main subject"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Loop Studio",
+            "description": "A cleaner controlled studio setting that keeps Model Structure Overlay - Feedback Loop dominant",
+            "promptHint": "Move Model Structure Overlay - Feedback Loop into a cleaner studio-hero setting while preserving A loop diagram visualizes input, reasoning, action, and feedback as abstract..."
+          },
+          {
+            "label": "Loop Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Model Structure Overlay - Feedback Loop, keeping the most important source cue visible"
+          },
+          {
+            "label": "Loop Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Model Structure Overlay - Feedback Loop",
+            "promptHint": "Reframe Model Structure Overlay - Feedback Loop as a backstage or preparation moment; keep A loop diagram visualizes input, reasoning, action, and feedback as abstract..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Model Structure Overlay - Feedback Loop carries more weight",
+            "promptHint": "Remove nonessential props and keep Model Structure Overlay - Feedback Loop as the dominant read"
+          },
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Model Structure Overlay - Feedback Loop; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Model Structure Overlay - Feedback Loop feel actively used",
+            "promptHint": "Add restrained process cues around Model Structure Overlay - Feedback Loop; preserve the strongest visual idea from A loop diagram visualizes input, reasoning, action, and..."
+          }
+        ],
+        "character": [
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Model Structure Overlay - Feedback Loop carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Model Structure Overlay - Feedback Loop",
+            "promptHint": "Introduce a collector or tastemaker presence around Model Structure Overlay - Feedback Loop while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Model Structure Overlay - Feedback Loop in an everyday user context without losing A loop diagram visualizes input, reasoning, action, and feedback as abstract side-lane..."
+          }
+        ],
+        "format": [
+          {
+            "label": "Square Loop",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Model Structure Overlay - Feedback Loop as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Loop",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Model Structure Overlay - Feedback Loop to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Loop Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Model Structure Overlay - Feedback Loop; keep A loop diagram visualizes input, reasoning, action, and feedback as abstract side-lane motion legible"
+          }
+        ]
+      }
+    },
+    {
+      "id": "scanline-ui-focus-box",
+      "title": "Scanline Callout - UI Focus Box",
+      "caption": "A scanning line reveals one focused area and one nearby annotation card.",
+      "source": "Component family: 扫描式标注",
+      "tone": "sharp, product-aware, precise",
+      "motif": "horizontal scan line, focus rectangle, single annotation card",
+      "palette": "charcoal, white, cyan scan, muted gold marker",
+      "prompt": "Single high-fidelity motion-design frame for an AI product analysis talking-head video, 16:9. A centered abstract presenter silhouette stays clear, with a bottom subtitle-safe band left empty. A cyan scanline crosses the upper side lanes, revealing one thin focus rectangle on the left and one compact dark glass annotation card on the right. Use only abstract placeholder bars, no readable text, no real product UI, no logos, no fake data, no collage, no cyberpunk purple-blue styling. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Dramatic Box",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Scanline Callout - UI Focus Box; keep A scanning line reveals one focused area and one nearby annotation card recognizable but alter..."
+          },
+          {
+            "label": "Candid Box",
+            "description": "More natural texture and believable lived-in detail for Scanline Callout - UI Focus Box",
+            "promptHint": "Shift Scanline Callout - UI Focus Box toward documentary realism while preserving A scanning line reveals one focused area and one nearby annotation card; make lighting and..."
+          },
+          {
+            "label": "Editorial Box",
+            "description": "Cleaner light and hierarchy around Scanline Callout - UI Focus Box",
+            "promptHint": "Apply a polished editorial treatment to Scanline Callout - UI Focus Box; preserve A scanning line reveals one focused area and one nearby annotation card while changing the..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Cool Box",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Scanline Callout - UI Focus Box; keep A scanning line reveals one focused area and one nearby annotation card intact"
+          },
+          {
+            "label": "Monochrome Box",
+            "description": "A narrower near-monochrome treatment that lets one cue around Scanline Callout - UI Focus Box stand out",
+            "promptHint": "Reduce the palette around Scanline Callout - UI Focus Box to tonal restraint plus one preserved cue from A scanning line reveals one focused area and one nearby annotation card"
+          },
+          {
+            "label": "Warm Box",
+            "description": "Warmer neutrals and tactile highlights around Scanline Callout - UI Focus Box",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Scanline Callout - UI Focus Box"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Box Studio",
+            "description": "A cleaner controlled studio setting that keeps Scanline Callout - UI Focus Box dominant",
+            "promptHint": "Move Scanline Callout - UI Focus Box into a cleaner studio-hero setting while preserving A scanning line reveals one focused area and one nearby annotation card"
+          },
+          {
+            "label": "Box Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Scanline Callout - UI Focus Box, keeping the most important source cue visible"
+          },
+          {
+            "label": "Box Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Scanline Callout - UI Focus Box",
+            "promptHint": "Reframe Scanline Callout - UI Focus Box as a backstage or preparation moment; keep A scanning line reveals one focused area and one nearby annotation card recognizable"
+          }
+        ],
+        "props": [
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Scanline Callout - UI Focus Box carries more weight",
+            "promptHint": "Remove nonessential props and keep Scanline Callout - UI Focus Box as the dominant read"
+          },
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Scanline Callout - UI Focus Box; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Scanline Callout - UI Focus Box feel actively used",
+            "promptHint": "Add restrained process cues around Scanline Callout - UI Focus Box; preserve the strongest visual idea from A scanning line reveals one focused area and one nearby annotation card"
+          }
+        ],
+        "character": [
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Scanline Callout - UI Focus Box",
+            "promptHint": "Add a cropped passing figure or gesture around Scanline Callout - UI Focus Box; keep identity nonspecific and preserve A scanning line reveals one focused area and one nearby..."
+          },
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Scanline Callout - UI Focus Box",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Scanline Callout - UI Focus Box"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Scanline Callout - UI Focus Box carry the image"
+          }
+        ],
+        "format": [
+          {
+            "label": "Box Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Scanline Callout - UI Focus Box; keep A scanning line reveals one focused area and one nearby annotation card legible"
+          },
+          {
+            "label": "Split-Depth Box",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Scanline Callout - UI Focus Box; do not make a collage or panel layout"
+          },
+          {
+            "label": "Wide Box",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Scanline Callout - UI Focus Box to a wide hero composition with room for layout"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/scanline-ui-focus-box.jpg",
+      "sourceImageUrl": "generated/404432d56087b4f6966b99ba88811d63.png"
+    },
+    {
+      "id": "scanline-parameter-reveal",
+      "title": "Scanline Callout - Parameter Reveal",
+      "caption": "A technical detail is isolated by a scan sweep and short-lived side annotation.",
+      "source": "Component family: 扫描式标注",
+      "tone": "technical, fast, clean",
+      "motif": "vertical scan sweep, small measurement ticks, compact callout",
+      "palette": "black, white, cyan, warm gold",
+      "prompt": "Single 16:9 visual reference image of a talking-head AI technology video overlay. Centered presenter silhouette, protected central safe area, and empty bottom subtitle band. A vertical cyan scan sweep has revealed a small parameter focus zone in the left side lane, with fine measurement ticks and a compact dark glass callout card near it, one muted gold emphasis dot. No readable text, no numbers, no logos, no actual software UI, no collage, no purple-blue template look. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Motion Reveal",
+            "description": "More kinetic gesture, blur, or environmental energy around Scanline Callout - Parameter Reveal",
+            "promptHint": "Introduce controlled motion to Scanline Callout - Parameter Reveal while preserving the campaign cue: A technical detail is isolated by a scan sweep and short-lived side annotation"
+          },
+          {
+            "label": "Material Reveal",
+            "description": "A closer tactile read of surface, temperature, and finish around Scanline Callout - Parameter Reveal",
+            "promptHint": "Rebuild Scanline Callout - Parameter Reveal as a tactile material study inspired by A technical detail is isolated by a scan sweep and short-lived side annotation, with a..."
+          },
+          {
+            "label": "Dramatic Reveal",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Scanline Callout - Parameter Reveal; keep A technical detail is isolated by a scan sweep and short-lived side annotation recognizable..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Monochrome Reveal",
+            "description": "A narrower near-monochrome treatment that lets one cue around Scanline Callout - Parameter Reveal stand out",
+            "promptHint": "Reduce the palette around Scanline Callout - Parameter Reveal to tonal restraint plus one preserved cue from A technical detail is isolated by a scan sweep and short-lived side..."
+          },
+          {
+            "label": "Warm Reveal",
+            "description": "Warmer neutrals and tactile highlights around Scanline Callout - Parameter Reveal",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Scanline Callout - Parameter Reveal"
+          },
+          {
+            "label": "Accent Reveal",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Scanline Callout - Parameter Reveal without changing the main subject"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Reveal Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Scanline Callout - Parameter Reveal",
+            "promptHint": "Reframe Scanline Callout - Parameter Reveal as a backstage or preparation moment; keep A technical detail is isolated by a scan sweep and short-lived side annotation recognizable"
+          },
+          {
+            "label": "Reveal In Use",
+            "description": "A more believable real-world context for Scanline Callout - Parameter Reveal",
+            "promptHint": "Place Scanline Callout - Parameter Reveal into a realistic usage context; preserve the source image's core cue: A technical detail is isolated by a scan sweep and short-lived..."
+          },
+          {
+            "label": "Reveal Exterior",
+            "description": "Move Scanline Callout - Parameter Reveal into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Scanline Callout - Parameter Reveal into an exterior or entryway scene while preserving the core cue: A technical detail is isolated by a scan sweep and short-lived..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Scanline Callout - Parameter Reveal feel actively used",
+            "promptHint": "Add restrained process cues around Scanline Callout - Parameter Reveal; preserve the strongest visual idea from A technical detail is isolated by a scan sweep and short-lived..."
+          },
+          {
+            "label": "Reveal Cues",
+            "description": "Add restrained supporting objects that clarify the context of Scanline Callout - Parameter Reveal",
+            "promptHint": "Add a few contextual props that reinforce A technical detail is isolated by a scan sweep and short-lived side annotation without distracting from Scanline Callout - Parameter..."
+          },
+          {
+            "label": "Unexpected Reveal Prop",
+            "description": "One surprising but believable object that opens a new story around Scanline Callout - Parameter Reveal",
+            "promptHint": "Add one unexpected supporting prop that extends A technical detail is isolated by a scan sweep and short-lived side annotation without stealing focus from Scanline Callout -..."
+          }
+        ],
+        "character": [
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Scanline Callout - Parameter Reveal",
+            "promptHint": "Add a cropped passing figure or gesture around Scanline Callout - Parameter Reveal; keep identity nonspecific and preserve A technical detail is isolated by a scan sweep and..."
+          },
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Scanline Callout - Parameter Reveal",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Scanline Callout - Parameter Reveal"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Scanline Callout - Parameter Reveal carry the image"
+          }
+        ],
+        "format": [
+          {
+            "label": "Portrait Reveal",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Scanline Callout - Parameter Reveal to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Reveal Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Scanline Callout - Parameter Reveal; keep A technical detail is isolated by a scan sweep and short-lived side annotation legible"
+          },
+          {
+            "label": "Split-Depth Reveal",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Scanline Callout - Parameter Reveal; do not make a collage or panel layout"
+          }
+        ]
+      }
+    },
+    {
+      "id": "tool-comparison-balance",
+      "title": "Tool Comparison Balance",
+      "caption": "Two tool options sit left and right, while the presenter remains the judge in the center.",
+      "source": "Component family: 工具对比天平",
+      "tone": "fair, comparative, decisive",
+      "motif": "left-right panels, central balance line, conclusion emphasis",
+      "palette": "charcoal, white, cyan, muted gold",
+      "prompt": "Single clean motion-design frame for an AI tool review talking-head video, 16:9. Centered abstract presenter silhouette remains unobstructed, bottom subtitle-safe band empty. Two balanced dark glass comparison panels float symmetrically in the left and right side lanes, connected by a thin central balance line that does not cover the presenter. One panel has a muted gold edge to suggest conclusion, the other has cyan technical ticks. Abstract placeholder bars only, no readable text, no logos, no scores, no fake product names, no collage. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Minimal Balance",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Tool Comparison Balance",
+            "promptHint": "Strip Tool Comparison Balance down to a minimal premium frame; keep Two tool options sit left and right, while the presenter remains the judge in the center legible but change..."
+          },
+          {
+            "label": "Motion Balance",
+            "description": "More kinetic gesture, blur, or environmental energy around Tool Comparison Balance",
+            "promptHint": "Introduce controlled motion to Tool Comparison Balance while preserving the campaign cue: Two tool options sit left and right, while the presenter remains the judge in the center"
+          },
+          {
+            "label": "Material Balance",
+            "description": "A closer tactile read of surface, temperature, and finish around Tool Comparison Balance",
+            "promptHint": "Rebuild Tool Comparison Balance as a tactile material study inspired by Two tool options sit left and right, while the presenter remains the judge in the center, with a visibly..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Accent Balance",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Tool Comparison Balance without changing the main subject"
+          },
+          {
+            "label": "Unexpected Balance",
+            "description": "A more surprising secondary color relationship around Tool Comparison Balance",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends Two tool options sit left and right, while the presenter remains the judge in the center"
+          },
+          {
+            "label": "Cool Balance",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Tool Comparison Balance; keep Two tool options sit left and right, while the presenter remains the judge in the center intact"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Balance Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Tool Comparison Balance",
+            "promptHint": "Reframe Tool Comparison Balance as a backstage or preparation moment; keep Two tool options sit left and right, while the presenter remains the judge in the center recognizable"
+          },
+          {
+            "label": "Balance In Use",
+            "description": "A more believable real-world context for Tool Comparison Balance",
+            "promptHint": "Place Tool Comparison Balance into a realistic usage context; preserve the source image's core cue: Two tool options sit left and right, while the presenter remains the judge..."
+          },
+          {
+            "label": "Balance Exterior",
+            "description": "Move Tool Comparison Balance into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Tool Comparison Balance into an exterior or entryway scene while preserving the core cue: Two tool options sit left and right, while the presenter remains the judge in..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Tool Comparison Balance feel actively used",
+            "promptHint": "Add restrained process cues around Tool Comparison Balance; preserve the strongest visual idea from Two tool options sit left and right, while the presenter remains the judge..."
+          },
+          {
+            "label": "Balance Cues",
+            "description": "Add restrained supporting objects that clarify the context of Tool Comparison Balance",
+            "promptHint": "Add a few contextual props that reinforce Two tool options sit left and right, while the presenter remains the judge in the center without distracting from Tool Comparison Balance"
+          },
+          {
+            "label": "Unexpected Balance Prop",
+            "description": "One surprising but believable object that opens a new story around Tool Comparison Balance",
+            "promptHint": "Add one unexpected supporting prop that extends Two tool options sit left and right, while the presenter remains the judge in the center without stealing focus from Tool..."
+          }
+        ],
+        "character": [
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Tool Comparison Balance in an everyday user context without losing Two tool options sit left and right, while the presenter remains the judge in the center"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Tool Comparison Balance",
+            "promptHint": "Add a cropped passing figure or gesture around Tool Comparison Balance; keep identity nonspecific and preserve Two tool options sit left and right, while the presenter remains..."
+          },
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Tool Comparison Balance",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Tool Comparison Balance"
+          }
+        ],
+        "format": [
+          {
+            "label": "Balance Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Tool Comparison Balance; keep Two tool options sit left and right, while the presenter remains the judge in the center legible"
+          },
+          {
+            "label": "Split-Depth Balance",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Tool Comparison Balance; do not make a collage or panel layout"
+          },
+          {
+            "label": "Wide Balance",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Tool Comparison Balance to a wide hero composition with room for layout"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/tool-comparison-balance.jpg",
+      "sourceImageUrl": "generated/6c543703ec4ccb8636e37d8d8b11bb12.png"
+    },
+    {
+      "id": "tool-comparison-route-choice",
+      "title": "Tool Comparison Route Choice",
+      "caption": "A route-choice variant shows two paths and a highlighted recommendation without long tables.",
+      "source": "Component family: 工具对比天平",
+      "tone": "editorial, practical, clear",
+      "motif": "two route cards, thin path line, recommendation glow",
+      "palette": "black glass, white, cyan, gold",
+      "prompt": "Single 16:9 overlay reference frame for an AI technology talking-head video. A neutral presenter silhouette is centered with safety zone visible and bottom subtitle band empty. Two route-choice cards float on opposite side lanes with thin white outlines, abstract bars, cyan path lines, and one muted gold recommendation glow; no big table, no dense text. No readable words, no logos, no fake metrics, no real UI, no collage, no purple-blue AI template. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Minimal Choice",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Tool Comparison Route Choice",
+            "promptHint": "Strip Tool Comparison Route Choice down to a minimal premium frame; keep A route-choice variant shows two paths and a highlighted recommendation without long tables legible but..."
+          },
+          {
+            "label": "Motion Choice",
+            "description": "More kinetic gesture, blur, or environmental energy around Tool Comparison Route Choice",
+            "promptHint": "Introduce controlled motion to Tool Comparison Route Choice while preserving the campaign cue: A route-choice variant shows two paths and a highlighted recommendation without..."
+          },
+          {
+            "label": "Material Choice",
+            "description": "A closer tactile read of surface, temperature, and finish around Tool Comparison Route Choice",
+            "promptHint": "Rebuild Tool Comparison Route Choice as a tactile material study inspired by A route-choice variant shows two paths and a highlighted recommendation without long tables, with a..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Warm Choice",
+            "description": "Warmer neutrals and tactile highlights around Tool Comparison Route Choice",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Tool Comparison Route Choice"
+          },
+          {
+            "label": "Accent Choice",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Tool Comparison Route Choice without changing the main subject"
+          },
+          {
+            "label": "Unexpected Choice",
+            "description": "A more surprising secondary color relationship around Tool Comparison Route Choice",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends A route-choice variant shows two paths and a highlighted recommendation without long..."
+          }
+        ],
+        "scene": [
+          {
+            "label": "Choice In Use",
+            "description": "A more believable real-world context for Tool Comparison Route Choice",
+            "promptHint": "Place Tool Comparison Route Choice into a realistic usage context; preserve the source image's core cue: A route-choice variant shows two paths and a highlighted recommendation..."
+          },
+          {
+            "label": "Choice Exterior",
+            "description": "Move Tool Comparison Route Choice into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Tool Comparison Route Choice into an exterior or entryway scene while preserving the core cue: A route-choice variant shows two paths and a highlighted recommendation..."
+          },
+          {
+            "label": "Choice Studio",
+            "description": "A cleaner controlled studio setting that keeps Tool Comparison Route Choice dominant",
+            "promptHint": "Move Tool Comparison Route Choice into a cleaner studio-hero setting while preserving A route-choice variant shows two paths and a highlighted recommendation without long tables"
+          }
+        ],
+        "props": [
+          {
+            "label": "Choice Cues",
+            "description": "Add restrained supporting objects that clarify the context of Tool Comparison Route Choice",
+            "promptHint": "Add a few contextual props that reinforce A route-choice variant shows two paths and a highlighted recommendation without long tables without distracting from Tool Comparison..."
+          },
+          {
+            "label": "Unexpected Choice Prop",
+            "description": "One surprising but believable object that opens a new story around Tool Comparison Route Choice",
+            "promptHint": "Add one unexpected supporting prop that extends A route-choice variant shows two paths and a highlighted recommendation without long tables without stealing focus from Tool..."
+          },
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Tool Comparison Route Choice carries more weight",
+            "promptHint": "Remove nonessential props and keep Tool Comparison Route Choice as the dominant read"
+          }
+        ],
+        "character": [
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Tool Comparison Route Choice",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Tool Comparison Route Choice"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Tool Comparison Route Choice carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Tool Comparison Route Choice",
+            "promptHint": "Introduce a collector or tastemaker presence around Tool Comparison Route Choice while changing wardrobe, gesture, or posture"
+          }
+        ],
+        "format": [
+          {
+            "label": "Choice Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Tool Comparison Route Choice; keep A route-choice variant shows two paths and a highlighted recommendation without long tables legible"
+          },
+          {
+            "label": "Split-Depth Choice",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Tool Comparison Route Choice; do not make a collage or panel layout"
+          },
+          {
+            "label": "Wide Choice",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Tool Comparison Route Choice to a wide hero composition with room for layout"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/tool-comparison-route-choice.jpg",
+      "sourceImageUrl": "generated/ff7258432d2d71bc582265751d4d0894.png"
+    },
+    {
+      "id": "claim-deconstruction-three-layers",
+      "title": "Claim Deconstruction - Three Layers",
+      "caption": "A claim breaks into assertion, support, and risk layers around the speaker.",
+      "source": "Component family: 观点拆解浮层",
+      "tone": "analytical, editorial, confident",
+      "motif": "quote block, three horizontal layers, risk accent, presenter as narrator",
+      "palette": "charcoal, white, muted gold, restrained red, cyan",
+      "prompt": "Single editorial motion-design frame for an AI industry judgment talking-head video, 16:9. Centered abstract presenter silhouette remains clear, bottom subtitle-safe band empty. A dark glass quote-like block floats in the left side lane without readable text; on the right, three short horizontal analytical layers appear as abstract bars: muted gold for claim, cyan for support, restrained red for risk. No words, no logos, no real person face, no fake evidence, no collage, no corporate deck. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Minimal Layers",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Claim Deconstruction - Three Layers",
+            "promptHint": "Strip Claim Deconstruction - Three Layers down to a minimal premium frame; keep A claim breaks into assertion, support, and risk layers around the speaker legible but change..."
+          },
+          {
+            "label": "Motion Layers",
+            "description": "More kinetic gesture, blur, or environmental energy around Claim Deconstruction - Three Layers",
+            "promptHint": "Introduce controlled motion to Claim Deconstruction - Three Layers while preserving the campaign cue: A claim breaks into assertion, support, and risk layers around the speaker"
+          },
+          {
+            "label": "Material Layers",
+            "description": "A closer tactile read of surface, temperature, and finish around Claim Deconstruction - Three Layers",
+            "promptHint": "Rebuild Claim Deconstruction - Three Layers as a tactile material study inspired by A claim breaks into assertion, support, and risk layers around the speaker, with a visibly..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Accent Layers",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Claim Deconstruction - Three Layers without changing the main subject"
+          },
+          {
+            "label": "Unexpected Layers",
+            "description": "A more surprising secondary color relationship around Claim Deconstruction - Three Layers",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends A claim breaks into assertion, support, and risk layers around the speaker"
+          },
+          {
+            "label": "Cool Layers",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Claim Deconstruction - Three Layers; keep A claim breaks into assertion, support, and risk layers around the speaker intact"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Layers Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Claim Deconstruction - Three Layers, keeping the most important source cue visible"
+          },
+          {
+            "label": "Layers Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Claim Deconstruction - Three Layers",
+            "promptHint": "Reframe Claim Deconstruction - Three Layers as a backstage or preparation moment; keep A claim breaks into assertion, support, and risk layers around the speaker recognizable"
+          },
+          {
+            "label": "Layers In Use",
+            "description": "A more believable real-world context for Claim Deconstruction - Three Layers",
+            "promptHint": "Place Claim Deconstruction - Three Layers into a realistic usage context; preserve the source image's core cue: A claim breaks into assertion, support, and risk layers around..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Claim Deconstruction - Three Layers; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Claim Deconstruction - Three Layers feel actively used",
+            "promptHint": "Add restrained process cues around Claim Deconstruction - Three Layers; preserve the strongest visual idea from A claim breaks into assertion, support, and risk layers around..."
+          },
+          {
+            "label": "Layers Cues",
+            "description": "Add restrained supporting objects that clarify the context of Claim Deconstruction - Three Layers",
+            "promptHint": "Add a few contextual props that reinforce A claim breaks into assertion, support, and risk layers around the speaker without distracting from Claim Deconstruction - Three Layers"
+          }
+        ],
+        "character": [
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Claim Deconstruction - Three Layers",
+            "promptHint": "Add a cropped passing figure or gesture around Claim Deconstruction - Three Layers; keep identity nonspecific and preserve A claim breaks into assertion, support, and risk..."
+          },
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Claim Deconstruction - Three Layers",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Claim Deconstruction - Three Layers"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Claim Deconstruction - Three Layers carry the image"
+          }
+        ],
+        "format": [
+          {
+            "label": "Wide Layers",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Claim Deconstruction - Three Layers to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Layers",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Claim Deconstruction - Three Layers as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Layers",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Claim Deconstruction - Three Layers to a portrait social crop while preserving the key visual read"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/claim-deconstruction-three-layers.jpg",
+      "sourceImageUrl": "generated/fd5d29f2ed8b846ff078999969d33fe5.png"
+    },
+    {
+      "id": "claim-deconstruction-risk-pin",
+      "title": "Claim Deconstruction - Risk Pin",
+      "caption": "Risk and caveat are made visible as a precise pin, not a dramatic alarm graphic.",
+      "source": "Component family: 观点拆解浮层",
+      "tone": "sober, high-signal, careful",
+      "motif": "claim panel, risk pin, side-lane hierarchy, restrained alert color",
+      "palette": "black glass, white, muted gold, restrained red, subtle cyan",
+      "prompt": "Single 16:9 visual reference frame of a talking-head AI commentary video overlay. A centered abstract presenter silhouette is protected by an empty central safety zone and bottom subtitle-safe band. One dark glass claim panel floats on the left side lane with abstract placeholder marks; a small restrained red risk pin and a muted gold caveat marker appear on the right side lane, precise and sober, not alarmist. No readable text, no logos, no fake facts, no collage, no purple-blue gradient, no corporate training look. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Motion Pin",
+            "description": "More kinetic gesture, blur, or environmental energy around Claim Deconstruction - Risk Pin",
+            "promptHint": "Introduce controlled motion to Claim Deconstruction - Risk Pin while preserving the campaign cue: Risk and caveat are made visible as a precise pin, not a dramatic alarm graphic"
+          },
+          {
+            "label": "Material Pin",
+            "description": "A closer tactile read of surface, temperature, and finish around Claim Deconstruction - Risk Pin",
+            "promptHint": "Rebuild Claim Deconstruction - Risk Pin as a tactile material study inspired by Risk and caveat are made visible as a precise pin, not a dramatic alarm graphic, with a visibly..."
+          },
+          {
+            "label": "Dramatic Pin",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Claim Deconstruction - Risk Pin; keep Risk and caveat are made visible as a precise pin, not a dramatic alarm graphic recognizable..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Warm Pin",
+            "description": "Warmer neutrals and tactile highlights around Claim Deconstruction - Risk Pin",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Claim Deconstruction - Risk Pin"
+          },
+          {
+            "label": "Accent Pin",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Claim Deconstruction - Risk Pin without changing the main subject"
+          },
+          {
+            "label": "Unexpected Pin",
+            "description": "A more surprising secondary color relationship around Claim Deconstruction - Risk Pin",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends Risk and caveat are made visible as a precise pin, not a dramatic alarm graphic"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Pin Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Claim Deconstruction - Risk Pin, keeping the most important source cue visible"
+          },
+          {
+            "label": "Pin Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Claim Deconstruction - Risk Pin",
+            "promptHint": "Reframe Claim Deconstruction - Risk Pin as a backstage or preparation moment; keep Risk and caveat are made visible as a precise pin, not a dramatic alarm graphic recognizable"
+          },
+          {
+            "label": "Pin In Use",
+            "description": "A more believable real-world context for Claim Deconstruction - Risk Pin",
+            "promptHint": "Place Claim Deconstruction - Risk Pin into a realistic usage context; preserve the source image's core cue: Risk and caveat are made visible as a precise pin, not a dramatic..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Claim Deconstruction - Risk Pin; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Claim Deconstruction - Risk Pin feel actively used",
+            "promptHint": "Add restrained process cues around Claim Deconstruction - Risk Pin; preserve the strongest visual idea from Risk and caveat are made visible as a precise pin, not a dramatic..."
+          },
+          {
+            "label": "Pin Cues",
+            "description": "Add restrained supporting objects that clarify the context of Claim Deconstruction - Risk Pin",
+            "promptHint": "Add a few contextual props that reinforce Risk and caveat are made visible as a precise pin, not a dramatic alarm graphic without distracting from Claim Deconstruction - Risk Pin"
+          }
+        ],
+        "character": [
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Claim Deconstruction - Risk Pin",
+            "promptHint": "Introduce a collector or tastemaker presence around Claim Deconstruction - Risk Pin while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Claim Deconstruction - Risk Pin in an everyday user context without losing Risk and caveat are made visible as a precise pin, not a dramatic alarm graphic"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Claim Deconstruction - Risk Pin",
+            "promptHint": "Add a cropped passing figure or gesture around Claim Deconstruction - Risk Pin; keep identity nonspecific and preserve Risk and caveat are made visible as a precise pin, not a..."
+          }
+        ],
+        "format": [
+          {
+            "label": "Portrait Pin",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Claim Deconstruction - Risk Pin to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Pin Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Claim Deconstruction - Risk Pin; keep Risk and caveat are made visible as a precise pin, not a dramatic alarm graphic legible"
+          },
+          {
+            "label": "Split-Depth Pin",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Claim Deconstruction - Risk Pin; do not make a collage or panel layout"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/claim-deconstruction-risk-pin.jpg",
+      "sourceImageUrl": "generated/36fb8a80ab7fe8d86ed9908c92b6fdcc.png"
+    }
+  ]
+}
