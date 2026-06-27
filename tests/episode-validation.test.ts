@@ -1,4 +1,7 @@
 import {describe, expect, it} from 'vitest';
+import codexGuideTalkAssets from '../episodes/CodexGuideTalk/asset-manifest.json';
+import codexGuideTalkEpisode from '../episodes/CodexGuideTalk/episode.json';
+import codexGuideTalkSources from '../episodes/CodexGuideTalk/sources.json';
 import {episodeSchema} from '../src/editorial/schema/episode.schema';
 import type {AssetManifest, EpisodeConfig, SourceManifest} from '../src/editorial/schema/episode.types';
 import {validateEpisodeData} from '../src/editorial/validation/validate-episode';
@@ -92,6 +95,22 @@ const addTalkVideoScene = (episode: EpisodeConfig) => {
 };
 
 describe('episode schema and validation', () => {
+  it('accepts CodexGuideTalk as an abstract, source-safe episode', () => {
+    const result = validateEpisodeData(
+      codexGuideTalkEpisode as EpisodeConfig,
+      codexGuideTalkAssets as AssetManifest,
+      codexGuideTalkSources as SourceManifest,
+      {mode: 'preview'},
+    );
+
+    expect(result.ok).toBe(true);
+    expect(codexGuideTalkEpisode.episode.durationInSeconds).toBe(198.8);
+    expect(codexGuideTalkEpisode.presenter.videoAssetId).toBe('codex-guide-talk-video');
+    expect(codexGuideTalkEpisode.presenter.subtitleAssetId).toBe('codex-guide-talk-subtitle');
+    expect(codexGuideTalkEpisode.scenes.some((scene) => scene.sourceRefIds.length > 0)).toBe(false);
+    expect(codexGuideTalkEpisode.scenes.filter((scene) => scene.kind === 'AgentExecution').length).toBeGreaterThanOrEqual(4);
+  });
+
   it('rejects invalid scene time ranges', () => {
     const episode = cloneSample();
     episode.scenes[0].end = episode.scenes[0].start;

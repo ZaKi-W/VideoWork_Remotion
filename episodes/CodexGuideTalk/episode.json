@@ -1,0 +1,737 @@
+{
+  "version": 1,
+  "episode": {
+    "id": "codex-guide-talk",
+    "title": "Codex 使用小技巧",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "durationInSeconds": 198.8,
+    "status": "IN_PRODUCTION"
+  },
+  "presenter": {
+    "mode": "video",
+    "videoAssetId": "codex-guide-talk-video",
+    "subtitleAssetId": "codex-guide-talk-subtitle",
+    "defaultStageMode": "presenter-center"
+  },
+  "scenes": [
+    {
+      "id": "cgt-talk-video",
+      "start": 0,
+      "end": 198.8,
+      "track": "background",
+      "kind": "TalkVideoBase",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "TalkVideoBase",
+        "props": {
+          "videoPath": "episodes/CodexGuideTalk/talk.mp4",
+          "subtitlePath": "episodes/CodexGuideTalk/talk.srt",
+          "audio": true,
+          "fit": "cover",
+          "subtitleMaxWidth": 1040
+        }
+      },
+      "assetIds": ["codex-guide-talk-video", "codex-guide-talk-subtitle"],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "口播视频、音频和 SRT 字幕底层。"
+    },
+    {
+      "id": "cgt-opening",
+      "start": 0,
+      "end": 13.466,
+      "track": "overlay",
+      "kind": "TrendBanner",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "TrendBanner",
+        "props": {
+          "kicker": "CODEX GUIDE",
+          "label": "REAL WORKFLOW",
+          "title": ["Codex", "使用痛点"],
+          "copy": "几个真正能减少重复消耗、提高执行效率的个人用法。",
+          "foot": "个人经验 / 开场",
+          "emphasis": "痛点",
+          "accent": "cyan",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本开场 C24。"
+    },
+    {
+      "id": "cgt-opening-aux",
+      "start": 4.4,
+      "end": 12.8,
+      "track": "overlay",
+      "kind": "SideBrief",
+      "stageMode": "presenter-center",
+      "slot": "edge-right",
+      "content": {
+        "kind": "SideBrief",
+        "props": {
+          "kicker": "OUTCOME",
+          "index": "00",
+          "title": ["省 Token", "提效率"],
+          "copy": "这些思路同样适用于其他 Agent。",
+          "focus": "少返工",
+          "tail": "不只适用于 Codex",
+          "foot": "右侧辅助 / 开场",
+          "accent": "acid",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本开场 C26。"
+    },
+    {
+      "id": "cgt-over-test-compare",
+      "start": 13.466,
+      "end": 24.133,
+      "track": "overlay",
+      "kind": "TrendTotem",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "TrendTotem",
+        "props": {
+          "kicker": "PAIN 01",
+          "label": "OVER-TESTING",
+          "title": ["干活 3 分钟", "测试 10 分钟"],
+          "copy": "小改动也可能触发一整套重测试。",
+          "foot": "口播观点 / 时间对比",
+          "emphasis": "10 分钟",
+          "accent": "orange",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本 C23 数字翻转语义的静态配置。"
+    },
+    {
+      "id": "cgt-over-test-aux",
+      "start": 17.2,
+      "end": 24,
+      "track": "overlay",
+      "kind": "SideBrief",
+      "stageMode": "presenter-center",
+      "slot": "edge-right",
+      "content": {
+        "kind": "SideBrief",
+        "props": {
+          "kicker": "COST",
+          "index": "01",
+          "title": ["时间", "被吃掉"],
+          "copy": "截图、点测和继续检查会把轻任务拖重。",
+          "focus": "过度测试",
+          "tail": "Token 也在持续消耗",
+          "foot": "右侧辅助 / 痛点",
+          "accent": "orange",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本 C26 时间成本辅助。"
+    },
+    {
+      "id": "cgt-over-test-flow",
+      "start": 24.133,
+      "end": 35.5,
+      "track": "primary",
+      "kind": "AgentExecution",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "AgentExecution",
+        "props": {
+          "topic": "抽象流程",
+          "topicDetail": "轻改动 → 重测试",
+          "eyebrow": "OVER-TESTING LOOP",
+          "title": ["测试链路", "不断扩张"],
+          "copy": "这是口播观点的抽象任务队列，不是真实终端或产品证据。",
+          "subtitle": "改动很小，验证链路却越来越长。",
+          "subtitleEn": "Abstract workflow, not product evidence.",
+          "caption": "ABSTRACT FLOW",
+          "items": [
+            {"label": "CHANGE", "value": "01", "detail": "改动完成"},
+            {"label": "TEST", "value": "02", "detail": "跑测试"},
+            {"label": "SCREEN", "value": "03", "detail": "截图检测"},
+            {"label": "RECHECK", "value": "04", "detail": "继续检查"}
+          ],
+          "messages": [
+            {"speaker": "me", "text": "这只是一个很小的改动。"},
+            {"speaker": "agent", "text": "开始运行完整测试流程。"},
+            {"speaker": "agent", "text": "继续截图并进行视觉检查。"}
+          ],
+          "mediaCount": 30,
+          "scrimIntensity": "soft"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "替代缺失长测试录屏的抽象 C13。"
+    },
+    {
+      "id": "cgt-rule-flow",
+      "start": 35.5,
+      "end": 47,
+      "track": "primary",
+      "kind": "AgentExecution",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "AgentExecution",
+        "props": {
+          "topic": "抽象规则",
+          "topicDetail": "自定义指令",
+          "eyebrow": "RULE FIRST",
+          "title": ["只做", "必要检查"],
+          "copy": "抽象表示规则被读取后的执行收敛，不伪造 AGENTS.md 截图。",
+          "subtitle": "除非主动要求，否则不要进行深度测试。",
+          "subtitleEn": "Necessary checks, then stop.",
+          "caption": "ABSTRACT RULE",
+          "items": [
+            {"label": "READ", "value": "01", "detail": "读取规则"},
+            {"label": "CHECK", "value": "02", "detail": "必要检查"},
+            {"label": "STOP", "value": "03", "detail": "确认结果并结束"}
+          ],
+          "messages": [
+            {"speaker": "me", "text": "不要默认进行深度测试。"},
+            {"speaker": "agent", "text": "完成必要检查，任务结束。"}
+          ],
+          "mediaCount": 24,
+          "scrimIntensity": "soft"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "替代规则截图的抽象 C13。"
+    },
+    {
+      "id": "cgt-quota-title",
+      "start": 47,
+      "end": 58.6,
+      "track": "overlay",
+      "kind": "TrendBanner",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "TrendBanner",
+        "props": {
+          "kicker": "PAIN 02",
+          "label": "WEEKLY LIMIT",
+          "title": ["第二个痛点", "额度"],
+          "copy": "把有限额度集中到真正需要持续推进的大任务。",
+          "foot": "个人经验 / 额度",
+          "emphasis": "额度",
+          "accent": "yellow",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本额度章节 C24。"
+    },
+    {
+      "id": "cgt-quota-aux",
+      "start": 49,
+      "end": 58.2,
+      "track": "overlay",
+      "kind": "SideBrief",
+      "stageMode": "presenter-center",
+      "slot": "edge-right",
+      "content": {
+        "kind": "SideBrief",
+        "props": {
+          "kicker": "FOCUS",
+          "index": "02",
+          "title": ["集中", "火力"],
+          "copy": "这一段只表达个人用法，不构成产品承诺。",
+          "focus": "个人经验",
+          "tail": "把零散额度集中使用",
+          "foot": "右侧辅助 / 边界",
+          "accent": "yellow",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "明确个人经验边界。"
+    },
+    {
+      "id": "cgt-one-percent",
+      "start": 58.6,
+      "end": 64.666,
+      "track": "overlay",
+      "kind": "TrendTotem",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "TrendTotem",
+        "props": {
+          "kicker": "PERSONAL METHOD",
+          "label": "WEEKLY LIMIT",
+          "title": ["剩余", "1%"],
+          "copy": "接近见底时，再安排需要持续推进的大任务。",
+          "foot": "口播转述 / 非官方保证",
+          "emphasis": "1%",
+          "accent": "red",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本 C23 的 1% 关键数字。"
+    },
+    {
+      "id": "cgt-goal-steps",
+      "start": 64.666,
+      "end": 78.2,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "steps",
+          "index": "02B",
+          "eyebrow": "PERSONAL METHOD",
+          "title": "把最后额度集中使用",
+          "subtitle": "追求目标、完全访问，再安排一个大任务",
+          "accent": "lime",
+          "items": ["开追求目标", "开完全访问", "安排大任务"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本 C21 三步流程。"
+    },
+    {
+      "id": "cgt-goal-run",
+      "start": 78.2,
+      "end": 88.933,
+      "track": "primary",
+      "kind": "AgentExecution",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "AgentExecution",
+        "props": {
+          "topic": "个人经验",
+          "topicDetail": "集中推进大任务",
+          "eyebrow": "GOAL MODE",
+          "title": ["任务继续", "向前推进"],
+          "copy": "这是个人使用经验的抽象过程，不表示官方保证或固定额度收益。",
+          "subtitle": "把最后的额度集中给一个清晰的大任务。",
+          "subtitleEn": "Personal workflow, not an official guarantee.",
+          "caption": "PERSONAL METHOD",
+          "items": [
+            {"label": "GOAL", "value": "01", "detail": "追求目标"},
+            {"label": "ACCESS", "value": "02", "detail": "完全访问"},
+            {"label": "TASK", "value": "03", "detail": "大任务"},
+            {"label": "RUN", "value": "04", "detail": "持续推进"}
+          ],
+          "messages": [
+            {"speaker": "me", "text": "目标和边界已经写清楚。"},
+            {"speaker": "agent", "text": "按任务列表持续推进。"}
+          ],
+          "mediaCount": 32,
+          "scrimIntensity": "soft"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "替代追求目标入口录屏的抽象 C13。"
+    },
+    {
+      "id": "cgt-aesthetic",
+      "start": 88.933,
+      "end": 97,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "compare",
+          "index": "03",
+          "eyebrow": "PAIN 03",
+          "title": "能力和审美有点偏科",
+          "subtitle": "解决问题很强，样式却经常需要反复调整",
+          "accent": "orange",
+          "left": "解决问题：强",
+          "right": "审美：一般",
+          "connector": "偏科",
+          "items": ["前端项目", "视频特效", "反复调整"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本 C21 compare。"
+    },
+    {
+      "id": "cgt-aesthetic-flow",
+      "start": 97,
+      "end": 106.3,
+      "track": "primary",
+      "kind": "AgentExecution",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "AgentExecution",
+        "props": {
+          "topic": "抽象调校",
+          "topicDetail": "样式反复修改",
+          "eyebrow": "STYLE LOOP",
+          "title": ["样式来回调", "Token 继续花"],
+          "copy": "抽象表现字体、间距和配色的反复调整，不使用虚假项目截图。",
+          "subtitle": "功能能做出来，审美仍然需要来回校准。",
+          "subtitleEn": "Abstract style loop.",
+          "caption": "ABSTRACT FLOW",
+          "items": [
+            {"label": "TYPE", "value": "字体", "detail": "再调一次"},
+            {"label": "SPACE", "value": "间距", "detail": "继续校准"},
+            {"label": "COLOR", "value": "配色", "detail": "重新选择"}
+          ],
+          "messages": [
+            {"speaker": "me", "text": "功能没问题，但样式还不对。"},
+            {"speaker": "agent", "text": "调整字体、间距和颜色。"},
+            {"speaker": "agent", "text": "继续进行下一轮样式修改。"}
+          ],
+          "mediaCount": 36,
+          "scrimIntensity": "soft"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "替代粗糙页面截图的抽象 C13。"
+    },
+    {
+      "id": "cgt-html-handoff",
+      "start": 106.3,
+      "end": 129.433,
+      "track": "primary",
+      "kind": "AgentExecution",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "AgentExecution",
+        "props": {
+          "topic": "抽象流程",
+          "topicDetail": "网页 GPT → HTML → Codex",
+          "eyebrow": "DESIGN HANDOFF",
+          "title": ["先定样式", "再交给 Codex"],
+          "copy": "用抽象文件卡表达设计交接，不复刻真实网页端对话或产品界面。",
+          "subtitle": "网页端先把 HTML 样式调好，Codex 再照着实现。",
+          "subtitleEn": "Tune the design first, then hand off the HTML.",
+          "caption": "ABSTRACT HANDOFF",
+          "items": [
+            {"label": "WEB GPT", "value": "01", "detail": "来回调样式"},
+            {"label": "HTML", "value": "02", "detail": "完整样式文件"},
+            {"label": "CODEX", "value": "03", "detail": "读取设计稿"},
+            {"label": "BUILD", "value": "04", "detail": "开始实现"}
+          ],
+          "messages": [
+            {"speaker": "me", "text": "先在网页端把视觉方案调顺。"},
+            {"speaker": "agent", "text": "HTML 已包含完整样式信息。"},
+            {"speaker": "agent", "text": "Codex 按设计稿开始实现。"}
+          ],
+          "mediaCount": 42,
+          "scrimIntensity": "soft"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "替代两段录屏的抽象 C13 交接流程。"
+    },
+    {
+      "id": "cgt-two-benefits",
+      "start": 129.433,
+      "end": 144.133,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "compare",
+          "index": "03B",
+          "eyebrow": "TWO BENEFITS",
+          "title": "先定设计再开始实现",
+          "subtitle": "少占 Codex 额度，也不用让它猜样式",
+          "accent": "cyan",
+          "left": "反复猜样式",
+          "right": "完整 HTML",
+          "connector": "交接",
+          "items": ["网页端先聊", "样式信息完整"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本 C21 两个好处。"
+    },
+    {
+      "id": "cgt-benefits-aux",
+      "start": 132,
+      "end": 143.8,
+      "track": "overlay",
+      "kind": "SideBrief",
+      "stageMode": "presenter-center",
+      "slot": "edge-right",
+      "content": {
+        "kind": "SideBrief",
+        "props": {
+          "kicker": "OUTCOME",
+          "index": "03C",
+          "title": ["实现", "更稳"],
+          "copy": "Codex 拿到完整样式信息，减少猜测和返工。",
+          "focus": "少试几轮",
+          "tail": "额度留给真正的实现",
+          "foot": "右侧辅助 / 收益",
+          "accent": "cyan",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本 C26 收束第二个好处。"
+    },
+    {
+      "id": "cgt-split-title",
+      "start": 144.133,
+      "end": 154.533,
+      "track": "overlay",
+      "kind": "RemotionTalkEffect",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "RemotionTalkEffect",
+        "props": {
+          "variant": "steps",
+          "index": "04",
+          "eyebrow": "LARGE PROJECT",
+          "title": "大项目先拆再分别执行",
+          "subtitle": "先在网页端拆任务，再分到多个 Codex 对话",
+          "accent": "lime",
+          "items": ["网页端拆任务", "分会话执行"]
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本 C21 拆任务流程。"
+    },
+    {
+      "id": "cgt-split-aux",
+      "start": 147,
+      "end": 154.2,
+      "track": "overlay",
+      "kind": "SideBrief",
+      "stageMode": "presenter-center",
+      "slot": "edge-right",
+      "content": {
+        "kind": "SideBrief",
+        "props": {
+          "kicker": "CONTEXT",
+          "index": "04",
+          "title": ["别全塞", "一个对话"],
+          "copy": "多个短会话分别承担清晰任务。",
+          "focus": "合理拆分",
+          "tail": "减少上下文负担",
+          "foot": "右侧辅助 / 原则",
+          "accent": "acid",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本 C26 拆分原则。"
+    },
+    {
+      "id": "cgt-context-split",
+      "start": 154.533,
+      "end": 180.4,
+      "track": "primary",
+      "kind": "AgentExecution",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "AgentExecution",
+        "props": {
+          "topic": "抽象流程",
+          "topicDetail": "长上下文 → 多任务舱",
+          "eyebrow": "CONTEXT SPLIT",
+          "title": ["一个长对话", "拆成多个任务"],
+          "copy": "上下文增长、压缩和细节减弱都是口播观点的抽象转述。",
+          "subtitle": "合理拆分任务，减少重复解释和细节遗失。",
+          "subtitleEn": "Abstract context flow, not measured product data.",
+          "caption": "ABSTRACT FLOW",
+          "items": [
+            {"label": "LONG CHAT", "value": "01", "detail": "上下文持续增长"},
+            {"label": "COMPRESS", "value": "02", "detail": "自动压缩"},
+            {"label": "DETAIL", "value": "03", "detail": "细节可能减弱"},
+            {"label": "SPLIT", "value": "04", "detail": "拆成多个会话"}
+          ],
+          "messages": [
+            {"speaker": "me", "text": "先把大型项目拆成独立任务。"},
+            {"speaker": "agent", "text": "每个会话只保留当前任务上下文。"},
+            {"speaker": "agent", "text": "任务边界更清楚，交接更轻。"}
+          ],
+          "mediaCount": 48,
+          "scrimIntensity": "soft"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本长上下文与任务拆分的抽象 C13。"
+    },
+    {
+      "id": "cgt-outro",
+      "start": 180.4,
+      "end": 198.8,
+      "track": "overlay",
+      "kind": "NarrationEchoLayer",
+      "stageMode": "presenter-center",
+      "slot": "edge-left",
+      "content": {
+        "kind": "NarrationEchoLayer",
+        "props": {
+          "placement": "edge-left",
+          "items": [
+            {
+              "ghost": "RULE",
+              "label": "通用方法",
+              "beat": "01",
+              "counter": "01",
+              "progress": 0.34,
+              "segments": [
+                {"text": "把规则"},
+                {"text": "写清楚", "accent": true}
+              ],
+              "note": "先定义边界",
+              "track": ["规则", "任务", "执行"],
+              "activeTrackIndex": 0,
+              "focus": "规则写清楚"
+            },
+            {
+              "ghost": "TASK",
+              "label": "通用方法",
+              "beat": "02",
+              "counter": "02",
+              "progress": 0.67,
+              "segments": [
+                {"text": "把任务"},
+                {"text": "安排明白", "accent": true}
+              ],
+              "note": "再明确目标",
+              "track": ["规则", "任务", "执行"],
+              "activeTrackIndex": 1,
+              "focus": "任务安排明白"
+            },
+            {
+              "ghost": "WORK",
+              "label": "最终结果",
+              "beat": "03",
+              "counter": "03",
+              "progress": 1,
+              "segments": [
+                {"text": "让 Agent"},
+                {"text": "多干正事", "accent": true}
+              ],
+              "note": "少浪费 Token",
+              "track": ["规则", "任务", "执行"],
+              "activeTrackIndex": 2,
+              "focus": "多干正事"
+            }
+          ],
+          "charFrames": 2,
+          "segmentPauseFrames": 6,
+          "exitFrames": 12,
+          "showSoftener": true
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本结尾 C16 逐项收束。"
+    },
+    {
+      "id": "cgt-outro-aux",
+      "start": 181.5,
+      "end": 197.4,
+      "track": "overlay",
+      "kind": "SideBrief",
+      "stageMode": "presenter-center",
+      "slot": "edge-right",
+      "content": {
+        "kind": "SideBrief",
+        "props": {
+          "kicker": "FOR EVERY AGENT",
+          "index": "END",
+          "title": ["不只适用", "Codex"],
+          "copy": "规则清楚、任务清楚，Agent 才能少浪费、多执行。",
+          "focus": "Agent 都能用",
+          "tail": "感谢观看 / 下期再见",
+          "foot": "右侧辅助 / 结尾",
+          "accent": "cyan",
+          "blocks": []
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "脚本结尾 C26。"
+    }
+  ],
+  "shots": [
+    {"from": 0, "to": 204, "mode": "talk", "summaryId": "cgt-opening"},
+    {"from": 204, "to": 404, "mode": "push-in", "summaryId": "cgt-opening"},
+    {"from": 404, "to": 724, "mode": "talk", "summaryId": "cgt-over-test-compare"},
+    {"from": 724, "to": 1065, "mode": "content-full", "contentId": "cgt-over-test-flow"},
+    {"from": 1065, "to": 1410, "mode": "speaker-right", "contentId": "cgt-rule-flow"},
+    {"from": 1410, "to": 1758, "mode": "talk", "summaryId": "cgt-quota-title"},
+    {"from": 1758, "to": 1940, "mode": "push-in", "summaryId": "cgt-one-percent"},
+    {"from": 1940, "to": 2346, "mode": "talk", "summaryId": "cgt-goal-steps"},
+    {"from": 2346, "to": 2668, "mode": "pip-right", "contentId": "cgt-goal-run"},
+    {"from": 2668, "to": 2910, "mode": "talk", "summaryId": "cgt-aesthetic"},
+    {"from": 2910, "to": 3189, "mode": "content-full", "contentId": "cgt-aesthetic-flow"},
+    {"from": 3189, "to": 3500, "mode": "speaker-right", "contentId": "cgt-html-handoff"},
+    {"from": 3500, "to": 3883, "mode": "content-full", "contentId": "cgt-html-handoff"},
+    {"from": 3883, "to": 4324, "mode": "talk", "summaryId": "cgt-two-benefits"},
+    {"from": 4324, "to": 4636, "mode": "talk", "summaryId": "cgt-split-title"},
+    {"from": 4636, "to": 4900, "mode": "speaker-left", "contentId": "cgt-context-split"},
+    {"from": 4900, "to": 5200, "mode": "content-full", "contentId": "cgt-context-split"},
+    {"from": 5200, "to": 5412, "mode": "pip-right", "contentId": "cgt-context-split"},
+    {"from": 5412, "to": 5700, "mode": "talk", "summaryId": "cgt-outro"},
+    {"from": 5700, "to": 5964, "mode": "push-in", "summaryId": "cgt-outro"}
+  ]
+}
