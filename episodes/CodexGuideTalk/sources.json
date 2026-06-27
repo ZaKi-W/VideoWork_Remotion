@@ -1,0 +1,26 @@
+{
+  "sources": [
+    {
+      "id": "local-codex-guide-talk-video",
+      "title": "CodexGuideTalk 口播视频",
+      "publisher": "local",
+      "url": "episodes/CodexGuideTalk/talk.mp4",
+      "publishedAt": "2026-06-27",
+      "capturedAssetId": "codex-guide-talk-video",
+      "notes": "本地口播素材，只承载人物画面和音频，不作为外部事实证据。",
+      "kind": "local",
+      "status": "captured"
+    },
+    {
+      "id": "local-codex-guide-talk-subtitle",
+      "title": "CodexGuideTalk 字幕时间轴",
+      "publisher": "local",
+      "url": "episodes/CodexGuideTalk/talk.srt",
+      "publishedAt": "2026-06-27",
+      "capturedAssetId": "codex-guide-talk-subtitle",
+      "notes": "本地字幕素材，只用于分段和特效时机判断。",
+      "kind": "local",
+      "status": "captured"
+    }
+  ]
+}

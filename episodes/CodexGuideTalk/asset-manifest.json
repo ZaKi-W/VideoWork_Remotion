@@ -1,0 +1,24 @@
+{
+  "assets": [
+    {
+      "id": "codex-guide-talk-video",
+      "type": "talk-video",
+      "path": "episodes/CodexGuideTalk/talk.mp4",
+      "purpose": "本期口播视频底层画面和音频",
+      "sourceRefId": "local-codex-guide-talk-video",
+      "sceneHints": ["all-scenes", "presenter-video"],
+      "status": "ready",
+      "priority": "high"
+    },
+    {
+      "id": "codex-guide-talk-subtitle",
+      "type": "subtitle",
+      "path": "episodes/CodexGuideTalk/talk.srt",
+      "purpose": "按真实口播时间轴定位分镜和字幕",
+      "sourceRefId": "local-codex-guide-talk-subtitle",
+      "sceneHints": ["timing", "sectioning"],
+      "status": "ready",
+      "priority": "high"
+    }
+  ]
+}
