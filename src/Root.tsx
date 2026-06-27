@@ -13,6 +13,9 @@ import {
   systemPreviewCompositionId,
 } from './editorial/registry/component-catalog';
 import type {EpisodeInputProps} from './editorial/schema/episode.types';
+import codexGuideTalkAssets from '../episodes/CodexGuideTalk/asset-manifest.json';
+import codexGuideTalkEpisode from '../episodes/CodexGuideTalk/episode.json';
+import codexGuideTalkSources from '../episodes/CodexGuideTalk/sources.json';
 import remotionTalkAssets from '../episodes/RemotionTalk/asset-manifest.json';
 import remotionTalkEpisode from '../episodes/RemotionTalk/episode.json';
 import remotionTalkSources from '../episodes/RemotionTalk/sources.json';
@@ -21,6 +24,14 @@ const remotionTalkProps: EpisodeInputProps = {
   episode: remotionTalkEpisode as EpisodeInputProps['episode'],
   assets: remotionTalkAssets as EpisodeInputProps['assets'],
   sources: remotionTalkSources as EpisodeInputProps['sources'],
+  debug: false,
+  strict: false,
+};
+
+const codexGuideTalkProps: EpisodeInputProps = {
+  episode: codexGuideTalkEpisode as EpisodeInputProps['episode'],
+  assets: codexGuideTalkAssets as EpisodeInputProps['assets'],
+  sources: codexGuideTalkSources as EpisodeInputProps['sources'],
   debug: false,
   strict: false,
 };
@@ -51,6 +62,12 @@ export const RemotionRoot = () => {
         id="Episode"
         component={EpisodeComposition}
         defaultProps={remotionTalkProps}
+        calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
+      />
+      <Composition
+        id="CodexGuideTalk"
+        component={EpisodeComposition}
+        defaultProps={codexGuideTalkProps}
         calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
       />
       <Composition
