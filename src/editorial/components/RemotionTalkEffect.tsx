@@ -57,16 +57,35 @@ const canvasStyle = (rendererProps: ComponentRendererProps): CSSProperties => {
   };
 };
 
+export const getRemotionTalkEffectLayout = (width: number, height: number) => {
+  const layout = getStageLayout(width, height);
+  const left = Math.round(width * 0.025);
+  const top = Math.round(height * 0.075);
+  const minHeight = Math.round(height * 0.73);
+  const paddingX = Math.round(width * 0.0125);
+  const paddingY = Math.round(height * 0.0167);
+  const widthBeforePresenter = layout.presenterSafeZone.x - left;
+
+  return {
+    left,
+    top,
+    width: Math.min(710, widthBeforePresenter),
+    minHeight,
+    paddingX,
+    paddingY,
+  };
+};
+
 const slotContentStyle = (rendererProps: ComponentRendererProps): CSSProperties => {
-  const slotRect = getStageLayout(rendererProps.width, rendererProps.height).slots[rendererProps.scene.slot];
+  const panel = getRemotionTalkEffectLayout(rendererProps.width, rendererProps.height);
 
   return {
     position: 'absolute',
     zIndex: 2,
-    left: slotRect.x,
-    top: slotRect.y,
-    width: slotRect.width,
-    height: slotRect.height,
+    left: panel.left,
+    top: panel.top,
+    width: panel.width,
+    minHeight: panel.minHeight,
   };
 };
 
@@ -448,7 +467,7 @@ const CompareBlock = ({
   const holdShift = progress(frame, 68, Math.max(69, durationInFrames - 18));
 
   return (
-    <div style={{marginTop: 40, display: 'grid', gap: 20, width: 614}}>
+    <div style={{marginTop: 40, display: 'grid', gap: 20, width: '100%'}}>
       {[props.left, props.right].map((label, index) => {
         if (!label) {
           return null;
@@ -561,6 +580,7 @@ export const RemotionTalkEffect = (rendererProps: ComponentRendererProps) => {
   const intro = progress(frame, 0, 24);
   const exit = progress(frame, Math.max(1, rendererProps.durationInFrames - 16), rendererProps.durationInFrames);
   const showCompare = props.variant === 'compare' || props.variant === 'handoff';
+  const panelLayout = getRemotionTalkEffectLayout(rendererProps.width, rendererProps.height);
 
   // 用于环境光泄漏 (Ambient Light Leaks) 移动定位的平滑插值
   const glow1X = interpolate(intro, [0, 1], [-140, -50]);
@@ -581,9 +601,10 @@ export const RemotionTalkEffect = (rendererProps: ComponentRendererProps) => {
         <div
           style={{
             position: 'relative',
-            width: 710,
-            minHeight: 520,
-            padding: '44px 48px',
+            width: '100%',
+            minHeight: panelLayout.minHeight,
+            boxSizing: 'border-box',
+            padding: `${panelLayout.paddingY}px ${panelLayout.paddingX}px`,
             borderRadius: '24px',
             background: 'transparent',
             backdropFilter: 'none',
