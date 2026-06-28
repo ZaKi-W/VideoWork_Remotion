@@ -208,6 +208,8 @@ export const acidComponentPropsSchema = z
     mediaCount: z.number().int().min(12).max(60).default(48),
     scrimIntensity: z.enum(['none', 'soft', 'medium']).default('soft'),
     backgroundVideoPath: z.string().trim().min(1).max(160).optional(),
+    backgroundStartFromFrame: z.number().int().min(0).optional(),
+    hideOverlays: z.boolean().optional(),
   })
   .strict();
 

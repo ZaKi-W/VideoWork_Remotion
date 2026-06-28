@@ -49,7 +49,7 @@ export const componentRegistry = {
   CountryGap: {
     name: 'CountryGap',
     purpose: '国家对比 / 阵营差距',
-    allowedStageModes: ['no-presenter'],
+    allowedStageModes: ['no-presenter', 'presenter-center'],
     allowedSlots: ['full-bleed'],
     requiresSource: false,
     requiresAsset: false,
@@ -82,7 +82,7 @@ export const componentRegistry = {
   Ecosystem: {
     name: 'Ecosystem',
     purpose: '生态列表 / 产品入口清单',
-    allowedStageModes: ['no-presenter'],
+    allowedStageModes: ['no-presenter', 'presenter-center'],
     allowedSlots: ['full-bleed'],
     requiresSource: false,
     requiresAsset: false,

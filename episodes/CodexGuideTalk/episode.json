@@ -190,7 +190,7 @@
       "end": 47,
       "track": "primary",
       "kind": "Ecosystem",
-      "stageMode": "no-presenter",
+      "stageMode": "presenter-center",
       "slot": "full-bleed",
       "content": {
         "kind": "Ecosystem",
@@ -362,13 +362,15 @@
             {"speaker": "agent", "text": "按任务列表持续推进。"}
           ],
           "mediaCount": 32,
-          "scrimIntensity": "soft"
+          "scrimIntensity": "soft",
+          "backgroundVideoPath": "episodes/CodexGuideTalk/assets/pursue-goal-entry.mp4",
+          "hideOverlays": true
         }
       },
-      "assetIds": [],
-      "sourceRefIds": [],
+      "assetIds": ["pursue-goal-entry"],
+      "sourceRefIds": ["local-pursue-goal-entry"],
       "status": "ready",
-      "notes": "替代追求目标入口录屏的抽象 C13。"
+      "notes": "使用真实追求目标录屏作为背景的 C13。"
     },
     {
       "id": "cgt-aesthetic",
@@ -404,7 +406,7 @@
       "end": 106.3,
       "track": "primary",
       "kind": "CountryGap",
-      "stageMode": "no-presenter",
+      "stageMode": "presenter-center",
       "slot": "full-bleed",
       "content": {
         "kind": "CountryGap",
@@ -476,7 +478,8 @@
           ],
           "mediaCount": 42,
           "scrimIntensity": "soft",
-          "backgroundVideoPath": "episodes/CodexGuideTalk/assets/gpt-html-design-flow.mp4"
+          "backgroundVideoPath": "episodes/CodexGuideTalk/assets/gpt-html-design-flow.mp4",
+          "hideOverlays": true
         }
       },
       "assetIds": ["gpt-html-design-flow"],
@@ -771,13 +774,13 @@
     {"from": 204, "to": 404, "mode": "push-in", "summaryId": "cgt-opening"},
     {"from": 404, "to": 724, "mode": "talk", "summaryId": "cgt-over-test-compare"},
     {"from": 724, "to": 1065, "mode": "content-full", "contentId": "cgt-over-test-flow"},
-    {"from": 1065, "to": 1410, "mode": "content-full", "contentId": "cgt-rule-flow"},
+    {"from": 1065, "to": 1410, "mode": "talk", "contentId": "cgt-rule-flow"},
     {"from": 1410, "to": 1758, "mode": "talk", "summaryId": "cgt-quota-title"},
     {"from": 1758, "to": 1940, "mode": "push-in", "summaryId": "cgt-one-percent"},
     {"from": 1940, "to": 2346, "mode": "talk", "summaryId": "cgt-goal-steps"},
     {"from": 2346, "to": 2668, "mode": "pip-right", "contentId": "cgt-goal-run"},
     {"from": 2668, "to": 2910, "mode": "talk", "summaryId": "cgt-aesthetic"},
-    {"from": 2910, "to": 3189, "mode": "content-full", "contentId": "cgt-aesthetic-flow"},
+    {"from": 2910, "to": 3189, "mode": "talk", "contentId": "cgt-aesthetic-flow"},
     {"from": 3189, "to": 3500, "mode": "speaker-right", "contentId": "cgt-html-design-video"},
     {"from": 3500, "to": 3712, "mode": "content-full", "contentId": "cgt-html-design-video"},
     {"from": 3712, "to": 3883, "mode": "content-full", "contentId": "cgt-codex-implements"},

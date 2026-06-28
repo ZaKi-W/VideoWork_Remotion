@@ -66,6 +66,9 @@ export const AcidStage = ({
   durationInFrames,
   scrimIntensity = 'soft',
   backgroundVideoPath,
+  stageMode,
+  hideOverlays = false,
+  backgroundStartFromFrame = 0,
 }: {
   children: ReactNode;
   subtitle: string;
@@ -74,11 +77,16 @@ export const AcidStage = ({
   durationInFrames: number;
   scrimIntensity?: ScrimIntensity;
   backgroundVideoPath?: string;
+  stageMode?: string;
+  hideOverlays?: boolean;
+  backgroundStartFromFrame?: number;
 }) => {
   const intro = editorialProgress(frame, durationInFrames, {start: 0, end: 26});
   const exit = editorialExitProgress(frame, durationInFrames, 12, 18);
   const subtitleIntro = editorialProgress(frame, durationInFrames, {start: 14, end: 36});
   const scrimStyle = leftScrimStyles[scrimIntensity];
+
+  const isPresenterCenter = stageMode === 'presenter-center';
 
   return (
     <div
@@ -87,8 +95,9 @@ export const AcidStage = ({
       inset: 0,
       overflow: 'hidden',
       isolation: 'isolate',
-      background:
-        'radial-gradient(circle at 50% 18%, rgba(255,255,255,0.96), transparent 31%), linear-gradient(113deg, #dedbd5 0%, #f7f5ef 49%, #e2dfd8 100%)',
+      background: isPresenterCenter
+        ? 'transparent'
+        : 'radial-gradient(circle at 50% 18%, rgba(255,255,255,0.96), transparent 31%), linear-gradient(113deg, #dedbd5 0%, #f7f5ef 49%, #e2dfd8 100%)',
       color: acidTokens.color.text,
       fontFamily: acidTokens.font.body,
     }}
@@ -97,6 +106,7 @@ export const AcidStage = ({
       <OffthreadVideo
         src={staticFile(backgroundVideoPath)}
         muted
+        startFrom={backgroundStartFromFrame}
         style={{
           position: 'absolute',
           inset: 0,
@@ -136,21 +146,25 @@ export const AcidStage = ({
         }}
       />
     ) : null}
-    <div
-      style={{
-        position: 'absolute',
-        zIndex: 1,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        width: '25%',
-        background: 'linear-gradient(90deg, transparent, rgba(10,12,9,0.03) 30%, rgba(10,12,9,0.15) 100%)',
-        transform: `translateX(${(1 - intro) * 34}px)`,
-      }}
-    />
-    {backgroundVideoPath ? null : <Presenter />}
+    {hideOverlays ? null : (
+      <div
+        style={{
+          position: 'absolute',
+          zIndex: 1,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          width: '25%',
+          background: 'linear-gradient(90deg, transparent, rgba(10,12,9,0.03) 30%, rgba(10,12,9,0.15) 100%)',
+          transform: `translateX(${(1 - intro) * 34}px)`,
+        }}
+      />
+    )}
+    {backgroundVideoPath || isPresenterCenter || hideOverlays ? null : <Presenter />}
     <div style={{position: 'absolute', inset: 0, zIndex: 10}}>{children}</div>
-    <Subtitle text={subtitle} en={subtitleEn} progress={subtitleIntro} exit={exit} />
+    {isPresenterCenter || hideOverlays ? null : (
+      <Subtitle text={subtitle} en={subtitleEn} progress={subtitleIntro} exit={exit} />
+    )}
   </div>
   );
 };
@@ -377,14 +391,14 @@ export const SourceCard = ({source, assets, sources, frame, durationInFrames}: {
         <SourceBar left={source.label ?? sourceRecord?.publisher ?? 'Reference'} right={source.code ?? 'REF'} />
         <div
           style={{
-            minHeight: 496,
-            padding: 20,
+            minHeight: 620,
+            padding: 16,
             background: `linear-gradient(145deg, ${acidTokens.color.paper}, ${acidTokens.color.paper2})`,
             overflow: 'hidden',
           }}
         >
           {imagePath ? (
-            <Img src={imagePath} style={{width: '100%', height: 304, objectFit: 'contain', background: '#fff', border: '1px solid rgba(21,24,30,0.14)', opacity: bodyIntro, transform: `translateY(${(1 - bodyIntro) * 12}px) scale(${0.98 + bodyIntro * 0.02})`}} />
+            <Img src={imagePath} style={{width: '100%', height: 420, objectFit: 'contain', background: '#fff', border: '1px solid rgba(21,24,30,0.14)', opacity: bodyIntro, transform: `translateY(${(1 - bodyIntro) * 12}px) scale(${0.98 + bodyIntro * 0.02})`}} />
           ) : null}
           <div
             style={{

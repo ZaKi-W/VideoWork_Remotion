@@ -49,7 +49,9 @@ const acidFullCanvasKinds = new Set<EpisodeScene['kind']>([
 ]);
 
 const isAcidFullCanvas = (scene: EpisodeScene): boolean =>
-  acidFullCanvasKinds.has(scene.kind) && scene.stageMode === 'no-presenter' && scene.slot === 'full-bleed';
+  acidFullCanvasKinds.has(scene.kind) &&
+  (scene.stageMode === 'no-presenter' || scene.stageMode === 'presenter-center') &&
+  scene.slot === 'full-bleed';
 
 const isTalkVideoBaseCanvas = (scene: EpisodeScene): boolean =>
   scene.kind === 'TalkVideoBase' && scene.stageMode === 'no-presenter' && scene.slot === 'full-bleed';
@@ -169,7 +171,7 @@ const validateShots = (episode: EpisodeConfig, issues: ValidationIssue[]) => {
       push(issues, 'blocking', 'shots.content-required', `${shot.mode} requires contentId`);
     }
 
-    if (!contentShotModes.has(shot.mode) && shot.contentId) {
+    if (shot.mode !== 'talk' && shot.mode !== 'push-in' && !contentShotModes.has(shot.mode) && shot.contentId) {
       push(issues, 'warning', 'shots.content-unused', `${shot.mode} ignores contentId ${shot.contentId}`);
     }
 
@@ -294,7 +296,11 @@ const validateScene = (
   }
 
   const slotRect = layout.slots[scene.slot];
-  if (scene.stageMode === 'presenter-center' && rectsIntersect(slotRect, layout.presenterSafeZone)) {
+  if (
+    scene.stageMode === 'presenter-center' &&
+    scene.slot !== 'full-bleed' &&
+    rectsIntersect(slotRect, layout.presenterSafeZone)
+  ) {
     push(issues, 'blocking', 'safe-zone.presenter', `${scene.slot} enters presenter safe zone`, scene.id);
   }
   if (

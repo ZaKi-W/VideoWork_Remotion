@@ -86,7 +86,10 @@ const layerStyle = (rect: ShotLayerRect, zIndex: number, withBorder = false) => 
   boxShadow: withBorder ? '0 18px 38px rgba(0,0,0,0.28)' : undefined,
 });
 
-const contentTargetRect = (mode: ShotMode): ShotLayerRect => {
+const contentTargetRect = (mode: ShotMode, hasContent: boolean): ShotLayerRect => {
+  if (hasContent && (mode === 'talk' || mode === 'push-in')) {
+    return {left: 0, top: 0, width: 100, height: 100, opacity: 1, scale: 1, translateX: 0, translateY: 0};
+  }
   switch (mode) {
     case 'speaker-left':
     case 'speaker-right':
@@ -97,6 +100,18 @@ const contentTargetRect = (mode: ShotMode): ShotLayerRect => {
     case 'push-in':
       return hiddenContentRect;
   }
+};
+
+const _unused_summaryProgressFor = (localFrame: number, shot: Shot, previousShot?: Shot): number => {
+  if (shotModeAllowsSummary(shot.mode) && shot.summaryId) {
+    return easeProgress(localFrame, shot.mode === 'push-in' ? 2 : 6, shot.mode === 'push-in' ? 12 : 18);
+  }
+
+  if (previousShot?.summaryId) {
+    return 1 - easeProgress(localFrame, 0, 8);
+  }
+
+  return 0;
 };
 
 const summaryProgressFor = (localFrame: number, shot: Shot, previousShot?: Shot): number => {
@@ -127,17 +142,23 @@ export const ShotDirector = ({
   const talkEnd = talkStart + (shot.mode === 'push-in' ? 12 : 15);
   const talkProgress = easeProgress(localFrame, talkStart, talkEnd);
   const talkRect = blendRect(talkRects[previousMode], talkRects[shot.mode], talkProgress);
-  const contentEntering = shotModeNeedsContent(shot.mode);
+  
+  const hasContent = Boolean(shot.contentId);
+  const contentEntering = shotModeNeedsContent(shot.mode) || hasContent;
   const contentProgress = contentEntering
     ? easeProgress(localFrame, 5, 21)
     : 1 - easeProgress(localFrame, 0, 8);
-  const previousContentRect = previousShot ? contentTargetRect(previousShot.mode) : hiddenContentRect;
-  const currentContentRect = contentTargetRect(shot.mode);
+  const previousContentRect = previousShot ? contentTargetRect(previousShot.mode, Boolean(previousShot.contentId)) : hiddenContentRect;
+  const currentContentRect = contentTargetRect(shot.mode, hasContent);
   const contentRect = blendRect(contentEntering ? hiddenContentRect : previousContentRect, currentContentRect, contentProgress);
   const visibleContentLayer = contentEntering ? contentLayer : previousContentLayer;
   const visibleSummaryLayer = shotModeAllowsSummary(shot.mode) && shot.summaryId ? summaryLayer : previousSummaryLayer;
   const summaryProgress = summaryProgressFor(localFrame, shot, previousShot);
   const showTalkBorder = shot.mode !== 'talk' && shot.mode !== 'push-in';
+
+  // 当是 pip-right 模式时，content 在 talkVideo（人物PIP）底层（zIndex 8）；
+  // 否则，如果是 talk 且有 contentId 时，content 在 talkVideo 顶层（zIndex 28）。
+  const contentZIndex = shot.mode === 'pip-right' ? 8 : 28;
 
   return (
     <AbsoluteFill
@@ -155,7 +176,7 @@ export const ShotDirector = ({
           backgroundColor: visualTokens.color.paperWhite,
         }}
       />
-      {visibleContentLayer ? <div style={layerStyle(contentRect, 8)}>{visibleContentLayer}</div> : null}
+      {visibleContentLayer ? <div style={layerStyle(contentRect, contentZIndex)}>{visibleContentLayer}</div> : null}
       <div style={layerStyle(talkRect, 18, showTalkBorder)}>{talkVideoLayer}</div>
       {visibleSummaryLayer ? (
         <div

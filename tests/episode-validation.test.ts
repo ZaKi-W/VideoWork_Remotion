@@ -107,7 +107,7 @@ describe('episode schema and validation', () => {
     expect(codexGuideTalkEpisode.episode.durationInSeconds).toBe(198.8);
     expect(codexGuideTalkEpisode.presenter.videoAssetId).toBe('codex-guide-talk-video');
     expect(codexGuideTalkEpisode.presenter.subtitleAssetId).toBe('codex-guide-talk-subtitle');
-    expect(codexGuideTalkAssets.assets.filter((asset) => asset.status === 'ready')).toHaveLength(5);
+    expect(codexGuideTalkAssets.assets.filter((asset) => asset.status === 'ready')).toHaveLength(6);
     expect(
       codexGuideTalkEpisode.scenes.find((scene) => scene.id === 'cgt-rule-flow')?.content.props,
     ).toMatchObject({
@@ -125,7 +125,9 @@ describe('episode schema and validation', () => {
     });
     expect(
       codexGuideTalkEpisode.scenes.find((scene) => scene.id === 'cgt-goal-run')?.content.props,
-    ).not.toHaveProperty('backgroundVideoPath');
+    ).toMatchObject({
+      backgroundVideoPath: 'episodes/CodexGuideTalk/assets/pursue-goal-entry.mp4',
+    });
     expect(
       codexGuideTalkEpisode.scenes.find((scene) => scene.id === 'cgt-codex-implements')?.content.props,
     ).not.toHaveProperty('backgroundVideoPath');

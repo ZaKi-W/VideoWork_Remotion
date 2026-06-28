@@ -60,7 +60,7 @@ export const getStageLayout = (width: number, height: number): StageLayout => {
 };
 
 export const allowedSlotsByStageMode: Record<StageMode, StageSlot[]> = {
-  'presenter-center': ['top-left', 'top-right', 'edge-left', 'edge-right'],
+  'presenter-center': ['top-left', 'top-right', 'edge-left', 'edge-right', 'full-bleed'],
   'presenter-small': ['screen-primary', 'top-left', 'top-right', 'edge-left', 'edge-right'],
   'screen-primary': ['screen-primary', 'top-left', 'top-right', 'edge-left', 'edge-right'],
   'no-presenter': ['full-bleed', 'screen-primary', 'center-overlay', 'top-left', 'top-right', 'edge-left', 'edge-right'],

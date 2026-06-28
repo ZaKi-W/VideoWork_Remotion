@@ -49,6 +49,16 @@
       "sceneHints": ["cgt-html-design-video"],
       "status": "ready",
       "priority": "high"
+    },
+    {
+      "id": "pursue-goal-entry",
+      "type": "recording",
+      "path": "episodes/CodexGuideTalk/assets/pursue-goal-entry.mp4",
+      "purpose": "展示追求目标模式启动的真实过程录屏",
+      "sourceRefId": "local-pursue-goal-entry",
+      "sceneHints": ["cgt-goal-run"],
+      "status": "ready",
+      "priority": "high"
     }
   ]
 }

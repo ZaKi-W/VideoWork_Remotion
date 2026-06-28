@@ -54,6 +54,17 @@
       "notes": "用户提供的本地录屏，只用于网页 GPT 调样式并生成 HTML 的段落。",
       "kind": "local",
       "status": "provided"
+    },
+    {
+      "id": "local-pursue-goal-entry",
+      "title": "追求目标启动录屏",
+      "publisher": "user-provided",
+      "url": "episodes/CodexGuideTalk/assets/pursue-goal-entry.mp4",
+      "publishedAt": "2026-06-28",
+      "capturedAssetId": "pursue-goal-entry",
+      "notes": "用户提供的本地录屏，用于展示启动追求目标模式的实际操作。",
+      "kind": "local",
+      "status": "provided"
     }
   ]
 }

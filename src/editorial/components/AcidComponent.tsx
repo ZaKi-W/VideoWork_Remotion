@@ -65,6 +65,24 @@ export const AcidComponent = (rendererProps: ComponentRendererProps) => {
   const frame = useCurrentFrame();
   const {kind, props} = getAcidProps(rendererProps);
 
+  if (props.hideOverlays) {
+    return (
+      <AcidStage
+        subtitle={props.subtitle}
+        subtitleEn={props.subtitleEn}
+        frame={frame}
+        durationInFrames={rendererProps.durationInFrames}
+        scrimIntensity="none"
+        backgroundVideoPath={props.backgroundVideoPath}
+        stageMode={rendererProps.scene.stageMode}
+        hideOverlays={true}
+        backgroundStartFromFrame={props.backgroundStartFromFrame}
+      >
+        {null}
+      </AcidStage>
+    );
+  }
+
   return (
     <AcidStage
       subtitle={props.subtitle}
@@ -73,6 +91,8 @@ export const AcidComponent = (rendererProps: ComponentRendererProps) => {
       durationInFrames={rendererProps.durationInFrames}
       scrimIntensity={resolveScrimIntensity(kind, props.scrimIntensity)}
       backgroundVideoPath={props.backgroundVideoPath}
+      stageMode={rendererProps.scene.stageMode}
+      backgroundStartFromFrame={props.backgroundStartFromFrame}
     >
       {renderByKind(kind, props, rendererProps, frame)}
     </AcidStage>
