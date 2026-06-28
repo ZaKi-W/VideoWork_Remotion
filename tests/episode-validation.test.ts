@@ -107,7 +107,31 @@ describe('episode schema and validation', () => {
     expect(codexGuideTalkEpisode.episode.durationInSeconds).toBe(198.8);
     expect(codexGuideTalkEpisode.presenter.videoAssetId).toBe('codex-guide-talk-video');
     expect(codexGuideTalkEpisode.presenter.subtitleAssetId).toBe('codex-guide-talk-subtitle');
-    expect(codexGuideTalkEpisode.scenes.some((scene) => scene.sourceRefIds.length > 0)).toBe(false);
+    expect(codexGuideTalkAssets.assets.filter((asset) => asset.status === 'ready')).toHaveLength(5);
+    expect(
+      codexGuideTalkEpisode.scenes.find((scene) => scene.id === 'cgt-rule-flow')?.content.props,
+    ).toMatchObject({
+      source: {assetId: 'agents-no-deep-test-rule'},
+    });
+    expect(
+      codexGuideTalkEpisode.scenes.find((scene) => scene.id === 'cgt-aesthetic-flow')?.content.props,
+    ).toMatchObject({
+      source: {assetId: 'ugly-ui-before'},
+    });
+    expect(
+      codexGuideTalkEpisode.scenes.find((scene) => scene.id === 'cgt-html-design-video')?.content.props,
+    ).toMatchObject({
+      backgroundVideoPath: 'episodes/CodexGuideTalk/assets/gpt-html-design-flow.mp4',
+    });
+    expect(
+      codexGuideTalkEpisode.scenes.find((scene) => scene.id === 'cgt-goal-run')?.content.props,
+    ).not.toHaveProperty('backgroundVideoPath');
+    expect(
+      codexGuideTalkEpisode.scenes.find((scene) => scene.id === 'cgt-codex-implements')?.content.props,
+    ).not.toHaveProperty('backgroundVideoPath');
+    expect(
+      codexGuideTalkEpisode.scenes.find((scene) => scene.id === 'cgt-over-test-flow')?.content.props,
+    ).not.toHaveProperty('backgroundVideoPath');
     expect(codexGuideTalkEpisode.scenes.filter((scene) => scene.kind === 'AgentExecution').length).toBeGreaterThanOrEqual(4);
   });
 

@@ -19,6 +19,36 @@
       "sceneHints": ["timing", "sectioning"],
       "status": "ready",
       "priority": "high"
+    },
+    {
+      "id": "agents-no-deep-test-rule",
+      "type": "screenshot",
+      "path": "episodes/CodexGuideTalk/assets/agents-no-deep-test-rule.png",
+      "purpose": "展示自定义指令中禁止默认深度测试的真实设置截图",
+      "sourceRefId": "local-agents-no-deep-test-rule",
+      "sceneHints": ["cgt-rule-flow"],
+      "status": "ready",
+      "priority": "high"
+    },
+    {
+      "id": "ugly-ui-before",
+      "type": "screenshot",
+      "path": "episodes/CodexGuideTalk/assets/ugly-ui-before.png",
+      "purpose": "展示需要继续调整审美与样式的真实页面截图",
+      "sourceRefId": "local-ugly-ui-before",
+      "sceneHints": ["cgt-aesthetic-flow"],
+      "status": "ready",
+      "priority": "high"
+    },
+    {
+      "id": "gpt-html-design-flow",
+      "type": "recording",
+      "path": "episodes/CodexGuideTalk/assets/gpt-html-design-flow.mp4",
+      "purpose": "展示网页 GPT 调整样式并生成 HTML 设计稿的真实过程",
+      "sourceRefId": "local-gpt-html-design-flow",
+      "sceneHints": ["cgt-html-design-video"],
+      "status": "ready",
+      "priority": "high"
     }
   ]
 }

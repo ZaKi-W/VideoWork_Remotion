@@ -18,13 +18,14 @@
 | 00:00-00:13.466 | 开场定位：Codex 痛点、Token 与效率 | C24 TrendBanner | C26 SideBrief / talk → push-in |
 | 00:13.466-00:24.133 | 过度测试数字对比 | C23 TrendTotem | C26 SideBrief / talk |
 | 00:24.133-00:35.500 | 测试链路持续扩张 | C13 AgentExecution | content-full |
-| 00:35.500-00:47.000 | 自定义规则只保留必要检查 | C13 AgentExecution | C24、C26 / speaker-right |
+| 00:35.500-00:47.000 | 展示真实自定义指令并收束到必要检查 | C07 Ecosystem + 来源截图 | content-full |
 | 00:47.000-00:58.600 | 第二个痛点：额度 | C24 TrendBanner | C26 SideBrief / talk |
 | 00:58.600-01:04.666 | 突出个人用法中的 1% | C23 TrendTotem | C26 SideBrief / push-in |
 | 01:04.666-01:18.200 | 追求目标、完全访问、大任务三步 | C21 RemotionTalkEffect | speaker-right |
 | 01:18.200-01:28.933 | 抽象任务队列持续推进 | C13 AgentExecution | pip-right |
-| 01:28.933-01:46.300 | 第三个痛点：能力与审美偏科 | C21 RemotionTalkEffect | C24、C26 / talk → content-full |
-| 01:46.300-02:09.433 | 网页 GPT 调样式、HTML 交接、Codex 实现 | C13 AgentExecution | C21 / speaker-right → content-full |
+| 01:28.933-01:46.300 | 第三个痛点：能力与审美偏科，并展示真实页面 | C21 RemotionTalkEffect → C04 CountryGap + 来源截图 | talk → content-full |
+| 01:46.300-02:03.733 | 网页 GPT 调样式并生成 HTML | C13 AgentExecution + 背景录屏 | speaker-right → content-full |
+| 02:03.733-02:09.433 | Codex 读取 HTML 并开始实现 | C13 AgentExecution | content-full |
 | 02:09.433-02:24.133 | 两个好处：额度与完整样式 | C21 RemotionTalkEffect | C24、C26 / talk |
 | 02:24.133-02:34.533 | 第四个技巧：先拆任务 | C21 RemotionTalkEffect | C24、C26 / talk |
 | 02:34.533-03:00.400 | 长上下文、压缩与多个任务舱 | C13 AgentExecution | C26 / speaker-left → content-full → pip-right |
@@ -34,7 +35,7 @@
 
 - “3 分钟 / 10 分钟”“1%”“5% 到 10%”均是口播观点或个人经验的视觉转述，不呈现为统计结论。
 - “追求目标”和“完全访问”只使用文字步骤与抽象任务状态，不复刻真实产品界面。
-- “网页 GPT → HTML → Codex”使用抽象文件卡和交接轨道，不复刻真实网页对话。
+- “网页 GPT → HTML”使用用户提供的真实录屏；“HTML → Codex 实现”仍使用抽象文件卡和交接轨道。
 - 上下文增长、压缩和细节丢失使用抽象节点，不使用无来源折线图或坐标轴。
 
 ## QC 关键帧

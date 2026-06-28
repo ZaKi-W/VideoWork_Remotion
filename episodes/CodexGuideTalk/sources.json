@@ -21,6 +21,39 @@
       "notes": "本地字幕素材，只用于分段和特效时机判断。",
       "kind": "local",
       "status": "captured"
+    },
+    {
+      "id": "local-agents-no-deep-test-rule",
+      "title": "Codex 自定义指令截图",
+      "publisher": "user-provided",
+      "url": "episodes/CodexGuideTalk/assets/agents-no-deep-test-rule.png",
+      "publishedAt": "2026-06-28",
+      "capturedAssetId": "agents-no-deep-test-rule",
+      "notes": "用户提供的本地截图，用于展示禁止默认深度测试的实际设置。",
+      "kind": "local",
+      "status": "provided"
+    },
+    {
+      "id": "local-ugly-ui-before",
+      "title": "样式调整前页面截图",
+      "publisher": "user-provided",
+      "url": "episodes/CodexGuideTalk/assets/ugly-ui-before.png",
+      "publishedAt": "2026-06-28",
+      "capturedAssetId": "ugly-ui-before",
+      "notes": "用户提供的本地页面截图，用于说明功能完成后仍需调整视觉样式。",
+      "kind": "local",
+      "status": "provided"
+    },
+    {
+      "id": "local-gpt-html-design-flow",
+      "title": "网页 GPT 生成 HTML 设计稿录屏",
+      "publisher": "user-provided",
+      "url": "episodes/CodexGuideTalk/assets/gpt-html-design-flow.mp4",
+      "publishedAt": "2026-06-28",
+      "capturedAssetId": "gpt-html-design-flow",
+      "notes": "用户提供的本地录屏，只用于网页 GPT 调样式并生成 HTML 的段落。",
+      "kind": "local",
+      "status": "provided"
     }
   ]
 }

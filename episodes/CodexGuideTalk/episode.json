@@ -189,11 +189,11 @@
       "start": 35.5,
       "end": 47,
       "track": "primary",
-      "kind": "AgentExecution",
+      "kind": "Ecosystem",
       "stageMode": "no-presenter",
       "slot": "full-bleed",
       "content": {
-        "kind": "AgentExecution",
+        "kind": "Ecosystem",
         "props": {
           "topic": "抽象规则",
           "topicDetail": "自定义指令",
@@ -203,23 +203,30 @@
           "subtitle": "除非主动要求，否则不要进行深度测试。",
           "subtitleEn": "Necessary checks, then stop.",
           "caption": "ABSTRACT RULE",
+          "source": {
+            "label": "USER PROVIDED",
+            "code": "RULE",
+            "meta": "Codex 自定义指令",
+            "title": "禁止默认深度测试",
+            "highlight": "每次任务执行都不要进行深度测试，除非我明确要求深度测试。",
+            "footer": "本地截图 / 2026-06-28",
+            "assetId": "agents-no-deep-test-rule",
+            "sourceRefId": "local-agents-no-deep-test-rule"
+          },
           "items": [
             {"label": "READ", "value": "01", "detail": "读取规则"},
             {"label": "CHECK", "value": "02", "detail": "必要检查"},
             {"label": "STOP", "value": "03", "detail": "确认结果并结束"}
           ],
-          "messages": [
-            {"speaker": "me", "text": "不要默认进行深度测试。"},
-            {"speaker": "agent", "text": "完成必要检查，任务结束。"}
-          ],
+          "messages": [],
           "mediaCount": 24,
           "scrimIntensity": "soft"
         }
       },
-      "assetIds": [],
-      "sourceRefIds": [],
+      "assetIds": ["agents-no-deep-test-rule"],
+      "sourceRefIds": ["local-agents-no-deep-test-rule"],
       "status": "ready",
-      "notes": "替代规则截图的抽象 C13。"
+      "notes": "C07 左侧解释规则，右侧展示用户提供的真实设置截图。"
     },
     {
       "id": "cgt-quota-title",
@@ -396,11 +403,11 @@
       "start": 97,
       "end": 106.3,
       "track": "primary",
-      "kind": "AgentExecution",
+      "kind": "CountryGap",
       "stageMode": "no-presenter",
       "slot": "full-bleed",
       "content": {
-        "kind": "AgentExecution",
+        "kind": "CountryGap",
         "props": {
           "topic": "抽象调校",
           "topicDetail": "样式反复修改",
@@ -410,29 +417,37 @@
           "subtitle": "功能能做出来，审美仍然需要来回校准。",
           "subtitleEn": "Abstract style loop.",
           "caption": "ABSTRACT FLOW",
+          "source": {
+            "label": "USER PROVIDED",
+            "code": "UI",
+            "meta": "样式调整前页面",
+            "title": "功能完整，视觉仍需校准",
+            "highlight": "真实页面用于说明字体、间距、层级和配色仍可能需要继续调整。",
+            "footer": "本地截图 / 2026-06-28",
+            "assetId": "ugly-ui-before",
+            "sourceRefId": "local-ugly-ui-before"
+          },
           "items": [
-            {"label": "TYPE", "value": "字体", "detail": "再调一次"},
-            {"label": "SPACE", "value": "间距", "detail": "继续校准"},
-            {"label": "COLOR", "value": "配色", "detail": "重新选择"}
+            {"label": "功能", "value": "正常", "detail": "页面结构与交互可用"},
+            {"label": "审美", "value": "待调", "detail": "字体、间距与配色仍需校准"},
+            {"label": "字体", "detail": "再调一次"},
+            {"label": "间距", "detail": "继续校准"},
+            {"label": "配色", "detail": "重新选择"}
           ],
-          "messages": [
-            {"speaker": "me", "text": "功能没问题，但样式还不对。"},
-            {"speaker": "agent", "text": "调整字体、间距和颜色。"},
-            {"speaker": "agent", "text": "继续进行下一轮样式修改。"}
-          ],
+          "messages": [],
           "mediaCount": 36,
           "scrimIntensity": "soft"
         }
       },
-      "assetIds": [],
-      "sourceRefIds": [],
+      "assetIds": ["ugly-ui-before"],
+      "sourceRefIds": ["local-ugly-ui-before"],
       "status": "ready",
-      "notes": "替代粗糙页面截图的抽象 C13。"
+      "notes": "C04 左侧对比功能与审美，右侧展示用户提供的真实页面截图。"
     },
     {
-      "id": "cgt-html-handoff",
+      "id": "cgt-html-design-video",
       "start": 106.3,
-      "end": 129.433,
+      "end": 123.733,
       "track": "primary",
       "kind": "AgentExecution",
       "stageMode": "no-presenter",
@@ -444,10 +459,10 @@
           "topicDetail": "网页 GPT → HTML → Codex",
           "eyebrow": "DESIGN HANDOFF",
           "title": ["先定样式", "再交给 Codex"],
-          "copy": "用抽象文件卡表达设计交接，不复刻真实网页端对话或产品界面。",
-          "subtitle": "网页端先把 HTML 样式调好，Codex 再照着实现。",
-          "subtitleEn": "Tune the design first, then hand off the HTML.",
-          "caption": "ABSTRACT HANDOFF",
+          "copy": "背景使用用户提供的网页 GPT 真实录屏，只展示调样式和生成 HTML 的过程。",
+          "subtitle": "网页端先把 HTML 样式调好，再交给 Codex。",
+          "subtitleEn": "Tune the design first, then export the HTML.",
+          "caption": "USER RECORDING",
           "items": [
             {"label": "WEB GPT", "value": "01", "detail": "来回调样式"},
             {"label": "HTML", "value": "02", "detail": "完整样式文件"},
@@ -460,13 +475,52 @@
             {"speaker": "agent", "text": "Codex 按设计稿开始实现。"}
           ],
           "mediaCount": 42,
+          "scrimIntensity": "soft",
+          "backgroundVideoPath": "episodes/CodexGuideTalk/assets/gpt-html-design-flow.mp4"
+        }
+      },
+      "assetIds": ["gpt-html-design-flow"],
+      "sourceRefIds": ["local-gpt-html-design-flow"],
+      "status": "ready",
+      "notes": "用户提供的网页 GPT 调样式和生成 HTML 录屏；不延伸到 Codex 实现段。"
+    },
+    {
+      "id": "cgt-codex-implements",
+      "start": 123.733,
+      "end": 129.433,
+      "track": "primary",
+      "kind": "AgentExecution",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "AgentExecution",
+        "props": {
+          "topic": "抽象流程",
+          "topicDetail": "HTML → Codex",
+          "eyebrow": "IMPLEMENTATION HANDOFF",
+          "title": ["读取 HTML", "开始实现"],
+          "copy": "这一段按用户要求继续使用组件，不使用 Codex 实现录屏。",
+          "subtitle": "Codex 拿到完整样式信息后，直接照着设计稿开发。",
+          "subtitleEn": "Component-only implementation handoff.",
+          "caption": "ABSTRACT FLOW",
+          "items": [
+            {"label": "INPUT", "value": "01", "detail": "接收 HTML"},
+            {"label": "READ", "value": "02", "detail": "读取样式信息"},
+            {"label": "BUILD", "value": "03", "detail": "开始实现"}
+          ],
+          "messages": [
+            {"speaker": "me", "text": "按这份 HTML 设计稿进行开发。"},
+            {"speaker": "agent", "text": "已读取结构与完整样式信息。"},
+            {"speaker": "agent", "text": "开始实现页面。"}
+          ],
+          "mediaCount": 30,
           "scrimIntensity": "soft"
         }
       },
       "assetIds": [],
       "sourceRefIds": [],
       "status": "ready",
-      "notes": "替代两段录屏的抽象 C13 交接流程。"
+      "notes": "按用户要求使用 C13 抽象组件，不接入 Codex 实现录屏。"
     },
     {
       "id": "cgt-two-benefits",
@@ -717,15 +771,16 @@
     {"from": 204, "to": 404, "mode": "push-in", "summaryId": "cgt-opening"},
     {"from": 404, "to": 724, "mode": "talk", "summaryId": "cgt-over-test-compare"},
     {"from": 724, "to": 1065, "mode": "content-full", "contentId": "cgt-over-test-flow"},
-    {"from": 1065, "to": 1410, "mode": "speaker-right", "contentId": "cgt-rule-flow"},
+    {"from": 1065, "to": 1410, "mode": "content-full", "contentId": "cgt-rule-flow"},
     {"from": 1410, "to": 1758, "mode": "talk", "summaryId": "cgt-quota-title"},
     {"from": 1758, "to": 1940, "mode": "push-in", "summaryId": "cgt-one-percent"},
     {"from": 1940, "to": 2346, "mode": "talk", "summaryId": "cgt-goal-steps"},
     {"from": 2346, "to": 2668, "mode": "pip-right", "contentId": "cgt-goal-run"},
     {"from": 2668, "to": 2910, "mode": "talk", "summaryId": "cgt-aesthetic"},
     {"from": 2910, "to": 3189, "mode": "content-full", "contentId": "cgt-aesthetic-flow"},
-    {"from": 3189, "to": 3500, "mode": "speaker-right", "contentId": "cgt-html-handoff"},
-    {"from": 3500, "to": 3883, "mode": "content-full", "contentId": "cgt-html-handoff"},
+    {"from": 3189, "to": 3500, "mode": "speaker-right", "contentId": "cgt-html-design-video"},
+    {"from": 3500, "to": 3712, "mode": "content-full", "contentId": "cgt-html-design-video"},
+    {"from": 3712, "to": 3883, "mode": "content-full", "contentId": "cgt-codex-implements"},
     {"from": 3883, "to": 4324, "mode": "talk", "summaryId": "cgt-two-benefits"},
     {"from": 4324, "to": 4636, "mode": "talk", "summaryId": "cgt-split-title"},
     {"from": 4636, "to": 4900, "mode": "speaker-left", "contentId": "cgt-context-split"},
