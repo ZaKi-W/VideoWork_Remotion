@@ -2,12 +2,18 @@ import {
   acidComponentPropsSchema,
   narrationEchoLayerPropsSchema,
   remotionTalkEffectPropsSchema,
+  semanticTextRevealPropsSchema,
+  focusReticlePropsSchema,
+  pixelRevealPropsSchema,
   summaryComponentPropsSchema,
   talkVideoBasePropsSchema,
 } from '../schema/episode.schema';
 import {AcidComponent} from '../components/AcidComponent';
 import {NarrationEchoLayer} from '../components/NarrationEchoLayer';
 import {RemotionTalkEffect} from '../components/RemotionTalkEffect';
+import {SemanticTextReveal} from '../components/SemanticTextReveal';
+import {FocusReticle} from '../components/FocusReticle';
+import {PixelReveal} from '../components/PixelReveal';
 import {SummaryComponents} from '../components/SummaryComponents';
 import {TalkVideoBase} from '../components/TalkVideoBase';
 import type {ComponentRegistryItem} from './component.types';
@@ -244,5 +250,44 @@ export const componentRegistry = {
     implementationStatus: 'ready',
     schema: summaryComponentPropsSchema,
     render: SummaryComponents,
+  },
+  SemanticTextReveal: {
+    name: 'SemanticTextReveal',
+    category: 'primitive',
+    tags: ['text', 'motion'],
+    purpose: '视觉原语 / 逐词聚焦与语义文字揭示',
+    allowedStageModes: ['no-presenter', 'presenter-small'],
+    allowedSlots: ['full-bleed', 'edge-left', 'edge-right', 'top-left', 'top-right'],
+    requiresSource: false,
+    requiresAsset: false,
+    implementationStatus: 'ready',
+    schema: semanticTextRevealPropsSchema,
+    render: SemanticTextReveal,
+  },
+  FocusReticle: {
+    name: 'FocusReticle',
+    category: 'primitive',
+    tags: ['hud', 'focus'],
+    purpose: '视觉原语 / 列表、卡片与关键词之间的 HUD 焦点迁移',
+    allowedStageModes: ['no-presenter', 'presenter-small'],
+    allowedSlots: ['full-bleed', 'edge-left', 'edge-right', 'top-left', 'top-right'],
+    requiresSource: false,
+    requiresAsset: false,
+    implementationStatus: 'ready',
+    schema: focusReticlePropsSchema,
+    render: FocusReticle,
+  },
+  PixelReveal: {
+    name: 'PixelReveal',
+    category: 'primitive',
+    tags: ['transition', 'reveal'],
+    purpose: '视觉原语 / 证据、数据状态与内容区的像素网格揭示',
+    allowedStageModes: ['no-presenter', 'presenter-center', 'presenter-small'],
+    allowedSlots: ['full-bleed', 'edge-left', 'edge-right', 'top-left', 'top-right'],
+    requiresSource: false,
+    requiresAsset: false,
+    implementationStatus: 'ready',
+    schema: pixelRevealPropsSchema,
+    render: PixelReveal,
   },
 } satisfies Record<string, ComponentRegistryItem>;

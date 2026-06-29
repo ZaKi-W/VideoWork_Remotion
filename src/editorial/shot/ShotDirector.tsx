@@ -11,6 +11,10 @@ type ShotDirectorProps = {
   previousContentLayer?: ReactNode;
   summaryLayer?: ReactNode;
   previousSummaryLayer?: ReactNode;
+  sidecarLayer?: ReactNode;
+  previousSidecarLayer?: ReactNode;
+  contentTakeoverFullBleed?: boolean;
+  previousContentTakeoverFullBleed?: boolean;
 };
 
 const shotModeNeedsContent = (mode: ShotMode): boolean =>
@@ -45,6 +49,17 @@ const hiddenContentRect: ShotLayerRect = {
   translateY: 0,
 };
 
+const fullBleedContentRect: ShotLayerRect = {
+  left: 0,
+  top: 0,
+  width: 100,
+  height: 100,
+  opacity: 1,
+  scale: 1,
+  translateX: 0,
+  translateY: 0,
+};
+
 const percent = (value: number): string => `${value}%`;
 
 const easeProgress = (frame: number, start: number, end: number): number => {
@@ -58,6 +73,19 @@ const easeProgress = (frame: number, start: number, end: number): number => {
     easing: Easing.bezier(0.2, 0.86, 0.2, 1),
   });
 };
+
+export const sidecarProgressFor = (
+  localFrame: number,
+  hasSidecar: boolean,
+): number => {
+  if (!hasSidecar) {
+    return 0;
+  }
+  return easeProgress(localFrame, 5, 17);
+};
+
+export const contentExitProgressFor = (localFrame: number): number =>
+  easeProgress(localFrame, 0, 8);
 
 const blendRect = (from: ShotLayerRect, to: ShotLayerRect, progress: number): ShotLayerRect => ({
   left: interpolate(progress, [0, 1], [from.left, to.left]),
@@ -116,6 +144,9 @@ const _unused_summaryProgressFor = (localFrame: number, shot: Shot, previousShot
 
 const summaryProgressFor = (localFrame: number, shot: Shot, previousShot?: Shot): number => {
   if (shotModeAllowsSummary(shot.mode) && shot.summaryId) {
+    if (previousShot?.contentId) {
+      return easeProgress(localFrame, 12, 24);
+    }
     return easeProgress(localFrame, shot.mode === 'push-in' ? 2 : 6, shot.mode === 'push-in' ? 12 : 18);
   }
 
@@ -134,6 +165,10 @@ export const ShotDirector = ({
   previousContentLayer,
   summaryLayer,
   previousSummaryLayer,
+  sidecarLayer,
+  previousSidecarLayer,
+  contentTakeoverFullBleed = false,
+  previousContentTakeoverFullBleed = false,
 }: ShotDirectorProps) => {
   const frame = useCurrentFrame();
   const localFrame = Math.max(0, frame - shot.from);
@@ -147,13 +182,28 @@ export const ShotDirector = ({
   const contentEntering = shotModeNeedsContent(shot.mode) || hasContent;
   const contentProgress = contentEntering
     ? easeProgress(localFrame, 5, 21)
-    : 1 - easeProgress(localFrame, 0, 8);
-  const previousContentRect = previousShot ? contentTargetRect(previousShot.mode, Boolean(previousShot.contentId)) : hiddenContentRect;
-  const currentContentRect = contentTargetRect(shot.mode, hasContent);
+    : contentExitProgressFor(localFrame);
+  const previousContentRect = previousShot
+    ? previousContentTakeoverFullBleed && previousShot.mode === 'content-full'
+      ? fullBleedContentRect
+      : contentTargetRect(previousShot.mode, Boolean(previousShot.contentId))
+    : hiddenContentRect;
+  const currentContentRect =
+    contentTakeoverFullBleed && shot.mode === 'content-full'
+      ? fullBleedContentRect
+      : contentTargetRect(shot.mode, hasContent);
   const contentRect = blendRect(contentEntering ? hiddenContentRect : previousContentRect, currentContentRect, contentProgress);
   const visibleContentLayer = contentEntering ? contentLayer : previousContentLayer;
   const visibleSummaryLayer = shotModeAllowsSummary(shot.mode) && shot.summaryId ? summaryLayer : previousSummaryLayer;
   const summaryProgress = summaryProgressFor(localFrame, shot, previousShot);
+  const hasSidecar = Boolean(shot.sidecarId);
+  const visibleSidecarLayer = hasSidecar ? sidecarLayer : previousSidecarLayer;
+  const sidecarProgress = hasSidecar
+    ? sidecarProgressFor(localFrame, true)
+    : previousShot?.sidecarId
+      ? 1 - easeProgress(localFrame, 0, 8)
+      : 0;
+  const sidecarMode = hasSidecar ? shot.mode : previousShot?.mode;
   const showTalkBorder = shot.mode !== 'talk' && shot.mode !== 'push-in';
 
   // 当是 pip-right 模式时，content 在 talkVideo（人物PIP）底层（zIndex 8）；
@@ -176,7 +226,11 @@ export const ShotDirector = ({
           backgroundColor: visualTokens.color.paperWhite,
         }}
       />
-      {visibleContentLayer ? <div style={layerStyle(contentRect, contentZIndex)}>{visibleContentLayer}</div> : null}
+      {visibleContentLayer ? (
+        <div style={layerStyle(contentRect, contentZIndex)}>
+          {visibleContentLayer}
+        </div>
+      ) : null}
       <div style={layerStyle(talkRect, 18, showTalkBorder)}>{talkVideoLayer}</div>
       {visibleSummaryLayer ? (
         <div
@@ -190,6 +244,24 @@ export const ShotDirector = ({
           }}
         >
           {visibleSummaryLayer}
+        </div>
+      ) : null}
+      {visibleSidecarLayer ? (
+        <div
+          style={{
+            position: 'absolute',
+            zIndex: 28,
+            inset: 0,
+            opacity: sidecarProgress,
+            transform: `translateX(${interpolate(
+              sidecarProgress,
+              [0, 1],
+              [sidecarMode === 'speaker-left' ? 18 : -18, 0],
+            )}px)`,
+            pointerEvents: 'none',
+          }}
+        >
+          {visibleSidecarLayer}
         </div>
       ) : null}
     </AbsoluteFill>

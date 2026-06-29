@@ -10,6 +10,9 @@
 - 讲观点、转折、结论、提要：优先使用 C16、C21、C23-C26 的口播摘要组件。
 - 只是承载口播视频、音频和字幕：使用 BASE `TalkVideoBase`。
 - 需要切换人物和内容区域：使用 C27 `ShotDirector` 的 `shots` 镜头布局系统。
+- 需要在现有标题或摘要中复用逐词、逐字或焦点迁移文字动效：使用 C28 `SemanticTextReveal` 视觉原语。
+- 需要在列表项、卡片或关键词之间移动 HUD 焦点：使用 C29 `FocusReticle` 视觉原语。
+- 需要确定性地揭示证据、数据状态或内容区域：使用 C30 `PixelReveal` 视觉原语。
 
 证据类组件不得伪造来源。`requiresSource: true` 的组件必须绑定 `sourceRefIds`，其画面中的 `source.sourceRefId` 应能追溯到 `sources.json`。
 
@@ -192,6 +195,7 @@ C23-C26 共用 `summaryComponentPropsSchema`。
 - 类型：全屏 Acid 证据/时间线
 - 用途：发布时间线 / 版本节奏。
 - 展现：左侧标题，下方纵向时间线。
+- 揭示：内容首次出现时使用一次 C30 确定性像素揭示，来源校验、文字和时间线数据保持不变。
 - 允许：`stageMode: no-presenter`，`slot: full-bleed`
 - 来源：强制 `sourceRefIds`
 - 关键 props：`eyebrow`、`title`、`items[].label` 作为时间、`items[].value` 作为事件、`items[].detail` 作为说明、`source`、`subtitle`
@@ -202,6 +206,7 @@ C23-C26 共用 `summaryComponentPropsSchema`。
 - 类型：全屏 Acid 证据/数据面板
 - 用途：指标板 / benchmark 面板。
 - 展现：左侧三条指标卡 + 后续条形图。
+- 揭示：内容首次出现时使用一次 C30 确定性像素揭示，不改变指标和来源表达。
 - 允许：`stageMode: no-presenter`，`slot: full-bleed`
 - 来源：强制 `sourceRefIds`
 - 关键 props：`eyebrow`、`title`、`items[0..2].label/value`、`items[3..].label/value/percent`、`source`、`subtitle`
@@ -232,6 +237,7 @@ C23-C26 共用 `summaryComponentPropsSchema`。
 - 类型：全屏 Acid 解释组件
 - 用途：地图焦点 / 区域与节点强调。
 - 展现：左侧标题说明 + 指标列表，画面中部抽象地图节点。
+- 揭示：整个解释画面首次出现时使用一次 C30 `center-out` 像素揭示。
 - 允许：`stageMode: no-presenter`，`slot: full-bleed`
 - 来源：不强制。涉及真实地理事实时需要来源。
 - 关键 props：`topic`、`topicDetail`、`eyebrow`、`title`、`copy`、`items`、`subtitle`
@@ -253,6 +259,7 @@ C23-C26 共用 `summaryComponentPropsSchema`。
 - 类型：全屏 Acid 证据/价格页
 - 用途：价格页 / 价格战与折扣表。
 - 展现：左侧标题 + 大折扣值 + 价格行。
+- 揭示：内容首次出现时使用一次 C30 确定性像素揭示，不改变价格与来源信息。
 - 允许：`stageMode: no-presenter`，`slot: full-bleed`
 - 来源：强制 `sourceRefIds`
 - 关键 props：`eyebrow`、`title`、`primaryValue`、`primaryUnit`、`items[].label/detail/value`、`source`、`subtitle`
@@ -264,6 +271,7 @@ C23-C26 共用 `summaryComponentPropsSchema`。
 - 类型：全屏 Acid 证据/成本图
 - 用途：Token 成本图 / 单位成本比较。
 - 展现：左侧标题 + 大成本比值 + 条形图 + copy。
+- 揭示：内容首次出现时使用一次 C30 确定性像素揭示，不改变成本数据与来源信息。
 - 允许：`stageMode: no-presenter`，`slot: full-bleed`
 - 来源：强制 `sourceRefIds`
 - 关键 props：`eyebrow`、`title`、`primaryValue`、`primaryUnit`、`items[].label/value/percent`、`copy`、`source`、`subtitle`
@@ -284,7 +292,7 @@ C23-C26 共用 `summaryComponentPropsSchema`。
 - Composition: `C16-Summary-NarrationEchoLayer`
 - 类型：口播摘要组件
 - 用途：左侧提要式短句、打字机文本、淡关键词轨迹。
-- 展现：极致透底 HUD 悬浮设计。打字机具备物理阻尼缩放与 1 帧激光发光效果；流程轨 (track) 重构为半透胶囊徽章配精致的双向 SVG 数据流箭头；当前焦点升级为悬浮 HUD 圆角胶囊 Badge；全局正文附加复合软投影以保障透底融合度。
+- 展现：极致透底 HUD 悬浮设计。当前焦点句复用 C28 `mode="focus"` 做语义词组聚焦，上一句退场仍保留原有层级；流程轨 (track) 为半透胶囊徽章配双向 SVG 数据流箭头；当前焦点使用悬浮 HUD 圆角胶囊 Badge；全局正文附加复合软投影。
 - 允许：`stageMode: presenter-center | presenter-small`，`slot: edge-left | top-left`
 - 来源：不强制。
 - track 建议：`overlay`
@@ -328,7 +336,7 @@ Props：
 - Composition: `C21-Summary-RemotionTalkEffect`
 - 类型：口播摘要组件
 - 用途：标题打字机、步骤、声明、比较、交接、outro。
-- 展现：极简无界透底 HUD 悬浮风格。组件固定锚定在左上安全区域：1920x1080 下外框起点约为 `x=48px / y=81px`，右边界不越过人物安全区，最小高度为 `788px`，底部保留字幕安全距离。左侧指示线升级为 4px 宽的能量条，带有多重外发光与顶部呼吸点；打字机带平滑模糊弹动与圆角胶囊光标；对比块宽度跟随安全区域收缩，重构为悬浮磨砂玻璃子卡片（底部含发光细光丝）；列表横杠支持动态帧插值平滑伸缩；去除了深色背景板。
+- 展现：极简无界透底 HUD 悬浮风格。组件固定锚定在左上安全区域：1920x1080 下外框起点约为 `x=48px / y=81px`，右边界不越过人物安全区，最小高度为 `788px`，底部保留字幕安全距离。左侧指示线为 4px 能量条；列表使用固定矩形计算并复用 C29 在当前项之间迁移焦点；对比块宽度跟随安全区域收缩；去除深色背景板。
 - 允许：`stageMode: presenter-center`，`slot: edge-left`
 - 来源：不强制。
 - 关键 props：`variant`、`title`、`subtitle`、`items`、`left/right/connector`
@@ -364,7 +372,7 @@ Props：
 - Composition: `C23-Summary-TrendTotem`
 - 类型：口播摘要组件
 - 用途：左侧大字趋势型，强调“机会、趋势、判断”。
-- 展现：极致无界透底 HUD 悬浮。整体 top 位置提至 7.5%，容器高度增加至 788px 大纵向画幅。kicker + label + 1-2 行带有微模糊滑入的大标题 + 段间距拉宽的 copy + foot，全局文字带软阴影保护。
+- 展现：极致无界透底 HUD 悬浮。整体 top 位置提至 7.5%，容器高度增加至 788px；1-2 行标题复用 C28 `mode="words"`，copy 仅整体淡入，避免同段出现第二个逐字主视觉。
 - 允许：`stageMode: presenter-center | presenter-small`，`slot: edge-left | top-left`
 - 来源：不强制。
 - 关键 props：`kicker`、`label`、`title[0..1]`、`copy`、`foot`、`emphasis`、`accent`
@@ -374,7 +382,7 @@ Props：
 - Composition: `C24-Summary-TrendBanner`
 - 类型：口播摘要组件
 - 用途：左侧横向大标题型，承接口播观点句、判断句、结论句。
-- 展现：极致无界透底 HUD 悬浮。kicker + 波形符号 + label + 1-2 行支持模糊滑入的大标题 + 间距拉宽的 copy + foot。容器高度纵向拉伸至 788px 画幅。
+- 展现：极致无界透底 HUD 悬浮。kicker + 波形符号 + label + 1-2 行复用 C28 `mode="words"` 的标题 + 整体淡入 copy + foot；容器高度纵向拉伸至 788px。
 - 允许：`stageMode: presenter-center | presenter-small`，`slot: edge-left | top-left`
 - 来源：不强制。
 - 关键 props：`kicker`、`label`、`title[0..1]`、`copy`、`foot`、`accent`
@@ -384,7 +392,7 @@ Props：
 - Composition: `C25-Summary-TopicSignal`
 - 类型：口播摘要组件
 - 用途：话题切口与三张信息块，适合把一个选题拆成 2-3 个信号。
-- 展现：无界透底 HUD 悬浮。顶部 label/kicker + 两行标题 + copy + 三张超轻量高透明度白色磨砂玻璃子卡片（内含微型呼吸指示亮点，最小高度拉伸至 160px） + foot。总高度纵向拉伸至 700px。
+- 展现：无界透底 HUD 悬浮。顶部 label/kicker + 两行标题 + copy + 三张高透明度白色磨砂子卡片；使用固定卡片矩形和 C29 在三张信息块间迁移焦点，不读取 DOM 尺寸。
 - 允许：`stageMode: presenter-center | presenter-small`，`slot: edge-left | top-left`
 - 来源：不强制。
 - 关键 props：`label`、`kicker`、`title[0..1]`、`copy`、`blocks[0..2]`、`foot`
@@ -394,7 +402,7 @@ Props：
 - Composition: `C26-Summary-SideBrief`
 - 类型：口播摘要组件
 - 用途：右侧结论收束与补充提示。
-- 展现：右侧无界透底 HUD 悬浮风格。右侧 3px 极细发光流轨与随动滑块灯点 + kicker + 大序号 + 1-3 行标题 + copy/当前焦点 HUD 胶囊/tail/foot。内部高度拉伸至 800px 纵向贯穿画幅。
+- 展现：右侧无界透底 HUD 悬浮风格。右侧 3px 发光流轨 + kicker + 大序号 + 1-3 行标题；使用固定行矩形和 C29 跟随当前结论条目，copy/焦点胶囊/tail/foot 保持原信息层级。
 - 允许：`stageMode: presenter-center | presenter-small`，`slot: edge-right | top-right`
 - 来源：不强制。
 - 关键 props：`kicker`、`index`、`title[0..2]`、`copy`、`focus`、`tail`、`foot`、`emphasis`、`accent`
@@ -405,6 +413,9 @@ Props：
 - 类型：系统布局组件
 - 用途：把口播层、内容层、摘要层按镜头切换，不把人物位置写死在具体组件里。
 - 展现：根据 `episode.shots` 在全屏口播、左右演讲者、PIP、内容全屏、push-in 之间切换。
+- 内容揭示：C27 不再为普通内容自动添加像素遮罩；只有显式 C30 scene 才执行像素揭示。
+- 人物对侧组件：C28/C29 及复用它们的 C16/C21/C23-C26 必须通过 `sidecarId` 进入 `speaker-left` 或 `speaker-right`；人物在左时组件必须使用右侧 slot，人物在右时组件必须使用左侧 slot。
+- C30 内容接管：显式 C30 scene 使用 `content-full + contentId`，全画布覆盖人物；24 帧揭示、45 帧完整停留，下一人物镜头用 12 帧恢复。
 - 配置位置：`episode.shots`，不是普通 scene props。
 - 前置要求：必须有一个 `TalkVideoBase` scene，且为 `stageMode: no-presenter`、`slot: full-bleed`。
 
@@ -417,19 +428,107 @@ Shot 字段：
 | `mode` | 见下方 shot mode |
 | `contentId` | 可选，引用主内容 scene |
 | `summaryId` | 可选，引用 summary scene |
+| `sidecarId` | 可选，引用人物对侧的 C28/C29 或摘要 scene |
 
 Shot mode：
 
 | mode | 画面布局 | contentId | summaryId |
 | --- | --- | --- | --- |
 | `talk` | 口播全屏 | 不使用 | 可用 |
-| `speaker-left` | 人物左侧，内容右侧 | 必填 | 不使用 |
-| `speaker-right` | 内容左侧，人物右侧 | 必填 | 不使用 |
+| `speaker-left` | 人物左侧，内容或 sidecar 在右侧 | `contentId` / `sidecarId` 二选一 | 不使用 |
+| `speaker-right` | 内容或 sidecar 在左侧，人物右侧 | `contentId` / `sidecarId` 二选一 | 不使用 |
 | `pip-right` | 内容主导，人物右上 PIP | 必填 | 不使用 |
 | `content-full` | 内容接管全屏，人物隐藏 | 必填 | 不使用 |
 | `push-in` | 口播全屏轻微推近 | 不使用 | 可用 |
 
 `contentId` 不能引用 summary 组件或 `TalkVideoBase`；`summaryId` 必须引用 C16/C21/C23-C26 这类 summary 组件。
+
+`sidecarId` 与 `contentId` 互斥，只能用于 `speaker-left/right`。`speaker-left` 对应 `edge-right/top-right`，`speaker-right` 对应 `edge-left/top-left`。C28/C29 在有人物的 episode 中不得脱离 `sidecarId` 直接覆盖居中人物。
+
+### C28 SemanticTextReveal
+
+- Composition: `C28-SemanticTextReveal`
+- 类型：公共视觉原语
+- 用途：逐词、逐字和焦点迁移式语义文字揭示，供摘要标题与内容标题复用。
+- 展现：所有状态由当前帧确定；入场仅使用透明度、`translate3d`、缩放和模糊。强调词使用明确品牌色，不使用渐变；非焦点文字保持白色且透明度不低于 `0.52`，所有文字保留复合黑色阴影。
+- 允许：`stageMode: no-presenter | presenter-small`，`slot: full-bleed | edge-left | edge-right | top-left | top-right`
+- 来源与素材：均不强制。
+- 布局：View 使用可换行 `inline-flex`，不改变调用方标题宽度；scene renderer 会按 slot 限制宽度，并确保正文停留在字幕安全区上方。
+- 使用约束：有人物时必须由 C27 `sidecarId` 切到左右分屏，组件位于人物对侧；不裁切人物区，不允许直接覆盖居中人物。不得使用 CSS keyframes、计时器、内部 state 或随机数驱动动画。
+- 禁止项：不得添加渐变、实时随机、hover、click 或其他交互触发；默认单元揭示时长为 `18` 帧。
+
+Props：
+
+| 字段 | 类型 / 限制 | 默认值 |
+| --- | --- | --- |
+| `text` | string，最多 240，必填 | — |
+| `mode` | `words`、`characters`、`focus` | `words` |
+| `emphasis` | string[]，最多 12 项 | `[]` |
+| `activeIndex` | integer >= 0，可选 | 按当前帧推导 |
+| `startFrame` | integer >= 0 | `0` |
+| `durationInFrames` | integer > 0 | `18` |
+| `staggerFrames` | integer >= 0 | `2` |
+| `blurPx` | number，0-24 | `8` |
+| `accentColor` | string，1-32 | `#c7ff3d` |
+| `align` | `left`、`center`、`right` | `left` |
+
+中文在 `words` / `focus` 模式下按连续语义片段和标点切分，标点依附前一单元；`characters` 模式按字符切分并同样吸附标点。`className` 和 `style` 只属于代码内 View API，不进入 episode JSON。
+
+### C29 FocusReticle
+
+- Composition: `C29-FocusReticle`
+- 类型：公共视觉原语
+- 用途：在列表项、卡片或关键词目标之间迁移 HUD 焦点。
+- 展现：单个绝对定位根节点绘制四组 `1px` 纯色直角角标、中心 `+` 准心和低透明呼吸点；不绘制实色底板，不使用渐变或 CSS keyframes。
+- 允许：`stageMode: no-presenter | presenter-small`，`slot: full-bleed | edge-left | edge-right | top-left | top-right`
+- 来源与素材：均不强制。
+- 布局：目标矩形由调用方基于固定布局传入，不依赖 DOM 测量；有人物时必须由 C27 `sidecarId` 将人物与组件分居左右，所有目标必须位于字幕安全区上方。
+- 动效：`x/y/width/height` 使用同一进度插值，默认迁移 12 帧，缓动为 `Easing.bezier(0.16, 1, 0.3, 1)`；呼吸点由当前帧周期函数计算。
+- 边界：`activeIndex` 越界或当前目标宽高不为正时不绘制。
+- 禁止项：不得添加渐变、实时随机、CSS keyframes、hover、click 或 DOM 测量触发。
+
+Props：
+
+| 字段 | 类型 / 限制 | 默认值 |
+| --- | --- | --- |
+| `targets` | `{id, x, y, width, height}[]`，1-24 项 | — |
+| `activeIndex` | integer >= 0 | — |
+| `previousIndex` | integer >= 0，可选 | `activeIndex` |
+| `transitionStartFrame` | integer >= 0 | `0` |
+| `transitionDurationInFrames` | integer > 0 | `12` |
+| `accentColor` | string，1-32 | `#c7ff3d` |
+| `cornerLength` | number，0-80 | `18` |
+| `lineWidth` | number，0-4 | `1` |
+| `padding` | number，0-48 | `8` |
+
+### C30 PixelReveal
+
+- Composition: `C30-PixelReveal`
+- 类型：公共视觉原语
+- 用途：为证据、数据状态和内容区域提供确定性像素网格揭示。
+- 展现：内容层始终挂载；上层默认 `12 × 7`、共 84 个像素单元，按固定方向与 seed 排序退场。每个单元只动画透明度与缩放，不使用 canvas、WebGL、GSAP、Motion、hover 或 click。
+- 允许：`stageMode: no-presenter | presenter-center | presenter-small`，`slot: full-bleed | edge-left | edge-right | top-left | top-right`
+- 来源：原语本身不强制；若 children 展示真实数据、新闻、网页或证据，调用组件仍必须绑定可追溯来源。无来源时只能展示抽象解释型视觉或明确标注的虚构 Demo。
+- 布局：人物居中时只能作用于人物安全区外的内容区；正文与像素遮罩均不得侵入字幕安全区。默认像素色为 `visualTokens.color.inkBlack`。
+- 确定性：顺序由网格坐标、方向与固定 seed 计算，禁止 `Math.random()`；总进度必须由调用方按当前帧计算并钳制到 `0..1`。
+- 默认时长：scene renderer 使用 `24` 帧完成揭示；C27 内容接管随后完整停留 `45` 帧，并用 `12` 帧恢复人物。View 由调用方显式提供帧驱动进度。
+- 禁止项：不得添加渐变、实时随机、CSS 动画、hover、click 或其他交互触发。
+
+View Props：
+
+| 字段 | 类型 / 限制 | 默认值 |
+| --- | --- | --- |
+| `children` | ReactNode，必填 | — |
+| `progress` | number，调用方钳制到 0-1 | — |
+| `columns` | integer > 0 | `12` |
+| `rows` | integer > 0 | `7` |
+| `direction` | `left-to-right`、`right-to-left`、`top-to-bottom`、`center-out` | `left-to-right` |
+| `cellGap` | number >= 0 | `2` |
+| `pixelColor` | string | `#151515` |
+| `seed` | string | `pixel-reveal` |
+| `style` | React CSSProperties，仅代码调用 | — |
+
+Scene renderer 额外使用 `title`、`description`、`values[{label,value}]` 组装可序列化演示内容，并支持 `startFrame`、`durationInFrames` 或显式 `progress`。`children` 与 `style` 不进入 episode JSON。
 
 ## System Preview
 

@@ -4,6 +4,7 @@ import type {ComponentRendererProps} from '../registry/component.types';
 import type {RemotionTalkEffectProps} from '../schema/episode.types';
 import {getStageLayout} from '../stage/stage.config';
 import {visualTokens} from '../stage/visual-tokens';
+import {FocusReticleView, type FocusReticleTarget} from './FocusReticle';
 
 const getProps = (rendererProps: ComponentRendererProps): RemotionTalkEffectProps => {
   if (rendererProps.scene.content.kind !== 'RemotionTalkEffect') {
@@ -393,10 +394,24 @@ const ItemRail = ({
 
   const cycleWindow = Math.max(1, durationInFrames - 78);
   const startFrame = 58;
+  const segmentDuration = cycleWindow / items.length;
+  const activeIndex = Math.min(
+    items.length - 1,
+    Math.max(0, Math.floor((frame - startFrame) / segmentDuration)),
+  );
+  const previousIndex = Math.max(0, activeIndex - 1);
+  const targets: FocusReticleTarget[] = items.map((item, index) => ({
+    id: `item-${index}-${item}`,
+    x: 0,
+    y: index * 66,
+    width: 520,
+    height: 48,
+  }));
 
   return (
-    <div style={{display: 'grid', gap: 18, marginTop: 36}}>
-      {items.map((item, index) => {
+    <div style={{position: 'relative', marginTop: 36}}>
+      <div style={{display: 'grid', gap: 18}}>
+        {items.map((item, index) => {
         const itemIntro = progress(frame, 42 + index * 4, 56 + index * 4);
         
         const activeProgress = getItemActiveProgress(frame, index, items.length, startFrame, cycleWindow);
@@ -447,7 +462,18 @@ const ItemRail = ({
             </span>
           </div>
         );
-      })}
+        })}
+      </div>
+      <FocusReticleView
+        targets={targets}
+        activeIndex={activeIndex}
+        previousIndex={previousIndex}
+        transitionStartFrame={startFrame + activeIndex * segmentDuration}
+        transitionDurationInFrames={12}
+        accentColor={palette.accent}
+        cornerLength={14}
+        padding={6}
+      />
     </div>
   );
 };

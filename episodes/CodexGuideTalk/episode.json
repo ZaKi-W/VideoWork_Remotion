@@ -176,7 +176,8 @@
             {"speaker": "agent", "text": "继续截图并进行视觉检查。"}
           ],
           "mediaCount": 30,
-          "scrimIntensity": "soft"
+          "scrimIntensity": "soft",
+          "hidePresenter": true
         }
       },
       "assetIds": [],
@@ -306,6 +307,40 @@
       "sourceRefIds": [],
       "status": "ready",
       "notes": "脚本 C23 的 1% 关键数字。"
+    },
+    {
+      "id": "cgt-one-percent-takeover",
+      "start": 58.6,
+      "end": 60.9,
+      "track": "primary",
+      "kind": "PixelReveal",
+      "stageMode": "no-presenter",
+      "slot": "full-bleed",
+      "content": {
+        "kind": "PixelReveal",
+        "props": {
+          "eyebrow": "PERSONAL METHOD · 非官方保证",
+          "title": "额度只剩 1%",
+          "description": "个人使用方法：把最后的额度留给需要持续推进的大任务。",
+          "values": [
+            {"label": "方法", "value": "追求目标"},
+            {"label": "权限", "value": "完全访问"},
+            {"label": "任务", "value": "大任务"}
+          ],
+          "startFrame": 0,
+          "durationInFrames": 24,
+          "columns": 12,
+          "rows": 7,
+          "direction": "center-out",
+          "cellGap": 2,
+          "pixelColor": "#151515",
+          "seed": "codex-guide-one-percent"
+        }
+      },
+      "assetIds": [],
+      "sourceRefIds": [],
+      "status": "ready",
+      "notes": "C30 内容接管；个人经验表达，不代表官方额度规则。"
     },
     {
       "id": "cgt-goal-steps",
@@ -517,7 +552,8 @@
             {"speaker": "agent", "text": "开始实现页面。"}
           ],
           "mediaCount": 30,
-          "scrimIntensity": "soft"
+          "scrimIntensity": "soft",
+          "hidePresenter": true
         }
       },
       "assetIds": [],
@@ -663,7 +699,8 @@
             {"speaker": "agent", "text": "任务边界更清楚，交接更轻。"}
           ],
           "mediaCount": 48,
-          "scrimIntensity": "soft"
+          "scrimIntensity": "soft",
+          "hidePresenter": true
         }
       },
       "assetIds": [],
@@ -770,14 +807,14 @@
     }
   ],
   "shots": [
-    {"from": 0, "to": 204, "mode": "talk", "summaryId": "cgt-opening"},
-    {"from": 204, "to": 404, "mode": "push-in", "summaryId": "cgt-opening"},
+    {"from": 0, "to": 404, "mode": "speaker-right", "sidecarId": "cgt-opening"},
     {"from": 404, "to": 724, "mode": "talk", "summaryId": "cgt-over-test-compare"},
     {"from": 724, "to": 1065, "mode": "content-full", "contentId": "cgt-over-test-flow"},
     {"from": 1065, "to": 1410, "mode": "talk", "contentId": "cgt-rule-flow"},
     {"from": 1410, "to": 1758, "mode": "talk", "summaryId": "cgt-quota-title"},
-    {"from": 1758, "to": 1940, "mode": "push-in", "summaryId": "cgt-one-percent"},
-    {"from": 1940, "to": 2346, "mode": "talk", "summaryId": "cgt-goal-steps"},
+    {"from": 1758, "to": 1827, "mode": "content-full", "contentId": "cgt-one-percent-takeover"},
+    {"from": 1827, "to": 1940, "mode": "push-in", "summaryId": "cgt-one-percent"},
+    {"from": 1940, "to": 2346, "mode": "speaker-right", "sidecarId": "cgt-goal-steps"},
     {"from": 2346, "to": 2668, "mode": "pip-right", "contentId": "cgt-goal-run"},
     {"from": 2668, "to": 2910, "mode": "talk", "summaryId": "cgt-aesthetic"},
     {"from": 2910, "to": 3189, "mode": "talk", "contentId": "cgt-aesthetic-flow"},

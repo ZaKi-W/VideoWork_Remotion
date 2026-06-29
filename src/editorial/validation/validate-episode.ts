@@ -19,6 +19,7 @@ import type {
   SourceManifest,
 } from '../schema/episode.types';
 import type {StageMode, StageSlot} from '../stage/stage.types';
+import type {Shot} from '../shot/shot.types';
 import type {ValidationIssue, ValidationMode, ValidationResult} from './validation.types';
 
 const push = (
@@ -56,6 +57,11 @@ const isAcidFullCanvas = (scene: EpisodeScene): boolean =>
 const isTalkVideoBaseCanvas = (scene: EpisodeScene): boolean =>
   scene.kind === 'TalkVideoBase' && scene.stageMode === 'no-presenter' && scene.slot === 'full-bleed';
 
+const isPixelRevealFullCanvas = (scene: EpisodeScene): boolean =>
+  scene.kind === 'PixelReveal' &&
+  scene.stageMode === 'no-presenter' &&
+  scene.slot === 'full-bleed';
+
 const sceneRangesOverlap = (a: EpisodeScene, b: EpisodeScene): boolean => a.start < b.end && b.start < a.end;
 
 const summaryKinds = new Set<EpisodeScene['kind']>([
@@ -66,6 +72,30 @@ const summaryKinds = new Set<EpisodeScene['kind']>([
   'TopicSignal',
   'SideBrief',
 ]);
+
+const sidecarKinds = new Set<EpisodeScene['kind']>([
+  'SemanticTextReveal',
+  'FocusReticle',
+  'NarrationEchoLayer',
+  'RemotionTalkEffect',
+  'TrendTotem',
+  'TrendBanner',
+  'TopicSignal',
+  'SideBrief',
+]);
+
+const isValidSidecarSlot = (
+  mode: Shot['mode'],
+  slot: EpisodeScene['slot'],
+): boolean => {
+  if (mode === 'speaker-left') {
+    return slot === 'edge-right' || slot === 'top-right';
+  }
+  if (mode === 'speaker-right') {
+    return slot === 'edge-left' || slot === 'top-left';
+  }
+  return false;
+};
 
 const contentShotModes = new Set(['speaker-left', 'speaker-right', 'pip-right', 'content-full']);
 const summaryShotModes = new Set(['talk', 'push-in']);
@@ -167,8 +197,30 @@ const validateShots = (episode: EpisodeConfig, issues: ValidationIssue[]) => {
       push(issues, 'blocking', 'shots.overlap', `shot overlaps previous shot: ${shotId}`);
     }
 
-    if (contentShotModes.has(shot.mode) && !shot.contentId) {
+    if (contentShotModes.has(shot.mode) && !shot.contentId && !shot.sidecarId) {
       push(issues, 'blocking', 'shots.content-required', `${shot.mode} requires contentId`);
+    }
+
+    if (
+      shot.sidecarId &&
+      shot.mode !== 'speaker-left' &&
+      shot.mode !== 'speaker-right'
+    ) {
+      push(
+        issues,
+        'blocking',
+        'shots.sidecar-mode',
+        `${shot.mode} cannot use sidecarId`,
+      );
+    }
+
+    if (shot.sidecarId && shot.contentId) {
+      push(
+        issues,
+        'blocking',
+        'shots.sidecar-content-conflict',
+        'sidecarId and contentId are mutually exclusive',
+      );
     }
 
     if (shot.mode !== 'talk' && shot.mode !== 'push-in' && !contentShotModes.has(shot.mode) && shot.contentId) {
@@ -194,6 +246,37 @@ const validateShots = (episode: EpisodeConfig, issues: ValidationIssue[]) => {
       }
     }
 
+    const takeoverScene = shot.contentId
+      ? sceneById.get(shot.contentId)
+      : undefined;
+    if (
+      shot.mode === 'content-full' &&
+      takeoverScene?.kind === 'PixelReveal'
+    ) {
+      if (shot.to - shot.from < 69) {
+        push(
+          issues,
+          'blocking',
+          'shots.pixel-takeover-too-short',
+          'PixelReveal content-full requires at least 69 frames',
+          takeoverScene.id,
+        );
+      }
+      const nextShot = sortedShots[index + 1];
+      if (
+        !nextShot ||
+        (nextShot.mode !== 'talk' && nextShot.mode !== 'push-in')
+      ) {
+        push(
+          issues,
+          'blocking',
+          'shots.pixel-takeover-restore-missing',
+          'PixelReveal takeover requires a following talk or push-in shot',
+          takeoverScene.id,
+        );
+      }
+    }
+
     if (shot.summaryId) {
       const summaryScene = sceneById.get(shot.summaryId);
       if (!summaryScene) {
@@ -207,6 +290,53 @@ const validateShots = (episode: EpisodeConfig, issues: ValidationIssue[]) => {
           summaryScene.id,
         );
       }
+    }
+
+    if (shot.sidecarId) {
+      const sidecarScene = sceneById.get(shot.sidecarId);
+      if (!sidecarScene) {
+        push(
+          issues,
+          'blocking',
+          'shots.sidecar-missing-ref',
+          `sidecarId not found: ${shot.sidecarId}`,
+        );
+      } else if (!sidecarKinds.has(sidecarScene.kind)) {
+        push(
+          issues,
+          'blocking',
+          'shots.sidecar-kind',
+          `unsupported sidecar: ${sidecarScene.kind}`,
+          sidecarScene.id,
+        );
+      } else if (!isValidSidecarSlot(shot.mode, sidecarScene.slot)) {
+        push(
+          issues,
+          'blocking',
+          'shots.sidecar-slot',
+          `${sidecarScene.slot} is on the presenter side`,
+          sidecarScene.id,
+        );
+      }
+    }
+  }
+
+  const referencedSidecars = new Set(
+    sortedShots.flatMap((shot) => (shot.sidecarId ? [shot.sidecarId] : [])),
+  );
+  for (const scene of episode.scenes) {
+    if (
+      (scene.kind === 'SemanticTextReveal' || scene.kind === 'FocusReticle') &&
+      scene.stageMode !== 'no-presenter' &&
+      !referencedSidecars.has(scene.id)
+    ) {
+      push(
+        issues,
+        'blocking',
+        'shots.primitive-sidecar-required',
+        `${scene.kind} requires C27 sidecarId when a presenter is visible`,
+        scene.id,
+      );
     }
   }
 };
@@ -306,7 +436,8 @@ const validateScene = (
   if (
     rectsIntersect(slotRect, layout.subtitleSafeZone) &&
     !isAcidFullCanvas(scene) &&
-    !isTalkVideoBaseCanvas(scene)
+    !isTalkVideoBaseCanvas(scene) &&
+    !isPixelRevealFullCanvas(scene)
   ) {
     push(issues, 'blocking', 'safe-zone.subtitle', `${scene.slot} enters subtitle safe zone`, scene.id);
   }

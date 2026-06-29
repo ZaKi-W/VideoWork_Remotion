@@ -97,6 +97,10 @@ export const ShotTimelineDirector = (props: EpisodeInputProps) => {
   const previousContentScene = previousShot?.contentId ? sceneById.get(previousShot.contentId) : undefined;
   const summaryScene = shot.summaryId ? sceneById.get(shot.summaryId) : undefined;
   const previousSummaryScene = previousShot?.summaryId ? sceneById.get(previousShot.summaryId) : undefined;
+  const sidecarScene = shot.sidecarId ? sceneById.get(shot.sidecarId) : undefined;
+  const previousSidecarScene = previousShot?.sidecarId
+    ? sceneById.get(previousShot.sidecarId)
+    : undefined;
 
   return (
     <>
@@ -108,6 +112,12 @@ export const ShotTimelineDirector = (props: EpisodeInputProps) => {
         previousContentLayer={renderSceneLayer(previousContentScene, props, false)}
         summaryLayer={renderSceneLayer(summaryScene, props, true)}
         previousSummaryLayer={renderSceneLayer(previousSummaryScene, props, true)}
+        sidecarLayer={renderSceneLayer(sidecarScene, props, true)}
+        previousSidecarLayer={renderSceneLayer(previousSidecarScene, props, true)}
+        contentTakeoverFullBleed={contentScene?.kind === 'PixelReveal'}
+        previousContentTakeoverFullBleed={
+          previousContentScene?.kind === 'PixelReveal'
+        }
       />
       <ShotSubtitleLayer {...talkScene.content.props} />
     </>

@@ -86,6 +86,16 @@
 
 ## 5. 校验与日常维护
 
+### C27 人物对侧接入
+
+当 C16、C21、C23-C26 内部复用 C28 或 C29，并需要与真实口播人物同时出现时，不允许继续覆盖居中人物。必须由 C27 使用 `speaker-left` / `speaker-right` 和 `sidecarId` 编排：
+
+- `speaker-left`：人物在左，组件 scene 使用 `edge-right` 或 `top-right`。
+- `speaker-right`：人物在右，组件 scene 使用 `edge-left` 或 `top-left`。
+- `sidecarId` 与 `contentId` 不得同时使用。
+- sidecar 入场比人物让位晚 5 帧，确保人物先移动、组件后出现。
+- 组件退场后再恢复人物居中，避免画面层互相穿插。
+
 每次修改此系列组件时，必须在工作区下运行以下命令进行自动化 QC 检查：
 1. **类型检查**：`npm run typecheck`
 2. **风格检查**：`npm run lint`

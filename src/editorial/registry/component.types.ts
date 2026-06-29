@@ -4,7 +4,7 @@ import type {StageMode, StageSlot} from '../stage/stage.types';
 import type {AssetManifest, EpisodeScene, SourceManifest} from '../schema/episode.types';
 
 export type ComponentImplementationStatus = 'planned' | 'prototype' | 'ready';
-export type ComponentCategory = 'regular' | 'system';
+export type ComponentCategory = 'regular' | 'system' | 'primitive';
 
 export type ComponentRendererProps = {
   scene: EpisodeScene;

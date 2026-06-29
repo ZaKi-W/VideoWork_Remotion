@@ -20,6 +20,9 @@ export const componentCatalog = [
   {code: 'C25', kind: 'TopicSignal', category: 'regular', tags: ['summary']},
   {code: 'C26', kind: 'SideBrief', category: 'regular', tags: ['summary']},
   {code: 'C27', kind: 'ShotDirector', category: 'system', tags: ['layout']},
+  {code: 'C28', kind: 'SemanticTextReveal', category: 'primitive', tags: ['text', 'motion']},
+  {code: 'C29', kind: 'FocusReticle', category: 'primitive', tags: ['hud', 'focus']},
+  {code: 'C30', kind: 'PixelReveal', category: 'primitive', tags: ['transition', 'reveal']},
 ] as const;
 
 export const systemPreviewCatalog = [{code: 'BASE', kind: 'TalkVideoBase'}] as const;

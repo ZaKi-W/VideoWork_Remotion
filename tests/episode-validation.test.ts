@@ -94,6 +94,72 @@ const addTalkVideoScene = (episode: EpisodeConfig) => {
   });
 };
 
+const addSemanticSidecar = (
+  episode: EpisodeConfig,
+  id: string,
+  slot: 'edge-left' | 'edge-right',
+) => {
+  episode.scenes.push({
+    id,
+    start: 0,
+    end: 10,
+    track: 'overlay',
+    kind: 'SemanticTextReveal',
+    stageMode: 'presenter-small',
+    slot,
+    content: {
+      kind: 'SemanticTextReveal',
+      props: {
+        text: '人物对侧语义文字',
+        mode: 'words',
+        emphasis: [],
+        startFrame: 0,
+        durationInFrames: 18,
+        staggerFrames: 2,
+        blurPx: 8,
+        accentColor: '#c7ff3d',
+        align: 'left',
+      },
+    },
+    assetIds: [],
+    sourceRefIds: [],
+    status: 'ready',
+    notes: '',
+  });
+};
+
+const addPixelScene = (episode: EpisodeConfig, id: string) => {
+  episode.scenes.push({
+    id,
+    start: 0,
+    end: 3,
+    track: 'primary',
+    kind: 'PixelReveal',
+    stageMode: 'no-presenter',
+    slot: 'full-bleed',
+    content: {
+      kind: 'PixelReveal',
+      props: {
+        title: '个人方法',
+        description: '虚构演示内容',
+        values: [],
+        startFrame: 0,
+        durationInFrames: 24,
+        columns: 12,
+        rows: 7,
+        direction: 'center-out',
+        cellGap: 2,
+        pixelColor: '#151515',
+        seed: 'test',
+      },
+    },
+    assetIds: [],
+    sourceRefIds: [],
+    status: 'ready',
+    notes: '',
+  });
+};
+
 describe('episode schema and validation', () => {
   it('accepts CodexGuideTalk as an abstract, source-safe episode', () => {
     const result = validateEpisodeData(
@@ -214,5 +280,108 @@ describe('episode schema and validation', () => {
 
     expect(result.ok).toBe(false);
     expect(result.issues.some((issue) => issue.code === 'shots.content-required')).toBe(true);
+  });
+
+  it('accepts a right sidecar while the presenter is left', () => {
+    const episode = cloneSample();
+    addTalkVideoScene(episode);
+    addSemanticSidecar(episode, 'c28-right', 'edge-right');
+    episode.shots = [
+      {from: 0, to: 90, mode: 'speaker-left', sidecarId: 'c28-right'},
+    ];
+
+    const result = validateEpisodeData(episode, sampleAssets, sampleSources, {
+      mode: 'preview',
+    });
+
+    expect(result.issues.some(({code}) => code.startsWith('shots.sidecar'))).toBe(false);
+  });
+
+  it('rejects sidecarId outside speaker-left or speaker-right', () => {
+    const episode = cloneSample();
+    addTalkVideoScene(episode);
+    addSemanticSidecar(episode, 'c28-right', 'edge-right');
+    episode.shots = [{from: 0, to: 90, mode: 'talk', sidecarId: 'c28-right'}];
+
+    const result = validateEpisodeData(episode, sampleAssets, sampleSources, {
+      mode: 'preview',
+    });
+
+    expect(result.issues.some(({code}) => code === 'shots.sidecar-mode')).toBe(true);
+  });
+
+  it('rejects a sidecar placed on the presenter side', () => {
+    const episode = cloneSample();
+    addTalkVideoScene(episode);
+    addSemanticSidecar(episode, 'c28-left', 'edge-left');
+    episode.shots = [
+      {from: 0, to: 90, mode: 'speaker-left', sidecarId: 'c28-left'},
+    ];
+
+    const result = validateEpisodeData(episode, sampleAssets, sampleSources, {
+      mode: 'preview',
+    });
+
+    expect(result.issues.some(({code}) => code === 'shots.sidecar-slot')).toBe(true);
+  });
+
+  it('rejects contentId and sidecarId in the same shot', () => {
+    const episode = cloneSample();
+    addTalkVideoScene(episode);
+    addSemanticSidecar(episode, 'c28-right', 'edge-right');
+    episode.shots = [
+      {
+        from: 0,
+        to: 90,
+        mode: 'speaker-left',
+        contentId: 'scene-01',
+        sidecarId: 'c28-right',
+      },
+    ];
+
+    const result = validateEpisodeData(episode, sampleAssets, sampleSources, {
+      mode: 'preview',
+    });
+
+    expect(
+      result.issues.some(({code}) => code === 'shots.sidecar-content-conflict'),
+    ).toBe(true);
+  });
+
+  it('requires presenter C28 and C29 scenes to be referenced by sidecarId', () => {
+    const episode = cloneSample();
+    addTalkVideoScene(episode);
+    addSemanticSidecar(episode, 'orphan-c28', 'edge-right');
+    episode.shots = [{from: 0, to: 90, mode: 'talk'}];
+
+    const result = validateEpisodeData(episode, sampleAssets, sampleSources, {
+      mode: 'preview',
+    });
+
+    expect(
+      result.issues.some(
+        ({code}) => code === 'shots.primitive-sidecar-required',
+      ),
+    ).toBe(true);
+  });
+
+  it('rejects a C30 content-full shot shorter than reveal plus hold', () => {
+    const episode = cloneSample();
+    addTalkVideoScene(episode);
+    addPixelScene(episode, 'pixel');
+    episode.shots = [
+      {from: 0, to: 68, mode: 'content-full', contentId: 'pixel'},
+      {from: 68, to: 120, mode: 'talk'},
+    ];
+
+    const result = validateEpisodeData(episode, sampleAssets, sampleSources, {
+      mode: 'preview',
+    });
+
+    expect(
+      result.issues.some(
+        ({code}) => code === 'shots.pixel-takeover-too-short',
+      ),
+    ).toBe(true);
   });
 });

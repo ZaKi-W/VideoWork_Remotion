@@ -37,6 +37,7 @@ export const shotSchema = z
     mode: shotModeSchema,
     contentId: z.string().trim().min(1).optional(),
     summaryId: z.string().trim().min(1).optional(),
+    sidecarId: z.string().trim().min(1).optional(),
   })
   .strict()
   .superRefine((shot, ctx) => {
@@ -70,6 +71,9 @@ export const componentKindSchema = z.enum([
   'SideBrief',
   'TalkVideoBase',
   'RemotionTalkEffect',
+  'SemanticTextReveal',
+  'FocusReticle',
+  'PixelReveal',
 ]);
 
 const narrationEchoSegmentSchema = z
@@ -210,6 +214,7 @@ export const acidComponentPropsSchema = z
     backgroundVideoPath: z.string().trim().min(1).max(160).optional(),
     backgroundStartFromFrame: z.number().int().min(0).optional(),
     hideOverlays: z.boolean().optional(),
+    hidePresenter: z.boolean().optional(),
   })
   .strict();
 
@@ -263,6 +268,72 @@ export const remotionTalkEffectPropsSchema = z
   })
   .strict();
 
+export const semanticTextRevealPropsSchema = z
+  .object({
+    text: z.string().max(240),
+    mode: z.enum(['words', 'characters', 'focus']).default('words'),
+    emphasis: z.array(z.string().trim().min(1).max(40)).max(12).default([]),
+    activeIndex: z.number().int().nonnegative().optional(),
+    startFrame: z.number().int().nonnegative().default(0),
+    durationInFrames: z.number().int().positive().default(18),
+    staggerFrames: z.number().int().nonnegative().default(2),
+    blurPx: z.number().min(0).max(24).default(8),
+    accentColor: z.string().trim().min(1).max(32).default('#c7ff3d'),
+    align: z.enum(['left', 'center', 'right']).default('left'),
+  })
+  .strict();
+
+const focusReticleTargetSchema = z
+  .object({
+    id: z.string().trim().min(1).max(64),
+    x: z.number(),
+    y: z.number(),
+    width: z.number(),
+    height: z.number(),
+  })
+  .strict();
+
+export const focusReticlePropsSchema = z
+  .object({
+    targets: z.array(focusReticleTargetSchema).min(1).max(24),
+    activeIndex: z.number().int().nonnegative(),
+    previousIndex: z.number().int().nonnegative().optional(),
+    transitionStartFrame: z.number().int().nonnegative().default(0),
+    transitionDurationInFrames: z.number().int().positive().default(12),
+    accentColor: z.string().trim().min(1).max(32).default('#c7ff3d'),
+    cornerLength: z.number().positive().max(80).default(18),
+    lineWidth: z.number().positive().max(4).default(1),
+    padding: z.number().min(0).max(48).default(8),
+  })
+  .strict();
+
+const pixelRevealValueSchema = z
+  .object({
+    label: z.string().trim().min(1).max(24),
+    value: z.string().trim().min(1).max(20),
+  })
+  .strict();
+
+export const pixelRevealPropsSchema = z
+  .object({
+    eyebrow: z.string().trim().min(1).max(48).optional(),
+    title: z.string().trim().min(1).max(64),
+    description: z.string().trim().min(1).max(120).optional(),
+    values: z.array(pixelRevealValueSchema).max(4).default([]),
+    progress: z.number().min(0).max(1).optional(),
+    startFrame: z.number().int().nonnegative().default(0),
+    durationInFrames: z.number().int().positive().default(24),
+    columns: z.number().int().positive().max(24).default(12),
+    rows: z.number().int().positive().max(16).default(7),
+    direction: z
+      .enum(['left-to-right', 'right-to-left', 'top-to-bottom', 'center-out'])
+      .default('left-to-right'),
+    cellGap: z.number().min(0).max(12).default(2),
+    pixelColor: z.string().trim().min(1).max(32).default('#151515'),
+    seed: z.string().max(80).default('pixel-reveal'),
+  })
+  .strict();
+
 export const sceneContentSchema = z.discriminatedUnion('kind', [
   z.object({kind: z.literal('NarrationEchoLayer'), props: narrationEchoLayerPropsSchema}),
   z.object({kind: z.literal('MediaWall'), props: acidComponentPropsSchema}),
@@ -284,6 +355,9 @@ export const sceneContentSchema = z.discriminatedUnion('kind', [
   z.object({kind: z.literal('SideBrief'), props: summaryComponentPropsSchema}),
   z.object({kind: z.literal('TalkVideoBase'), props: talkVideoBasePropsSchema}),
   z.object({kind: z.literal('RemotionTalkEffect'), props: remotionTalkEffectPropsSchema}),
+  z.object({kind: z.literal('SemanticTextReveal'), props: semanticTextRevealPropsSchema}),
+  z.object({kind: z.literal('FocusReticle'), props: focusReticlePropsSchema}),
+  z.object({kind: z.literal('PixelReveal'), props: pixelRevealPropsSchema}),
 ]);
 
 export const sceneSchema = z

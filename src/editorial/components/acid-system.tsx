@@ -69,6 +69,7 @@ export const AcidStage = ({
   stageMode,
   hideOverlays = false,
   backgroundStartFromFrame = 0,
+  hidePresenter = false,
 }: {
   children: ReactNode;
   subtitle: string;
@@ -80,6 +81,7 @@ export const AcidStage = ({
   stageMode?: string;
   hideOverlays?: boolean;
   backgroundStartFromFrame?: number;
+  hidePresenter?: boolean;
 }) => {
   const intro = editorialProgress(frame, durationInFrames, {start: 0, end: 26});
   const exit = editorialExitProgress(frame, durationInFrames, 12, 18);
@@ -160,7 +162,7 @@ export const AcidStage = ({
         }}
       />
     )}
-    {backgroundVideoPath || isPresenterCenter || hideOverlays ? null : <Presenter />}
+    {backgroundVideoPath || isPresenterCenter || hideOverlays || hidePresenter ? null : <Presenter />}
     <div style={{position: 'absolute', inset: 0, zIndex: 10}}>{children}</div>
     {isPresenterCenter || hideOverlays ? null : (
       <Subtitle text={subtitle} en={subtitleEn} progress={subtitleIntro} exit={exit} />

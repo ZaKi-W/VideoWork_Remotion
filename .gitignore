@@ -1,10 +1,35 @@
+# Dependencies and build caches
 node_modules/
 dist/
 build/
-.DS_Store
 .remotion/
+*.log
+.DS_Store
+
+# Generated previews, renders, and QC artifacts
+outputs/
+renders/
 episodes/*/output/
 episodes/*/.cache/
-episodes/*/talk.mp4
 public/episodes/
-*.log
+
+# Episode-local source material
+episodes/*/assets/
+episodes/*/script.md
+episodes/*/storyboard.md
+episodes/*/sources.md
+episodes/*/sources.json
+episodes/*/assets-needed.md
+
+# Local video, audio, and subtitle files
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.webm
+*.mp3
+*.wav
+*.m4a
+*.aac
+*.srt
+*.vtt

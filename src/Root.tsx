@@ -7,6 +7,11 @@ import {acidGallery, acidStrikeDemos} from './editorial/fixtures/demo-acid-strik
 import {narrationEchoLayerDemo} from './editorial/fixtures/demo-narration-echo-layer';
 import {shotLayoutSystemDemo} from './editorial/fixtures/demo-shot-layout-system';
 import {
+  FocusReticleDemo,
+  PixelRevealDemo,
+  SemanticTextRevealDemo,
+} from './editorial/fixtures/demo-react-bits-primitives';
+import {
   componentCatalog,
   componentCompositionId,
   systemPreviewCatalog,
@@ -99,8 +104,37 @@ export const RemotionRoot = () => {
         defaultProps={shotLayoutSystemDemo}
         calculateMetadata={({props}) => getMetadata(props as EpisodeInputProps)}
       />
+      <Composition
+        id={componentCompositionId('SemanticTextReveal')}
+        component={SemanticTextRevealDemo}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id={componentCompositionId('FocusReticle')}
+        component={FocusReticleDemo}
+        durationInFrames={150}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id={componentCompositionId('PixelReveal')}
+        component={PixelRevealDemo}
+        durationInFrames={150}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       {componentCatalog.map(({kind}) => {
-        if (kind === 'ShotDirector') {
+        if (
+          kind === 'ShotDirector' ||
+          kind === 'SemanticTextReveal' ||
+          kind === 'FocusReticle' ||
+          kind === 'PixelReveal'
+        ) {
           return null;
         }
 

@@ -9,6 +9,51 @@ type ProgressOptions = {
 
 const clamp01 = (value: number): number => Math.max(0, Math.min(1, value));
 
+export type GridDirection =
+  | 'left-to-right'
+  | 'right-to-left'
+  | 'top-to-bottom'
+  | 'center-out';
+
+export const frameRangeProgress = (frame: number, start: number, end: number): number => {
+  if (end <= start) return frame >= start ? 1 : 0;
+  return Math.max(0, Math.min(1, (frame - start) / (end - start)));
+};
+
+export const orderedGridCells = (
+  columns: number,
+  rows: number,
+  direction: GridDirection,
+  seed: string,
+): Array<{column: number; row: number}> => {
+  const safeColumns = Math.max(1, Math.floor(columns));
+  const safeRows = Math.max(1, Math.floor(rows));
+  const seedValue = [...seed].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const cells = Array.from({length: safeColumns * safeRows}, (_, index) => ({
+    column: index % safeColumns,
+    row: Math.floor(index / safeColumns),
+  }));
+  const centerX = (safeColumns - 1) / 2;
+  const centerY = (safeRows - 1) / 2;
+
+  return cells.sort((a, b) => {
+    const score = (cell: {column: number; row: number}) => {
+      if (direction === 'right-to-left') return -cell.column * 1000 + cell.row;
+      if (direction === 'top-to-bottom') return cell.row * 1000 + cell.column;
+      if (direction === 'center-out') {
+        return Math.hypot(cell.column - centerX, cell.row - centerY) * 1000;
+      }
+      return cell.column * 1000 + cell.row;
+    };
+    const delta = score(a) - score(b);
+    if (delta !== 0) return delta;
+    return (
+      ((a.column * 31 + a.row * 17 + seedValue) % 97) -
+      ((b.column * 31 + b.row * 17 + seedValue) % 97)
+    );
+  });
+};
+
 export const editorialProgress = (
   frame: number,
   durationInFrames: number,

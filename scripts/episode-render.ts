@@ -23,5 +23,10 @@ if (!result.ok) {
 const outDir = path.join(episodeDir(slug), 'output', 'final');
 ensureDir(outDir);
 const propsPath = writePropsFile(slug, bundle, true);
-runRemotion(['render', 'src/index.ts', 'Episode', path.join(outDir, `${slug}-final.mp4`), '--props', propsPath]);
+const scale = getArg('scale', '1');
+const extraArgs: string[] = [];
+if (scale !== '1') {
+  extraArgs.push('--scale', scale);
+}
+runRemotion(['render', 'src/index.ts', 'Episode', path.join(outDir, `${slug}-final.mp4`), '--props', propsPath, ...extraArgs]);
 console.log(`Final render written to ${outDir}`);

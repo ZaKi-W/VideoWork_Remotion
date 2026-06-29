@@ -1,10 +1,12 @@
-import type {CSSProperties, ReactNode} from 'react';
+import type {CSSProperties} from 'react';
 import {Easing, interpolate, useCurrentFrame} from 'remotion';
 import type {ComponentRendererProps} from '../registry/component.types';
 import type {SummaryComponentProps} from '../schema/episode.types';
 import {staggerProgress} from '../shared/motion';
 import {getStageLayout} from '../stage/stage.config';
 import {visualTokens} from '../stage/visual-tokens';
+import {FocusReticleView, type FocusReticleTarget} from './FocusReticle';
+import {SemanticTextRevealView} from './SemanticTextReveal';
 
 const summaryKinds = ['TrendTotem', 'TrendBanner', 'TopicSignal', 'SideBrief'] as const;
 type SummaryKind = (typeof summaryKinds)[number];
@@ -252,42 +254,6 @@ const EmphasisText = ({text, emphasis, accent}: {text: string; emphasis?: string
   );
 };
 
-// 升级 ClippedLine：融合模糊淡入效果
-const ClippedLine = ({
-  children,
-  progressValue,
-  color = '#fff',
-  fontSize,
-  lineHeight = 0.9,
-}: {
-  children: ReactNode;
-  progressValue: number;
-  color?: string;
-  fontSize: number;
-  lineHeight?: number;
-}) => {
-  const blurValue = progressValue > 0 && progressValue < 1 ? interpolate(progressValue, [0, 1], [6, 0]) : 0;
-
-  return (
-    <div
-      style={{
-        display: 'block',
-        overflow: 'hidden',
-        color,
-        fontFamily: visualTokens.fontFamily.display,
-        fontSize,
-        lineHeight,
-        fontWeight: 900,
-        letterSpacing: '-0.04em',
-        opacity: progressValue > 0 ? 1 : 0,
-        filter: blurValue > 0 ? `blur(${blurValue}px)` : 'none',
-      }}
-    >
-      <span style={{display: 'inline-block', transform: `translateY(${(1 - progressValue) * 115}%)`}}>{children}</span>
-    </div>
-  );
-};
-
 const TrendTotem = ({props, frame, exit}: {props: SummaryComponentProps; frame: number; exit: number}) => {
   const accent = colors[props.accent ?? 'yellow'];
   const intro = progress(frame, 0, 18);
@@ -318,9 +284,28 @@ const TrendTotem = ({props, frame, exit}: {props: SummaryComponentProps; frame: 
       ) : null}
       <div style={{display: 'grid', gap: 0, marginTop: 12}}>
         {titleLines.map((line, index) => (
-          <ClippedLine key={`${line}-${index}`} progressValue={progress(frame, 10 + index * 5, 25 + index * 5)} fontSize={fontSize}>
-            <EmphasisText text={line} emphasis={props.emphasis} accent={accent} />
-          </ClippedLine>
+          <div
+            key={`${line}-${index}`}
+            style={{
+              color: '#ffffff',
+              fontFamily: visualTokens.fontFamily.display,
+              fontSize,
+              lineHeight: 0.92,
+              fontWeight: 900,
+              letterSpacing: '-0.04em',
+            }}
+          >
+            <SemanticTextRevealView
+              text={line}
+              mode="words"
+              emphasis={props.emphasis ? [props.emphasis] : []}
+              startFrame={10 + index * 5}
+              durationInFrames={15}
+              staggerFrames={2}
+              blurPx={6}
+              accentColor={accent}
+            />
+          </div>
         ))}
       </div>
       {props.copy ? (
@@ -380,9 +365,27 @@ const TrendBanner = ({props, frame, exit}: {props: SummaryComponentProps; frame:
       </div>
       <div style={{marginTop: 18, overflow: 'hidden'}}>
         {titleLines.map((line, index) => (
-          <ClippedLine key={`${line}-${index}`} progressValue={progress(frame, 12 + index * 5, 27 + index * 5)} fontSize={fontSize} lineHeight={0.95}>
-            {line}
-          </ClippedLine>
+          <div
+            key={`${line}-${index}`}
+            style={{
+              color: '#ffffff',
+              fontFamily: visualTokens.fontFamily.display,
+              fontSize,
+              lineHeight: 0.95,
+              fontWeight: 900,
+              letterSpacing: '-0.04em',
+            }}
+          >
+            <SemanticTextRevealView
+              text={line}
+              mode="words"
+              startFrame={12 + index * 5}
+              durationInFrames={15}
+              staggerFrames={2}
+              blurPx={6}
+              accentColor={accent}
+            />
+          </div>
         ))}
       </div>
       {props.copy ? (
@@ -414,6 +417,17 @@ const TopicSignal = ({props, frame, exit}: {props: SummaryComponentProps; frame:
   const cards = props.blocks.slice(0, 3);
   const titleLines = props.title.slice(0, 2);
   const headSize = titleSize(titleLines, 92, 54);
+  const activeCardIndex = Math.min(
+    Math.max(0, cards.length - 1),
+    Math.max(0, Math.floor((frame - 27) / 10)),
+  );
+  const cardTargets: FocusReticleTarget[] = cards.map((card, index) => ({
+    id: `card-${index}-${card.label}`,
+    x: index * 166,
+    y: 0,
+    width: 152,
+    height: 160,
+  }));
 
   return (
     // 内部总高度拉伸至 700px
@@ -475,8 +489,9 @@ const TopicSignal = ({props, frame, exit}: {props: SummaryComponentProps; frame:
         </div>
       ) : null}
       {/* 调大子卡片间距 */}
-      <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, marginTop: 28}}>
-        {cards.map((card, index) => {
+      <div style={{position: 'relative', marginTop: 28}}>
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14}}>
+          {cards.map((card, index) => {
           const accent = colors[(card.accent ?? (index === 0 ? 'cyan' : index === 1 ? 'orange' : 'yellow')) as AccentName];
           const cardIn = staggerProgress(tagsIn, index, 0.18);
           return (
@@ -515,7 +530,20 @@ const TopicSignal = ({props, frame, exit}: {props: SummaryComponentProps; frame:
               </strong>
             </div>
           );
-        })}
+          })}
+        </div>
+        {cards.length > 0 ? (
+          <FocusReticleView
+            targets={cardTargets}
+            activeIndex={activeCardIndex}
+            previousIndex={Math.max(0, activeCardIndex - 1)}
+            transitionStartFrame={27 + activeCardIndex * 10}
+            transitionDurationInFrames={12}
+            accentColor={colors.orange}
+            cornerLength={14}
+            padding={5}
+          />
+        ) : null}
       </div>
       <Foot text={props.foot} progressValue={progress(frame, 42, 58)} side="left" accent={colors.orange} />
     </div>
@@ -529,6 +557,18 @@ const SideBrief = ({props, frame, exit}: {props: SummaryComponentProps; frame: n
   const titleIn = progress(frame, 14, 32);
   const titleFont = titleSize(titleLines, 78, 50);
   const railOffset = -34;
+  const titleLineHeight = titleFont * 1.1;
+  const activeConclusionIndex = Math.min(
+    Math.max(0, titleLines.length - 1),
+    Math.max(0, Math.floor((frame - 14) / 10)),
+  );
+  const conclusionTargets: FocusReticleTarget[] = titleLines.map((line, index) => ({
+    id: `conclusion-${index}-${line}`,
+    x: 0,
+    y: index * titleLineHeight,
+    width: 478,
+    height: titleLineHeight,
+  }));
 
   return (
     // 内部纵向面板高度拉伸至 800px
@@ -559,7 +599,7 @@ const SideBrief = ({props, frame, exit}: {props: SummaryComponentProps; frame: n
             <span style={{display: 'inline-block', transform: `translateX(${(1 - progress(frame, 10, 25)) * 22}px)`}}>{props.index}</span>
           </div>
         ) : null}
-        <div style={{marginTop: 28, overflow: 'hidden', color: '#fff', fontFamily: visualTokens.fontFamily.display, fontSize: titleFont, lineHeight: 1.1, fontWeight: 900, letterSpacing: '-0.024em', opacity: titleIn}}>
+        <div style={{position: 'relative', marginTop: 28, overflow: 'hidden', color: '#fff', fontFamily: visualTokens.fontFamily.display, fontSize: titleFont, lineHeight: 1.1, fontWeight: 900, letterSpacing: '-0.024em', opacity: titleIn}}>
           <span style={{display: 'inline-block', transform: `translateX(${(1 - titleIn) * 108}%)`}}>
             {titleLines.map((line) => (
               <span key={line} style={{display: 'block'}}>
@@ -567,6 +607,18 @@ const SideBrief = ({props, frame, exit}: {props: SummaryComponentProps; frame: n
               </span>
             ))}
           </span>
+          {titleLines.length > 0 ? (
+            <FocusReticleView
+              targets={conclusionTargets}
+              activeIndex={activeConclusionIndex}
+              previousIndex={Math.max(0, activeConclusionIndex - 1)}
+              transitionStartFrame={14 + activeConclusionIndex * 10}
+              transitionDurationInFrames={12}
+              accentColor={accent}
+              cornerLength={16}
+              padding={4}
+            />
+          ) : null}
         </div>
         {props.copy ? (
           // 调高纵向段落间距（从 24 优化至 40）

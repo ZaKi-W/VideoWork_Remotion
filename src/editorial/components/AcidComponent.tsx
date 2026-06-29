@@ -18,6 +18,7 @@ import {
   rowStyle,
 } from './acid-system';
 import type {ScrimIntensity} from './acid-system';
+import {PixelRevealView} from './PixelReveal';
 
 const acidKinds = [
   'MediaWall',
@@ -36,6 +37,14 @@ const acidKinds = [
 ] as const;
 
 type AcidKind = (typeof acidKinds)[number];
+
+const pixelRevealKinds: ReadonlySet<AcidKind> = new Set([
+  'ReleaseTimeline',
+  'StatsBoard',
+  'MapFocus',
+  'PricePage',
+  'TokenBoard',
+]);
 
 const getAcidProps = (rendererProps: ComponentRendererProps): {kind: AcidKind; props: AcidComponentProps} => {
   const content = rendererProps.scene.content;
@@ -77,6 +86,7 @@ export const AcidComponent = (rendererProps: ComponentRendererProps) => {
         stageMode={rendererProps.scene.stageMode}
         hideOverlays={true}
         backgroundStartFromFrame={props.backgroundStartFromFrame}
+        hidePresenter={props.hidePresenter}
       >
         {null}
       </AcidStage>
@@ -93,6 +103,7 @@ export const AcidComponent = (rendererProps: ComponentRendererProps) => {
       backgroundVideoPath={props.backgroundVideoPath}
       stageMode={rendererProps.scene.stageMode}
       backgroundStartFromFrame={props.backgroundStartFromFrame}
+      hidePresenter={props.hidePresenter}
     >
       {renderByKind(kind, props, rendererProps, frame)}
     </AcidStage>
@@ -148,7 +159,16 @@ const renderByKind = (
     return <ChapterIndex props={props} frame={frame} durationInFrames={durationInFrames} />;
   }
   if (kind === 'MapFocus') {
-    return <MapFocus props={props} frame={frame} durationInFrames={durationInFrames} />;
+    return (
+      <PixelRevealView
+        progress={editorialProgress(frame, durationInFrames, {start: 2, end: 24})}
+        direction="center-out"
+        seed={`${rendererProps.scene.id}-map-focus`}
+        style={{position: 'absolute', inset: 0}}
+      >
+        <MapFocus props={props} frame={frame} durationInFrames={durationInFrames} />
+      </PixelRevealView>
+    );
   }
   if (kind === 'TimeGap') {
     return <TimeGap props={props} frame={frame} durationInFrames={durationInFrames} />;
@@ -163,7 +183,19 @@ const renderByKind = (
         <TopicLine topic={props.topic} detail={props.topicDetail} />
       </MotionLayer>
       <MotionLayer frame={frame} durationInFrames={durationInFrames} start={4} end={28} direction={-1} y={10}>
-        <LeftPanel>{renderLeftContent(kind, props, frame, durationInFrames)}</LeftPanel>
+        <LeftPanel>
+          {pixelRevealKinds.has(kind) ? (
+            <PixelRevealView
+              progress={editorialProgress(frame, durationInFrames, {start: 4, end: 24})}
+              direction="left-to-right"
+              seed={`${rendererProps.scene.id}-${kind}`}
+            >
+              {renderLeftContent(kind, props, frame, durationInFrames)}
+            </PixelRevealView>
+          ) : (
+            renderLeftContent(kind, props, frame, durationInFrames)
+          )}
+        </LeftPanel>
       </MotionLayer>
       <SourceCard
         source={props.source}

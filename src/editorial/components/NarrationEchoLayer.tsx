@@ -5,6 +5,7 @@ import type {NarrationEchoLayerProps} from '../schema/episode.types';
 import {getStageLayout} from '../stage/stage.config';
 import {visualTokens} from '../stage/visual-tokens';
 import {acidTokens} from './acid-system';
+import {SemanticTextRevealView} from './SemanticTextReveal';
 
 type EchoItem = NarrationEchoLayerProps['items'][number];
 type EchoSegment = EchoItem['segments'][number];
@@ -136,12 +137,14 @@ const TypedLine = ({
   charFrames,
   segmentPauseFrames,
   intro,
+  isCurrent,
 }: {
   item: EchoItem;
   localFrame: number;
   charFrames: number;
   segmentPauseFrames: number;
   intro: number;
+  isCurrent: boolean;
 }) => {
   const lineStart = 17;
   let cursorFrame = lineStart;
@@ -172,6 +175,12 @@ const TypedLine = ({
 
   const typed = localFrame >= cursorFrame;
   const cursorVisible = isTyping || (!typed && intro > 0.5);
+  const semanticText = item.segments
+    .map((segment) => (segment.break ? '\n' : segment.text ?? ''))
+    .join('');
+  const emphasis = item.segments
+    .filter((segment) => segment.accent && segment.text)
+    .map((segment) => segment.text as string);
 
   return (
     <div
@@ -190,7 +199,21 @@ const TypedLine = ({
         textShadow: '0 3px 20px rgba(0, 0, 0, 0.72)',
       }}
     >
-      {renderList}
+      {isCurrent ? (
+        <SemanticTextRevealView
+          text={semanticText}
+          mode="focus"
+          emphasis={emphasis}
+          startFrame={lineStart}
+          durationInFrames={5}
+          staggerFrames={charFrames}
+          blurPx={6}
+          accentColor={acidTokens.color.acid}
+          style={{whiteSpace: 'pre-wrap'}}
+        />
+      ) : (
+        renderList
+      )}
       <span
         style={{
           display: 'inline-block',
@@ -224,12 +247,14 @@ const BeatBlock = ({
   introFrame,
   exiting,
   props,
+  isCurrent,
 }: {
   item: EchoItem;
   localFrame: number;
   introFrame: number;
   exiting: number;
   props: NarrationEchoLayerProps;
+  isCurrent: boolean;
 }) => {
   const labelIn = rangeProgress(introFrame, 5, 17);
   const lineIn = rangeProgress(introFrame, 13, 25);
@@ -299,6 +324,7 @@ const BeatBlock = ({
         charFrames={props.charFrames ?? 2}
         segmentPauseFrames={props.segmentPauseFrames ?? 6}
         intro={lineIn}
+        isCurrent={isCurrent}
       />
       {copy ? (
         <div
@@ -587,9 +613,17 @@ export const NarrationEchoLayer = (rendererProps: ComponentRendererProps) => {
           introFrame={itemSpan}
           exiting={swapOut}
           props={props}
+          isCurrent={false}
         />
       ) : null}
-      <BeatBlock item={props.items[activeIndex]} localFrame={activeIntroFrame} introFrame={activeIntroFrame} exiting={0} props={props} />
+      <BeatBlock
+        item={props.items[activeIndex]}
+        localFrame={activeIntroFrame}
+        introFrame={activeIntroFrame}
+        exiting={0}
+        props={props}
+        isCurrent={true}
+      />
     </div>
   );
 

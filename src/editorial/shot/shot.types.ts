@@ -14,6 +14,7 @@ export type Shot = {
   mode: ShotMode;
   contentId?: string;
   summaryId?: string;
+  sidecarId?: string;
 };
 
 export type ShotLayerRect = {
@@ -30,6 +31,8 @@ export type ShotLayerRect = {
 export type ShotDirectorRenderProps = {
   contentId?: string;
   summaryId?: string;
+  sidecarId?: string;
   contentLayer?: ReactNode;
   summaryLayer?: ReactNode;
+  sidecarLayer?: ReactNode;
 };
